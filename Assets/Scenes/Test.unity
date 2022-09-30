@@ -639,7 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e361bfb0186044286ddbd94f2546dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 4361832945516800490, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+  PlayerPrefab: {fileID: 7408881512176793842, guid: dbc9b57ea26fbf84b8cc14b0882fe89b, type: 3}
   SpawnMethod: 0
   StateAuthority: 0
 --- !u!114 &1274916191
