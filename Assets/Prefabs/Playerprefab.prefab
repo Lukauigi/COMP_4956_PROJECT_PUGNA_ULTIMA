@@ -106,7 +106,7 @@ MonoBehaviour:
     RotBlendStart: 0.1
     RotBlendEnd: 0.5
     RotTeleportRadians: 1.5
-  gravity: -20
+  gravity: -10
   jumpImpulse: 8
   acceleration: 10
   braking: 10
