@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEditor.PackageManager;
+using UnityEngine.SceneManagement;
 
 public class SignUpUI : MonoBehaviour
 {
@@ -25,6 +26,14 @@ public class SignUpUI : MonoBehaviour
     public void CreateAccount()
     { 
         AccountManager.Instance.CreateAccount(Username.text, Email.text, Password.text);
+    }
+    
+    /// <summary>
+    /// Navigate back to the main menu
+    /// </summary>
+    public void NavigateBackToHome()
+    {
+        SceneManager.LoadScene("Scenes/Home");
     }
 
 

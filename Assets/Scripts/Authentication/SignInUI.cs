@@ -14,7 +14,18 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     public void SignIn()
     {
-        AccountManager.Instance.SignIn(Username.text, Password.text);
-        SceneManager.LoadScene("Scenes/LoggedInHome");
+         AccountManager.Instance.SignIn(Username.text, Password.text);
+         SceneManager.LoadScene("Scenes/LoggedInHome");
+         var PlayfabId = PlayerPrefsManager.GetPlayfabId();
+         Debug.Log($"{PlayfabId} is signed in");
+
+    }
+
+    /// <summary>
+    /// Navigate back to the main menu
+    /// </summary>
+    public void NavigateBackToHome()
+    {
+        SceneManager.LoadScene("Scenes/Home");
     }
 }

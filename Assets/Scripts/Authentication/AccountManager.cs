@@ -7,9 +7,15 @@ using PlayFab.ClientModels;
 
 public class AccountManager : MonoBehaviour
 {
+    /*
+    public static string PlayfabId { get; set; }
+    */
+    
     public static AccountManager Instance;
+
     public void Awake()
     {
+
         Instance = this;
     }
 
@@ -29,17 +35,11 @@ public class AccountManager : MonoBehaviour
                 Username = Username,
                 RequireBothUsernameAndEmail = true
             },
-            response =>
-            {
-                Debug.Log($"User successfully registered | Username: {Username} | Email: {Email}");
-            },
-            error =>
-            {
-                Debug.Log($"User registration unsuccessful | Error: {error.Error}");
-            }
+            response => { Debug.Log($"User successfully registered | Username: {Username} | Email: {Email}"); },
+            error => { Debug.Log($"User registration unsuccessful | Error: {error.Error}"); }
         );
     }
-    
+
     /// <summary>
     /// This method logs the user in.
     /// </summary>
@@ -55,14 +55,39 @@ public class AccountManager : MonoBehaviour
             },
             response =>
             {
-                Debug.Log($"The id id  {response.PlayFabId}");
+                /*
+                AccountManager.Instance.PlayfabId = response.PlayFabId;
+                */
+                /*
+                PlayfabId = response.PlayFabId;
+                */
+                PlayerPrefsManager.SetPlayfabId(response.PlayFabId);
+                /*
+                PlayfabId = response.PlayFabId;
+                */
+                Debug.Log($"The id is  {response.PlayFabId}");
                 Debug.Log($"User successfully logged in | Username: {Username}");
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
             },
-            error =>
-            {
-                Debug.Log($"User login unsuccessful | Error: {error.Error}");
-            }
+            error => { Debug.Log($"User login unsuccessful | Error: {error.Error}"); }
         );
+    }
+
+    /*public void SetPlayfabId(string playfabId)
+    {
+        AccountManager.Instance.PlayfabId = playfabId;
+    }*/
+}
+
+public static class PlayerPrefsManager
+{
+    public static void SetPlayfabId(string playfabId)
+    {
+        PlayerPrefs.SetString("PlayfabId", playfabId);
+    }
+
+    public static string GetPlayfabId()
+    {
+        return PlayerPrefs.GetString("PlayfabId");
     }
 }

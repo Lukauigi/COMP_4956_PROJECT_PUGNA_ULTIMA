@@ -14,9 +14,8 @@ public class LoggedInHomeUI : MonoBehaviour
 
     private void Start()
     {
-        /*
-        WelcomeUserLabel.text = $"Welcome {PlayerId}, you are logged in!";
-    */
+        var PlayfabId = PlayerPrefsManager.GetPlayfabId();
+        WelcomeUserLabel.text = $"Welcome {PlayfabId}, you are logged in!";
     }
     
 }
