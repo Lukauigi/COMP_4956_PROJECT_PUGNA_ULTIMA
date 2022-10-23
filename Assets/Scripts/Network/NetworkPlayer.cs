@@ -32,6 +32,7 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         }
         else Debug.Log("Spawned other player's character");
     }
+
     public void PlayerLeft(PlayerRef player)
     {
         if (player == Object.InputAuthority)
