@@ -1,8 +1,9 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jump : MonoBehaviour
+public class Jump : NetworkBehaviour
 {
     [SerializeField] private InputController input = null;
     [SerializeField, Range(0f, 10f)] private float jumpHeight = 3f;
@@ -39,7 +40,7 @@ public class Jump : MonoBehaviour
         desiredJump |= input.RetrieveJumpInput();
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         onGround = ground.GetOnGround();
         velocity = body.velocity;

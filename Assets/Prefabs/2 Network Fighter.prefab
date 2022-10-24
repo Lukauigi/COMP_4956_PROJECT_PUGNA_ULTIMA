@@ -207,6 +207,7 @@ MonoBehaviour:
   - {fileID: 6050059081701548858}
   - {fileID: 1022839357175312393}
   - {fileID: 261806375952415378}
+  - {fileID: 261806375952415372}
   SimulationBehaviours: []
 --- !u!114 &1022839357175312393
 MonoBehaviour:
@@ -396,6 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e26a19e99424944e9f533073617eda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
   jumpHeight: 3
   maxAirJumps: 0
