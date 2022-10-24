@@ -1,8 +1,9 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : MonoBehaviour
+public class Move : NetworkBehaviour
 {
     [SerializeField] private InputController input = null;
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
@@ -33,7 +34,7 @@ public class Move : MonoBehaviour
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         onGround = ground.GetOnGround();
         velocity = body.velocity;
