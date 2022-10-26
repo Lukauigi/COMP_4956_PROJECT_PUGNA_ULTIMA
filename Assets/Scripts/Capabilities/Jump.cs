@@ -6,20 +6,21 @@ using UnityEngine;
 public class Jump : NetworkBehaviour
 {
     [SerializeField] private InputController input = null;
-    [SerializeField, Range(0f, 10f)] private float jumpHeight = 3f;
-    [SerializeField, Range(0, 5)] private int maxAirJumps = 0;
-    [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f;
-    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f;
+    [SerializeField, Range(0f, 10f)] private float jumpHeight = 1f;
+    [SerializeField, Range(0, 2)] private int maxAirJumps = 2; //max 2 jumps
+    [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 9f; //how fast character will fall
+    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f; //affects how fast character moves vertically when jumping
 
-    private Rigidbody2D body;
-    private Ground ground;
+    private Rigidbody2D body; //detect jump velocity
+    private Ground ground; //detect ground
     private Vector2 velocity;
 
-    private int jumpPhase;
+    private int currentJump; //how many times we have jumped
     private float defaultGravityScale;
 
     private bool desiredJump;
     private bool onGround;
+    //private bool canJump = true;
 
     private void Awake()
     {
@@ -28,16 +29,38 @@ public class Jump : NetworkBehaviour
 
         defaultGravityScale = 1f;
     }
-    // Start is called before the first frame update
+    /*// Start is called before the first frame update
     void Start()
     {
         
-    }
+    }*/
 
-    // Update is called once per frame
+    // The Jump boolean variable remains set in new update cycle until we
+    // manually set to false
     void Update()
     {
+        //Need input to be true once and if it is used, set it to false
         desiredJump |= input.RetrieveJumpInput();
+    }
+
+    //Method to perform jump action.
+    private void JumpAction()
+    {
+        //check if we are on ground AND we still have jumps left
+        if (onGround && currentJump < maxAirJumps)
+        {
+            
+            currentJump += 1;
+            float jumpSpeed = Mathf.Sqrt(-4f * Physics2D.gravity.y * jumpHeight);
+            
+            //jump speed never goes negative
+            if (velocity.y > 0f)
+            {
+                jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
+            }
+            velocity.y += jumpSpeed;
+        }
+
     }
 
     public override void FixedUpdateNetwork()
@@ -45,22 +68,29 @@ public class Jump : NetworkBehaviour
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
+        //if object on ground, reset nth jump to 0
         if (onGround)
         {
-            jumpPhase = 0;
+            currentJump = 0;
         }
 
+        //if jump action is requested
         if (desiredJump)
         {
             desiredJump = false;
-            JumpAction();
+            while (currentJump < maxAirJumps)
+            {
+                JumpAction();
+            }
+            
         }
 
+        //if going up, apply upward movement
         if (body.velocity.y > 0)
         {
             body.gravityScale = upwardMovementMultiplier;
         }
-        else if (body.velocity.y < 0)
+        else if (body.velocity.y < 0) //if going down, apply downward movement
         {
             body.gravityScale = downwardMovementMultiplier;
         }
@@ -68,20 +98,13 @@ public class Jump : NetworkBehaviour
         {
             body.gravityScale = defaultGravityScale;
         }
-        body.velocity = velocity;
+        body.velocity = velocity; //apply velocity to rigidbody
     }
 
-    private void JumpAction()
-    {
-        if (onGround || jumpPhase < maxAirJumps)
-        {
-            jumpPhase += 1;
-            float jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * jumpHeight);
-            if (velocity.y > 0f)
-            {
-                jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
-            }
-            velocity.y += jumpSpeed;
-        }
-    }
+    //private IEnumerator JumpCoolDown()
+    //{
+    //    canJump = false;
+    //    yield return new WaitForSeconds(1);
+    //    canJump = true;
+    //}
 }

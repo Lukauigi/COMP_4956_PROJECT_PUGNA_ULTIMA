@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Move : NetworkBehaviour
 {
-    [SerializeField] private InputController input = null;
+    [SerializeField] private InputController input = null; //generic input
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
@@ -30,7 +30,7 @@ public class Move : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        direction.x = input.RetrieveMoveInput();
+        direction.x = input.RetrieveMoveInput(); //retrieve direction using InputController
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
     }
 
