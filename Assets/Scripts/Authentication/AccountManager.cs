@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using static UserData;
 
 public class AccountManager : MonoBehaviour
 {
@@ -68,6 +69,9 @@ public class AccountManager : MonoBehaviour
                 Debug.Log($"The id is  {response.PlayFabId}");
                 Debug.Log($"User successfully logged in | Username: {Username}");
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
+
+                //Testing database functions
+                UserData.GetUserData(response.PlayFabId, "Favourite Character");
             },
             error => { Debug.Log($"User login unsuccessful | Error: {error.Error}"); }
         );
