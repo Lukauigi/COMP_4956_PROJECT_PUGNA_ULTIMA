@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 1467075193154803493}
   - component: {fileID: 547024523295310738}
   m_Layer: 0
-  m_Name: Square
+  m_Name: NetworkSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,7 +184,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &3794494656330697165
 MonoBehaviour:
   m_ObjectHideFlags: 0

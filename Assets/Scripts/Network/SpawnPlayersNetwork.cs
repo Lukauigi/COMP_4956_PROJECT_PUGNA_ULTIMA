@@ -46,6 +46,7 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         //throw new NotImplementedException();
+        //if ()
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

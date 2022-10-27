@@ -78,7 +78,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
-
+/*
         if(Input.GetKey(KeyCode.W))
             data.direction += Vector3.forward;
 
@@ -90,7 +90,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector3.right;
-
+*/
         input.Set(data);
     }
 

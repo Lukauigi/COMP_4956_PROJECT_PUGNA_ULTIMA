@@ -36,6 +36,13 @@ public class Move : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        // direction.x = input.RetrieveMoveInput();
+        // WTFFFF AM I DOING
+        /*if (GetInput(out NetworkInputData input))
+        {
+            direction.x = input.move;
+        }*/
+
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 

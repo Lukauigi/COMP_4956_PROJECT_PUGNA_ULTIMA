@@ -25,7 +25,7 @@ public class NetworkRunnerHandler : MonoBehaviour
         // networkRunner = Instantiate(networkRunnerPrefab);
         networkRunner.name = "Network Runner";
 
-        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.Shared, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
+        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
 
         Debug.Log($"Server NetworkRunner started.");
     }
@@ -38,6 +38,9 @@ public class NetworkRunnerHandler : MonoBehaviour
         {
             sceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
         }
+
+        runner.ProvideInput = false;
+        //runner.ProvideInput = true;
 
         return runner.StartGame(new StartGameArgs
         {
