@@ -8,6 +8,10 @@ using System;
 public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkPlayer playerPrefab;
+
+    Move localMove;
+    Jump localJump;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +50,32 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         //throw new NotImplementedException();
-        //if ()
+        /*if (localPlayerController == null && NetworkPlayer.Local != null)
+        {
+            localPlayerController = (PlayerController) NetworkPlayer.Local.GetComponent<Move>().input;
+        }
+
+        if (localPlayerController != null)
+        {
+            input.Set(localPlayerController.GetNetworkInput());
+        }*/
+        if (localMove == null && NetworkPlayer.Local != null)
+        {
+            localMove = NetworkPlayer.Local.GetComponent<Move>();
+        }
+        if (localMove != null)
+        {
+            input.Set(localMove.GetNetworkInput());
+        }
+
+        if (localJump == null && NetworkPlayer.Local != null)
+        {
+            localJump = NetworkPlayer.Local.GetComponent<Jump>();
+        }
+        if (localJump != null)
+        {
+            input.Set(localJump.GetNetworkInput());
+        }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

@@ -15,13 +15,4 @@ public class PlayerController : InputController
     {
         return Input.GetButtonDown("Jump");
     }
-
-    /*public NetworkInputData GetInputNetwork()
-    {
-        NetworkInputData networkInputData = new NetworkInputData();
-        networkInputData.jump = RetrieveJumpInput();
-        networkInputData.move = RetrieveMoveInput();
-
-        return networkInputData;
-    }*/
 }

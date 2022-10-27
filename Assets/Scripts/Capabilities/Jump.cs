@@ -84,4 +84,13 @@ public class Jump : NetworkBehaviour
             velocity.y += jumpSpeed;
         }
     }
+
+    public NetworkInputData GetNetworkInput()
+    {
+        NetworkInputData networkInputData = new NetworkInputData();
+        // desiredJump or input.RetrieveJumpInput() idk
+        networkInputData.jump = desiredJump;
+
+        return networkInputData;
+    }
 }

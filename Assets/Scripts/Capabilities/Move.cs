@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Move : NetworkBehaviour
 {
-    [SerializeField] private InputController input = null;
+    [SerializeField] public InputController input = null;
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
@@ -38,10 +38,10 @@ public class Move : NetworkBehaviour
     {
         // direction.x = input.RetrieveMoveInput();
         // WTFFFF AM I DOING
-        /*if (GetInput(out NetworkInputData input))
+        if (GetInput(out NetworkInputData input))
         {
             direction.x = input.move;
-        }*/
+        }
 
         onGround = ground.GetOnGround();
         velocity = body.velocity;
@@ -54,5 +54,14 @@ public class Move : NetworkBehaviour
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
         body.velocity = velocity;
+    }
+
+    public NetworkInputData GetNetworkInput()
+    {
+        NetworkInputData networkInputData = new NetworkInputData();
+        // direction.x or input.RetrieceMoveInput() idk
+        networkInputData.move = direction.x;
+
+        return networkInputData;
     }
 }
