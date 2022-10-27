@@ -13,7 +13,7 @@ public class PlayerController : InputController
 
     public override bool RetrieveJumpInput()
     {
-        return Input.GetButton("Jump");
+        return Input.GetButtonDown("Jump");
     }
 
 }

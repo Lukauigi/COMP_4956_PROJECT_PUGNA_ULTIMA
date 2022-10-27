@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : NetworkBehaviour
+public class MoveOffline : MonoBehaviour
 {
     [SerializeField] private InputController input = null;
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
@@ -31,19 +31,16 @@ public class Move : NetworkBehaviour
     void Update()
     {
         direction.x = input.RetrieveMoveInput();
-        /*desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);*/
+        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
     }
 
-    public override void FixedUpdateNetwork()
+    public void FixedUpdate()
     {
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
-        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
-
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-        /*maxSpeedChange = acceleration * Time.deltaTime;*/
-        maxSpeedChange = acceleration * Runner.DeltaTime;
+        maxSpeedChange = acceleration * Time.deltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
         body.velocity = velocity;
