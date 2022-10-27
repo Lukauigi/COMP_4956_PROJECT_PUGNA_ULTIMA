@@ -13,6 +13,7 @@ public class Move : NetworkBehaviour
     private Vector2 direction;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
+    //private float speed;
     private Rigidbody2D body;
     private Ground ground;
 
@@ -36,11 +37,28 @@ public class Move : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        float inputHorizontal = input.RetrieveMoveInput();
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
+        if (inputHorizontal != 0)
+        {
+            body.AddForce(new Vector2(inputHorizontal * Time.deltaTime, 0f));
+        }
+
+        if (inputHorizontal > 0)
+        {
+            body.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        if (inputHorizontal < 0)
+        {
+            body.transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-        maxSpeedChange = acceleration * Time.deltaTime;
+        maxSpeedChange = acceleration * Runner.DeltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
         body.velocity = velocity;

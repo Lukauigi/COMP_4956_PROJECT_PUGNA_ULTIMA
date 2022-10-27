@@ -8,7 +8,7 @@ public class Jump : NetworkBehaviour
     [SerializeField] private InputController input = null;
     [SerializeField, Range(0f, 10f)] private float jumpHeight = 1f;
     [SerializeField, Range(0, 2)] private int maxAirJumps = 2; //max 2 jumps
-    [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 9f; //how fast character will fall
+    [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
     [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f; //affects how fast character moves vertically when jumping
 
     private Rigidbody2D body; //detect jump velocity
@@ -18,34 +18,35 @@ public class Jump : NetworkBehaviour
     private int currentJump; //how many times we have jumped
     private float defaultGravityScale;
 
-    private bool desiredJump;
+    private bool isJumpPressed;
     private bool onGround;
-    //private bool canJump = true;
+    
+    //public Transform groundCheck;
+    //public float checkRadius;
+    //public LayerMask whatIsGround;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         ground = GetComponent<Ground>();
 
-        defaultGravityScale = 1f;
+        defaultGravityScale = 10f;
     }
-    /*// Start is called before the first frame update
-    void Start()
-    {
-        
-    }*/
+
 
     // The Jump boolean variable remains set in new update cycle until we
     // manually set to false
     void Update()
     {
         //Need input to be true once and if it is used, set it to false
-        desiredJump |= input.RetrieveJumpInput();
+        isJumpPressed |= input.RetrieveJumpInput();
     }
 
     //Method to perform jump action.
     private void JumpAction()
     {
+        
+        Debug.Log("Update Jump");
         //check if we are on ground AND we still have jumps left
         if (onGround && currentJump < maxAirJumps)
         {
@@ -66,6 +67,7 @@ public class Jump : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         onGround = ground.GetOnGround();
+        //onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         velocity = body.velocity;
 
         //if object on ground, reset nth jump to 0
@@ -75,14 +77,16 @@ public class Jump : NetworkBehaviour
         }
 
         //if jump action is requested
-        if (desiredJump)
+        if (isJumpPressed)
         {
-            desiredJump = false;
-            while (currentJump < maxAirJumps)
-            {
-                JumpAction();
-            }
-            
+
+            isJumpPressed = false;
+            //while (currentJump < maxAirJumps)
+            //{
+            //    JumpAction();
+            //}
+            JumpAction();
+            //MoveDuringJumping();
         }
 
         //if going up, apply upward movement
@@ -101,10 +105,34 @@ public class Jump : NetworkBehaviour
         body.velocity = velocity; //apply velocity to rigidbody
     }
 
-    //private IEnumerator JumpCoolDown()
+    //private void MoveDuringJumping()
     //{
-    //    canJump = false;
-    //    yield return new WaitForSeconds(1);
-    //    canJump = true;
+    //    float moveSpeed = 40f;
+    //    float midAirControl = 1.5f;
+    //    if (Input.GetKey(KeyCode.LeftArrow))
+    //    {
+    //        if (onGround)
+    //        {
+    //            body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+    //        } else
+    //        {
+    //            body.velocity += new Vector2(-moveSpeed * midAirControl * Time.deltaTime, 0);
+    //            body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -moveSpeed, moveSpeed), body.velocity.y);
+    //        }
+    //    } else
+    //    {
+    //        if (Input.GetKey(KeyCode.RightArrow))
+    //        {
+    //            if (onGround)
+    //            {
+    //                body.velocity = new Vector2(moveSpeed, body.velocity.y);
+    //            }
+    //            else
+    //            {
+    //                body.velocity += new Vector2(moveSpeed * midAirControl * Time.deltaTime, 0);
+    //                body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -moveSpeed, moveSpeed), body.velocity.y);
+    //            }
+    //        }
+    //    }
     //}
 }
