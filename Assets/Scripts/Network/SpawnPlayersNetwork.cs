@@ -9,8 +9,9 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkPlayer playerPrefab;
 
-    Move localMove;
-    Jump localJump;
+    NetworkCharacterControlHandler localCharacterControlHandler;     
+
+    /*[SerializeField] public InputController localInput = null;*/
 
     // Start is called before the first frame update
     void Start()
@@ -49,32 +50,17 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        //throw new NotImplementedException();
-        /*if (localPlayerController == null && NetworkPlayer.Local != null)
+        Debug.Log("OnInput");
+        if (localCharacterControlHandler == null && NetworkPlayer.Local != null)
         {
-            localPlayerController = (PlayerController) NetworkPlayer.Local.GetComponent<Move>().input;
+            localCharacterControlHandler = NetworkPlayer.Local.GetComponent<NetworkCharacterControlHandler>();
+            Debug.Log("localCharacterControlHandler gotten");
         }
 
-        if (localPlayerController != null)
+        if (localCharacterControlHandler != null)
         {
-            input.Set(localPlayerController.GetNetworkInput());
-        }*/
-        if (localMove == null && NetworkPlayer.Local != null)
-        {
-            localMove = NetworkPlayer.Local.GetComponent<Move>();
-        }
-        if (localMove != null)
-        {
-            input.Set(localMove.GetNetworkInput());
-        }
-
-        if (localJump == null && NetworkPlayer.Local != null)
-        {
-            localJump = NetworkPlayer.Local.GetComponent<Jump>();
-        }
-        if (localJump != null)
-        {
-            input.Set(localJump.GetNetworkInput());
+            input.Set(localCharacterControlHandler.GetNetworkInput());
+            Debug.Log("localCharacterControlHandler inputs sent");
         }
     }
 

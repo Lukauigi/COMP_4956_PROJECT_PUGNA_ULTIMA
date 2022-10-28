@@ -39,7 +39,7 @@ public class NetworkRunnerHandler : MonoBehaviour
             sceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
         }
 
-        runner.ProvideInput = false;
+        runner.ProvideInput = true;
         //runner.ProvideInput = true;
 
         return runner.StartGame(new StartGameArgs

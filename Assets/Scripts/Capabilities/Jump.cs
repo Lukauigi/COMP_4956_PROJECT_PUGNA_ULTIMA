@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Jump : NetworkBehaviour
 {
-    [SerializeField] private InputController input = null;
+    //[SerializeField] private InputController input = null;
     [SerializeField, Range(0f, 10f)] private float jumpHeight = 3f;
     [SerializeField, Range(0, 5)] private int maxAirJumps = 0;
     [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f;
@@ -37,11 +37,16 @@ public class Jump : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        desiredJump |= input.RetrieveJumpInput();
+        //desiredJump |= input.RetrieveJumpInput();
     }
 
     public override void FixedUpdateNetwork()
     {
+        if (GetInput(out NetworkInputData input))
+        {
+            desiredJump |= input.jump;
+        }
+
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
