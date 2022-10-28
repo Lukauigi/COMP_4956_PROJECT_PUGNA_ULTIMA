@@ -40,7 +40,7 @@ public class Move : NetworkBehaviour
         velocity = body.velocity;
 
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-        maxSpeedChange = acceleration * Time.deltaTime;
+        maxSpeedChange = acceleration * Runner.DeltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
         body.velocity = velocity;
