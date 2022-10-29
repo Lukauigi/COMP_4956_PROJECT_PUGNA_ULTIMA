@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Design/Main Screen.unity
     guid: 0f49a1c140c8cd940b4020afa5b41b10
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Setting Screen.unity
+    guid: 674895cf03fb9e141b0f27266a7f4c5c
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Signup Screen.unity
+    guid: 7cd5c229a7dd2f740bd7431b97f800fe
   m_configObjects: {}
