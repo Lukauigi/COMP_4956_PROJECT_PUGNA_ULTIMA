@@ -24,11 +24,16 @@ public class Attack : MonoBehaviour //change to NetworkBehaviour
     {
         Collider2D[] cols = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.extents, col.transform.rotation.x, LayerMask.GetMask("Hitbox"));
         foreach (Collider2D c in cols)
-        {
-            //Debug.Log(c.name);
+        {   
+            //float damage = 1;
+            //Debug.Log("Hit Registered"); //Test if attack is going through
+
             if (c.transform.parent.parent == transform) // Check if attack hitbox is colliding with the player that used the attack
                 continue;                               // If so do not register a hit and continue foreach loop
-            Debug.Log(c.name);
+            
+            Debug.Log(c.name); //If this shows the attack is hitting another player
+            
+           
         }
        
     }
