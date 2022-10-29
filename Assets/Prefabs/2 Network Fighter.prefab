@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 261806375952415379}
   - component: {fileID: 261806375952415378}
   - component: {fileID: 261806375952415372}
-  m_Layer: 0
+  - component: {fileID: 4977875603341989461}
+  m_Layer: 6
   m_Name: 2 Network Fighter
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -36,7 +37,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 502517741467019153}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9, y: 0.679, z: 0}
+  m_LocalPosition: {x: 1.883, y: 0.722, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47,6 +48,7 @@ Transform:
   - {fileID: 9069065234330394434}
   - {fileID: 1491121397118526897}
   - {fileID: 5765059510360634809}
+  - {fileID: 7537702740752250246}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -403,6 +405,20 @@ MonoBehaviour:
   maxAirJumps: 0
   downwardMovementMultiplier: 3
   upwardMovementMultiplier: 1.7
+--- !u!114 &4977875603341989461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502517741467019153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2855cc91eea28584c8fe629f0048db94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackHitboxes:
+  - {fileID: 0}
 --- !u!1 &1600593237929189530
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1491121397118526897}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InterpolationTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +461,7 @@ GameObject:
   - component: {fileID: 7909431640193397810}
   - component: {fileID: 7479573731114507602}
   - component: {fileID: 1315176686236014637}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallSensor_R1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -506,7 +522,7 @@ GameObject:
   - component: {fileID: 6186385832038041458}
   - component: {fileID: 1973838458378910205}
   - component: {fileID: 5716234930877069540}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallSensor_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +583,7 @@ GameObject:
   - component: {fileID: 4262453867787044454}
   - component: {fileID: 6859925555603946970}
   - component: {fileID: 8428074698627446479}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallSensor_R2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -628,7 +644,7 @@ GameObject:
   - component: {fileID: 9069065234330394434}
   - component: {fileID: 4834947156216132188}
   - component: {fileID: 4264510329858242477}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallSensor_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,6 +694,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2a8bdc7f41b704693ad497097f30dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4972298891691025618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7867716301010003837}
+  - component: {fileID: 2789355027567743931}
+  m_Layer: 6
+  m_Name: BaseAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7867716301010003837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972298891691025618}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7537702740752250246}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2789355027567743931
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972298891691025618}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.37, y: 0.02}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.73, y: 1.2}
+  m_EdgeRadius: 0
 --- !u!1 &5815864160211837442
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +763,7 @@ GameObject:
   - component: {fileID: 8720294070668509785}
   - component: {fileID: 6505372471448756190}
   - component: {fileID: 5492250372579233654}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -739,6 +813,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2a8bdc7f41b704693ad497097f30dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6568184619661642835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7537702740752250246}
+  m_Layer: 6
+  m_Name: AttackColliders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7537702740752250246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568184619661642835}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.34615886, y: 0.67968416, z: 0.007499058}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7867716301010003837}
+  m_Father: {fileID: 2736442782216498118}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7278195259841053987
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,7 +854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5765059510360634809}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Network Rigidbody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
