@@ -938,7 +938,7 @@ PrefabInstance:
     - target: {fileID: 6228946177571211816, guid: 71e75dbf60c6c4e4d903ec04bac992b1, type: 3}
       propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 6050059081701548858, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
+      objectReference: {fileID: 8591233087739896453, guid: e5259a0dd6326e74a82f4754985bd5db, type: 3}
     - target: {fileID: 6228946177571211817, guid: 71e75dbf60c6c4e4d903ec04bac992b1, type: 3}
       propertyPath: m_Name
       value: NetworkRunnerAndSpawner

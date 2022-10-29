@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 4960751976811016980}
   - component: {fileID: 1467075193154803493}
   - component: {fileID: 547024523295310738}
+  - component: {fileID: 526407141619947274}
   m_Layer: 0
   m_Name: NetworkSquare
   m_TagString: Untagged
@@ -284,3 +285,16 @@ MonoBehaviour:
   maxAirJumps: 0
   downwardMovementMultiplier: 3
   upwardMovementMultiplier: 1.7
+--- !u!114 &526407141619947274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260662302652409656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c767648632d6754facad3c6651760a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 45a87ffb7ad017a41990a81c515c42f2, type: 2}

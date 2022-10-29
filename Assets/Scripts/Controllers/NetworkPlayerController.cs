@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // makes sure we can make an instance of it in the menu, just makes things easier xd
-[CreateAssetMenu(fileName ="PlayerController", menuName ="InputController/PlayerController")]
-public class PlayerController : InputController
+[CreateAssetMenu(fileName = "NetworkPlayerController", menuName = "InputController/NetworkPlayerController")]
+public class NetworkPlayerController : InputController
 {
+
     public override float RetrieveMoveInput()
     {
         return Input.GetAxisRaw("Horizontal");
@@ -13,6 +14,7 @@ public class PlayerController : InputController
 
     public override bool RetrieveJumpInput()
     {
-        return Input.GetButtonDown("Jump");
+        //TODO: using GetButton() will make the character jump continuously, change later
+        return Input.GetButton("Jump");
     }
 }

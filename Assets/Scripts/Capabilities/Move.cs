@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Move : NetworkBehaviour
 {
-    //[SerializeField] public InputController input = null;
+    [SerializeField] public InputController input = null;
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
@@ -36,17 +36,18 @@ public class Move : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        // direction.x = input.RetrieveMoveInput();
-        // WTFFFF AM I DOING
-        if (GetInput(out NetworkInputData input))
+        // For Host-Client Mode
+        if (GetInput(out NetworkInputData data))
         {
-            direction.x = input.move;
+            direction.x = data.move;
+        } else
+        {
+            //direction.x = input.RetrieveMoveInput();
         }
+        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
 
         onGround = ground.GetOnGround();
         velocity = body.velocity;
-
-        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
 
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
         /*maxSpeedChange = acceleration * Time.deltaTime;*/

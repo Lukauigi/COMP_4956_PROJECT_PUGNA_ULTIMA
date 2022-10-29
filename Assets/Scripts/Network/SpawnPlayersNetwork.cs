@@ -11,8 +11,6 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 
     NetworkCharacterControlHandler localCharacterControlHandler;     
 
-    /*[SerializeField] public InputController localInput = null;*/
-
     // Start is called before the first frame update
     void Start()
     {

@@ -40,7 +40,6 @@ public class NetworkRunnerHandler : MonoBehaviour
         }
 
         runner.ProvideInput = true;
-        //runner.ProvideInput = true;
 
         return runner.StartGame(new StartGameArgs
         {
