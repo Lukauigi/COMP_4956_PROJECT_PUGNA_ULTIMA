@@ -12,6 +12,6 @@ public class StartButton : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        SceneManager.LoadScene("Main Screen");
+        SceneManager.LoadScene("Login Screen");
     }
 }

@@ -20,6 +20,6 @@ public class SaveButton : MonoBehaviour
     // Navigate back to the main screen and save the settings
     public void OnClickSaveButton()
     {
-        SceneManager.LoadScene("Main Screen");
+        SceneManager.LoadScene("Login Screen");
     }
 }

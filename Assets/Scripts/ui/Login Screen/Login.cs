@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoginButton : MonoBehaviour
+public class Login: MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,9 +17,8 @@ public class LoginButton : MonoBehaviour
         
     }
 
-    // Navigate back to the main screen
-    public void OnClickLoginButton()
+    public void OnClickLogin()
     {
-        SceneManager.LoadScene("Login Screen");
+        SceneManager.LoadScene("Main Menu");
     }
 }
