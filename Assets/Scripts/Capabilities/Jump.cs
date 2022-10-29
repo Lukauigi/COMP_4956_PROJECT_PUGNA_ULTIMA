@@ -93,10 +93,20 @@ public class Jump : NetworkBehaviour
         if (body.velocity.y > 0)
         {
             body.gravityScale = upwardMovementMultiplier;
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                Debug.Log("press down to fastfall");
+                body.gravityScale = 4 * downwardMovementMultiplier;
+            }
         }
         else if (body.velocity.y < 0) //if going down, apply downward movement
         {
             body.gravityScale = downwardMovementMultiplier;
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                Debug.Log("press down to fastfall");
+                body.gravityScale = 4*downwardMovementMultiplier;
+            }
         }
         else if (body.velocity.y == 0)
         {
