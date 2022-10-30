@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEditor.PackageManager;
+//using UnityEditor.PackageManager;
 using UnityEngine.SceneManagement;
 
 public class SignUpUI : MonoBehaviour

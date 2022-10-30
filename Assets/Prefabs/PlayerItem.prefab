@@ -972,13 +972,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   Avatar: {fileID: 6362310295667699829}
+  nextBtn: {fileID: 3614456190985989111}
+  prevBtn: {fileID: 6188687287752001490}
   Colors:
   - {r: 0.754717, g: 0.15236738, b: 0.15236738, a: 0.972549}
   - {r: 0.08218223, g: 0.764151, b: 0.09437889, a: 1}
   - {r: 0.9056604, g: 0.85926586, b: 0.071769245, a: 1}
-  playerHighlightColor: {r: 0, g: 0.94509804, b: 0.03919394, a: 0.49803922}
-  _panelBG: {fileID: 759856169656327927}
   selected: 0
+  isLocal: 0
 --- !u!114 &8717897240154946938
 MonoBehaviour:
   m_ObjectHideFlags: 0
