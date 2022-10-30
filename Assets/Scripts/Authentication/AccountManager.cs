@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -35,7 +33,8 @@ public class AccountManager : MonoBehaviour
                 Username = Username,
                 RequireBothUsernameAndEmail = true
             },
-            response => { Debug.Log($"User successfully registered | Username: {Username} | Email: {Email}"); },
+            response => { Debug.Log($"User successfully registered | " +
+                                    $"Username: {Username} | Email: {Email}"); },
             error => { Debug.Log($"User registration unsuccessful | Error: {error.Error}"); }
         );
     }
@@ -55,16 +54,7 @@ public class AccountManager : MonoBehaviour
             },
             response =>
             {
-                /*
-                AccountManager.Instance.PlayfabId = response.PlayFabId;
-                */
-                /*
-                PlayfabId = response.PlayFabId;
-                */
                 PlayerPrefsManager.SetPlayfabId(response.PlayFabId);
-                /*
-                PlayfabId = response.PlayFabId;
-                */
                 Debug.Log($"The id is  {response.PlayFabId}");
                 Debug.Log($"User successfully logged in | Username: {Username}");
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
