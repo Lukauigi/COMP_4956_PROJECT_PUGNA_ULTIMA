@@ -9,7 +9,7 @@ using UnityEngine.Events;
 /// /// Author(s): Jason Cheung
 /// Date: Oct 21 2022
 /// Source(s):
-///     Game Architecture Tips - Unity: https://www.youtube.com/watch?v=pRjTM3pzqDw&list=PLHh-Lb2ZiXqdC7ESEVmTlBMBmEWRDt6Tt&index=7
+///     Game Architecture Tips - Unity: https://youtu.be/pRjTM3pzqDw
 /// Remarks: If creating a Unity Component for a Timer - use this script.
 /// Change History:
 /// </summary>

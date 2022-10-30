@@ -5,7 +5,7 @@ using System;
 /// Author(s): Jason Cheung
 /// Date: Oct 21 2022
 /// Source(s):
-///     Game Architecture Tips - Unity: https://www.youtube.com/watch?v=pRjTM3pzqDw&list=PLHh-Lb2ZiXqdC7ESEVmTlBMBmEWRDt6Tt&index=7
+///     Game Architecture Tips - Unity: https://youtu.be/pRjTM3pzqDw
 /// Remarks: Contains only C# logic. Try to keep Unity implementation in TimerBehaviour.
 /// Change History:
 /// </summary>
