@@ -30,12 +30,18 @@ public class Move : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.GameState != GameStates.running)
+            return;
+
         direction.x = input.RetrieveMoveInput();
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
     }
 
     public override void FixedUpdateNetwork()
     {
+        if (GameManager.instance.GameState != GameStates.running)
+            return;
+
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 

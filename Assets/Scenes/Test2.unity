@@ -1454,6 +1454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countDownText: {fileID: 1769475482}
+  countDownStartMatch: 3
+  countDownEndMatch: 5
 --- !u!114 &2043922545
 MonoBehaviour:
   m_ObjectHideFlags: 0

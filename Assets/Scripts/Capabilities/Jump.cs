@@ -37,11 +37,17 @@ public class Jump : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.GameState != GameStates.running)
+            return;
+
         desiredJump |= input.RetrieveJumpInput();
     }
 
     public override void FixedUpdateNetwork()
     {
+        if (GameManager.instance.GameState != GameStates.running)
+            return;
+
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 

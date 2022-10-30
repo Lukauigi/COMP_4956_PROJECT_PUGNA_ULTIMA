@@ -16,4 +16,5 @@ public class PlayerController : InputController
         return Input.GetButton("Jump");
     }
 
+    // TODO: (for jason) disable player input when GameManager.GameState is not 'running'
 }
