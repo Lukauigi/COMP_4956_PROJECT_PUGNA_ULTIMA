@@ -35,14 +35,7 @@ public class PlayerOneWayPlatform : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.S))
-        {
-            print("s key pressed");
-            if (currentOneWayPlatform != null)
-            {
-                StartCoroutine(DisableCollision());
-            }
-        }*/
+
     }
 
     // Calls this method every frame but is reflected on the network
