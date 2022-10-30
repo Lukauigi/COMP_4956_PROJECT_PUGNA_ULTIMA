@@ -28,10 +28,10 @@ public class PlayerItem : NetworkBehaviour
         Avatar.color = characters[selectedCharacter];
     }
 
-    public void setPlayerInfo(Player _player)
-    {
-        playerName.text = _player.name;
-    }
+    //public void setPlayerInfo(Player _player)
+    //{
+    //    playerName.text = _player.name;
+    //}
 
     [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
     public void RPC_NextButtonFunction()
