@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 261806375952415378}
   - component: {fileID: 261806375952415372}
   m_Layer: 0
-  m_Name: 2 Network Fighter testing
+  m_Name: 2 Network Fighter_missing_scripts
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,7 +202,7 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: 14795f1d59d7eab43baea0ce2e4fe7ca
+    RawGuidValue: cfdd924956e35ec4eba4ea358425457f
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 6050059081701548858}
@@ -400,9 +400,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
-  jumpHeight: 1
+  jumpHeight: 3.72
   maxAirJumps: 2
-  downwardMovementMultiplier: 5
+  downwardMovementMultiplier: 2.5
   upwardMovementMultiplier: 1.7
 --- !u!1 &1600593237929189530
 GameObject:
