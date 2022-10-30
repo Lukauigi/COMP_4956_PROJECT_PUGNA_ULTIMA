@@ -407,20 +407,6 @@ MonoBehaviour:
   maxAirJumps: 2
   downwardMovementMultiplier: 2.5
   upwardMovementMultiplier: 1.7
---- !u!114 &4977875603341989461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502517741467019153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2855cc91eea28584c8fe629f0048db94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackHitboxes:
-  - {fileID: 2789355027567743931}
 --- !u!114 &747335961585469154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,6 +422,20 @@ MonoBehaviour:
   _interpolationDataSource: 0
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
   playerCollider: {fileID: 8890905694752838623}
+--- !u!114 &4977875603341989461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502517741467019153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2855cc91eea28584c8fe629f0048db94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackHitboxes:
+  - {fileID: 2789355027567743931}
 --- !u!1 &1600593237929189530
 GameObject:
   m_ObjectHideFlags: 0
