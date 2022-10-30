@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class that determines if we are on the ground or in the air
+/// /// Author(s): Jun Earl Solomon
+/// Date: Oct 29 2022
+/// Source(s):
+///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// </summary>
 public class Ground : MonoBehaviour
 {
 
@@ -26,6 +33,10 @@ public class Ground : MonoBehaviour
         RetrieveFriction(collision);
     }
 
+    /// <summary>
+    /// Determines whether the point that the game object is colliding with is the ground
+    /// </summary>
+    /// <param name="collision">A collision</param>
     private void EvaluateCollision(Collision2D collision)
     {
         for (int i=0; i < collision.contactCount; i++)
@@ -34,6 +45,7 @@ public class Ground : MonoBehaviour
             onGround |= normal.y >= 0.9f;
         }
     }
+
 
     private void RetrieveFriction(Collision2D collision)
     {

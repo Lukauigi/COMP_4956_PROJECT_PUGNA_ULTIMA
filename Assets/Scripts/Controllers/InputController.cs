@@ -8,6 +8,11 @@ using UnityEngine;
 /// 
 /// Note: when adding more methods, please make sure that the scripts
 /// abstracting this scriptable object have those new methods.
+/// 
+/// Author(s): Jun Earl Solomon
+/// Date: Oct 29 2022
+/// Source(s):
+///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
 /// </summary>
 public abstract class InputController : ScriptableObject
 {
