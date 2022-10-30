@@ -38,6 +38,9 @@ public class Jump : NetworkBehaviour
     // manually set to false
     void Update()
     {
+        if (GameManager.instance.GameState != GameStates.running)
+            return;
+
         //Need input to be true once and if it is used, set it to false
         isJumpPressed |= input.RetrieveJumpInput();
     }
@@ -66,6 +69,9 @@ public class Jump : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (GameManager.instance.GameState != GameStates.running)
+            return;
+
         onGround = ground.GetOnGround();
         //onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         velocity = body.velocity;
