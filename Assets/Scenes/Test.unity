@@ -539,10 +539,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1274916193}
   - component: {fileID: 1274916192}
-  - component: {fileID: 1274916191}
   - component: {fileID: 1274916190}
   - component: {fileID: 1274916189}
   - component: {fileID: 1274916188}
+  - component: {fileID: 1274916194}
   m_Layer: 0
   m_Name: Prototype Runner
   m_TagString: Untagged
@@ -642,18 +642,6 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 7408881512176793842, guid: dbc9b57ea26fbf84b8cc14b0882fe89b, type: 3}
   SpawnMethod: 0
   StateAuthority: 0
---- !u!114 &1274916191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274916187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3bfdb733d449574a8f4796094d35a63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1274916192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,6 +669,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1274916194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274916187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3bfdb733d449574a8f4796094d35a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1542645928
 GameObject:
   m_ObjectHideFlags: 0
