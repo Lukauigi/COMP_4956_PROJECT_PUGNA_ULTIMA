@@ -46,6 +46,7 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
         else Debug.Log("OnPlayerJoined");
     }
 
+    // Ideally should be in a separate script, InputProvider. https://doc.photonengine.com/en-us/fusion/current/manual/network-input#buttons
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         Debug.Log("OnInput");
