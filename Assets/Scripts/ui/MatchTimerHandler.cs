@@ -26,7 +26,8 @@ public class MatchTimerHandler : MonoBehaviour
     //private TimeSpan durationLeft = new TimeSpan(0, 8, 0);
 
     // Length before the game ending Countdown should begin
-    private TimeSpan startCountDownFinishMatch = new TimeSpan(0, 0, 10);
+    // testing: 1 minute game length
+    private TimeSpan startCountDownFinishMatch = new TimeSpan(0, 1, 0);
 
     private TimeSpan timePlaying;
 
