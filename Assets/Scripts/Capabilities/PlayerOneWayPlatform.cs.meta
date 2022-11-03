@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d9290bff6c1908e46a35e78242003460
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Runner: {instanceID: 0}
+  - Object: {instanceID: 0}
+  - input: {instanceID: 0}
+  - playerCollider: {fileID: 8890905694752838623, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

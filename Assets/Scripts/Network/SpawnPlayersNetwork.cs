@@ -5,15 +5,24 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 
+/// <summary>
+/// Handles the player spawning on the network side.
+/// 
+/// Note: 
+///     Player input will probably be handled here as well, make sure to have it separated in the future.
+/// /// Author(s): Jun Earl Solomon
+/// Date: Oct 29 2022
+/// Source(s):
+///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// </summary>
 public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkPlayer playerPrefab;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
+    /// <summary>
+    /// selects a random spawn point location based on the game objects inside the scene.
+    /// </summary>
+    /// <returns>a Vector3</returns>
     Vector3 GetRandomSpawnPoint()
     {
         GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
@@ -45,7 +54,7 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        //throw new NotImplementedException();
+
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
