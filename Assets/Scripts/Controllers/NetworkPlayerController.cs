@@ -17,4 +17,9 @@ public class NetworkPlayerController : InputController
         //TODO: using GetButton() will make the character jump continuously, change later
         return Input.GetButtonDown("Jump");
     }
+
+    public bool RetrieveAttackInput()
+    {
+        return Input.GetKeyDown(KeyCode.G);
+    }
 }
