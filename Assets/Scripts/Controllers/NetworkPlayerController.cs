@@ -15,6 +15,6 @@ public class NetworkPlayerController : InputController
     public override bool RetrieveJumpInput()
     {
         //TODO: using GetButton() will make the character jump continuously, change later
-        return Input.GetButton("Jump");
+        return Input.GetButtonDown("Jump");
     }
 }

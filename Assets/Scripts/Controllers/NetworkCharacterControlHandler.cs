@@ -22,7 +22,10 @@ public class NetworkCharacterControlHandler : MonoBehaviour
     void Update()
     {
         direction.x = input.RetrieveMoveInput();
-        jump = input.RetrieveJumpInput();
+        
+        if (input.RetrieveJumpInput())
+            jump = true;
+        // jump = input.RetrieveJumpInput();
     }
 
     public NetworkInputData GetNetworkInput()
@@ -30,6 +33,8 @@ public class NetworkCharacterControlHandler : MonoBehaviour
         NetworkInputData networkInputData = new NetworkInputData();
         networkInputData.move = direction.x;
         networkInputData.jump = jump;
+
+        jump = false;
 
         return networkInputData;
     }
