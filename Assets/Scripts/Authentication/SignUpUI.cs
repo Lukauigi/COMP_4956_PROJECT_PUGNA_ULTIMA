@@ -33,7 +33,7 @@ public class SignUpUI : MonoBehaviour
     /// </summary>
     public void NavigateBackToHome()
     {
-        SceneManager.LoadScene("Scenes/Home");
+        SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/Home");
     }
 
 

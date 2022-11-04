@@ -15,7 +15,7 @@ public class SignInUI : MonoBehaviour
     public void SignIn()
     {
          AccountManager.Instance.SignIn(Username.text, Password.text);
-         SceneManager.LoadScene("Scenes/LoggedInHome");
+         SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/LoggedInHome");
          var PlayfabId = PlayerPrefsManager.GetPlayfabId();
          Debug.Log($"{PlayfabId} is signed in");
 
@@ -26,6 +26,6 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     public void NavigateBackToHome()
     {
-        SceneManager.LoadScene("Scenes/Home");
+        SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/Home");
     }
 }

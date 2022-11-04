@@ -18,11 +18,11 @@ public class HomeUI : MonoBehaviour
 
     void NavigateToSignInScene()
     {
-        SceneManager.LoadScene("Scenes/SignIn");
+        SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/SignIn");
     }
 
     void NavigateToSignUpScene()
     {
-        SceneManager.LoadScene("Scenes/SignUp");
+        SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/SignUp");
     }
 }
