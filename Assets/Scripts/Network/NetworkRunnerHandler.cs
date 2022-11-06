@@ -8,10 +8,18 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 
+/// <summary>
+/// Handles and tells Photon Fusion's Network Runner what to do.
+/// This is where you initialize what the network runner is going to be.
+/// Author(s): Jun Earl Solomon
+/// Date: Oct 29 2022
+/// Source(s):
+///     Online multiplayer with Photon Fusion - 2D Arcade Style Car Controller in Unity tutorial Part 12: https://youtu.be/yrXQSM1cleU
+///     Online multiplayer ?? FPS Unity & Photon Fusion EP1 (Fusion setup + movement): https://youtu.be/hqIZCoLHOig
+/// </summary>
 public class NetworkRunnerHandler : MonoBehaviour
 {
 
-    //public NetworkRunner networkRunnerPrefab;
     NetworkRunner networkRunner;
 
     private void Awake()
@@ -30,6 +38,15 @@ public class NetworkRunnerHandler : MonoBehaviour
         Debug.Log($"Server NetworkRunner started.");
     }
 
+    /// <summary>
+    /// task to initialize the network runner
+    /// </summary>
+    /// <param name="runner">The network runner</param>
+    /// <param name="gameMode">The game's mode</param>
+    /// <param name="address">The game's address</param>
+    /// <param name="scene">The game's scene</param>
+    /// <param name="initialized">The action</param>
+    /// <returns></returns>
     protected virtual Task InitializeNetworkRunner(NetworkRunner runner, GameMode gameMode, NetAddress address, SceneRef scene, Action<NetworkRunner> initialized)
     {
         var sceneManager = runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneManager>().FirstOrDefault();
