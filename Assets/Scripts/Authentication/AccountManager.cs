@@ -60,6 +60,7 @@ public class AccountManager : MonoBehaviour
     public Boolean SignIn(string Username, string Password)
     {
         var IsSignedIn = false;
+        // Login with PlayFab
         PlayFabClientAPI.LoginWithPlayFab(
             new LoginWithPlayFabRequest()
             {
@@ -68,6 +69,7 @@ public class AccountManager : MonoBehaviour
             },
             response =>
             {
+                // On successful login, set the PlayFabId
                 PlayerPrefsManager.SetPlayfabId(response.PlayFabId);
                 Debug.Log($"The id is  {response.PlayFabId}");
                 Debug.Log($"User successfully logged in | Username: {Username}");
@@ -80,6 +82,7 @@ public class AccountManager : MonoBehaviour
             },
             error =>
             {
+                // On failed login, log the error
                 Debug.Log($"User login unsuccessful | Error: {error.Error}"); 
                 IsSignedIn = false;
             }
@@ -93,13 +96,24 @@ public class AccountManager : MonoBehaviour
     }*/
 }
 
+/// <summary>
+/// This class saves the PlayfabId to the PlayerPrefs.
+/// </summary>
 public static class PlayerPrefsManager
 {
+    /// <summary>
+    /// Sets the PlayfabId to the PlayerPrefs.
+    /// </summary>
+    /// <param name="playfabId"> a string </param>
     public static void SetPlayfabId(string playfabId)
     {
         PlayerPrefs.SetString("PlayfabId", playfabId);
     }
 
+    /// <summary>
+    /// Gets the PlayfabId from the PlayerPrefs.
+    /// </summary>
+    /// <returns>PlayfabID -> a string </returns>
     public static string GetPlayfabId()
     {
         return PlayerPrefs.GetString("PlayfabId");
