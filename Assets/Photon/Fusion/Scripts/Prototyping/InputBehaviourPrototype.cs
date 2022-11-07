@@ -13,21 +13,21 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
   public void OnInput(NetworkRunner runner, NetworkInput input) {
     var frameworkInput = new NetworkInputPrototype();
 
-    if (Input.GetKey(KeyCode.W)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FORWARD, true);
-    }
+    //if (Input.GetKey(KeyCode.W)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FORWARD, true);
+    //}
 
-    if (Input.GetKey(KeyCode.S)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_BACKWARD, true);
-    }
+    //if (Input.GetKey(KeyCode.S)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_BACKWARD, true);
+    //}
 
-    if (Input.GetKey(KeyCode.A)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_LEFT, true);
-    }
+    //if (Input.GetKey(KeyCode.A)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_LEFT, true);
+    //}
 
-    if (Input.GetKey(KeyCode.D)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RIGHT, true);
-    }
+    //if (Input.GetKey(KeyCode.D)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RIGHT, true);
+    //}
 
     if (Input.GetKey(KeyCode.Space)) {
       frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_JUMP, true);

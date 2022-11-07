@@ -294,6 +294,8 @@ GameObject:
   - component: {fileID: 649337023}
   - component: {fileID: 649337028}
   - component: {fileID: 649337022}
+  - component: {fileID: 649337029}
+  - component: {fileID: 649337030}
   m_Layer: 0
   m_Name: Prototype Runner (1)
   m_TagString: Untagged
@@ -432,6 +434,34 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 8319680109035231856, guid: d4b80c3085aaac642abf38fe1f1f21d3, type: 3}
   SpawnMethod: 0
   StateAuthority: 0
+--- !u!114 &649337029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649337021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e361bfb0186044286ddbd94f2546dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 5929074884134491786, guid: 390da4ec809d0a044b0ee6d88f675558, type: 3}
+  SpawnMethod: 0
+  StateAuthority: 0
+--- !u!114 &649337030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649337021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f4b4973d93b7447a8abff4ce8d3496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 6050059081701548858, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
 --- !u!1 &1282380598
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,7 +775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1994226123
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -780,8 +810,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994226122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -5, z: 0}
-  m_LocalScale: {x: 20, y: 10, z: 1}
+  m_LocalPosition: {x: 0, y: -2.5, z: 0}
+  m_LocalScale: {x: 20, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1327971664}
@@ -996,6 +1026,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1727767008}
+    - target: {fileID: 1125758498273783159, guid: 243878b5ecbaafb4bb25aff8f1987242, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1125758498273783159, guid: 243878b5ecbaafb4bb25aff8f1987242, type: 3}
       propertyPath: m_PlaneDistance
       value: 100

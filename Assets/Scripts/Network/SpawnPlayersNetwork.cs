@@ -19,7 +19,7 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkPlayer playerPrefab;
 
-    NetworkCharacterControlHandler localCharacterControlHandler;     
+    NetworkCharacterControlHandler localCharacterControlHandler;
 
     // Start is called before the first frame update
     void Start()
@@ -80,67 +80,66 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnPlayerLeft");
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnInputMissing");
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        Debug.Log("OnShutdown");
+        Debug.Log("NotImplementedException - OnShutdown");
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner)
     {
-        Debug.Log("OnDisconnectedFromServer");
+        Debug.Log("NotImplementedException - OnDisconnectedFromServer");
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
-        Debug.Log("OnConnectRequest");
+        Debug.Log("NotImplementedException - OnConnectRequest");
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        Debug.Log("OnConnectFailed");
+        Debug.Log("NotImplementedException - OnConnectFailed");
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
-        //throw new NotImplementedException();
-        Debug.Log("NotImplementedException");
+        Debug.Log("NotImplementedException - OnUserSimulationMessage");
     }
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnSessionListUpdated");
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnCustomAuthenticationResponse");
     }
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnHostMigration");
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnReliableDataReceived");
     }
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnSceneLoadDone");
     }
 
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException - OnSceneLoadStart");
     }
 }

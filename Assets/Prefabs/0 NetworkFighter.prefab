@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 4977875603341989461}
   - component: {fileID: 7201283148702718108}
   m_Layer: 0
-  m_Name: 2 Network Fighter
+  m_Name: 0 NetworkFighter
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: cfdd924956e35ec4eba4ea358425457f
+    RawGuidValue: ac53ec156a706af41aa356466ed39fd5
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 6050059081701548858}
@@ -304,7 +304,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 2
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
