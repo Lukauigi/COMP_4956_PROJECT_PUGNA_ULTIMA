@@ -26,6 +26,7 @@ public class SignUpUI : MonoBehaviour
     public void CreateAccount()
     { 
         AccountManager.Instance.CreateAccount(Username.text, Email.text, Password.text);
+
     }
     
     /// <summary>
