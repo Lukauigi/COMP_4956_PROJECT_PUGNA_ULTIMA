@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 396713352}
   - component: {fileID: 396713351}
   - component: {fileID: 396713350}
+  - component: {fileID: 396713353}
   m_Layer: 5
   m_Name: LoginButton
   m_TagString: Untagged
@@ -404,6 +405,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396713348}
   m_CullTransparentMesh: 1
+--- !u!114 &396713353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396713348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2115165271}
+          m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
+          m_MethodName: PlaySoundClip
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &428111246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,6 +1479,7 @@ GameObject:
   - component: {fileID: 1527239275}
   - component: {fileID: 1527239274}
   - component: {fileID: 1527239273}
+  - component: {fileID: 1527239277}
   m_Layer: 5
   m_Name: SettingButton (Setting)
   m_TagString: Untagged
@@ -1544,6 +1575,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2115165271}
+        m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
+        m_MethodName: PlaySoundClip
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1527239275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,6 +1625,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527239271}
   m_CullTransparentMesh: 1
+--- !u!114 &1527239277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527239271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2115165271}
+          m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
+          m_MethodName: PlaySoundClip
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1602599196
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,6 +2133,7 @@ GameObject:
   - component: {fileID: 1967605489}
   - component: {fileID: 1967605488}
   - component: {fileID: 1967605487}
+  - component: {fileID: 1967605490}
   m_Layer: 5
   m_Name: SignupButton
   m_TagString: Untagged
@@ -2132,7 +2205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1967605488}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2115165271}
+        m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
+        m_MethodName: PlaySoundClip
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1967605488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,6 +2256,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967605485}
   m_CullTransparentMesh: 1
+--- !u!114 &1967605490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967605485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2115165271}
+          m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
+          m_MethodName: PlaySoundClip
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1979628414
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,7 +2689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8625881624835025999, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
       propertyPath: m_Name
-      value: Login UI Audio
+      value: UI Audio Producer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}

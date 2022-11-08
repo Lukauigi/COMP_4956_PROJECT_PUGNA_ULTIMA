@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8625881624835025992}
   - component: {fileID: 8625881624835025995}
   m_Layer: 5
-  m_Name: Login UI Audio
+  m_Name: UI Audio Producer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
