@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
+  input: {fileID: 0}
   playerCollider: {fileID: 8890905694752838623}
 --- !u!114 &4977875603341989461
 MonoBehaviour:

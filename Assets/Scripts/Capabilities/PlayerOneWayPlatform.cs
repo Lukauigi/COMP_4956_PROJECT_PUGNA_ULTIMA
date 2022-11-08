@@ -8,28 +8,28 @@ using UnityEngine;
 public class PlayerOneWayPlatform : NetworkBehaviour
 {
 
-    private Rigidbody2D body;
+    /*private Rigidbody2D body;
     private Ground ground;
-    private Vector2 velocity;
+    private Vector2 velocity;*/
 
     // Game object for platform on screen
     private GameObject currentOneWayPlatform;
 
-    [SerializeField] private InputController input = null;
-
+/*    [SerializeField] private InputController input = null;
+*/
     // Player BoxCollider2D field
     [SerializeField] private BoxCollider2D playerCollider;
 
 
     void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        ground = GetComponent<Ground>();
+       /* body = GetComponent<Rigidbody2D>();
+        ground = GetComponent<Ground>();*/
     }
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -43,11 +43,6 @@ public class PlayerOneWayPlatform : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            print("s key pressed");
-            if(currentOneWayPlatform == null)
-            {
-                print("no platform detected");
-            }
             if (currentOneWayPlatform != null)
             {
                 StartCoroutine(DisableCollision());
@@ -56,18 +51,16 @@ public class PlayerOneWayPlatform : NetworkBehaviour
     }
 
     // Triggers when player makes contact with the platform
-    private void onCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        print("platform not assigned");
         if (collision.gameObject.CompareTag("OneWayPlatform"))
         {
-            print("platform assigned");
             currentOneWayPlatform = collision.gameObject;
         }
     }
 
     // Triggers when player passes through the platform from above
-    private void onCollisionExit2D(Collision2D collision)
+    void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("OneWayPlatform"))
         {
@@ -81,8 +74,10 @@ public class PlayerOneWayPlatform : NetworkBehaviour
         print("disable collision method called");
         BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
         Physics2D.IgnoreCollision(playerCollider, platformCollider);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(5f);
         Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
+        print("surface back on");
+
 
     }
 }
