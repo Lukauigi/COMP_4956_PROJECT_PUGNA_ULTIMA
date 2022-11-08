@@ -9,7 +9,7 @@ using UnityEngine;
 /// Source(s): N/A
 /// Remarks:
 /// Change History: November 11 - Lukasz Bednarek
-/// Wrote documentation and comments.
+/// Added new methods for looping sound clips.
 /// </summary>
 public class AudioEffectsManager : MonoBehaviour
 {
@@ -81,11 +81,30 @@ public class AudioEffectsManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Plays a given audio clip through this audio source.
+    /// Plays a given audio clip without looping through this audio source.
     /// </summary>
-    /// <param name="audioClip">  </param>
-    public void PlaySoundClip(AudioClip audioClip)
+    /// <param name="audioClip"> a clip of audio. </param>
+    public void PlaySoundClipOnce(AudioClip audioClip)
     {
+        this.gameObject.GetComponent<AudioSource>().loop = false;
         this.gameObject.GetComponent<AudioSource>().PlayOneShot(audioClip);
+    }
+
+    /// <summary>
+    /// Plays a given audio clip which is meant to loop its audio through this audio source.
+    /// </summary>
+    /// <param name="audioClip"> a clip of audio. </param>
+    public void PlayLoopingSoundClip(AudioClip audioClip)
+    {
+        this.gameObject.GetComponent<AudioSource>().loop = true;
+        this.gameObject.GetComponent<AudioSource>().PlayOneShot(audioClip);
+    }
+
+    /// <summary>
+    /// Stops the current sound effect of a looping audio clip.
+    /// </summary>
+    public void StopLoopingSoundClip()
+    {
+        this.gameObject.GetComponent<AudioSource>().Stop();
     }
 }

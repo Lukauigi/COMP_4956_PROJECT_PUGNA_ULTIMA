@@ -357,7 +357,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2115165271}
         m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
-        m_MethodName: PlaySoundClip
+        m_MethodName: PlaySoundClipOnce
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
@@ -424,7 +424,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2115165271}
           m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
-          m_MethodName: PlaySoundClip
+          m_MethodName: PlaySoundClipOnce
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
@@ -1577,7 +1577,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2115165271}
         m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
-        m_MethodName: PlaySoundClip
+        m_MethodName: PlaySoundClipOnce
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
@@ -1644,7 +1644,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2115165271}
           m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
-          m_MethodName: PlaySoundClip
+          m_MethodName: PlaySoundClipOnce
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
@@ -2208,7 +2208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2115165271}
         m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
-        m_MethodName: PlaySoundClip
+        m_MethodName: PlaySoundClipOnce
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
@@ -2275,7 +2275,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2115165271}
           m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
-          m_MethodName: PlaySoundClip
+          m_MethodName: PlaySoundClipOnce
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
