@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 
+/// </summary>
 public class AudioEffectsManager : MonoBehaviour
 {
     public static AudioEffectsManager Instance;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// 
+    /// </summary>
     void Awake()
     {
         if (Instance == null)
@@ -22,6 +27,10 @@ public class AudioEffectsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="audioClip">  </param>
     public void PlaySoundClip(AudioClip audioClip)
     {
         this.gameObject.GetComponent<AudioSource>().PlayOneShot(audioClip);
