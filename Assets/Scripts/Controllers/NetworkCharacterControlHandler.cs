@@ -11,6 +11,7 @@ public class NetworkCharacterControlHandler : MonoBehaviour
 
     private Vector2 direction;
     private bool jump;
+    private bool neutralAttack;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,9 @@ public class NetworkCharacterControlHandler : MonoBehaviour
         
         if (input.RetrieveJumpInput())
             jump = true;
+
+        if (input.RetrieveAttackNeutralInput())
+            neutralAttack = true;
         // jump = input.RetrieveJumpInput();
     }
 
@@ -33,8 +37,10 @@ public class NetworkCharacterControlHandler : MonoBehaviour
         NetworkInputData networkInputData = new NetworkInputData();
         networkInputData.move = direction.x;
         networkInputData.jump = jump;
+        networkInputData.neutralAttack = neutralAttack;
 
         jump = false;
+        neutralAttack = false;
 
         return networkInputData;
     }

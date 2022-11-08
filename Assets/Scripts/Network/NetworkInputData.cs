@@ -13,6 +13,8 @@ public struct NetworkInputData : INetworkInput
 
     public bool jump;
 
+    public bool neutralAttack;
+
     public bool attackSideTilt;
 
     public bool attackUpTilt;

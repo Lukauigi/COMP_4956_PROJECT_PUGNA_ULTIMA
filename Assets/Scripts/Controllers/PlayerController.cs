@@ -24,22 +24,29 @@ public class PlayerController : InputController
         return Input.GetButtonDown("Jump");
     }
 
+    public override bool RetrieveAttackNeutralInput()
+    {
+        return Input.GetKeyDown(KeyCode.G);
+    }
+
+
+
     public override bool RetrieveAttackSideTiltInput()
     {
 
-        return Input.GetButtonDown("A") && Input.GetButtonDown("LeftArrow");
+        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.LeftArrow);
     }
 
     public override bool RetrieveAttackUpTiltInput()
     {
 
-        return Input.GetButtonDown("A") && Input.GetButtonDown("UpArrow");
+        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.UpArrow);
     }
 
     public override bool RetrieveAttackDownTiltInput()
     {
 
-        return Input.GetButtonDown("A") && Input.GetButtonDown("DownArrow");
+        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.DownArrow);
     }
 
     // TODO: (for jason) disable player input when GameManager.GameState is not 'running'

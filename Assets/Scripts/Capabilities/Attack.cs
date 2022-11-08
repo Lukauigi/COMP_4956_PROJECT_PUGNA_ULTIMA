@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class Attack : MonoBehaviour //change to NetworkBehaviour
+public class Attack : NetworkBehaviour //change to NetworkBehaviour
 {
 
     public Collider2D[] attackHitboxes;
+
 
     //nov 7
     private GameObject attackArea = default;
@@ -22,12 +24,44 @@ public class Attack : MonoBehaviour //change to NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("G")) { iAttack(); }//If user presses G an attack is launched
+        /*if (Input.GetKeyDown(KeyCode.G)) {
+            Debug.Log("TEST TEST PRESSING G LOOK AT ME");
+            iAttack();
+        }//If user presses G an attack is launched
                                                     //LaunchAttack(attackHitboxes[0]);
 
         if (attacking)
         {
             timer += Time.deltaTime;
+
+            if (timer >= timeToAttack)
+            {
+                timer = 0;
+                attacking = false;
+                attackArea.SetActive(attacking);
+            }
+        }*/
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        /*if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("TEST TEST PRESSING G LOOK AT ME");
+            iAttack();
+        }//If user presses G an attack is launched
+         //LaunchAttack(attackHitboxes[0]);*/
+        if (GetInput(out NetworkInputData data))
+        {
+            if (data.neutralAttack) {
+                Debug.Log("TEST TEST PRESSING G LOOK AT ME");
+                iAttack();
+            }
+        }
+
+        if (attacking)
+        {
+            timer += Runner.DeltaTime;
 
             if (timer >= timeToAttack)
             {
@@ -53,7 +87,6 @@ public class Attack : MonoBehaviour //change to NetworkBehaviour
 
 
         }
-
     }
 
     //nov 7
