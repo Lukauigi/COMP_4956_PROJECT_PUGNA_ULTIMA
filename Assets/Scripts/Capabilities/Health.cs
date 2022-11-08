@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("D"))
+        /*if (Input.GetButtonDown("D"))
         {
             // Damage(10);
         }
@@ -19,7 +19,7 @@ public class Health : MonoBehaviour
         if (Input.GetButtonDown("H"))
         {
             // Heal(10);
-        }
+        }*/
     }
 
     public void Damage(int amount)
