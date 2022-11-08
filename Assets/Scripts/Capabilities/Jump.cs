@@ -20,6 +20,8 @@ public class Jump : NetworkBehaviour
 
     private bool isJumpPressed;
     private bool onGround;
+
+    private bool desiredJump;
     
     //public Transform groundCheck;
     //public float checkRadius;
@@ -72,6 +74,15 @@ public class Jump : NetworkBehaviour
         if (GameManager.instance.GameState != GameStates.running)
             return;
 
+        if (GetInput(out NetworkInputData data))
+            {
+                //desiredJump |= data.jump;
+                isJumpPressed |= data.jump;
+            } else
+            {
+                //desiredJump |= input.RetrieveJumpInput();
+            }
+
         onGround = ground.GetOnGround();
         //onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         velocity = body.velocity;
@@ -119,6 +130,15 @@ public class Jump : NetworkBehaviour
             body.gravityScale = defaultGravityScale;
         }
         body.velocity = velocity; //apply velocity to rigidbody
+    }
+
+    public NetworkInputData GetNetworkInput()
+    {
+        NetworkInputData networkInputData = new NetworkInputData();
+        // desiredJump or input.RetrieveJumpInput() idk
+        networkInputData.jump = desiredJump;
+
+        return networkInputData;
     }
 
     //private void MoveDuringJumping()

@@ -30,12 +30,10 @@ public class NetworkRunnerHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        // networkRunner = Instantiate(networkRunnerPrefab);
         networkRunner.name = "Network Runner";
 
-        // initializes the network runner
-        // note: GameMode is currently Shared mode, will have to change it to AutoHostOrClient in the future
-        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.Shared, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
+        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
 
         Debug.Log($"Server NetworkRunner started.");
     }
@@ -57,6 +55,8 @@ public class NetworkRunnerHandler : MonoBehaviour
         {
             sceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
         }
+
+        runner.ProvideInput = true;
 
         return runner.StartGame(new StartGameArgs
         {

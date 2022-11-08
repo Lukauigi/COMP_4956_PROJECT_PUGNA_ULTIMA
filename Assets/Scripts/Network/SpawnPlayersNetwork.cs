@@ -19,6 +19,14 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkPlayer playerPrefab;
 
+    NetworkCharacterControlHandler localCharacterControlHandler;     
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
     /// <summary>
     /// selects a random spawn point location based on the game objects inside the scene.
     /// </summary>
@@ -52,19 +60,32 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
         else Debug.Log("OnPlayerJoined");
     }
 
+    // Ideally should be in a separate script, InputProvider. https://doc.photonengine.com/en-us/fusion/current/manual/network-input#buttons
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
 
+        Debug.Log("OnInput");
+        if (localCharacterControlHandler == null && NetworkPlayer.Local != null)
+        {
+            localCharacterControlHandler = NetworkPlayer.Local.GetComponent<NetworkCharacterControlHandler>();
+            Debug.Log("localCharacterControlHandler gotten");
+        }
+
+        if (localCharacterControlHandler != null)
+        {
+            input.Set(localCharacterControlHandler.GetNetworkInput());
+            Debug.Log("localCharacterControlHandler inputs sent");
+        }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
@@ -89,36 +110,37 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        Debug.Log("NotImplementedException");
     }
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 }

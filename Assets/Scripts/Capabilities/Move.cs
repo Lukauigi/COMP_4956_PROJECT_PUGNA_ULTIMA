@@ -12,7 +12,7 @@ using UnityEngine;
 /// </summary>
 public class Move : NetworkBehaviour
 {
-    [SerializeField] private InputController input = null; //generic input
+    [SerializeField] public InputController input = null; // generic input
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
@@ -39,20 +39,27 @@ public class Move : NetworkBehaviour
     {
         if (GameManager.instance.GameState != GameStates.running)
             return;
-
-        direction.x = input.RetrieveMoveInput(); //retrieve direction using InputController
-        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
+        //direction.x = input.RetrieveMoveInput();
+        /*desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);*/
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (GameManager.instance.GameState != GameStates.running)
-            return;
+        // For Host-Client Mode
+        if (GetInput(out NetworkInputData data))
+        {
+            direction.x = data.move;
+        } else
+        {
+            //direction.x = input.RetrieveMoveInput();
+        }
+        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
 
         float inputHorizontal = input.RetrieveMoveInput();
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
+        // region : johnny & richard's feature branch
         if (inputHorizontal != 0)
         {
             body.AddForce(new Vector2(inputHorizontal * Time.deltaTime, 0f));
@@ -67,12 +74,23 @@ public class Move : NetworkBehaviour
         {
             body.transform.localScale = new Vector3(-1, 1, 1);
         }
+        // end-region
 
 
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
+        /*maxSpeedChange = acceleration * Time.deltaTime;*/
         maxSpeedChange = acceleration * Runner.DeltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
         body.velocity = velocity;
+    }
+
+    public NetworkInputData GetNetworkInput()
+    {
+        NetworkInputData networkInputData = new NetworkInputData();
+        // direction.x or input.RetrieceMoveInput() idk
+        networkInputData.move = direction.x;
+
+        return networkInputData;
     }
 }
