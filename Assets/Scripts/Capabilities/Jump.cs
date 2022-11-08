@@ -44,7 +44,7 @@ public class Jump : NetworkBehaviour
             return;
 
         //Need input to be true once and if it is used, set it to false
-        isJumpPressed |= input.RetrieveJumpInput();
+        //isJumpPressed |= input.RetrieveJumpInput();
     }
 
     //Method to perform jump action.

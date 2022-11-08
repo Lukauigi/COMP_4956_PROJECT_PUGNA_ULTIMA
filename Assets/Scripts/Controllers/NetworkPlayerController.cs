@@ -22,4 +22,22 @@ public class NetworkPlayerController : InputController
     {
         return Input.GetKeyDown(KeyCode.G);
     }
+
+    public override bool RetrieveAttackSideTiltInput()
+    {
+
+        return Input.GetButtonDown("A") && Input.GetButtonDown("LeftArrow");
+    }
+
+    public override bool RetrieveAttackUpTiltInput()
+    {
+
+        return Input.GetButtonDown("A") && Input.GetButtonDown("UpArrow");
+    }
+
+    public override bool RetrieveAttackDownTiltInput()
+    {
+
+        return Input.GetButtonDown("A") && Input.GetButtonDown("DownArrow");
+    }
 }
