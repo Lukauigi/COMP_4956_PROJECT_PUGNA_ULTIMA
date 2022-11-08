@@ -12,4 +12,10 @@ public struct NetworkInputData : INetworkInput
     public float move;
 
     public bool jump;
+
+    public bool attackSideTilt;
+
+    public bool attackUpTilt;
+
+    public bool attackDownTilt;
 }
