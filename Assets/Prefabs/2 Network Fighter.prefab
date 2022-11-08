@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 747335961585469154}
   - component: {fileID: 4977875603341989461}
   - component: {fileID: 7201283148702718108}
+  - component: {fileID: 2436642509868402253}
   m_Layer: 0
   m_Name: 2 Network Fighter
   m_TagString: Player
@@ -451,6 +452,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
+--- !u!114 &2436642509868402253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502517741467019153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d291a7ce80cabbc49a0e3e556145a948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &725000121031292995
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,6 +475,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5466102827367448349}
   - component: {fileID: 7757627210075495406}
+  - component: {fileID: 2043855508077339471}
   m_Layer: 0
   m_Name: AttackArea
   m_TagString: Untagged
@@ -512,6 +527,18 @@ PolygonCollider2D:
       - {x: 1, y: -0.5}
       - {x: -1, y: -0.5}
       - {x: -1, y: 1}
+--- !u!114 &2043855508077339471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725000121031292995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8539caf70b8aa743a2e8840f525144f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1600593237929189530
 GameObject:
   m_ObjectHideFlags: 0
