@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // all game states during a game match
-public enum GameStates { countDown, running, gameOver };
+public enum GameStates { waiting, countDown, running, gameOver };
 
 /// <summary>
 /// Static GameManager Class to handle Game States, Timers and Win/Lose Logic in a Game Match.
@@ -21,8 +21,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     // Current Game State
-    //private GameStates gameState = GameStates.countDown;
-    public GameStates GameState { get; private set; } = GameStates.countDown;
+    public GameStates GameState { get; private set; } = GameStates.waiting;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -44,6 +43,15 @@ public class GameManager : MonoBehaviour
     }
 
     // Set Game State to countDown
+    public void SetGameStateWaiting()
+    {
+        GameState = GameStates.waiting;
+        Debug.Log("GameManager - Game State: " + GameState.ToString());
+
+        // TODO: (not in this method) disable player input until this countdown is finished
+    }
+
+    // Set Game State to countDown
     public void SetGameStateCountDown()
     {
         GameState = GameStates.countDown;
@@ -59,7 +67,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager - Game State: " + GameState.ToString());
 
         // Start Match Timer
-        MatchTimerHandler.instance.BeginTimer();
+        GameTimerController.instance.StartTimer();
     }
 
     // Set Game State to gameOver
@@ -89,6 +97,6 @@ public class GameManager : MonoBehaviour
     /// <param name="mode"></param>
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SetGameStateCountDown();
+        SetGameStateWaiting();
     }
 }

@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Network/Select&Gameplay.unity
     guid: d8c41d0812dd2af4997488351f89123e
   - enabled: 0
     path: Assets/Scenes/Test2.unity
     guid: 41c4bf5ee2cd87b43b44127db13a959c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Network/CharacterSelect.unity
     guid: 6d072430fbb75654091274ab841e9711
   m_configObjects: {}

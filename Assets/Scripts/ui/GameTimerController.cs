@@ -14,13 +14,14 @@ using UnityEngine.UI;
 /// Remarks:
 /// Change History:
 /// </summary>
-public class MatchTimerHandler : MonoBehaviour
+public class GameTimerController : MonoBehaviour
 {
     // Static instance of MatchTimer so other scripts can access it
-    public static MatchTimerHandler instance = null;
+    public static GameTimerController instance = null;
 
     // Unity UI Text to update the Match Timer
-    public Text matchTimerText;
+    //public Text gameTimerText;
+    public TMPro.TextMeshProUGUI matchTimerText;
 
     // Length of a Game Match
     //private TimeSpan durationLeft = new TimeSpan(0, 8, 0);
@@ -46,7 +47,9 @@ public class MatchTimerHandler : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        // Unity Warning: DontDestroyOnLoad only works for root GameObjects or components on root GameObjects
+        // commented out for now
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
@@ -62,7 +65,7 @@ public class MatchTimerHandler : MonoBehaviour
     /// <summary>
     /// Begin the Game's Match Timer.
     /// </summary>
-    public void BeginTimer()
+    public void StartTimer()
     {
         // show this game object
         gameObject.SetActive(true);
@@ -97,7 +100,7 @@ public class MatchTimerHandler : MonoBehaviour
             // display ending countdown when the Game Match is about to end
             if (timePlaying > startCountDownFinishMatch)
             {
-                CountDownHandler.instance.StartEndingCountdown();
+                CountdownController.instance.BeginEndGameCountdown();
                 break;
             }
 

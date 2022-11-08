@@ -13,19 +13,20 @@ using UnityEngine.UI;
 /// Remarks:
 /// Change History:
 /// </summary>
-public class CountDownHandler : MonoBehaviour
+public class CountdownController : MonoBehaviour
 {
     // Static instance of GameManager so other scripts can access it
-    public static CountDownHandler instance = null;
+    public static CountdownController instance = null;
 
     // Unity UI Text to update the CountDown Timer
-    public Text countDownText;
+    //public Text countdownText;
+    public TMPro.TextMeshProUGUI countdownText;
 
-    // seconds to countdown before starting the match
-    public int countDownStartMatch = 3;
+    // seconds to countdown before starting the game
+    public int countdownStartGame = 3;
 
-    // seconds to countdown before ending the match
-    public int countDownEndMatch = 5;
+    // seconds to countdown before ending the game
+    public int countdownEndGame = 5;
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -38,46 +39,57 @@ public class CountDownHandler : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        // Unity Warning: DontDestroyOnLoad only works for root GameObjects or components on root GameObjects
+        // commented out for now
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        countDownText.text = "";
-        StartCoroutine(CountDownStartMatch());
+        countdownText.text = "";
+        //StartCoroutine(CountdownStartGame());
     }
+
+    public void BeginStartGameCountdown()
+    {
+        StartCoroutine(CountdownStartGame());
+    }
+
+
 
     /// <summary>
     /// StartEndingCountdown is called when the game match is about to end and its ending countdown should begin.
     /// </summary>
-    public void StartEndingCountdown()
+    public void BeginEndGameCountdown()
     {
-        countDownText.text = "";
+        countdownText.text = "";
 
         // show/re-enable this game object
         gameObject.SetActive(true);
 
-        StartCoroutine(CountDownEndMatch());
+        StartCoroutine(CountdownEndGame());
     }
 
     /// <summary>
     /// Co-routine to countdown the start of a match.
     /// </summary>
     /// <returns></returns>
-    IEnumerator CountDownStartMatch()
+    IEnumerator CountdownStartGame()
     {
         yield return new WaitForSeconds(0.3f);
 
-        int counter = countDownStartMatch;
+        int counter = countdownStartGame;
+
+        GameManager.instance.SetGameStateCountDown();
 
         while (true)
         {
             if (counter != 0)
-                countDownText.text = counter.ToString();
+                countdownText.text = counter.ToString();
             else
             {
-                countDownText.text = "GO!";
+                countdownText.text = "GO!";
                 GameManager.instance.SetGameStateRunning();
                 break;
             }
@@ -91,24 +103,24 @@ public class CountDownHandler : MonoBehaviour
 
         // hide this game object
         gameObject.SetActive(false);
-        StopCoroutine(CountDownStartMatch());
+        StopCoroutine(CountdownStartGame());
     }
 
     /// <summary>
     /// Co-routine to countdown the end of a match.
     /// </summary>
     /// <returns></returns>
-    IEnumerator CountDownEndMatch()
+    IEnumerator CountdownEndGame()
     {
-        int counter = countDownEndMatch;
+        int counter = countdownEndGame;
 
         while (true)
         {
             if (counter != 0)
-                countDownText.text = counter.ToString();
+                countdownText.text = counter.ToString();
             else
             {
-                countDownText.text = "TIME!";
+                countdownText.text = "TIME!";
                 GameManager.instance.SetGameStateGameOver();
                 break;
             }

@@ -56,6 +56,13 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
         {
             Debug.Log("OnPlayerJoined we are server. Spawning player");
             runner.Spawn(playerPrefab, GetRandomSpawnPoint(), Quaternion.identity, player);
+
+            #region (Jason) Start Game by switching GameState
+            // later, this call is when the character select is done,
+            // both players have spawned, and the match should be ready to start.
+            //GameManager.instance.gameObject.SetActive(true);
+            CountdownController.instance.BeginStartGameCountdown();
+            #endregion
         }
         else Debug.Log("OnPlayerJoined");
     }
@@ -64,17 +71,17 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
 
-        Debug.Log("OnInput");
+        //Debug.Log("OnInput");
         if (localCharacterControlHandler == null && NetworkPlayer.Local != null)
         {
             localCharacterControlHandler = NetworkPlayer.Local.GetComponent<NetworkCharacterControlHandler>();
-            Debug.Log("localCharacterControlHandler gotten");
+            //Debug.Log("localCharacterControlHandler gotten");
         }
 
         if (localCharacterControlHandler != null)
         {
             input.Set(localCharacterControlHandler.GetNetworkInput());
-            Debug.Log("localCharacterControlHandler inputs sent");
+            //Debug.Log("localCharacterControlHandler inputs sent");
         }
     }
 
