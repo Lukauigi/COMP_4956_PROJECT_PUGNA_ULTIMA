@@ -84,7 +84,7 @@ public class PlayerItemController : NetworkBehaviour
         if (!_playerItem) _playerItem = GetComponent<PlayerItem>();
         if(!_ncc) _ncc = GetComponent<NetworkCharacterControllerPrototype>();
         if(!_nt ) _nt = GetComponent<NetworkTransform>();
-        if(!_playerObserver) _playerObserver = GameManager.instance.gameObject.GetComponent<PlayerItemObserver>();
+        if (!_playerObserver) _playerObserver = PlayerItemObserver.Observer;
         //if(!_networkRunnerCallbacks) _networkRunnerCallbacks = gameObject.AddComponent<PlayerItemRunnerCallbacks>();
 
         selected = 0;
@@ -102,12 +102,12 @@ public class PlayerItemController : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         Avatar.color = Colors[selected];
-        if(Runner.IsServer)
+        if(!isLocal)
         {
-            // Debug.Log("Entered PlayerItemFixedUpdateNetwork from Server Host");
-            // Debug.Log("Calling PlayerItemObserver RPC Method START------->");
+            Debug.Log("Entered PlayerItemFixedUpdateNetwork from Server Host");
+            Debug.Log("Calling PlayerItemObserver RPC Method START------->");
             Debug.Log("Observer Object In Item Controller----- :" + _playerObserver);
-            //_playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, !isLocal);
+            _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, !isLocal);
            // Debug.Log("Calling PlayerItemObserver RPC Method END------->");
 
         }
@@ -142,7 +142,9 @@ public class PlayerItemController : NetworkBehaviour
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_SpawnSelectedPrefab()
     {
+        Debug.Log("Entering SelectBtn Click method of ID:" + PlayerPrefs.GetInt("ClientID"));
         isReady = true;
+        Debug.Log("isReady? : " + isReady);
         //Vector3 spawnLocation = new Vector3(0, 0, 0);
         //Runner.Spawn(CharacterPrefabs[selected], spawnLocation, Quaternion.identity, PlayerPrefs.GetInt("ClientID"));
     }

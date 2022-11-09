@@ -28,6 +28,7 @@ public class PlayerItemObserver : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
+        Debug.Log("PlayerItemObserver.cs : FixedUpdateNetwork() cycle");
         //Both players are ready, Host connection runs this code
         if (PlayerOneReady && PlayerTwoReady && Runner.IsServer)
         {
