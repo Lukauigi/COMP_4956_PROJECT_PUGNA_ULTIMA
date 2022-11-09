@@ -27,7 +27,8 @@ public class PlayerItemController : NetworkBehaviour
     [SerializeField] private NetworkObject[] CharacterPrefabs;
     [SerializeField] private int selected;
 
-    public bool isLocal = false;
+    public bool isLocal = true;
+    public bool clientJoined{get; set;}
 
     /// <summary>
     /// Author: Roswell Doria
@@ -39,6 +40,7 @@ public class PlayerItemController : NetworkBehaviour
     public void Awake()
     {
         CacheComponents();
+        
     }
 
     /// <summary>
@@ -57,6 +59,11 @@ public class PlayerItemController : NetworkBehaviour
             nextBtn.SetActive(false);
             prevBtn.SetActive(false);
         }
+
+        if (!Object.HasStateAuthority) clientJoined = true;
+        if (Object.HasStateAuthority) clientJoined = false;
+        if (clientJoined) RPC_UpdatePlayerJoined();
+        
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
 
@@ -77,6 +84,7 @@ public class PlayerItemController : NetworkBehaviour
 
         selected = 0;
         //if(!_color) _color = GetComponent<NetworkColor>();
+        
     }
 
     /// <summary>
@@ -89,10 +97,11 @@ public class PlayerItemController : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         Avatar.color = Colors[selected];
-        if (isLocal)
-        {
-            RPC_ChangeAvatar(Avatar.color);
-        }
+        // if (isLocal)
+        // {
+        //     RPC_ChangeAvatar(Avatar.color);
+        // }
+        
     }
 
     /// <summary>
@@ -108,6 +117,12 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_ChangeAvatar(Color selectedColor)
     {
         Avatar.color = selectedColor;
+    }
+
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_UpdatePlayerJoined()
+    {
+        CountdownController.instance.BeginStartGameCountdown();
     }
 
     /// <summary>

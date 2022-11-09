@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbacks
 {
+    private Boolean _player1Joined = false;
+    private Boolean _player2Joined = false;
     public void OnEnable()
     {
         Debug.Log("Entered Enabled!");
@@ -43,7 +45,20 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input){ }
 
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player){ }
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    {
+        if (Runner.IsServer)
+        {
+            Debug.Log("Player 1 Joined - Server");
+            _player1Joined = true;
+        }
+        if (Runner.IsClient)
+        {
+            Debug.Log("Player 2 Joined - Client");
+            _player2Joined = true;
+        }
+        
+    }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player){ }
 
