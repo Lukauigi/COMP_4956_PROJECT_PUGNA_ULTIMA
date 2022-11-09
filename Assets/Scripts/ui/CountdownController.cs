@@ -48,11 +48,11 @@ public class CountdownController : MonoBehaviour
     void Start()
     {
         countdownText.text = "";
-        //StartCoroutine(CountdownStartGame());
     }
 
     public void BeginStartGameCountdown()
     {
+        countdownText.text = "";
         StartCoroutine(CountdownStartGame());
     }
 
@@ -102,7 +102,7 @@ public class CountdownController : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
 
         // hide this game object
-        gameObject.SetActive(false);
+        countdownText.text = "";
         StopCoroutine(CountdownStartGame());
     }
 

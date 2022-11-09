@@ -29,11 +29,11 @@ public class GameManager : MonoBehaviour
         // set static object
         if (instance == null)
             instance = this;
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        //else if (instance != this)
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
         DontDestroyOnLoad(gameObject);
     }
 
@@ -81,22 +81,22 @@ public class GameManager : MonoBehaviour
         // - trigger endGame state to end the game, gather win/lose results, and move to the next screen.
     }
 
-    // This function is called when the object becomes enabled and active
-    private void OnEnable()
-    {
-        // TODO: ensure GameManager is enabled only after BOTH network players are fully loaded in.
+    //// This function is called when the object becomes enabled and active
+    //private void OnEnable()
+    //{
+    //    // TODO: ensure GameManager is enabled only after BOTH network players are fully loaded in.
 
-        // initialize event
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+    //    // initialize event
+    //    SceneManager.sceneLoaded += OnSceneLoaded;
+    //}
 
-    /// <summary>
-    /// OnSceneLoaded Event. Start GameManager by starting the countdown.
-    /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="mode"></param>
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        SetGameStateWaiting();
-    }
+    ///// <summary>
+    ///// OnSceneLoaded Event. Start GameManager by starting the countdown.
+    ///// </summary>
+    ///// <param name="scene"></param>
+    ///// <param name="mode"></param>
+    //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    SetGameStateRunning();
+    //}
 }

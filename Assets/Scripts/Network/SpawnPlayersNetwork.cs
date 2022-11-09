@@ -40,6 +40,8 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
         else return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
     }
 
+
+
     public void OnConnectedToServer(NetworkRunner runner)
     {
         if (runner.Topology == SimulationConfig.Topologies.Shared)
@@ -57,10 +59,9 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
             Debug.Log("OnPlayerJoined we are server. Spawning player");
             runner.Spawn(playerPrefab, GetRandomSpawnPoint(), Quaternion.identity, player);
 
-            #region (Jason) Start Game by switching GameState
+            #region (Jason) Start Game by starting the game countdown
             // later, this call is when the character select is done,
             // both players have spawned, and the match should be ready to start.
-            //GameManager.instance.gameObject.SetActive(true);
             CountdownController.instance.BeginStartGameCountdown();
             #endregion
         }

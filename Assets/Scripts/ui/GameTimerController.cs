@@ -21,18 +21,18 @@ public class GameTimerController : MonoBehaviour
 
     // Unity UI Text to update the Match Timer
     //public Text gameTimerText;
-    public TMPro.TextMeshProUGUI matchTimerText;
+    public TMPro.TextMeshProUGUI gameTimerText;
 
     // Length of a Game Match
     //private TimeSpan durationLeft = new TimeSpan(0, 8, 0);
 
     // Length before the game ending Countdown should begin
     // testing: 1 minute game length
-    private TimeSpan startCountDownFinishMatch = new TimeSpan(0, 1, 0);
+    private TimeSpan startCountdownToFinishGame = new TimeSpan(0, 1, 0);
 
     private TimeSpan timePlaying;
 
-    private bool timerGoing;
+    private bool timerRunning;
 
     private float elapsedTime;
 
@@ -56,10 +56,9 @@ public class GameTimerController : MonoBehaviour
     private void Start()
     {
         // initially hide this game object
-        gameObject.SetActive(false);
+        gameTimerText.text = "";
 
-        matchTimerText.text = "00:00.00";
-        timerGoing = false;
+        timerRunning = false;
     }
 
     /// <summary>
@@ -67,9 +66,7 @@ public class GameTimerController : MonoBehaviour
     /// </summary>
     public void StartTimer()
     {
-        // show this game object
-        gameObject.SetActive(true);
-        timerGoing = true;
+        timerRunning = true;
         elapsedTime = 0f;
 
         StartCoroutine(UpdateTimer());
@@ -80,7 +77,7 @@ public class GameTimerController : MonoBehaviour
     /// </summary>
     public void EndTimer()
     {
-        timerGoing = false;
+        timerRunning = false;
     }
 
     /// <summary>
@@ -89,16 +86,16 @@ public class GameTimerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator UpdateTimer()
     {
-        while (timerGoing)
+        while (timerRunning)
         {
             // TODO: BUG - make match timer countdown instead of counting up
             elapsedTime += Time.deltaTime;
             timePlaying = TimeSpan.FromSeconds(elapsedTime);
-            string matchTimerStr = timePlaying.ToString("mm':'ss'.'ff");
-            matchTimerText.text = matchTimerStr;
+            string gameTimerString = timePlaying.ToString("mm':'ss'.'ff");
+            gameTimerText.text = gameTimerString;
 
             // display ending countdown when the Game Match is about to end
-            if (timePlaying > startCountDownFinishMatch)
+            if (timePlaying > startCountdownToFinishGame)
             {
                 CountdownController.instance.BeginEndGameCountdown();
                 break;
@@ -108,7 +105,7 @@ public class GameTimerController : MonoBehaviour
         }
 
         // hide Match Timer at the end of the co-routine; Game ending countdown is displayed instead
-        gameObject.SetActive(false);
+        gameTimerText.text = "";
     }
 
 }
