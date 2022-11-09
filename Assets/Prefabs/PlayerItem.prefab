@@ -1116,7 +1116,7 @@ MonoBehaviour:
   - {r: 0.08218223, g: 0.764151, b: 0.09437889, a: 1}
   - {r: 0.9056604, g: 0.85926586, b: 0.071769245, a: 1}
   CharacterPrefabs:
-  - {fileID: 7408881512176793842, guid: 33975cc2d6e5cfd4cb09708d6ae740be, type: 3}
+  - {fileID: 6050059081701548800, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
   - {fileID: 7408881512176793842, guid: 378186d76c9a4d743a5340f63bf026f5, type: 3}
   - {fileID: 7408881512176793842, guid: 0df462f0b37545d4eb5d0304e2d85138, type: 3}
   selected: 0
@@ -1271,7 +1271,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3727747653973368761}
         m_TargetAssemblyTypeName: PlayerItemController, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: RPC_SpawnSelectedPrefab
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

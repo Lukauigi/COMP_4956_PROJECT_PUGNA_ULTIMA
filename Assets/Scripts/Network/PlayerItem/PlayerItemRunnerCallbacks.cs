@@ -9,6 +9,9 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
 {
     private Boolean _player1Joined = false;
     private Boolean _player2Joined = false;
+
+    private NetworkCharacterControlHandler localCharacterControlHandler;
+
     public void OnEnable()
     {
         Debug.Log("Entered Enabled!");
@@ -41,12 +44,17 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken){ }
 
-    public void OnInput(NetworkRunner runner, NetworkInput input){ }
+    public void OnInput(NetworkRunner runner, NetworkInput input)
+    {
+
+    }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input){ }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+        Debug.Log("PlayerID Joined:" + player.PlayerId);
+        PlayerPrefs.SetInt("ClientID", player.PlayerId);
         if (Runner.IsServer)
         {
             Debug.Log("Player 1 Joined - Server");

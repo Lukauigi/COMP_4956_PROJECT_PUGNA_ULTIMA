@@ -63,7 +63,7 @@ public class PlayerItemController : NetworkBehaviour
         if (!Object.HasStateAuthority) clientJoined = true;
         if (Object.HasStateAuthority) clientJoined = false;
         if (clientJoined) RPC_UpdatePlayerJoined();
-        
+
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
 
@@ -122,7 +122,14 @@ public class PlayerItemController : NetworkBehaviour
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_UpdatePlayerJoined()
     {
-        CountdownController.instance.BeginStartGameCountdown();
+        //CountdownController.instance.BeginStartGameCountdown();
+    }
+
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_SpawnSelectedPrefab()
+    {
+        Vector3 spawnLocation = new Vector3(0, 0, 0);
+        Runner.Spawn(CharacterPrefabs[selected], spawnLocation, Quaternion.identity, PlayerPrefs.GetInt("ClientID"));
     }
 
     /// <summary>

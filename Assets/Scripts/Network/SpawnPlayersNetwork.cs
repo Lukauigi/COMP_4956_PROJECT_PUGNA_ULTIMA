@@ -52,20 +52,27 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    /// <summary>
+    /// 
+    /// Changes: Ross 2022-11-09
+    /// Commented this section out. PlayerItemRunnerCallbacks now controls when the object is spawned.
+    /// </summary>
+    /// <param name="runner"></param>
+    /// <param name="player"></param>
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        if (runner.IsServer)
-        {
-            Debug.Log("OnPlayerJoined we are server. Spawning player");
-            runner.Spawn(playerPrefab, GetRandomSpawnPoint(), Quaternion.identity, player);
+        //if (runner.IsServer)
+        //{
+        //    Debug.Log("OnPlayerJoined we are server. Spawning player");
+        //    runner.Spawn(playerPrefab, GetRandomSpawnPoint(), Quaternion.identity, player);
 
-            #region (Jason) Start Game by starting the game countdown
-            // later, this call is when the character select is done,
-            // both players have spawned, and the match should be ready to start.
-            CountdownController.instance.BeginStartGameCountdown();
-            #endregion
-        }
-        else Debug.Log("OnPlayerJoined");
+        //    #region (Jason) Start Game by starting the game countdown
+        //    // later, this call is when the character select is done,
+        //    // both players have spawned, and the match should be ready to start.
+        //    CountdownController.instance.BeginStartGameCountdown();
+        //    #endregion
+        //}
+        //else Debug.Log("OnPlayerJoined");
     }
 
     // Ideally should be in a separate script, InputProvider. https://doc.photonengine.com/en-us/fusion/current/manual/network-input#buttons
