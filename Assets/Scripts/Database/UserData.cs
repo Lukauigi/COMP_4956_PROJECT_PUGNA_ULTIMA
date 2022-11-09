@@ -7,10 +7,11 @@ using System;
 
 /// <summary>
 /// Database portion of the script
-/// Author(s): Eric Kwon
+/// Author(s): Justin Payne, Eric Kwon
 /// Date: - Oct 29 2022
 /// Source(s): 
 /// 	  https://www.youtube.com/watch?v=DQWYMfZyMNU&list=PL1aAeF6bPTB4oP-Tejys3n8P8iXlj7uj-&ab_channel=CocoCode
+/// 	  https://learn.microsoft.com/en-us/gaming/playfab/features/data/playerdata/quickstart
 /// Remarks: (
 /// Change History: 10/29/2022, Eric, added the leaderboard function
 /// </summary>
@@ -39,25 +40,24 @@ public static class UserData
             Keys = null
         }, result => {
             Debug.Log("Got user data:");
-            //if (result.Data == null || !result.Data.ContainsKey("Info")) Debug.Log("No Info");
-            //else Debug.Log("Info: " + result.Data["Info"].Value);
             Debug.Log("Database data: " + result.Data[key].Value);
         }, (error) => {
             Debug.Log(error.GenerateErrorReport());
         });
     }
-    public static void SendBattleStats(int ELO, int matchesPlayed, int winRate)
+
+    public static void SendLeaderboard(int score)
     {
         var request = new UpdatePlayerStatisticsRequest
         {
             Statistics = new List<StatisticUpdate>
-            {
-                new StatisticUpdate
                 {
-                    StatisticName ="battleStat",
-                    Value = winRate,
+                    new StatisticUpdate
+                    {
+                        StatisticName ="MostWins",
+                        Value = score,
+                    }
                 }
-            }
         };
         PlayFabClientAPI.UpdatePlayerStatistics(request, onleaderboardUpdate, OnError);
     }
@@ -69,23 +69,27 @@ public static class UserData
 
     private static void onleaderboardUpdate(UpdatePlayerStatisticsResult result)
     {
-        Debug.Log("sent BattleStats");
+        Debug.Log("Successfull leaderboard sent");
     }
 
-    public static void GetBattleStats(int damageTaken, int damageDealt, int winRate)
+    public static void GetLeaderboard()
     {
         var request = new GetLeaderboardRequest
         {
-            StatisticName = "battleStat",
+            StatisticName = "MostWins",
             StartPosition = 0,
             MaxResultsCount = 10
         };
-        PlayFabClientAPI.GetLeaderboard(request, onleaderboardGet, OnError);
+        PlayFabClientAPI.GetLeaderboard(request, onLeaderboardGet, OnError);
     }
-    private static void onleaderboardGet(GetLeaderboardResult result)
+    private static void onLeaderboardGet(GetLeaderboardResult result)
     {
-        Debug.Log("sent BattleStats");
+        Debug.Log("Recieved leaderboard");
+        foreach (var item in result.Leaderboard) {
+            Debug.Log(item.Position + " " + item.PlayFabId + " " + item.StatValue);
+        }
     }
+
 }
 
 
