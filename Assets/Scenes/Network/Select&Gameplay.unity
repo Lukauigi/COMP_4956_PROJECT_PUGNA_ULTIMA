@@ -2247,6 +2247,7 @@ GameObject:
   - component: {fileID: 1711816414}
   - component: {fileID: 1711816417}
   - component: {fileID: 1711816416}
+  - component: {fileID: 1711816418}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2330,7 +2331,25 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1711816416}
+  - {fileID: 1711816418}
   SimulationBehaviours: []
+--- !u!114 &1711816418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3368cf84e6b12754db03d5547a0b09db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  CharacterPrefabs:
+  - {fileID: 7408881512176793842, guid: 33975cc2d6e5cfd4cb09708d6ae740be, type: 3}
+  - {fileID: 7408881512176793842, guid: 378186d76c9a4d743a5340f63bf026f5, type: 3}
+  - {fileID: 7408881512176793842, guid: 0df462f0b37545d4eb5d0304e2d85138, type: 3}
 --- !u!1 &1727767005
 GameObject:
   m_ObjectHideFlags: 0

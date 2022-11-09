@@ -17,6 +17,7 @@ public class PlayerItemController : NetworkBehaviour
     protected NetworkCharacterControllerPrototype _ncc;
     protected PlayerItem _playerItem;
     protected NetworkTransform _nt;
+    protected PlayerItemObserver _playerObserver;
     //protected NetworkBehaviour _networkRunnerCallbacks;
 
     [SerializeField] private Image Avatar;
@@ -29,6 +30,7 @@ public class PlayerItemController : NetworkBehaviour
 
     public bool isLocal = true;
     public bool clientJoined{get; set;}
+    public bool isReady { get; set;}
 
     /// <summary>
     /// Author: Roswell Doria
@@ -62,7 +64,9 @@ public class PlayerItemController : NetworkBehaviour
 
         if (!Object.HasStateAuthority) clientJoined = true;
         if (Object.HasStateAuthority) clientJoined = false;
-        if (clientJoined) RPC_UpdatePlayerJoined();
+       // if (clientJoined) RPC_UpdatePlayerJoined();
+
+        isReady = false;
 
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
@@ -80,6 +84,7 @@ public class PlayerItemController : NetworkBehaviour
         if (!_playerItem) _playerItem = GetComponent<PlayerItem>();
         if(!_ncc) _ncc = GetComponent<NetworkCharacterControllerPrototype>();
         if(!_nt ) _nt = GetComponent<NetworkTransform>();
+        if(!_playerObserver) _playerObserver = GameManager.instance.gameObject.GetComponent<PlayerItemObserver>();
         //if(!_networkRunnerCallbacks) _networkRunnerCallbacks = gameObject.AddComponent<PlayerItemRunnerCallbacks>();
 
         selected = 0;
@@ -97,6 +102,15 @@ public class PlayerItemController : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         Avatar.color = Colors[selected];
+        if(Runner.IsServer)
+        {
+            // Debug.Log("Entered PlayerItemFixedUpdateNetwork from Server Host");
+            // Debug.Log("Calling PlayerItemObserver RPC Method START------->");
+            Debug.Log("Observer Object In Item Controller----- :" + _playerObserver);
+            //_playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, !isLocal);
+           // Debug.Log("Calling PlayerItemObserver RPC Method END------->");
+
+        }
         // if (isLocal)
         // {
         //     RPC_ChangeAvatar(Avatar.color);
@@ -128,8 +142,9 @@ public class PlayerItemController : NetworkBehaviour
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_SpawnSelectedPrefab()
     {
-        Vector3 spawnLocation = new Vector3(0, 0, 0);
-        Runner.Spawn(CharacterPrefabs[selected], spawnLocation, Quaternion.identity, PlayerPrefs.GetInt("ClientID"));
+        isReady = true;
+        //Vector3 spawnLocation = new Vector3(0, 0, 0);
+        //Runner.Spawn(CharacterPrefabs[selected], spawnLocation, Quaternion.identity, PlayerPrefs.GetInt("ClientID"));
     }
 
     /// <summary>
