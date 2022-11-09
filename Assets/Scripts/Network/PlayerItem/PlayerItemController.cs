@@ -17,11 +17,14 @@ public class PlayerItemController : NetworkBehaviour
     protected NetworkCharacterControllerPrototype _ncc;
     protected PlayerItem _playerItem;
     protected NetworkTransform _nt;
+    //protected NetworkBehaviour _networkRunnerCallbacks;
 
     [SerializeField] private Image Avatar;
     [SerializeField] private GameObject nextBtn;
     [SerializeField] private GameObject prevBtn;
+    [SerializeField] private GameObject selectBtn;
     [SerializeField] private Color[] Colors;
+    [SerializeField] private NetworkObject[] CharacterPrefabs;
     [SerializeField] private int selected;
 
     public bool isLocal = false;
@@ -54,6 +57,9 @@ public class PlayerItemController : NetworkBehaviour
             nextBtn.SetActive(false);
             prevBtn.SetActive(false);
         }
+        //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
+
+
     }
 
     /// <summary>
@@ -67,6 +73,7 @@ public class PlayerItemController : NetworkBehaviour
         if (!_playerItem) _playerItem = GetComponent<PlayerItem>();
         if(!_ncc) _ncc = GetComponent<NetworkCharacterControllerPrototype>();
         if(!_nt ) _nt = GetComponent<NetworkTransform>();
+        //if(!_networkRunnerCallbacks) _networkRunnerCallbacks = gameObject.AddComponent<PlayerItemRunnerCallbacks>();
 
         selected = 0;
         //if(!_color) _color = GetComponent<NetworkColor>();
