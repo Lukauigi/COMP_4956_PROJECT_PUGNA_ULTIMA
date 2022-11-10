@@ -6,6 +6,14 @@ using PlayFab.ClientModels;
 using UnityEngine.SceneManagement;
 using static UserData;
 
+/// <summary>
+/// Author: Jashanpreet Singh
+/// Date: 2020-02-20
+///
+/// This class is manages the login/registration process for the player.
+/// This is a singleton class.
+/// It makes sure only one instance of the class is created.
+/// </summary>
 public class AccountManager : MonoBehaviour
 {
     /*
@@ -14,6 +22,12 @@ public class AccountManager : MonoBehaviour
     
     public static AccountManager Instance;
 
+    /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-02-20
+    /// 
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     public void Awake()
     {
 
@@ -21,6 +35,9 @@ public class AccountManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
+    /// 
     /// This method creates/registers the user in the Playfab DB.
     /// </summary>
     /// <param name="Username"> a string </param>
@@ -53,6 +70,8 @@ public class AccountManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
     /// This method logs the user in.
     /// </summary>
     /// <param name="Username"> a string </param>
@@ -97,11 +116,17 @@ public class AccountManager : MonoBehaviour
 }
 
 /// <summary>
+/// Author: Jashanpreet Singh
+/// Date: 2020-10-20
+/// 
 /// This class saves the PlayfabId to the PlayerPrefs.
 /// </summary>
 public static class PlayerPrefsManager
 {
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
+    /// 
     /// Sets the PlayfabId to the PlayerPrefs.
     /// </summary>
     /// <param name="playfabId"> a string </param>
@@ -111,6 +136,9 @@ public static class PlayerPrefsManager
     }
 
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
+    /// 
     /// Gets the PlayfabId from the PlayerPrefs.
     /// </summary>
     /// <returns>PlayfabID -> a string </returns>

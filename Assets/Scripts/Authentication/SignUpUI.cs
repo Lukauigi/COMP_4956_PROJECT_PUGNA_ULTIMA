@@ -21,6 +21,9 @@ public class SignUpUI : MonoBehaviour
     /*[SerializeField] public Button Submit;*/
 
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
+    /// 
     /// Sign up a new user
     /// </summary>
     public void CreateAccount()
@@ -30,6 +33,9 @@ public class SignUpUI : MonoBehaviour
     }
     
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
+    /// 
     /// Navigate back to the main menu
     /// </summary>
     public void NavigateBackToHome()
