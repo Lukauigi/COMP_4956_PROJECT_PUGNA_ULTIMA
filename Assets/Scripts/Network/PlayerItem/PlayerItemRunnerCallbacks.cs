@@ -9,6 +9,7 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
 {
     private Boolean _player1Joined = false;
     private Boolean _player2Joined = false;
+    
 
     private NetworkCharacterControlHandler localCharacterControlHandler;
 
@@ -53,18 +54,30 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        Debug.Log("PlayerID Joined:" + player.PlayerId);
-        PlayerPrefs.SetInt("ClientID", player.PlayerId);
-        if (Runner.IsServer)
+        
+        // Debug.Log("PlayerID Joined:" + player.PlayerId);
+        if (!_player1Joined)
         {
             Debug.Log("Player 1 Joined - Server");
-            _player1Joined = true;
+            Debug.Log("PlayerID Joined:" + player.PlayerId);
+            PlayerPrefs.SetInt("HostID", player.PlayerId);
+                _player1Joined = true;
         }
-        if (Runner.IsClient)
+        else if (!_player2Joined)
         {
-            Debug.Log("Player 2 Joined - Client");
+            Debug.Log("Player 2 Joined - Server");
+            Debug.Log("PlayerID Joined:" + player.PlayerId);
+            PlayerPrefs.SetInt("ClientID", player.PlayerId);
             _player2Joined = true;
         }
+        // if (Runner.IsClient)
+        // {
+        //     Debug.Log("Player 2 Joined - Client");
+        //     Debug.Log("PlayerID Joined:" + player.PlayerId);
+        //     _player2Joined = true;
+        //     PlayerPrefs.SetInt("ClientID", player.PlayerId);
+        //
+        // }
         
     }
 

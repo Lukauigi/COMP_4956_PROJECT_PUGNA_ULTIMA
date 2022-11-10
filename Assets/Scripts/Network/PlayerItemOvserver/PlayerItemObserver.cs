@@ -20,6 +20,8 @@ public class PlayerItemObserver : NetworkBehaviour
     private int PlayerOneRef = 0;
     private int PlayerTwoRef = 0;
 
+    private bool Spawned = false;
+    
     public void Awake()
     {
         Debug.Log("Observer Null: " + Observer);
@@ -28,21 +30,29 @@ public class PlayerItemObserver : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        Debug.Log("PlayerItemObserver.cs : FixedUpdateNetwork() cycle");
+        Debug.Log("PlayerOneReady: " + PlayerOneReady);
+        Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
         //Both players are ready, Host connection runs this code
-        if (PlayerOneReady && PlayerTwoReady && Runner.IsServer)
+        if (PlayerOneReady && PlayerTwoReady && Runner.IsServer && !Spawned)
         {
+            
+            Debug.Log("PlayerItemObserver.cs : Both players are ready, Host connection runs this code");
             // Despawn Player one and player two character select objects
             RPC_DespawnPlayerItems(PlayerOneRef, PlayerTwoRef);
             // Spawn Player one and player two selected characters
             RPC_SpawnBothPlayers(PlayerOneIndexSelect, PlayerTwoIndexSelect, PlayerOneRef, PlayerTwoRef);
+            Spawned = true;
+            
+            CountdownController.instance.BeginStartGameCountdown();
             // Start Countdown timer ( Change game state )
         }
     }
 
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost)
     { 
+        Debug.Log("PlayerItemObserver.cs : RPC_SetPlayerReady() cycle");
+        Debug.Log("PlayerRefIndex: " + playerRefIndex);
         if(isHost)
         {
             PlayerOneRef = playerRefIndex;
@@ -56,6 +66,7 @@ public class PlayerItemObserver : NetworkBehaviour
             PlayerTwoReady = true;
 
         }
+        
     }
 
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]

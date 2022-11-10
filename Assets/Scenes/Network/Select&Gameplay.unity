@@ -1682,7 +1682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   CharacterPrefabs:
-  - {fileID: 7408881512176793842, guid: 33975cc2d6e5cfd4cb09708d6ae740be, type: 3}
+  - {fileID: 6050059081701548800, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
   - {fileID: 7408881512176793842, guid: 378186d76c9a4d743a5340f63bf026f5, type: 3}
   - {fileID: 7408881512176793842, guid: 0df462f0b37545d4eb5d0304e2d85138, type: 3}
 --- !u!114 &976004377

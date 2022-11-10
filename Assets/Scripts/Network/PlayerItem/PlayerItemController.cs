@@ -31,6 +31,9 @@ public class PlayerItemController : NetworkBehaviour
     public bool isLocal = true;
     public bool clientJoined{get; set;}
     public bool isReady { get; set;}
+    
+    public bool isHost { get; set; }
+    public bool isClient { get; set; }
 
     /// <summary>
     /// Author: Roswell Doria
@@ -76,7 +79,7 @@ public class PlayerItemController : NetworkBehaviour
     /// <summary>
     /// Author: Roswell Doria
     /// 
-    /// Helper function to Initilize components.
+    /// Helper function to Initialize components.
     ///
     /// </summary>
     private void CacheComponents()
@@ -101,15 +104,26 @@ public class PlayerItemController : NetworkBehaviour
     /// </summary>
     public override void FixedUpdateNetwork()
     {
+        
         Avatar.color = Colors[selected];
+        if (isClient)
+        {
+            Debug.Log("Client is Local------------------------------------------------------------------------");
+            
+            _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal);
+        }
+        else if(isHost)
+        {
+            Debug.Log("Host is Local -------------------------------------------------------------------------");
+            _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal);
+        }
         if(!isLocal)
         {
-            Debug.Log("Entered PlayerItemFixedUpdateNetwork from Server Host");
-            Debug.Log("Calling PlayerItemObserver RPC Method START------->");
-            Debug.Log("Observer Object In Item Controller----- :" + _playerObserver);
-            _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, !isLocal);
+            // Debug.Log("Entered PlayerItemFixedUpdateNetwork from Server Host");
+            // Debug.Log("Calling PlayerItemObserver RPC Method START------->");
+            // Debug.Log("Observer Object In Item Controller----- :" + _playerObserver);
+            // _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal);
            // Debug.Log("Calling PlayerItemObserver RPC Method END------->");
-
         }
         // if (isLocal)
         // {
@@ -143,7 +157,19 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_SpawnSelectedPrefab()
     {
         Debug.Log("Entering SelectBtn Click method of ID:" + PlayerPrefs.GetInt("ClientID"));
+        Debug.Log("Entering SelectBtn Click method of ID:" + PlayerPrefs.GetInt("HostID"));
         isReady = true;
+        Debug.Log("Object has Input Authority: ->>>>>>"+Object.HasInputAuthority);
+        if (!Object.HasInputAuthority)
+        {
+            Debug.Log("Clicked Select  from Client");
+            isClient = true;
+        }
+        else if (Object.HasInputAuthority)
+        {
+            Debug.Log("Clicked Select from Server");
+            isHost = true;
+        }
         Debug.Log("isReady? : " + isReady);
         //Vector3 spawnLocation = new Vector3(0, 0, 0);
         //Runner.Spawn(CharacterPrefabs[selected], spawnLocation, Quaternion.identity, PlayerPrefs.GetInt("ClientID"));
