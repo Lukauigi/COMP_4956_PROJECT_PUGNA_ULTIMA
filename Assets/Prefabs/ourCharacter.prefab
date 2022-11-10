@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 7739673853743360534}
   - component: {fileID: 9067251257825840559}
   - component: {fileID: 6492338790765148509}
+  - component: {fileID: 9118863558597344364}
   m_Layer: 0
   m_Name: ourCharacter
   m_TagString: Player
@@ -504,14 +505,14 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.25}
+  m_Offset: {x: 0, y: 0.9}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -5.5560846, y: -1.7177914}
+  - {x: -0.71538997, y: -1.7177914}
   - {x: -0.105644226, y: -1.7177913}
   - {x: -0.0238446, y: -1.7177913}
-  - {x: 0.8759508, y: -1.7177913}
-  - {x: 6.905777, y: -1.7177913}
+  - {x: 0.53822786, y: -1.7177913}
+  - {x: 0.71419096, y: -1.699029}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -682,6 +683,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9118863558597344364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590790387576107922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c767648632d6754facad3c6651760a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
 --- !u!1 &6613123950086126393
 GameObject:
   m_ObjectHideFlags: 0
