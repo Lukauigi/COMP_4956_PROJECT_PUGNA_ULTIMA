@@ -182,10 +182,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 502517741467019153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c313d11353529e8488f351d7f1c55c0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c767648632d6754facad3c6651760a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
+  input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
 --- !u!114 &6050059081701548800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,12 +208,10 @@ MonoBehaviour:
     RawGuidValue: ac53ec156a706af41aa356466ed39fd5
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 6050059081701548858}
   - {fileID: 1022839357175312393}
   - {fileID: 261806375952415378}
   - {fileID: 261806375952415372}
   - {fileID: 747335961585469154}
-  - {fileID: 7201283148702718108}
   SimulationBehaviours: []
 --- !u!114 &1022839357175312393
 MonoBehaviour:
@@ -450,7 +448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c767648632d6754facad3c6651760a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
 --- !u!1 &1600593237929189530
 GameObject:

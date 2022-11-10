@@ -213,7 +213,6 @@ MonoBehaviour:
   - {fileID: 261806375952415378}
   - {fileID: 261806375952415372}
   - {fileID: 747335961585469154}
-  - {fileID: 7201283148702718108}
   SimulationBehaviours: []
 --- !u!114 &1022839357175312393
 MonoBehaviour:
@@ -257,8 +256,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: -0.8}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.5625, y: 0.859375}
-  - {x: 1.5625, y: 0.859375}
+  - {x: -0.37536895, y: 0.91190296}
+  - {x: 0.38587403, y: 0.9119029}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -422,7 +421,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  input: {fileID: 0}
   playerCollider: {fileID: 8890905694752838623}
 --- !u!114 &4977875603341989461
 MonoBehaviour:
@@ -450,7 +448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c767648632d6754facad3c6651760a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
 --- !u!1 &1600593237929189530
 GameObject:
