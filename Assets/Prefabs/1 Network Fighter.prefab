@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8774222310954261550}
   - component: {fileID: 5687865375931512195}
   - component: {fileID: 8890905694752838623}
-  - component: {fileID: 6050059081701548858}
+  - component: {fileID: 5990361418844448480}
   - component: {fileID: 6050059081701548800}
   - component: {fileID: 1022839357175312393}
   - component: {fileID: 261806375952415373}
@@ -173,7 +173,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.73, y: 1.2}
   m_EdgeRadius: 0
---- !u!114 &6050059081701548858
+--- !u!114 &5990361418844448480
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 502517741467019153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c313d11353529e8488f351d7f1c55c0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c87ddd1ff2dfa14d8402cd5a0ace083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
@@ -208,11 +208,12 @@ MonoBehaviour:
     RawGuidValue: cfdd924956e35ec4eba4ea358425457f
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 6050059081701548858}
+  - {fileID: 5990361418844448480}
   - {fileID: 1022839357175312393}
   - {fileID: 261806375952415378}
   - {fileID: 261806375952415372}
   - {fileID: 747335961585469154}
+  - {fileID: 7201283148702718108}
   SimulationBehaviours: []
 --- !u!114 &1022839357175312393
 MonoBehaviour:
@@ -421,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
+  input: {fileID: 0}
   playerCollider: {fileID: 8890905694752838623}
 --- !u!114 &4977875603341989461
 MonoBehaviour:
@@ -449,6 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c767648632d6754facad3c6651760a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
 --- !u!1 &1600593237929189530
 GameObject:

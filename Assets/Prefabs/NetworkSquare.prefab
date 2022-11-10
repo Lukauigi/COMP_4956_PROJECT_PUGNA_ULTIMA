@@ -164,6 +164,7 @@ MonoBehaviour:
   - {fileID: 3794494656330697165}
   - {fileID: 1467075193154803493}
   - {fileID: 547024523295310738}
+  - {fileID: 526407141619947274}
   SimulationBehaviours: []
 --- !u!50 &183737019826773126
 Rigidbody2D:
@@ -297,4 +298,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c767648632d6754facad3c6651760a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}

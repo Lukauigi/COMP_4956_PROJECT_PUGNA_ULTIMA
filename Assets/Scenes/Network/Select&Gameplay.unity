@@ -377,7 +377,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -739,7 +739,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 510978525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 646dc96c5ce3e8347adb0b0764fec74a, type: 3}
+  m_Script: {fileID: 11500000, guid: ba425057c72d42c4b932a048fd288586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   countdownText: {fileID: 1845450427}
@@ -1071,10 +1071,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 649337021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1f4b4973d93b7447a8abff4ce8d3496, type: 3}
+  m_Script: {fileID: 11500000, guid: b794d2a73040e304496580931c173598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 6050059081701548858, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
+  playerPrefab: {fileID: -8105057014191917004, guid: 3ce41908568228a4da9de4cea9e1fde0, type: 3}
 --- !u!1 &677721430
 GameObject:
   m_ObjectHideFlags: 0
@@ -1408,7 +1408,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 726157498}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bccd2561186fa54bab60cdcf82b2650, type: 3}
+  m_Script: {fileID: 11500000, guid: bbf62e054ffd5284391a00df5af66ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameTimerText: {fileID: 15625231}
@@ -2522,7 +2522,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -350}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1845450427
 MonoBehaviour:
@@ -2544,7 +2544,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: TIME!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -2587,7 +2587,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
