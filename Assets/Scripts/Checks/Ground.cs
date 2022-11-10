@@ -15,16 +15,23 @@ public class Ground : MonoBehaviour
     private bool onGround;
     private float friction;
 
+    // reference the animator controller for player
+    public Animator animator;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EvaluateCollision(collision);
         RetrieveFriction(collision);
+
+        Debug.Log("touched grass");
+        animator.SetBool("isJumping", false);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         EvaluateCollision(collision);
         RetrieveFriction(collision);
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -62,6 +69,8 @@ public class Ground : MonoBehaviour
     public bool GetOnGround()
     {
         return onGround;
+
+        animator.SetBool("isJumping", true);
     }
 
     public float GetFriction()

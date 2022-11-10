@@ -9,7 +9,7 @@ public class Jump : NetworkBehaviour
     [SerializeField, Range(0f, 10f)] private float jumpHeight = 1f;
     [SerializeField, Range(0, 2)] private int maxAirJumps = 2; //max 2 jumps
     [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
-    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f; //affects how fast character moves vertically when jumping
+    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 6f; //affects how fast character moves vertically when jumping
 
     private Rigidbody2D body; //detect jump velocity
     private Ground ground; //detect ground
@@ -22,7 +22,10 @@ public class Jump : NetworkBehaviour
     private bool onGround;
 
     private bool desiredJump;
-    
+
+    // reference the animator controller for player
+    public Animator animator;
+
     //public Transform groundCheck;
     //public float checkRadius;
     //public LayerMask whatIsGround;
@@ -67,6 +70,8 @@ public class Jump : NetworkBehaviour
             velocity.y += jumpSpeed;
         }
 
+        // play jumping animation
+        animator.SetBool("isJumping", true);
     }
 
     public override void FixedUpdateNetwork()

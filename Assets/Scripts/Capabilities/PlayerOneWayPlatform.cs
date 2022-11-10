@@ -63,6 +63,10 @@ public class PlayerOneWayPlatform : NetworkBehaviour
         {
             print("platform assigned");
             currentOneWayPlatform = collision.gameObject;
+
+            
+
+
         }
     }
 
