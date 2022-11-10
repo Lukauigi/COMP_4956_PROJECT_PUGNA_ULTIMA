@@ -24,6 +24,7 @@ public class PlayerItemController : NetworkBehaviour
     [SerializeField] private GameObject nextBtn;
     [SerializeField] private GameObject prevBtn;
     [SerializeField] private GameObject selectBtn;
+    [SerializeField] private GameObject diaglogueText;
     [SerializeField] private Color[] Colors;
     [SerializeField] private NetworkObject[] CharacterPrefabs;
     [SerializeField] private int selected;
@@ -63,6 +64,7 @@ public class PlayerItemController : NetworkBehaviour
         {
             nextBtn.SetActive(false);
             prevBtn.SetActive(false);
+            selectBtn.SetActive(false);
         }
 
         if (!Object.HasStateAuthority) clientJoined = true;
@@ -158,7 +160,16 @@ public class PlayerItemController : NetworkBehaviour
     {
         Debug.Log("Entering SelectBtn Click method of ID:" + PlayerPrefs.GetInt("ClientID"));
         Debug.Log("Entering SelectBtn Click method of ID:" + PlayerPrefs.GetInt("HostID"));
+
+        //Set player Ready
         isReady = true;
+        
+        //Disable PlayerItem buttons
+        selectBtn.SetActive(false);
+        nextBtn.SetActive(false);
+        prevBtn.SetActive(false);
+        diaglogueText.SetActive(true);
+
         Debug.Log("Object has Input Authority: ->>>>>>"+Object.HasInputAuthority);
         if (!Object.HasInputAuthority)
         {
