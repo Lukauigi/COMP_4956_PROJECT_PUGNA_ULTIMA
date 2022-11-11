@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class Attack : NetworkBehaviour //change to NetworkBehaviour
+public class Attack : NetworkBehaviour
 {
 
-    public Collider2D[] attackHitboxes;
+    //public Collider2D[] attackHitboxes;
 
 
     //nov 7
@@ -19,6 +19,11 @@ public class Attack : NetworkBehaviour //change to NetworkBehaviour
     void Start()
     {
         attackArea = transform.GetChild(0).gameObject;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+
     }
 
     // Update is called once per frame
@@ -51,10 +56,11 @@ public class Attack : NetworkBehaviour //change to NetworkBehaviour
             iAttack();
         }//If user presses G an attack is launched
          //LaunchAttack(attackHitboxes[0]);*/
+
         if (GetInput(out NetworkInputData data))
         {
             if (data.neutralAttack) {
-                Debug.Log("TEST TEST PRESSING G LOOK AT ME");
+                //Debug.Log("TEST TEST PRESSING G LOOK AT ME");
                 iAttack();
             }
         }
@@ -72,7 +78,15 @@ public class Attack : NetworkBehaviour //change to NetworkBehaviour
         }
     }
 
-    private void LaunchAttack(Collider2D col)
+    //nov 7
+    private void iAttack()
+    {
+        attacking = true;
+        attackArea.SetActive(attacking);
+        //Debug.Log("IATTACK TEST TEST TEST TEST");
+    }
+
+/*    private void LaunchAttack(Collider2D col)
     {
         Collider2D[] cols = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.extents, col.transform.rotation.x, LayerMask.GetMask("Hitbox"));
         foreach (Collider2D c in cols)
@@ -87,14 +101,7 @@ public class Attack : NetworkBehaviour //change to NetworkBehaviour
 
 
         }
-    }
-
-    //nov 7
-    private void iAttack()
-    {
-        attacking = true;
-        attackArea.SetActive(attacking);
-    }
+    }*/
 
     /*    public override void FixedUpdateNetwork()
         {

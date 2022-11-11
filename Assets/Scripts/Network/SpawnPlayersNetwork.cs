@@ -64,7 +64,7 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
 
-        Debug.Log("OnInput");
+        //Debug.Log("OnInput");
         if (localCharacterControlHandler == null && NetworkPlayer.Local != null)
         {
             localCharacterControlHandler = NetworkPlayer.Local.GetComponent<NetworkCharacterControlHandler>();
@@ -74,7 +74,7 @@ public class SpawnPlayersNetwork : MonoBehaviour, INetworkRunnerCallbacks
         if (localCharacterControlHandler != null)
         {
             input.Set(localCharacterControlHandler.GetNetworkInput());
-            Debug.Log("localCharacterControlHandler inputs sent");
+           // Debug.Log("localCharacterControlHandler inputs sent");
         }
     }
 

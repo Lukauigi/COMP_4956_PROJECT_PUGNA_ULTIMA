@@ -31,7 +31,7 @@ public class PlayerController : InputController
 
 
 
-    public override bool RetrieveAttackSideTiltInput()
+   /* public override bool RetrieveAttackSideTiltInput()
     {
 
         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.LeftArrow);
@@ -47,7 +47,7 @@ public class PlayerController : InputController
     {
 
         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.DownArrow);
-    }
+    }*/
 
     // TODO: (for jason) disable player input when GameManager.GameState is not 'running'
 }
