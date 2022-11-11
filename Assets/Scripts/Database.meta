@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/BackgroundScroller.unity.meta
-guid: 673d3df021386984dbf372e085c773fb
-========
 guid: 5745d9d9ee0824c47951f9ce106a8791
 folderAsset: yes
->>>>>>>> database:Assets/Scripts/Database.meta
+database:Assets/Scripts/Database.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
