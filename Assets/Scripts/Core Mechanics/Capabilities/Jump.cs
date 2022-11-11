@@ -85,30 +85,12 @@ public class Jump : NetworkBehaviour
         {
 
             body.gravityScale = upwardMovementMultiplier;
-            if (isDownPressed)
-            {
-                body.gravityScale = 4 * downwardMovementMultiplier;
-                if (onGround)
-                {   
-                    body.gravityScale = defaultGravityScale;
-                    isDownPressed = false;
-                }
-                
-            }
+            RPC_FastFall();
         }
         else if (body.velocity.y < 0) //if going down, apply downward movement
         {
             body.gravityScale = downwardMovementMultiplier;
-            if (isDownPressed)
-            {
-                body.gravityScale = 4 * downwardMovementMultiplier;
-                if (onGround)
-                {
-                    body.gravityScale = defaultGravityScale;
-                    isDownPressed = false;
-                }
-                
-            }
+            RPC_FastFall();
         }
         else if (body.velocity.y == 0)
         {
@@ -159,11 +141,19 @@ public class Jump : NetworkBehaviour
         RPC_UpdateVelocity();
 
     }
-
-    private void FastFall()
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
+    private void RPC_FastFall()
     {
-        Debug.Log("press down to fastfall");
-        body.gravityScale = 4 * downwardMovementMultiplier;
+        if (isDownPressed)
+        {
+            body.gravityScale = 4 * downwardMovementMultiplier;
+            if (onGround)
+            {
+                body.gravityScale = defaultGravityScale;
+                isDownPressed = false;
+            }
+
+        }
     }
 
     //[Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
