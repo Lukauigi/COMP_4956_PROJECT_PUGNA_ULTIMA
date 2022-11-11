@@ -23,6 +23,10 @@ public class FighterInputController : InputController
     {
         return Input.GetButtonDown("Jump");
     }
+    public override bool RetrieveDownInput()
+    {
+        return Input.GetKeyDown(KeyCode.DownArrow);
+    }
 
     // returns a bool to check if attack is pressed
     public bool RetrieveAttackInput()

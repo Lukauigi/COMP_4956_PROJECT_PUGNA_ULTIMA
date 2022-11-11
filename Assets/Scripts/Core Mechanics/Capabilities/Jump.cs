@@ -21,8 +21,11 @@ public class Jump : NetworkBehaviour
 
     private bool isJumpPressed;
     private bool onGround;
+    private bool isDownPressed;
 
     private bool desiredJump;
+
+
     
     //public Transform groundCheck;
     //public float checkRadius;
@@ -43,20 +46,21 @@ public class Jump : NetworkBehaviour
     void Update()
     {
         //Need input to be true once and if it is used, set it to false
-        isJumpPressed |= input.RetrieveJumpInput();
+        //isJumpPressed |= input.RetrieveJumpInput();
     }
 
     //Method to perform jump action.
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    private void RPC_JumpAction()
+    private void JumpAction()
     {
         
         Debug.Log("Update Jump");
         //check if we are on ground AND we still have jumps left
-        if (onGround && currentJump < maxAirJumps)
+        if (onGround || currentJump < maxAirJumps)
         {
-            
             currentJump += 1;
+            onGround = false;
+            Debug.Log(currentJump);
+
             float jumpSpeed = Mathf.Sqrt(-4f * Physics2D.gravity.y * jumpHeight);
             
             //jump speed never goes negative
@@ -69,28 +73,22 @@ public class Jump : NetworkBehaviour
     }
 
     // Method to check and apply velocity
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    private void RPC_UpdateVelocity()
+    private void UpdateVelocity()
     {
 
+        
         //if going up, apply upward movement
-        if (body.velocity.y > 0)
+        
+        if (body.velocity.y > 0 )
         {
+
             body.gravityScale = upwardMovementMultiplier;
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                Debug.Log("press down to fastfall");
-                body.gravityScale = 4 * downwardMovementMultiplier;
-            }
+            FastFall();
         }
         else if (body.velocity.y < 0) //if going down, apply downward movement
         {
             body.gravityScale = downwardMovementMultiplier;
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                Debug.Log("press down to fastfall");
-                body.gravityScale = 4 * downwardMovementMultiplier;
-            }
+            FastFall();
         }
         else if (body.velocity.y == 0)
         {
@@ -108,6 +106,7 @@ public class Jump : NetworkBehaviour
             {
                 //desiredJump |= data.jump;
                 isJumpPressed |= data.jump;
+                isDownPressed |= data.down; 
             } else
             {
                 //desiredJump |= input.RetrieveJumpInput();
@@ -118,9 +117,10 @@ public class Jump : NetworkBehaviour
         velocity = body.velocity;
 
         //if object on ground, reset nth jump to 0
-        if (onGround)
+        if (onGround && body.velocity.y == 0)
         {
             currentJump = 0;
+            Debug.Log("Onground - currentJump: " + currentJump);
         }
 
         //if jump action is requested
@@ -132,12 +132,27 @@ public class Jump : NetworkBehaviour
             //{
             //    JumpAction();
             //}
-            RPC_JumpAction();
+            JumpAction();
             //MoveDuringJumping();
         }
 
-        RPC_UpdateVelocity();
+        UpdateVelocity();
 
+    }
+
+
+    private void FastFall()
+    {
+        if (isDownPressed)
+        {
+            body.gravityScale = 4 * downwardMovementMultiplier;
+            if (onGround)
+            {
+                body.gravityScale = defaultGravityScale;
+                isDownPressed = false;
+            }
+
+        }
     }
 
     //[Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]

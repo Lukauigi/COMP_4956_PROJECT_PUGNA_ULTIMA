@@ -29,11 +29,11 @@ public class GameManager : MonoBehaviour
         // set static object
         if (instance == null)
             instance = this;
-        //else if (instance != this)
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         DontDestroyOnLoad(gameObject);
     }
 
