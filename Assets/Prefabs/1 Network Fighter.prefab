@@ -256,8 +256,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: -0.8}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.5625, y: 0.859375}
-  - {x: 1.5625, y: 0.859375}
+  - {x: -0.37536895, y: 0.91190296}
+  - {x: 0.38587403, y: 0.9119029}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -421,7 +421,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  input: {fileID: 0}
   playerCollider: {fileID: 8890905694752838623}
 --- !u!114 &4977875603341989461
 MonoBehaviour:

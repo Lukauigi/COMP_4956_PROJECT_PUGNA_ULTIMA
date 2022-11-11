@@ -15,7 +15,7 @@ public class PlayerOneWayPlatform : NetworkBehaviour
     // Game object for platform on screen
     private GameObject currentOneWayPlatform;
 
-    [SerializeField] private InputController input = null;
+    //[SerializeField] private InputController input = null;
 
     // Player BoxCollider2D field
     [SerializeField] private BoxCollider2D playerCollider;

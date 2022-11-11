@@ -34,6 +34,9 @@ public class FighterControlHandler : MonoBehaviour
             down = true;
        
 
+        if (input.RetrieveJumpInput())
+            jump = true;
+        // jump = input.RetrieveJumpInput();
     }
 
     public NetworkInputData GetNetworkInput()

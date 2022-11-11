@@ -50,8 +50,7 @@ public class Jump : NetworkBehaviour
     }
 
     //Method to perform jump action.
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    private void RPC_JumpAction()
+    private void JumpAction()
     {
         
         Debug.Log("Update Jump");
@@ -74,8 +73,7 @@ public class Jump : NetworkBehaviour
     }
 
     // Method to check and apply velocity
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    private void RPC_UpdateVelocity()
+    private void UpdateVelocity()
     {
 
         
@@ -85,12 +83,12 @@ public class Jump : NetworkBehaviour
         {
 
             body.gravityScale = upwardMovementMultiplier;
-            RPC_FastFall();
+            FastFall();
         }
         else if (body.velocity.y < 0) //if going down, apply downward movement
         {
             body.gravityScale = downwardMovementMultiplier;
-            RPC_FastFall();
+            FastFall();
         }
         else if (body.velocity.y == 0)
         {
@@ -134,15 +132,16 @@ public class Jump : NetworkBehaviour
             //{
             //    JumpAction();
             //}
-            RPC_JumpAction();
+            JumpAction();
             //MoveDuringJumping();
         }
 
-        RPC_UpdateVelocity();
+        UpdateVelocity();
 
     }
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    private void RPC_FastFall()
+
+
+    private void FastFall()
     {
         if (isDownPressed)
         {
