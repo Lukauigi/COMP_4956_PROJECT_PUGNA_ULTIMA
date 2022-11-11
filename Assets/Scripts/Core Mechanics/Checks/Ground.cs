@@ -29,8 +29,8 @@ public class Ground : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        EvaluateCollision(collision);
-        RetrieveFriction(collision);
+        onGround = false;
+        friction = 0;
     }
 
     /// <summary>

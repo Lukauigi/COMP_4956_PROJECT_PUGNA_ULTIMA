@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FighterControlHandler : NetworkBehaviour
+public class FighterControlHandler : MonoBehaviour
 {
 
     //PlayerController input = new PlayerController();
@@ -12,6 +12,7 @@ public class FighterControlHandler : NetworkBehaviour
 
     private Vector2 direction;
     private bool jump;
+    private bool down;
 
     // Start is called before the first frame update
     void Start()
@@ -22,21 +23,17 @@ public class FighterControlHandler : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        //direction.x = input.RetrieveMoveInput();
-        
-        //if (input.RetrieveJumpInput())
-        //    jump = true;
-
-        // jump = input.RetrieveJumpInput();
-    }
-
-    public override void FixedUpdateNetwork()
-    {
         direction.x = input.RetrieveMoveInput();
-
+        
         if (input.RetrieveJumpInput())
             jump = true;
-        // jump = input.RetrieveJumpInput();
+
+
+
+        if (input.RetrieveDownInput())
+            down = true;
+       
+
     }
 
     public NetworkInputData GetNetworkInput()
@@ -48,8 +45,10 @@ public class FighterControlHandler : NetworkBehaviour
 
         networkInputData.move = direction.x;
         networkInputData.jump = jump;
+        networkInputData.down = down; 
 
         jump = false;
+        down = false; 
 
         return networkInputData;
     }
