@@ -47,8 +47,7 @@ public class Jump : NetworkBehaviour
     }
 
     //Method to perform jump action.
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    private void RPC_JumpAction()
+    private void JumpAction()
     {
         
         Debug.Log("Update Jump");
@@ -69,8 +68,7 @@ public class Jump : NetworkBehaviour
     }
 
     // Method to check and apply velocity
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    private void RPC_UpdateVelocity()
+    private void UpdateVelocity()
     {
 
         //if going up, apply upward movement
@@ -132,11 +130,11 @@ public class Jump : NetworkBehaviour
             //{
             //    JumpAction();
             //}
-            RPC_JumpAction();
+            JumpAction();
             //MoveDuringJumping();
         }
 
-        RPC_UpdateVelocity();
+        UpdateVelocity();
 
     }
 

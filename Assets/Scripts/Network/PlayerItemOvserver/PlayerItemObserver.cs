@@ -30,8 +30,13 @@ public class PlayerItemObserver : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        Debug.Log("PlayerOneReady: " + PlayerOneReady);
-        Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
+        // show console logs that player(s) is not ready
+        if (!PlayerOneReady || !PlayerTwoReady)
+        {
+            Debug.Log("PlayerOneReady: " + PlayerOneReady);
+            Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
+        }
+
         //Both players are ready, Host connection runs this code
         if (PlayerOneReady && PlayerTwoReady && Runner.IsServer && !Spawned)
         {
