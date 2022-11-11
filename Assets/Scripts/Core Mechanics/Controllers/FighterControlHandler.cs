@@ -12,6 +12,7 @@ public class FighterControlHandler : MonoBehaviour
 
     private Vector2 direction;
     private bool jump;
+    private bool down;
 
     // Start is called before the first frame update
     void Start()
@@ -22,14 +23,20 @@ public class FighterControlHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // check move input
         direction.x = input.RetrieveMoveInput();
-
-        // check jump input
+        
         if (input.RetrieveJumpInput())
             jump = true;
 
-        jump = input.RetrieveJumpInput();
+
+
+        if (input.RetrieveDownInput())
+            down = true;
+       
+
+        if (input.RetrieveJumpInput())
+            jump = true;
+        // jump = input.RetrieveJumpInput();
     }
 
     public NetworkInputData GetNetworkInput()
@@ -41,8 +48,10 @@ public class FighterControlHandler : MonoBehaviour
 
         networkInputData.move = direction.x;
         networkInputData.jump = jump;
+        networkInputData.down = down; 
 
         jump = false;
+        down = false; 
 
         return networkInputData;
     }

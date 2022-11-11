@@ -14,6 +14,7 @@ public struct NetworkInputData : INetworkInput
     public float move;
 
     public bool jump;
+    public bool down;
 
     // attack
     // dodge
