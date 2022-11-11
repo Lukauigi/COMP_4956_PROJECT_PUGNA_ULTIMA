@@ -1,10 +1,11 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // all game states during a game match
-public enum GameStates { waiting, countDown, running, gameOver };
+public enum GameStates { Waiting, Starting, Running, GameOver };
 
 /// <summary>
 /// Static GameManager Class to handle Game States, Timers and Win/Lose Logic in a Game Match.
@@ -15,66 +16,59 @@ public enum GameStates { waiting, countDown, running, gameOver };
 /// Remarks:
 /// Change History:
 /// </summary>
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     // Static instance of GameManager so other scripts can access it
-    public static GameManager instance = null;
+    public static GameManager Manager = null;
 
     // Current Game State
-    public GameStates GameState { get; private set; } = GameStates.waiting;
+    public GameStates GameState { get; private set; } = GameStates.Waiting;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        // set static object
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
+        Debug.Log("GameManager Null: " + Manager);
+        Manager = this;
+        Debug.Log("GameManager not Null: " + Manager);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // Set Game State to waiting
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_SetGameStateWaiting()
     {
-    }
-
-    // Set Game State to countDown
-    public void SetGameStateWaiting()
-    {
-        GameState = GameStates.waiting;
-        Debug.Log("GameManager - Game State: " + GameState.ToString());
+        GameState = GameStates.Waiting;
+        Debug.Log("GameManager - Game State is  " + GameState.ToString());
 
         // TODO: (not in this method) disable player input until this countdown is finished
     }
 
-    // Set Game State to countDown
-    public void SetGameStateCountDown()
+    // Set Game State to countdown
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_SetGameStateCountDown()
     {
-        GameState = GameStates.countDown;
-        Debug.Log("GameManager - Game State: " + GameState.ToString());
+        GameState = GameStates.Starting;
+        Debug.Log("GameManager - Game State is " + GameState.ToString());
 
         // TODO: (not in this method) disable player input until this countdown is finished
     }
 
     // Set Game State to running
-    public void SetGameStateRunning()
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_SetGameStateRunning()
     {
-        GameState = GameStates.running;
-        Debug.Log("GameManager - Game State: " + GameState.ToString());
+        GameState = GameStates.Running;
+        Debug.Log("GameManager - Game State is " + GameState.ToString());
 
         // Start Match Timer
-        GameTimerController.instance.StartTimer();
+        GameTimerController.Instance.StartTimer();
     }
 
     // Set Game State to gameOver
-    public void SetGameStateGameOver()
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_SetGameStateGameOver()
     {
-        GameState = GameStates.gameOver;
-        Debug.Log("GameManager - Game State: " + GameState.ToString());
+        GameState = GameStates.GameOver;
+        Debug.Log("GameManager - Game State is " + GameState.ToString());
 
         // TODO:
         // - [optional?] (not in this method) disable player input once game is over

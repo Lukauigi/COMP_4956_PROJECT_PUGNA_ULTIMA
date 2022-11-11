@@ -54,7 +54,7 @@ public class Jump : NetworkBehaviour
     {
         
         Debug.Log("Update Jump");
-        //check if we are on ground AND we still have jumps left
+        //check if we are on ground OR we still have jumps left
         if (onGround || currentJump < maxAirJumps)
         {
             currentJump += 1;
@@ -120,13 +120,11 @@ public class Jump : NetworkBehaviour
         if (onGround && body.velocity.y == 0)
         {
             currentJump = 0;
-            Debug.Log("Onground - currentJump: " + currentJump);
         }
 
         //if jump action is requested
         if (isJumpPressed)
         {
-
             isJumpPressed = false;
             //while (currentJump < maxAirJumps)
             //{

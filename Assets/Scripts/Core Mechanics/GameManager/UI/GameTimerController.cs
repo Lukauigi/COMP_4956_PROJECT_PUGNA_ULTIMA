@@ -1,3 +1,4 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,51 +15,41 @@ using UnityEngine.UI;
 /// Remarks:
 /// Change History:
 /// </summary>
-public class GameTimerController : MonoBehaviour
+public class GameTimerController : NetworkBehaviour
 {
     // Static instance of MatchTimer so other scripts can access it
-    public static GameTimerController instance = null;
+    public static GameTimerController Instance = null;
 
     // Unity UI Text to update the Match Timer
-    //public Text gameTimerText;
-    public TMPro.TextMeshProUGUI gameTimerText;
+    public TMPro.TextMeshProUGUI GameTimerText;
 
     // Length of a Game Match
-    //private TimeSpan durationLeft = new TimeSpan(0, 8, 0);
+    // intended game length: 8 minutes
+    [SerializeField] private int GameLengthMinutes = 8;
 
-    // Length before the game ending Countdown should begin
-    // testing: 1 minute game length
-    private TimeSpan startCountdownToFinishGame = new TimeSpan(0, 1, 0);
+    [SerializeField] private int GameLengthSeconds = 0;
 
-    private TimeSpan timePlaying;
+    //[SerializeField] public float TimeValue = 15f;
 
-    private bool timerRunning;
+    private float TimeValue;
 
-    private float elapsedTime;
+    private bool IsTimerRunning;
 
-    // Awake is called when the script instance is being loaded
+    // Awake is called when the script instance is being loaded, even if the script is disabled
     private void Awake()
     {
-        // set static object
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        // Unity Warning: DontDestroyOnLoad only works for root GameObjects or components on root GameObjects
-        // commented out for now
-        //DontDestroyOnLoad(gameObject);
+        Instance = this;
     }
 
     // Start is called before the first frame update
     private void Start()
     {
+        TimeValue = (GameLengthMinutes * 60) + GameLengthSeconds;
+        
         // initially hide this game object
-        gameTimerText.text = "";
+        GameTimerText.text = "";
 
-        timerRunning = false;
+        IsTimerRunning = false;
     }
 
     /// <summary>
@@ -66,8 +57,7 @@ public class GameTimerController : MonoBehaviour
     /// </summary>
     public void StartTimer()
     {
-        timerRunning = true;
-        elapsedTime = 0f;
+        IsTimerRunning = true;
 
         StartCoroutine(UpdateTimer());
     }
@@ -77,7 +67,7 @@ public class GameTimerController : MonoBehaviour
     /// </summary>
     public void EndTimer()
     {
-        timerRunning = false;
+        IsTimerRunning = false;
     }
 
     /// <summary>
@@ -86,26 +76,33 @@ public class GameTimerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator UpdateTimer()
     {
-        while (timerRunning)
+        while (IsTimerRunning)
         {
-            // TODO: BUG - make match timer countdown instead of counting up
-            elapsedTime += Time.deltaTime;
-            timePlaying = TimeSpan.FromSeconds(elapsedTime);
-            string gameTimerString = timePlaying.ToString("mm':'ss'.'ff");
-            gameTimerText.text = gameTimerString;
-
-            // display ending countdown when the Game Match is about to end
-            if (timePlaying > startCountdownToFinishGame)
+            if (TimeValue > CountdownController.Instance.EndGameCountdown + 1)
             {
-                CountdownController.instance.BeginEndGameCountdown();
+                TimeValue -= Time.deltaTime;
+            }
+            else
+            {
+                CountdownController.Instance.BeginEndGameCountdown();
                 break;
             }
+
+            float minutes = Mathf.FloorToInt(TimeValue / 60);
+
+            // Update in minutes & seconds
+            //float seconds = Mathf.FloorToInt(TimeValue % 60);
+            //GameTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+            // Update in minutes, seconds & milliseconds
+            float seconds = (TimeValue % 60);
+            GameTimerText.text = string.Format("{0:00}:{1:00.00}", minutes, seconds.ToString("F1"));
 
             yield return null;
         }
 
-        // hide Match Timer at the end of the co-routine; Game ending countdown is displayed instead
-        gameTimerText.text = "";
+        // hide Match Timer at the end of the co-routine; EndGameCountdown will display instead
+        GameTimerText.text = "";
     }
 
 }

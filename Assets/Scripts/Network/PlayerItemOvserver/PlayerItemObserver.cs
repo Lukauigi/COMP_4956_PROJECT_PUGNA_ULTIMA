@@ -48,7 +48,7 @@ public class PlayerItemObserver : NetworkBehaviour
             RPC_SpawnBothPlayers(PlayerOneIndexSelect, PlayerTwoIndexSelect, PlayerOneRef, PlayerTwoRef);
             Spawned = true;
             
-            CountdownController.instance.BeginStartGameCountdown();
+            CountdownController.Instance.BeginStartGameCountdown();
             // Start Countdown timer ( Change game state )
         }
     }

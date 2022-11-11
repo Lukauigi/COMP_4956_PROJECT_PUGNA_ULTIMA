@@ -481,6 +481,9 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -4976774655974545190}
+  - {fileID: 5243774207943730686}
+  - {fileID: 3620224942070784498}
+  - {fileID: 2106435519672094218}
   SimulationBehaviours: []
 --- !u!114 &-4976774655974545190
 MonoBehaviour:
@@ -552,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3984b71a4b0fcb46bae2594b17295e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!1 &6588363681717463539
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,6 +803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba425057c72d42c4b932a048fd288586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   countdownText: {fileID: 0}
   countdownStartGame: 3
   countdownEndGame: 5
@@ -1376,6 +1381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbf62e054ffd5284391a00df5af66ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   gameTimerText: {fileID: 0}
 --- !u!1 &8933982322451591695
 GameObject:

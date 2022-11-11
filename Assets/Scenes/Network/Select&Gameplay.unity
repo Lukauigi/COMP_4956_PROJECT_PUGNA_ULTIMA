@@ -312,7 +312,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -75}
-  m_SizeDelta: {x: 350, y: 50}
+  m_SizeDelta: {x: 275, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15625231
 MonoBehaviour:
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00.00
+  m_text: 00:00.0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -742,9 +742,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba425057c72d42c4b932a048fd288586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdownText: {fileID: 1845450427}
-  countdownStartGame: 3
-  countdownEndGame: 5
+  _interpolationDataSource: 0
+  CountdownText: {fileID: 1845450427}
+  GameStartCountdown: 3
+  EndGameCountdown: 5
 --- !u!1 &511404699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,7 +1426,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbf62e054ffd5284391a00df5af66ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTimerText: {fileID: 15625231}
+  _interpolationDataSource: 0
+  GameTimerText: {fileID: 15625231}
+  GameLengthMinutes: 8
+  GameLengthSeconds: 0
 --- !u!1 &731279119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1515,6 +1519,8 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 731279124}
+  - {fileID: 510978527}
+  - {fileID: 726157500}
   SimulationBehaviours: []
 --- !u!1 &965950099
 GameObject:
@@ -2368,6 +2374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3984b71a4b0fcb46bae2594b17295e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!4 &1711816415
 Transform:
   m_ObjectHideFlags: 0
@@ -2431,6 +2438,7 @@ MonoBehaviour:
     RawGuidValue: 4a5841b62d3e49f88dfbfbb5b6bd7bde
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 1711816414}
   - {fileID: 1711816416}
   SimulationBehaviours: []
 --- !u!1 &1727767005

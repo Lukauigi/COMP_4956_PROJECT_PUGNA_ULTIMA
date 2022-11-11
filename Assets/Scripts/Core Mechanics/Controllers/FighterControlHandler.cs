@@ -43,8 +43,8 @@ public class FighterControlHandler : MonoBehaviour
     {
         NetworkInputData networkInputData = new NetworkInputData();
 
-        if (GameManager.instance.GameState != GameStates.running)
-            return networkInputData;
+        //if (GameManager.Manager.GameState != GameStates.Running)
+        //    return networkInputData;
 
         networkInputData.move = direction.x;
         networkInputData.jump = jump;
