@@ -33,8 +33,8 @@ public class PlayerItemObserver : NetworkBehaviour
         // show console logs that player(s) is not ready
         if (!PlayerOneReady || !PlayerTwoReady)
         {
-            Debug.Log("PlayerOneReady: " + PlayerOneReady);
-            Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
+            //Debug.Log("PlayerOneReady: " + PlayerOneReady);
+            //Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
         }
 
         //Both players are ready, Host connection runs this code
@@ -47,9 +47,10 @@ public class PlayerItemObserver : NetworkBehaviour
             // Spawn Player one and player two selected characters
             RPC_SpawnBothPlayers(PlayerOneIndexSelect, PlayerTwoIndexSelect, PlayerOneRef, PlayerTwoRef);
             Spawned = true;
-            
-            CountdownController.Instance.BeginStartGameCountdown();
-            // Start Countdown timer ( Change game state )
+
+            // Switch Game State to 'Starting' Game
+            //CountdownController.Instance.RPC_StartStartingCountdown();
+            GameManager.Manager.RPC_SetGameStateStarting();
         }
     }
 

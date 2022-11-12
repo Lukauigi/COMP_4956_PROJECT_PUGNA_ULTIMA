@@ -14,7 +14,10 @@ public enum GameStates { Waiting, Starting, Running, GameOver };
 /// Source(s):
 ///     Countdown - How to create a 2D Arcade Style Top Down Car Controller in Unity tutorial Part 13: https://youtu.be/-SR24s7AryI?t=1560
 /// Remarks:
-/// Change History:
+/// Change History: Nov 11 2022 - Jason Cheung
+/// - Modified methods to be networked and use rpc calls
+/// - 
+/// - bugfix: shows on both host & client instances
 /// </summary>
 public class GameManager : NetworkBehaviour
 {
@@ -37,18 +40,17 @@ public class GameManager : NetworkBehaviour
     public void RPC_SetGameStateWaiting()
     {
         GameState = GameStates.Waiting;
-        Debug.Log("GameManager - Game State is  " + GameState.ToString());
-
-        // TODO: (not in this method) disable player input until this countdown is finished
+        Debug.Log("GameManager - Game is  " + GameState.ToString());
     }
 
     // Set Game State to countdown
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_SetGameStateCountDown()
+    public void RPC_SetGameStateStarting()
     {
         GameState = GameStates.Starting;
-        Debug.Log("GameManager - Game State is " + GameState.ToString());
+        Debug.Log("GameManager - Game is " + GameState.ToString());
 
+        RPC_OnGameStateStarting();
         // TODO: (not in this method) disable player input until this countdown is finished
     }
 
@@ -57,10 +59,9 @@ public class GameManager : NetworkBehaviour
     public void RPC_SetGameStateRunning()
     {
         GameState = GameStates.Running;
-        Debug.Log("GameManager - Game State is " + GameState.ToString());
+        Debug.Log("GameManager - Game is " + GameState.ToString());
 
-        // Start Match Timer
-        GameTimerController.Instance.StartTimer();
+        RPC_OnGameStateRunning();
     }
 
     // Set Game State to gameOver
@@ -68,29 +69,52 @@ public class GameManager : NetworkBehaviour
     public void RPC_SetGameStateGameOver()
     {
         GameState = GameStates.GameOver;
-        Debug.Log("GameManager - Game State is " + GameState.ToString());
+        Debug.Log("GameManager - Game is " + GameState.ToString());
 
+        RPC_OnGameStateGameOver();
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    protected void RPC_OnGameStateStarting()
+    {
+        // start the starting countdown
+        CountdownController.Instance.RPC_StartStartingCountdown();
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    protected void RPC_OnGameStateRunning()
+    {
+        // start the game timer
+        GameTimerController.Instance.RPC_StartTimer();
+
+        StartCoroutine(GameRunningCheck());
+    }
+
+    IEnumerator GameRunningCheck()
+    {
+        while (GameState == GameStates.Running)
+        {
+            // TODO:
+            // perform win/lose checks (a player's stock reaches zero)
+
+            // check if a player has left
+
+            // if so, forcibly end the game
+
+            // perform this co-routine check every .5 seconds
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // stop this check since gamestate has changed
+        StopCoroutine(GameRunningCheck());
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    protected void RPC_OnGameStateGameOver()
+    {
         // TODO:
-        // - [optional?] (not in this method) disable player input once game is over
+        // - disable player input once game is over (not in this method?)
         // - trigger endGame state to end the game, gather win/lose results, and move to the next screen.
     }
 
-    //// This function is called when the object becomes enabled and active
-    //private void OnEnable()
-    //{
-    //    // TODO: ensure GameManager is enabled only after BOTH network players are fully loaded in.
-
-    //    // initialize event
-    //    SceneManager.sceneLoaded += OnSceneLoaded;
-    //}
-
-    ///// <summary>
-    ///// OnSceneLoaded Event. Start GameManager by starting the countdown.
-    ///// </summary>
-    ///// <param name="scene"></param>
-    ///// <param name="mode"></param>
-    //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    //{
-    //    SetGameStateRunning();
-    //}
 }

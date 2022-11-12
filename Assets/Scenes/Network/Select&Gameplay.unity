@@ -312,7 +312,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -75}
-  m_SizeDelta: {x: 275, y: 50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15625231
 MonoBehaviour:
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00.0
+  m_text: 00:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -743,9 +743,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  CountdownText: {fileID: 1845450427}
-  GameStartCountdown: 3
-  EndGameCountdown: 5
+  _countdownText: {fileID: 1845450427}
+  _startingCountdown: 3
+  _endingCountdown: 5
 --- !u!1 &511404699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,9 +1427,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  GameTimerText: {fileID: 15625231}
-  GameLengthMinutes: 8
-  GameLengthSeconds: 0
+  _gameTimerText: {fileID: 15625231}
+  _gameLengthMinutes: 0
+  _gameLengthSeconds: 25
 --- !u!1 &731279119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,7 +1737,8 @@ MonoBehaviour:
   Flags: 2561
   NetworkGuid:
     RawGuidValue: adb60f1ee6b64e208711633025437ee4
-  NestedObjects: []
+  NestedObjects:
+  - {fileID: 1087515794}
   NetworkedBehaviours:
   - {fileID: 976004377}
   - {fileID: 976004376}
@@ -1753,9 +1754,10 @@ Transform:
   m_LocalPosition: {x: 4.704623, y: 3.713013, z: 0.0111789545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1087515792}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1041555839
 GameObject:
@@ -1818,16 +1820,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087515791}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.704623, y: -6.2130127, z: -0.0111789545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 289820449}
   - {fileID: 250847706}
   - {fileID: 1107943640}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 976004379}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1087515793
 MonoBehaviour:
