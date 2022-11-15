@@ -24,6 +24,11 @@ public abstract class InputController : ScriptableObject
 
     public abstract bool RetrieveDownInput();
 
+    public abstract bool RetrieveAttackNeutralInput();
+
+/*    public abstract bool RetrieveAttackSideTiltInput();
+    public abstract bool RetrieveAttackUpTiltInput();
+    public abstract bool RetrieveAttackDownTiltInput();*/
 
 
     // TODO: add more inputs for different attacks

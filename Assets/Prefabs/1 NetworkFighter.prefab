@@ -24,8 +24,9 @@ GameObject:
   - component: {fileID: 747335961585469154}
   - component: {fileID: 4977875603341989461}
   - component: {fileID: 7201283148702718108}
+  - component: {fileID: 5748430906108861779}
   m_Layer: 0
-  m_Name: 1 Network Fighter
+  m_Name: 1 NetworkFighter
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,6 +214,7 @@ MonoBehaviour:
   - {fileID: 261806375952415378}
   - {fileID: 261806375952415372}
   - {fileID: 747335961585469154}
+  - {fileID: 4977875603341989461}
   SimulationBehaviours: []
 --- !u!114 &1022839357175312393
 MonoBehaviour:
@@ -434,8 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2855cc91eea28584c8fe629f0048db94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackHitboxes:
-  - {fileID: 2789355027567743931}
+  _interpolationDataSource: 0
 --- !u!114 &7201283148702718108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,6 +450,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
+--- !u!114 &5748430906108861779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502517741467019153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d291a7ce80cabbc49a0e3e556145a948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 250
 --- !u!1 &1600593237929189530
 GameObject:
   m_ObjectHideFlags: 0

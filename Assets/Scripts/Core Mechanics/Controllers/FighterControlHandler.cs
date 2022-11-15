@@ -13,6 +13,7 @@ public class FighterControlHandler : MonoBehaviour
     private Vector2 direction;
     private bool jump;
     private bool down;
+    private bool neutralAttack;
 
     // Start is called before the first frame update
     void Start()
@@ -28,14 +29,12 @@ public class FighterControlHandler : MonoBehaviour
         if (input.RetrieveJumpInput())
             jump = true;
 
-
-
         if (input.RetrieveDownInput())
             down = true;
        
 
-        if (input.RetrieveJumpInput())
-            jump = true;
+        if (input.RetrieveAttackNeutralInput())
+            neutralAttack = true;
         // jump = input.RetrieveJumpInput();
     }
 
@@ -49,9 +48,11 @@ public class FighterControlHandler : MonoBehaviour
         networkInputData.move = direction.x;
         networkInputData.jump = jump;
         networkInputData.down = down; 
+        networkInputData.neutralAttack = neutralAttack;
 
         jump = false;
         down = false; 
+        neutralAttack = false;
 
         return networkInputData;
     }

@@ -20,4 +20,12 @@ public struct NetworkInputData : INetworkInput
     // dodge
     // special
 
+    // attack
+    public bool neutralAttack;
+
+    public bool attackSideTilt;
+
+    public bool attackUpTilt;
+
+    public bool attackDownTilt;
 }

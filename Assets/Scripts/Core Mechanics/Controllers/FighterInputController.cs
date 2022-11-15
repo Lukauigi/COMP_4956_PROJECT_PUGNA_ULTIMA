@@ -34,5 +34,30 @@ public class FighterInputController : InputController
         return Input.GetKeyDown(KeyCode.G);
     }
 
+    public override bool RetrieveAttackNeutralInput()
+    {
+        return Input.GetKeyDown(KeyCode.G);
+    }
+
+
+
+   /* public override bool RetrieveAttackSideTiltInput()
+    {
+
+        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.LeftArrow);
+    }
+
+    public override bool RetrieveAttackUpTiltInput()
+    {
+
+        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.UpArrow);
+    }
+
+    public override bool RetrieveAttackDownTiltInput()
+    {
+
+        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.DownArrow);
+    }*/
+
     // TODO: (for jason) disable player input when GameManager.GameState is not 'running'
 }
