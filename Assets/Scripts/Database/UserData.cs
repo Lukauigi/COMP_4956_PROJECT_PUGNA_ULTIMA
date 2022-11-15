@@ -95,7 +95,7 @@ public static class UserData
     }
 
 
-    public static void SendBattleStats(int ELO, int matchesPlayed, int winRate)
+    public static void SendBattleStats(int score)
     {
         var request = new UpdatePlayerStatisticsRequest
         {
@@ -103,8 +103,8 @@ public static class UserData
             {
                 new StatisticUpdate
                 {
-                    StatisticName ="battleStat",
-                    Value = winRate,
+                    StatisticName ="MostWins",
+                    Value = score,
                 }
             }
         };
@@ -121,11 +121,11 @@ public static class UserData
         Debug.Log("sent BattleStats");
     }
 
-    public static void GetBattleStats(int damageTaken, int damageDealt, int winRate)
+    public static void GetBattleStats()
     {
         var request = new GetLeaderboardRequest
         {
-            StatisticName = "battleStat",
+            StatisticName = "MostWins",
             StartPosition = 0,
             MaxResultsCount = 10
         };
@@ -133,7 +133,10 @@ public static class UserData
     }
     private static void onleaderboardGet(GetLeaderboardResult result)
     {
-        Debug.Log("sent BattleStats");
+        foreach (var item in result.Leaderboard)
+        {
+            Debug.Log(item.Position + " " + item.DisplayName+ " " + item.StatValue);
+        }
     }
 }
 

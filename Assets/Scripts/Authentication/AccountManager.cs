@@ -95,8 +95,12 @@ public class AccountManager : MonoBehaviour
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
                 IsSignedIn = true;
 
-                //Testing database functions
-                UserData.GetUserData(response.PlayFabId, "Favourite Character");
+                // Database functions calls on login
+                //UserData.GetUserData(response.PlayFabId, "Favourite Character");
+                UserData.GetUserProfileData(response.PlayFabId);
+                //UserData.GetBattleStats();
+                //UserData.SendBattleStats(125);
+
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
             },
             error =>
