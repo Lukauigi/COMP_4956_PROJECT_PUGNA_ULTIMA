@@ -95,7 +95,7 @@ public static class UserData
     }
 
 
-    public static void SendBattleStats(int score)
+    public static void SendLeaderboard(string leaderboardName, int score)
     {
         var request = new UpdatePlayerStatisticsRequest
         {
@@ -103,7 +103,7 @@ public static class UserData
             {
                 new StatisticUpdate
                 {
-                    StatisticName ="MostWins",
+                    StatisticName = leaderboardName,
                     Value = score,
                 }
             }
@@ -121,11 +121,11 @@ public static class UserData
         Debug.Log("sent BattleStats");
     }
 
-    public static void GetBattleStats()
+    public static void GetLeaderboard(string leaderboardName)
     {
         var request = new GetLeaderboardRequest
         {
-            StatisticName = "MostWins",
+            StatisticName = leaderboardName,
             StartPosition = 0,
             MaxResultsCount = 10
         };
