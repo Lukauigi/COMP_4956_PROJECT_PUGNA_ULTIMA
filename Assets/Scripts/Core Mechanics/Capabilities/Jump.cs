@@ -9,7 +9,7 @@ public class Jump : NetworkBehaviour
     [SerializeField, Range(0f, 10f)] private float jumpHeight = 1f;
     [SerializeField, Range(0, 2)] private int maxAirJumps = 2; //max 2 jumps
     [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
-    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f; //affects how fast character moves vertically when jumping
+    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 6f; //affects how fast character moves vertically when jumping
 
     private Rigidbody2D body; //detect jump velocity
     //private NetworkRigidbody2D body;
@@ -23,10 +23,9 @@ public class Jump : NetworkBehaviour
     private bool onGround;
     private bool isDownPressed;
 
-    private bool desiredJump;
+    // reference the animator controller for player
+    public Animator animator;
 
-
-    
     //public Transform groundCheck;
     //public float checkRadius;
     //public LayerMask whatIsGround;
@@ -52,11 +51,14 @@ public class Jump : NetworkBehaviour
     //Method to perform jump action.
     private void JumpAction()
     {
-        
         Debug.Log("Update Jump");
+
         //check if we are on ground OR we still have jumps left
         if (onGround || currentJump < maxAirJumps)
         {
+            // play jumping animation
+            animator.SetBool("isJumping", true);
+
             currentJump += 1;
             onGround = false;
             Debug.Log(currentJump);
@@ -76,7 +78,6 @@ public class Jump : NetworkBehaviour
     private void UpdateVelocity()
     {
 
-        
         //if going up, apply upward movement
         
         if (body.velocity.y > 0 )
@@ -104,34 +105,28 @@ public class Jump : NetworkBehaviour
 
         if (GetInput(out NetworkInputData data))
             {
-                //desiredJump |= data.jump;
                 isJumpPressed |= data.jump;
                 isDownPressed |= data.down; 
-            } else
-            {
-                //desiredJump |= input.RetrieveJumpInput();
             }
 
         onGround = ground.GetOnGround();
         //onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         velocity = body.velocity;
 
-        //if object on ground, reset nth jump to 0
+        //if object on ground, reset nth jump to 0, and stop the jumping animation
         if (onGround && body.velocity.y == 0)
         {
             currentJump = 0;
+
+            // reached ground; stop the jumping animation
+            animator.SetBool("isJumping", false);
         }
 
         //if jump action is requested
         if (isJumpPressed)
         {
             isJumpPressed = false;
-            //while (currentJump < maxAirJumps)
-            //{
-            //    JumpAction();
-            //}
             JumpAction();
-            //MoveDuringJumping();
         }
 
         UpdateVelocity();

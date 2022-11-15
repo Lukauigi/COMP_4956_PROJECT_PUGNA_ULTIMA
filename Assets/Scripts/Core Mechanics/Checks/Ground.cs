@@ -15,16 +15,21 @@ public class Ground : MonoBehaviour
     private bool onGround;
     private float friction;
 
+    // reference the animator controller for player
+    //public Animator animator;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EvaluateCollision(collision);
         RetrieveFriction(collision);
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         EvaluateCollision(collision);
         RetrieveFriction(collision);
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6050059081701548858}
   - component: {fileID: 6050059081701548800}
   - component: {fileID: 1022839357175312393}
+  - component: {fileID: 261806375952415373}
   - component: {fileID: 261806375952415384}
   - component: {fileID: 261806375952415379}
   - component: {fileID: 261806375952415378}
@@ -242,6 +243,28 @@ MonoBehaviour:
     RotBlendStart: 0.1
     RotBlendEnd: 0.5
     RotTeleportRadians: 1.5
+--- !u!68 &261806375952415373
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502517741467019153}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.8}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.37232518, y: 0.859375}
+  - {x: 0.4301808, y: 0.859375}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!96 &261806375952415384
 TrailRenderer:
   serializedVersion: 2
@@ -353,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264a4a855e2263e45ab26a81c9565def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!114 &261806375952415378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +394,7 @@ MonoBehaviour:
   maxSpeed: 4
   maxAcceleration: 35
   maxAirAcceleration: 20
+  animator: {fileID: 0}
 --- !u!114 &261806375952415372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +413,7 @@ MonoBehaviour:
   maxAirJumps: 2
   downwardMovementMultiplier: 2.5
   upwardMovementMultiplier: 1.7
+  animator: {fileID: 0}
 --- !u!114 &747335961585469154
 MonoBehaviour:
   m_ObjectHideFlags: 0

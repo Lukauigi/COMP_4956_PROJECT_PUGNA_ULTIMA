@@ -27,6 +27,9 @@ public class Move : NetworkBehaviour
     private float acceleration;
     private bool onGround;
 
+    // reference the animator controller for player
+    public Animator animator;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,6 +40,8 @@ public class Move : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        //// Update animator variable to tell when to play movement animation
+        //animator.SetFloat("Speed", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
         //direction.x = input.RetrieveMoveInput();
         /*desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);*/
     }
@@ -57,6 +62,10 @@ public class Move : NetworkBehaviour
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
 
         float inputHorizontal = input.RetrieveMoveInput();
+
+        // Update animator variable to tell when to play movement animation
+        animator.SetFloat("Speed", Mathf.Abs(input.RetrieveMoveInput()));
+
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
