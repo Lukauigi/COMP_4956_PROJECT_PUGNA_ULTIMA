@@ -1428,8 +1428,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   _gameTimerText: {fileID: 15625231}
-  _gameLengthMinutes: 0
-  _gameLengthSeconds: 25
+  _gameLengthMinutes: 3
+  _gameLengthSeconds: 0
 --- !u!1 &731279119
 GameObject:
   m_ObjectHideFlags: 0
