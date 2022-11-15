@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9078208608291128910}
   - component: {fileID: 9078208608291128897}
   m_Layer: 0
-  m_Name: Cursor_with_trail
+  m_Name: mouse_sparkly_particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
