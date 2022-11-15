@@ -1,5 +1,6 @@
 
 using System;
+using Friends_List;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -21,6 +22,8 @@ public class AccountManager : MonoBehaviour
     */
     
     public static AccountManager Instance;
+    
+    public bool isLoggedIn = false;
 
     /// <summary>
     /// Author: Jashanpreet Singh
@@ -52,7 +55,8 @@ public class AccountManager : MonoBehaviour
                 Email = Email,
                 Password = Password,
                 Username = Username,
-                RequireBothUsernameAndEmail = true
+                RequireBothUsernameAndEmail = true,
+                DisplayName = Username
             },
             response => { 
                 Debug.Log($"User successfully registered | " +
@@ -94,9 +98,15 @@ public class AccountManager : MonoBehaviour
                 Debug.Log($"User successfully logged in | Username: {Username}");
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
                 IsSignedIn = true;
+                isLoggedIn = true;
 
                 //Testing database functions
+                /*
                 UserData.GetUserData(response.PlayFabId, "Favourite Character");
+                */
+                /*
+                FriendsListManager.Instance.GetAllPlayers();
+                */
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
             },
             error =>
@@ -107,6 +117,20 @@ public class AccountManager : MonoBehaviour
             }
         );
         return IsSignedIn;
+    }
+
+    public void SignOut()
+    {
+        // Logout of PlayFab
+        PlayFabClientAPI.ForgetAllCredentials();
+        Debug.Log("User successfully logged out");
+    }
+    
+    public void OnLoginSuccess(LoginResult result)
+    {
+        Debug.Log("Login Successful");
+        Debug.Log("PlayFabID: " + result.PlayFabId);
+        Debug.Log("SessionTicket: " + result.SessionTicket);
     }
 
     /*public void SetPlayfabId(string playfabId)
