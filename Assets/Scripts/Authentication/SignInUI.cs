@@ -14,10 +14,7 @@ public class SignInUI : MonoBehaviour
     /// </summary>
     public void SignIn()
     {
-         AccountManager.Instance.SignIn(Username.text, Password.text);
-         SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/LoggedInHome");
-         var PlayfabId = PlayerPrefsManager.GetPlayfabId();
-         Debug.Log($"{PlayfabId} is signed in");
+        AccountManager.Instance.SignIn(Username.text, Password.text);
 
     }
 

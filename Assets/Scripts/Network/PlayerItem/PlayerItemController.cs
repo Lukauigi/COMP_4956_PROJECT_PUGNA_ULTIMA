@@ -19,8 +19,12 @@ public class PlayerItemController : NetworkBehaviour
     protected NetworkTransform _nt;
 
     [SerializeField] private Image Avatar;
+    [SerializeField] private GameObject nextBtn;
+    [SerializeField] private GameObject prevBtn;
     [SerializeField] private Color[] Colors;
     [SerializeField] private int selected;
+
+    public bool isLocal = false;
 
     /// <summary>
     /// Author: Roswell Doria
@@ -44,6 +48,12 @@ public class PlayerItemController : NetworkBehaviour
     public override void Spawned()
     {
         CacheComponents();
+        if (Object.HasStateAuthority) isLocal = false;
+        if (!Object.HasInputAuthority)
+        {
+            nextBtn.SetActive(false);
+            prevBtn.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -71,10 +81,10 @@ public class PlayerItemController : NetworkBehaviour
     /// </summary>
     public override void FixedUpdateNetwork()
     {
-
-        if (Avatar)
+        Avatar.color = Colors[selected];
+        if (isLocal)
         {
-            RPC_ChangeAvatar(Colors[selected]);
+            RPC_ChangeAvatar(Avatar.color);
         }
     }
 
