@@ -114,7 +114,22 @@ public class GameManager : NetworkBehaviour
     {
         // TODO:
         // - disable player input once game is over (not in this method?)
-        // - trigger endGame state to end the game, gather win/lose results, and move to the next screen.
+        // - trigger endGame state to end the game, gather win/lose results, send info to database, and move to the next screen.
+
+        StartCoroutine(GameOverCheck());
+    }
+
+    IEnumerator GameOverCheck()
+    {
+        while (GameState == GameStates.GameOver)
+        {
+            yield return new WaitForSeconds(3.0f);
+
+            SceneManager.LoadScene("Main Menu");
+        }
+
+        // stop this check since gamestate has changed
+        StopCoroutine(GameRunningCheck());
     }
 
 }
