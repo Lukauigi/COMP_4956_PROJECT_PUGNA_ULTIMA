@@ -32,10 +32,8 @@ public class FighterControlHandler : MonoBehaviour
         if (input.RetrieveDownInput())
             down = true;
        
-
         if (input.RetrieveAttackNeutralInput())
             neutralAttack = true;
-        // jump = input.RetrieveJumpInput();
     }
 
     public NetworkInputData GetNetworkInput()

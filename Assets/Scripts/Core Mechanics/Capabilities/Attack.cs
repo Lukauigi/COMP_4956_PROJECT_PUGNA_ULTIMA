@@ -2,7 +2,6 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fusion;
 
 public class Attack : NetworkBehaviour
 {
@@ -61,7 +60,7 @@ public class Attack : NetworkBehaviour
         if (GetInput(out NetworkInputData data))
         {
             if (data.neutralAttack) {
-                //Debug.Log("TEST TEST PRESSING G LOOK AT ME");
+                Debug.Log("Attack.FixedUpdateNetwork() : NetworkInputData not null, Attack Key (G) pressed!");
                 iAttack();
             }
         }
@@ -84,7 +83,7 @@ public class Attack : NetworkBehaviour
     {
         attacking = true;
         attackArea.SetActive(attacking);
-        //Debug.Log("IATTACK TEST TEST TEST TEST");
+        Debug.Log("Attack.iAttack() triggered : I am attacking and enabling my attackArea (hitbox)!");
     }
 
 /*    private void LaunchAttack(Collider2D col)

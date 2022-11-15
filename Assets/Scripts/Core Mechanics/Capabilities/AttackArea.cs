@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class AttackArea : MonoBehaviour
+public class AttackArea : NetworkBehaviour
 {
     private int damage = 50;
 
@@ -12,7 +12,7 @@ public class AttackArea : MonoBehaviour
         //Debug.Log("BEFORE ATTACKING BAM BAM");
         if (collider.GetComponent<Health>() != null)
         {
-            Debug.Log("ATTACKING BAM BAM");
+            Debug.Log("AttackArea : Collider2D health not null & triggered!");
             Health health = collider.GetComponent<Health>();
             health.Damage(damage);
         }

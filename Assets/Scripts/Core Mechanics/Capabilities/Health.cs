@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class Health : MonoBehaviour
+public class Health : NetworkBehaviour
 {
     [SerializeField] private int health = 100;
 
@@ -26,10 +27,14 @@ public class Health : MonoBehaviour
     {
         if (amount < 0)
         {
-            throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
+            //throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
+            // should not throw exceptions; rather, negate the healing amount
+            amount = 0;
         }
 
         this.health -= amount;
+
+        Debug.Log("Health.Damage() triggered : HEALTH LEFT = " + health);
 
         if (health <= 0)
         {
@@ -41,7 +46,9 @@ public class Health : MonoBehaviour
     {
         if (amount < 0)
         {
-            throw new System.ArgumentOutOfRangeException("Cannot have negative healing");
+            //throw new System.ArgumentOutOfRangeException("Cannot have negative healing");
+            // should not throw exceptions; rather, negate the healing amount
+            amount = 0;
         }
 
         bool wouldBeOverMaxHealth = health + amount > MAX_HEALTH;

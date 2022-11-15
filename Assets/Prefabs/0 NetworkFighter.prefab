@@ -213,6 +213,8 @@ MonoBehaviour:
   - {fileID: 261806375952415372}
   - {fileID: 747335961585469154}
   - {fileID: 4977875603341989461}
+  - {fileID: 2436642509868402253}
+  - {fileID: 2043855508077339471}
   SimulationBehaviours: []
 --- !u!114 &1022839357175312393
 MonoBehaviour:
@@ -399,7 +401,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
   playerCollider: {fileID: 8890905694752838623}
 --- !u!114 &4977875603341989461
 MonoBehaviour:
@@ -439,7 +440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d291a7ce80cabbc49a0e3e556145a948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  _interpolationDataSource: 0
+  health: 250
 --- !u!1 &725000121031292995
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8539caf70b8aa743a2e8840f525144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!1 &1600593237929189530
 GameObject:
   m_ObjectHideFlags: 0

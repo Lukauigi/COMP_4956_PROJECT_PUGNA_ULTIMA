@@ -13,6 +13,7 @@ using UnityEngine;
 public class FighterInputController : InputController
 {
     // returns the raw axis for horizontal movements
+    // to note, this checks if left or right is pressed
     public override float RetrieveMoveInput()
     {
         return Input.GetAxisRaw("Horizontal");
@@ -23,41 +24,36 @@ public class FighterInputController : InputController
     {
         return Input.GetButtonDown("Jump");
     }
+
+    // returns a bool to check if down is pressed
     public override bool RetrieveDownInput()
     {
         return Input.GetKeyDown(KeyCode.DownArrow);
     }
 
     // returns a bool to check if attack is pressed
-    public bool RetrieveAttackInput()
-    {
-        return Input.GetKeyDown(KeyCode.G);
-    }
-
     public override bool RetrieveAttackNeutralInput()
     {
         return Input.GetKeyDown(KeyCode.G);
     }
 
+    /* public override bool RetrieveAttackSideTiltInput()
+     {
 
+         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.LeftArrow);
+     }
 
-   /* public override bool RetrieveAttackSideTiltInput()
-    {
+     public override bool RetrieveAttackUpTiltInput()
+     {
 
-        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.LeftArrow);
-    }
+         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.UpArrow);
+     }
 
-    public override bool RetrieveAttackUpTiltInput()
-    {
+     public override bool RetrieveAttackDownTiltInput()
+     {
 
-        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.UpArrow);
-    }
-
-    public override bool RetrieveAttackDownTiltInput()
-    {
-
-        return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.DownArrow);
-    }*/
+         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.DownArrow);
+     }*/
 
     // TODO: (for jason) disable player input when GameManager.GameState is not 'running'
 }
