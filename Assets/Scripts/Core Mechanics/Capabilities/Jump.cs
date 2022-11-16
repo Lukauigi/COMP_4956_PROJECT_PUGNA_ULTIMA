@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Jump : NetworkBehaviour
 {
-    [SerializeField] private InputController input = null;
     [SerializeField, Range(0f, 10f)] private float jumpHeight = 1f;
     [SerializeField, Range(0, 2)] private int maxAirJumps = 2; //max 2 jumps
     [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
