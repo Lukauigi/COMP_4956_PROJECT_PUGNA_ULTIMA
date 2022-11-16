@@ -571,6 +571,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
     Standalone: FUSION_WEAVER;ENABLE_PLAYFABADMIN_API;ENABLE_PLAYFABSERVER_API
+    WebGL: FUSION_WEAVER
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

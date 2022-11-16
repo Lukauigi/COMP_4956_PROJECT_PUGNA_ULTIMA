@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 261806375952415379}
   - component: {fileID: 261806375952415378}
   - component: {fileID: 261806375952415372}
-  - component: {fileID: 747335961585469154}
   - component: {fileID: 4977875603341989461}
   - component: {fileID: 7201283148702718108}
   - component: {fileID: 5748430906108861779}
@@ -214,7 +213,6 @@ MonoBehaviour:
   - {fileID: 1022839357175312393}
   - {fileID: 261806375952415378}
   - {fileID: 261806375952415372}
-  - {fileID: 747335961585469154}
   - {fileID: 4977875603341989461}
   - {fileID: 5748430906108861779}
   - {fileID: 5423015663125788574}
@@ -413,20 +411,8 @@ MonoBehaviour:
   maxAirJumps: 2
   downwardMovementMultiplier: 2.5
   upwardMovementMultiplier: 1.7
---- !u!114 &747335961585469154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502517741467019153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9290bff6c1908e46a35e78242003460, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
   playerCollider: {fileID: 8890905694752838623}
+  playerEdgeCollider: {fileID: 261806375952415373}
 --- !u!114 &4977875603341989461
 MonoBehaviour:
   m_ObjectHideFlags: 0

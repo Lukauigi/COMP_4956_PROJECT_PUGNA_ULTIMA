@@ -25,8 +25,15 @@ public class Jump : NetworkBehaviour
 
     private bool desiredJump;
 
+    // Game object for platform on screen
+    private GameObject currentOneWayPlatform;
 
-    
+    // Player BoxCollider2D field
+    [SerializeField] private BoxCollider2D playerCollider;
+    // Player EdgeCollider2D field
+    [SerializeField] private EdgeCollider2D playerEdgeCollider;
+
+
     //public Transform groundCheck;
     //public float checkRadius;
     //public LayerMask whatIsGround;
@@ -135,7 +142,7 @@ public class Jump : NetworkBehaviour
         }
 
         UpdateVelocity();
-
+        CheckPlatformFall();
     }
 
 
@@ -153,35 +160,46 @@ public class Jump : NetworkBehaviour
         }
     }
 
-    //[Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    //private void MoveDuringJumping()
-    //{
-    //    float moveSpeed = 40f;
-    //    float midAirControl = 1.5f;
-    //    if (Input.GetKey(KeyCode.LeftArrow))
-    //    {
-    //        if (onGround)
-    //        {
-    //            body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-    //        } else
-    //        {
-    //            body.velocity += new Vector2(-moveSpeed * midAirControl * Time.deltaTime, 0);
-    //            body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -moveSpeed, moveSpeed), body.velocity.y);
-    //        }
-    //    } else
-    //    {
-    //        if (Input.GetKey(KeyCode.RightArrow))
-    //        {
-    //            if (onGround)
-    //            {
-    //                body.velocity = new Vector2(moveSpeed, body.velocity.y);
-    //            }
-    //            else
-    //            {
-    //                body.velocity += new Vector2(moveSpeed * midAirControl * Time.deltaTime, 0);
-    //                body.velocity = new Vector2(Mathf.Clamp(body.velocity.x, -moveSpeed, moveSpeed), body.velocity.y);
-    //            }
-    //        }
-    //    }
-    //}
+    private void CheckPlatformFall()
+    {
+        if (isDownPressed && currentOneWayPlatform != null)
+        {
+            StartCoroutine(DisableCollision());
+        }
+    }
+
+    // Triggers when player makes contact with the platform
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //print("platform not assigned");
+        if (collision.gameObject.CompareTag("TwoWayPlatform"))
+        {
+            print("platform assigned");
+            currentOneWayPlatform = collision.gameObject;
+        }
+    }
+
+    // Triggers when player passes through the platform from above
+    /*private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("TwoWayPlatform"))
+        {
+            currentOneWayPlatform = null;
+        }
+    }*/
+
+    // Method used to ignore the collision field of the platform 
+    private IEnumerator DisableCollision()
+    {
+        print("disable collision method called");
+        BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
+        Physics2D.IgnoreCollision(playerCollider, platformCollider);
+        Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider);
+        yield return new WaitForSeconds(3f);
+        Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
+        Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider, false);
+        currentOneWayPlatform = null;
+        StopCoroutine(DisableCollision());
+    }
+
 }

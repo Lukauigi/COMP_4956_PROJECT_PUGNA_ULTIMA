@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 2135631}
   m_Layer: 0
   m_Name: Light Platform (L)
-  m_TagString: OneWayPlatform
+  m_TagString: TwoWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1105,7 +1105,7 @@ GameObject:
   - component: {fileID: 677721431}
   m_Layer: 0
   m_Name: Light Platform (R)
-  m_TagString: OneWayPlatform
+  m_TagString: TwoWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1255,6 +1255,7 @@ GameObject:
   - component: {fileID: 718807178}
   - component: {fileID: 718807177}
   - component: {fileID: 718807176}
+  - component: {fileID: 718807180}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -1376,6 +1377,25 @@ Transform:
   m_Father: {fileID: 250847706}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!251 &718807180
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718807175}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &726157498
 GameObject:
   m_ObjectHideFlags: 0
