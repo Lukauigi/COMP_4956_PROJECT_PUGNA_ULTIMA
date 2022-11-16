@@ -14,4 +14,22 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Network/CharacterSelect.unity
     guid: 6d072430fbb75654091274ab841e9711
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Character Selection page.unity
+    guid: 526e8a9550356ce42a31937cf28dfef0
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Login Screen.unity
+    guid: 0f49a1c140c8cd940b4020afa5b41b10
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Main Menu.unity
+    guid: c059a810b3cf9774689279cc1c40d440
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Start Page.unity
+    guid: 68ebc578f7cc007488435564eedd1ee9
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Setting Screen.unity
+    guid: 674895cf03fb9e141b0f27266a7f4c5c
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Signup Screen.unity
+    guid: 7cd5c229a7dd2f740bd7431b97f800fe
   m_configObjects: {}
