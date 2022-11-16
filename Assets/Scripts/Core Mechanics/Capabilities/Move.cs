@@ -56,22 +56,22 @@ public class Move : NetworkBehaviour
         }
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
 
-        float inputHorizontal = input.RetrieveMoveInput();
+        //float inputHorizontal = input.RetrieveMoveInput();
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
         // region : johnny & richard's feature branch
-        if (inputHorizontal != 0)
+        if (direction.x != 0)
         {
-            body.AddForce(new Vector2(inputHorizontal * Time.deltaTime, 0f));
+            body.AddForce(new Vector2(direction.x * Time.deltaTime, 0f));
         }
 
-        if (inputHorizontal > 0)
+        if (direction.x > 0)
         {
             body.transform.localScale = new Vector3(1, 1, 1);
         }
 
-        if (inputHorizontal < 0)
+        if (direction.x < 0)
         {
             body.transform.localScale = new Vector3(-1, 1, 1);
         }
