@@ -33,7 +33,6 @@ public class Jump : NetworkBehaviour
     // Player EdgeCollider2D field
     [SerializeField] private EdgeCollider2D playerEdgeCollider;
 
-
     //public Transform groundCheck;
     //public float checkRadius;
     //public LayerMask whatIsGround;
@@ -82,10 +81,7 @@ public class Jump : NetworkBehaviour
     // Method to check and apply velocity
     private void UpdateVelocity()
     {
-
-        
         //if going up, apply upward movement
-        
         if (body.velocity.y > 0 )
         {
 
@@ -111,12 +107,8 @@ public class Jump : NetworkBehaviour
 
         if (GetInput(out NetworkInputData data))
             {
-                //desiredJump |= data.jump;
                 isJumpPressed |= data.jump;
                 isDownPressed |= data.down; 
-            } else
-            {
-                //desiredJump |= input.RetrieveJumpInput();
             }
 
         onGround = ground.GetOnGround();
@@ -133,12 +125,7 @@ public class Jump : NetworkBehaviour
         if (isJumpPressed)
         {
             isJumpPressed = false;
-            //while (currentJump < maxAirJumps)
-            //{
-            //    JumpAction();
-            //}
             JumpAction();
-            //MoveDuringJumping();
         }
 
         UpdateVelocity();

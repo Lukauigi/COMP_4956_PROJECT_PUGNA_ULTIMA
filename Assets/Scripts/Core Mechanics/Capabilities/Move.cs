@@ -61,11 +61,10 @@ public class Move : NetworkBehaviour
         velocity = body.velocity;
 
         // region : johnny & richard's feature branch
-        if (direction.x != 0)
-        {
-            body.AddForce(new Vector2(direction.x * Time.deltaTime, 0f));
-        }
-
+        //if (direction.x != 0)
+        //{
+        //    body.AddForce(new Vector2(direction.x * Time.deltaTime, 0f));
+        //}
         if (direction.x > 0)
         {
             body.transform.localScale = new Vector3(1, 1, 1);
