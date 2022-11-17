@@ -292,8 +292,8 @@ GameObject:
   - component: {fileID: 649337026}
   - component: {fileID: 649337025}
   - component: {fileID: 649337023}
-  - component: {fileID: 649337022}
   - component: {fileID: 649337028}
+  - component: {fileID: 649337022}
   m_Layer: 0
   m_Name: Prototype Runner (1)
   m_TagString: Untagged
@@ -996,5 +996,9 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1727767008}
+    - target: {fileID: 1125758498273783159, guid: 243878b5ecbaafb4bb25aff8f1987242, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 243878b5ecbaafb4bb25aff8f1987242, type: 3}
