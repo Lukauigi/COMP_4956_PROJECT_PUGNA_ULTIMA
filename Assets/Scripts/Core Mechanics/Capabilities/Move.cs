@@ -38,21 +38,18 @@ public class Move : NetworkBehaviour
         isFacingRight = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
+    // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
         //if (GameManager.instance.GameState != GameStates.running)
         //    return;
 
-        // For Host-Client Mode
+        // checking for input presses
         if (GetInput(out NetworkInputData data))
         {
-            direction.x = data.move;
+            direction.x = data.horizontalMovement;
         }
+
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
 
         onGround = ground.GetOnGround();

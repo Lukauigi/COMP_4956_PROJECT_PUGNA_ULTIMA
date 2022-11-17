@@ -13,6 +13,7 @@ public class Jump : NetworkBehaviour
     private Rigidbody2D body; //detect jump velocity
     //private NetworkRigidbody2D body;
     private Ground ground; //detect ground
+    private Vector2 direction;
     private Vector2 velocity;
 
     private int currentJump; //how many times we have jumped
@@ -22,10 +23,8 @@ public class Jump : NetworkBehaviour
     private bool onGround;
     private bool isDownPressed;
 
-    private bool desiredJump;
-
     // Game object for platform on screen
-    private GameObject currentOneWayPlatform;
+    private GameObject currentLightPlatform;
 
     // Player BoxCollider2D field
     [SerializeField] private BoxCollider2D playerCollider;
@@ -43,15 +42,6 @@ public class Jump : NetworkBehaviour
         ground = GetComponent<Ground>();
 
         defaultGravityScale = 10f;
-    }
-
-
-    // The Jump boolean variable remains set in new update cycle until we
-    // manually set to false
-    void Update()
-    {
-        //Need input to be true once and if it is used, set it to false
-        //isJumpPressed |= input.RetrieveJumpInput();
     }
 
     //Method to perform jump action.
@@ -99,19 +89,26 @@ public class Jump : NetworkBehaviour
         body.velocity = velocity; //apply velocity to rigidbody
     }
 
+    // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
         //if (GameManager.instance.GameState != GameStates.running)
         //    return;
 
+        // checking for input presses
         if (GetInput(out NetworkInputData data))
             {
                 isJumpPressed |= data.jump;
-                isDownPressed |= data.down; 
+                direction.y = data.verticalMovement;
+                //isDownPressed |= data.down; 
             }
 
+        if (direction.y < 0)
+        {
+            isDownPressed = true;
+        }
+
         onGround = ground.GetOnGround();
-        //onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         velocity = body.velocity;
 
         //if object on ground, reset nth jump to 0
@@ -148,7 +145,7 @@ public class Jump : NetworkBehaviour
 
     private void CheckPlatformFall()
     {
-        if (isDownPressed && currentOneWayPlatform != null)
+        if (isDownPressed && currentLightPlatform != null)
         {
             StartCoroutine(DisableCollision());
         }
@@ -161,7 +158,7 @@ public class Jump : NetworkBehaviour
         if (collision.gameObject.CompareTag("TwoWayPlatform"))
         {
             print("platform assigned");
-            currentOneWayPlatform = collision.gameObject;
+            currentLightPlatform = collision.gameObject;
         }
     }
 
@@ -170,7 +167,7 @@ public class Jump : NetworkBehaviour
     {
         if (collision.gameObject.CompareTag("TwoWayPlatform"))
         {
-            currentOneWayPlatform = null;
+            currentLightPlatform = null;
         }
     }*/
 
@@ -178,13 +175,13 @@ public class Jump : NetworkBehaviour
     private IEnumerator DisableCollision()
     {
         print("disable collision method called");
-        BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
+        BoxCollider2D platformCollider = currentLightPlatform.GetComponent<BoxCollider2D>();
         Physics2D.IgnoreCollision(playerCollider, platformCollider);
         Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider);
         yield return new WaitForSeconds(3f);
         Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
         Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider, false);
-        currentOneWayPlatform = null;
+        currentLightPlatform = null;
         StopCoroutine(DisableCollision());
     }
 
