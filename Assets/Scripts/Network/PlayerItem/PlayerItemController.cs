@@ -36,6 +36,7 @@ public class PlayerItemController : NetworkBehaviour
     public bool isHost { get; set; }
     public bool isClient { get; set; }
 
+
     /// <summary>
     /// Author: Roswell Doria
     /// Date: 2022-10-29
@@ -75,7 +76,6 @@ public class PlayerItemController : NetworkBehaviour
 
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
-
     }
 
     /// <summary>
@@ -105,8 +105,7 @@ public class PlayerItemController : NetworkBehaviour
     ///
     /// </summary>
     public override void FixedUpdateNetwork()
-    {
-        
+    {   
         Avatar.color = Colors[selected];
         if (isClient)
         {
@@ -118,6 +117,7 @@ public class PlayerItemController : NetworkBehaviour
         {
             Debug.Log("Host is Local -------------------------------------------------------------------------");
             _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal);
+
         }
         if(!isLocal)
         {
