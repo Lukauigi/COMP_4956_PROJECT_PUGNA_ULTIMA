@@ -6,13 +6,10 @@ using UnityEngine;
 public class FighterControlHandler : MonoBehaviour
 {
 
-    //PlayerController input = new PlayerController();
-
     [SerializeField] public InputController input = null;
 
     private Vector2 direction;
     private bool jump;
-    //private bool down;
     private bool attack;
     private bool dodge;
 
@@ -27,8 +24,6 @@ public class FighterControlHandler : MonoBehaviour
     {
         direction.x = input.RetrieveHorizontalInput();
         direction.y = input.RetrieveVerticalInput();
-        //if (input.RetrieveVerticalInput())
-        //    down = true;
 
         if (input.RetrieveJumpInput())
             jump = true;

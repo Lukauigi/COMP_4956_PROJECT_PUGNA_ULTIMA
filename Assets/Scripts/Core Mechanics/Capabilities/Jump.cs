@@ -20,9 +20,9 @@ public class Jump : NetworkBehaviour
     private float defaultGravityScale;
 
     private bool isJumpPressed;
-    private bool onGround;
     private bool isDownPressed;
 
+    private bool onGround;
     // Game object for platform on screen
     private GameObject currentLightPlatform;
 
@@ -47,7 +47,6 @@ public class Jump : NetworkBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        //body = GetComponent<NetworkRigidbody2D>();
         ground = GetComponent<Ground>();
         playerCollider = GetComponent<BoxCollider2D>();
         playerEdgeCollider = GetComponent<EdgeCollider2D>();
