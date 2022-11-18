@@ -21,6 +21,9 @@ public class PlayerOneWayPlatform : NetworkBehaviour
     [SerializeField] private BoxCollider2D playerCollider;
 
 
+    // reference the animator controller for player
+    public Animator animator;
+
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -64,7 +67,6 @@ public class PlayerOneWayPlatform : NetworkBehaviour
             print("platform assigned");
             currentOneWayPlatform = collision.gameObject;
 
-            
 
 
         }

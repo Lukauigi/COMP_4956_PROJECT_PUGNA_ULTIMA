@@ -15,6 +15,9 @@ public class Attack : NetworkBehaviour
     private float timeToAttack = 0.25f;
     private float timer = 0f;
 
+    // reference the animator controller for player
+    public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +65,7 @@ public class Attack : NetworkBehaviour
             if (data.neutralAttack) {
                 Debug.Log("Attack.FixedUpdateNetwork() : NetworkInputData not null, Attack Key (G) pressed!");
                 iAttack();
+
             }
         }
 
@@ -74,6 +78,9 @@ public class Attack : NetworkBehaviour
                 timer = 0;
                 attacking = false;
                 attackArea.SetActive(attacking);
+
+                // signal to stop attacking 
+                animator.SetBool("isAttacking", false);
             }
         }
     }
@@ -84,6 +91,9 @@ public class Attack : NetworkBehaviour
         attacking = true;
         attackArea.SetActive(attacking);
         Debug.Log("Attack.iAttack() triggered : I am attacking and enabling my attackArea (hitbox)!");
+
+        // signal to attack
+        animator.SetBool("isAttacking", true);
     }
 
 /*    private void LaunchAttack(Collider2D col)

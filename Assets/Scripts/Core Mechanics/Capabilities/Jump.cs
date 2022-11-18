@@ -56,8 +56,18 @@ public class Jump : NetworkBehaviour
         //check if we are on ground OR we still have jumps left
         if (onGround || currentJump < maxAirJumps)
         {
-            // play jumping animation
-            animator.SetBool("isJumping", true);
+
+            if (onGround)
+            {
+                // play jumping animation
+                animator.SetBool("isJumping", true);
+            }
+            else {
+                // replay jump animation
+                animator.SetBool("isDoubleJumping", true);
+            }
+
+
 
             currentJump += 1;
             onGround = false;
@@ -120,6 +130,7 @@ public class Jump : NetworkBehaviour
 
             // reached ground; stop the jumping animation
             animator.SetBool("isJumping", false);
+            animator.SetBool("isDoubleJumping", false);
         }
 
         //if jump action is requested
