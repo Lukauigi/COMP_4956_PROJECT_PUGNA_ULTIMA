@@ -3,29 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class that handles the attack of a fighter/player.
+/// Author(s): Faiz Hassany
+/// Date: Nov 07 2022
+/// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
+/// Change History: Nov 18 2022 - Jason Cheung
+/// - Renamed some methods to be more consistent with other capabilities.
+/// </summary>
 public class Attack : NetworkBehaviour
 {
-
     //public Collider2D[] attackHitboxes;
 
     private GameObject attackArea;
 
     private bool isAttackPressed;
 
-    private bool attacking = false;
-    private float timeToAttack = 0.25f;
+    private bool isAttacking = false;
+    private float attackRate = 1f;
     private float timer = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
+        // cache component
         attackArea = transform.Find("AttackArea").gameObject;
     }
 
-    private void OnDrawGizmosSelected()
-    {
+    //private void OnDrawGizmosSelected()
+    //{
 
-    }
+    //}
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
@@ -41,30 +49,33 @@ public class Attack : NetworkBehaviour
 
         if (isAttackPressed)
         {
-            Debug.Log("Attack.isAttackPressed : Attack Key (G) pressed!");
             isAttackPressed = false;
-            iAttack();
+            AttackAction();
         }
 
-        if (attacking)
+        if (isAttacking)
         {
             timer += Runner.DeltaTime;
 
-            if (timer >= timeToAttack)
+            if (timer >= attackRate)
             {
                 timer = 0;
-                attacking = false;
-                attackArea.SetActive(attacking);
+                isAttacking = false;
+                attackArea.SetActive(isAttacking);
             }
         }
     }
 
-    //nov 7
-    private void iAttack()
+    // Perform attack action
+    private void AttackAction()
     {
-        attacking = true;
-        attackArea.SetActive(attacking);
-        Debug.Log("Attack.iAttack() : Enabling AttackArea hitbox!");
+        // perform attack only if fighter is not currenty attacking
+        if (!isAttacking)
+        {
+            isAttacking = true;
+            attackArea.SetActive(isAttacking);
+            Debug.Log("Player Attacked! Enabling AttackArea hitbox!");
+        }
     }
 
 /*    private void LaunchAttack(Collider2D col)

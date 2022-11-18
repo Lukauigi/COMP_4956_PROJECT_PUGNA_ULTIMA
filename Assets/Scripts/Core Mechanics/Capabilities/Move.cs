@@ -5,13 +5,17 @@ using UnityEngine;
 
 /// <summary>
 /// Class that handles all the movement (horizontal) of a fighter/player
-/// /// Author(s): Jun Earl Solomon
+/// Author(s): Jun Earl Solomon
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
 /// </summary>
 public class Move : NetworkBehaviour
 {
+    // fighter prefab components
+    protected Rigidbody2D _body;
+    protected Ground _ground;
+
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
@@ -19,8 +23,7 @@ public class Move : NetworkBehaviour
     private Vector2 direction;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
-    private Rigidbody2D body;
-    private Ground ground;
+
 
     private float maxSpeedChange;
     private float acceleration;
@@ -28,14 +31,21 @@ public class Move : NetworkBehaviour
     
     private bool isFacingRight;
 
-    // Start is called before the first frame update
+
+    // Awake is called when the script instance is being loaded
     void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        ground = GetComponent<Ground>();
+        CacheComponents();
         // TODO: might have to change, right now its under the assumption
         //  that both players are facing right.
         isFacingRight = true;
+    }
+
+    // Helper method to initialize fighter prefab components
+    private void CacheComponents()
+    {
+        if (!_body) _body = GetComponent<Rigidbody2D>();
+        if (!_ground) _ground = GetComponent<Ground>();
     }
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
@@ -50,20 +60,20 @@ public class Move : NetworkBehaviour
             direction.x = data.horizontalMovement;
         }
 
-        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
+        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - _ground.GetFriction(), 0f);
 
-        onGround = ground.GetOnGround();
-        velocity = body.velocity;
+        onGround = _ground.GetOnGround();
+        velocity = _body.velocity;
 
         // flipping the entire body
         if (direction.x > 0 && !isFacingRight)
         {
-            body.transform.RotateAround(body.transform.position, body.transform.up, 180f);
+            _body.transform.RotateAround(_body.transform.position, _body.transform.up, 180f);
             isFacingRight = true;
         }
         if (direction.x < 0 && isFacingRight)
         {
-            body.transform.RotateAround(body.transform.position, body.transform.up, 180f);
+            _body.transform.RotateAround(_body.transform.position, _body.transform.up, 180f);
             isFacingRight = false;
         }
 
@@ -71,7 +81,7 @@ public class Move : NetworkBehaviour
         maxSpeedChange = acceleration * Runner.DeltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
-        body.velocity = velocity;
+        _body.velocity = velocity;
     }
 
 }

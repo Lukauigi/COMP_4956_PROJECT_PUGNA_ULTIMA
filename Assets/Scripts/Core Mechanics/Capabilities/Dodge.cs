@@ -3,22 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
+/// <summary>
+/// Class that handles the dodge of a fighter/player.
+/// Author(s): Richard Mac
+/// Date: Nov 18 2022
+/// </summary>
 public class Dodge : NetworkBehaviour
 {
-    private Rigidbody2D body;
-    private bool isDodgePressed;
+    // fighter prefab components
+    protected Rigidbody2D _body; // affects jump velocity
+
     [SerializeField] private BoxCollider2D playerHitbox;
 
-    private void dodgeAction()
+    private bool isDodgePressed;
+
+    // Awake is called when the script instance is being loaded
+    private void Awake()
     {
-        //playerHitbox.enabled = false;
-        Debug.Log("dodge pressed");
+        CacheComponents();
     }
 
-
-    public void Awake()
+    // Helper method to initialize fighter prefab components
+    private void CacheComponents()
     {
-        body = GetComponent<Rigidbody2D>();
+        if (!_body) _body = GetComponent<Rigidbody2D>();
     }
 
     public override void FixedUpdateNetwork()
@@ -31,7 +39,13 @@ public class Dodge : NetworkBehaviour
         if (isDodgePressed)
         {
             isDodgePressed = false;
-            dodgeAction();
+            DodgeAction();
         }
     }
+    private void DodgeAction()
+    {
+        //playerHitbox.enabled = false;
+        Debug.Log("Player Dodged!");
+    }
+
 }

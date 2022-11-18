@@ -3,21 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class that gathers local input data and returns it to the Network.
+/// Author(s): Jun Earl Solomon, Jason Cheung
+/// Date: Oct 29 2022
+/// Remarks: InputController prefab should be 'PlayerController (Fighter Input Controller)
+/// </summary>
 public class FighterControlHandler : MonoBehaviour
 {
 
-    [SerializeField] public InputController input = null;
+    [SerializeField] private InputController input = null;
 
     private Vector2 direction;
     private bool jump;
     private bool attack;
     private bool dodge;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
