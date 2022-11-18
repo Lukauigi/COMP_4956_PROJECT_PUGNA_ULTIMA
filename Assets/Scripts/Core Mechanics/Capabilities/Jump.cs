@@ -27,9 +27,17 @@ public class Jump : NetworkBehaviour
     private GameObject currentLightPlatform;
 
     // Player BoxCollider2D field
-    [SerializeField] private BoxCollider2D playerCollider;
+    private BoxCollider2D playerCollider;
     // Player EdgeCollider2D field
-    [SerializeField] private EdgeCollider2D playerEdgeCollider;
+    private EdgeCollider2D playerEdgeCollider;
+
+    // Get width of screen
+    private int screenSizeX;
+    // Get height of screen
+    private int screenSizeY;
+
+    // Lives remaining
+    private int livesRemaining = 3;
 
     //public Transform groundCheck;
     //public float checkRadius;
@@ -40,8 +48,17 @@ public class Jump : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         //body = GetComponent<NetworkRigidbody2D>();
         ground = GetComponent<Ground>();
+        playerCollider = GetComponent<BoxCollider2D>();
+        playerEdgeCollider = GetComponent<EdgeCollider2D>();
 
-        defaultGravityScale = 10f;
+        defaultGravityScale = downwardMovementMultiplier;
+
+        // Set screen size variables
+        screenSizeX = Screen.width;
+        screenSizeY = Screen.height;
+
+        print("================Screen width: " + screenSizeX + "=======================");
+        print("================Screen height: " + screenSizeY + "=======================");
     }
 
     //Method to perform jump action.
@@ -100,50 +117,78 @@ public class Jump : NetworkBehaviour
             {
                 isJumpPressed |= data.jump;
                 direction.y = data.verticalMovement;
-                //isDownPressed |= data.down; 
             }
 
+        // checking if Down is pressed
         if (direction.y < 0)
         {
             isDownPressed = true;
+        } else
+        {
+            isDownPressed = false;
         }
 
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
-        //if object on ground, reset nth jump to 0
+        // if player is on ground, reset jump counter
         if (onGround && body.velocity.y == 0)
         {
             currentJump = 0;
         }
 
-        //if jump action is requested
+        // checking jump - if jump action is requested
         if (isJumpPressed)
         {
             isJumpPressed = false;
             JumpAction();
         }
 
+        CheckRespawn();
+        CheckFallThroughPlatform();
+
         UpdateVelocity();
-        CheckPlatformFall();
     }
 
+    private void CheckRespawn()
+    {
+        int stageBoundaryBottom = -5;
+        int stageBoundaryTop = 15;
+        int stageBoundaryLeft = -15;
+        int stageBoundaryRight = 15;
+
+        // check if player should respawn
+        if (livesRemaining != 0 && 
+            ((body.position.y < stageBoundaryBottom) ||
+            (body.position.y > stageBoundaryTop) ||
+            (body.position.x > stageBoundaryRight) ||
+            (body.position.x < stageBoundaryLeft)))
+        {
+            livesRemaining--;
+            isDownPressed = false;
+            velocity.y = 0;
+            body.gravityScale = downwardMovementMultiplier;
+            body.position = new Vector2(0, 3);
+            print("====================== player respawned =====================");
+            print("lives remaining: " + livesRemaining);
+        }
+    }
 
     private void FastFall()
     {
         if (isDownPressed)
         {
-            body.gravityScale = 4 * downwardMovementMultiplier;
+            body.gravityScale = 3 * downwardMovementMultiplier;
             if (onGround)
             {
                 body.gravityScale = defaultGravityScale;
-                isDownPressed = false;
+                //isDownPressed = false;
             }
 
         }
     }
 
-    private void CheckPlatformFall()
+    private void CheckFallThroughPlatform()
     {
         if (isDownPressed && currentLightPlatform != null)
         {
@@ -178,7 +223,7 @@ public class Jump : NetworkBehaviour
         BoxCollider2D platformCollider = currentLightPlatform.GetComponent<BoxCollider2D>();
         Physics2D.IgnoreCollision(playerCollider, platformCollider);
         Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
         Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider, false);
         currentLightPlatform = null;
