@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 4977875603341989461}
   - component: {fileID: 7201283148702718108}
   - component: {fileID: 5748430906108861779}
+  - component: {fileID: -8388165017813984341}
   m_Layer: 0
   m_Name: 1 NetworkFighter
   m_TagString: Player
@@ -215,6 +216,7 @@ MonoBehaviour:
   - {fileID: 261806375952415372}
   - {fileID: 4977875603341989461}
   - {fileID: 5748430906108861779}
+  - {fileID: -8388165017813984341}
   - {fileID: 5423015663125788574}
   SimulationBehaviours: []
 --- !u!114 &1022839357175312393
@@ -389,7 +391,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
   maxSpeed: 4
   maxAcceleration: 35
   maxAirAcceleration: 20
@@ -406,7 +407,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
   jumpHeight: 3.72
   maxAirJumps: 2
   downwardMovementMultiplier: 2.5
@@ -453,6 +453,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   health: 250
+--- !u!114 &-8388165017813984341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502517741467019153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da8f5383e62e4f3d932f24b695ece98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  playerHitbox: {fileID: 8890905694752838623}
 --- !u!1 &1600593237929189530
 GameObject:
   m_ObjectHideFlags: 0
