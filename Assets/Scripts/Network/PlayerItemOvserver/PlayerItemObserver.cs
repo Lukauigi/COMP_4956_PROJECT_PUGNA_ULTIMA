@@ -24,9 +24,9 @@ public class PlayerItemObserver : NetworkBehaviour
     
     public void Awake()
     {
-        Debug.Log("Observer Null: " + Observer);
+        //Debug.Log("Observer Null: " + Observer);
         Observer = this;
-        Debug.Log("Obserer not Null: " + Observer);
+        //Debug.Log("Obserer not Null: " + Observer);
     }
     public override void FixedUpdateNetwork()
     {
@@ -41,7 +41,7 @@ public class PlayerItemObserver : NetworkBehaviour
         if (PlayerOneReady && PlayerTwoReady && Runner.IsServer && !Spawned)
         {
             
-            Debug.Log("PlayerItemObserver.cs : Both players are ready, Host connection runs this code");
+            //Debug.Log("PlayerItemObserver.cs : Both players are ready, Host connection runs this code");
             // Despawn Player one and player two character select objects
             RPC_DespawnPlayerItems(PlayerOneRef, PlayerTwoRef);
             // Spawn Player one and player two selected characters
@@ -57,8 +57,8 @@ public class PlayerItemObserver : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost)
     { 
-        Debug.Log("PlayerItemObserver.cs : RPC_SetPlayerReady() cycle");
-        Debug.Log("PlayerRefIndex: " + playerRefIndex);
+        //Debug.Log("PlayerItemObserver.cs : RPC_SetPlayerReady() cycle");
+        //Debug.Log("PlayerRefIndex: " + playerRefIndex);
         if(isHost)
         {
             PlayerOneRef = playerRefIndex;

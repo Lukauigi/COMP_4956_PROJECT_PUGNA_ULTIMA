@@ -33,11 +33,21 @@ public class Jump : NetworkBehaviour
     // Player EdgeCollider2D field
     [SerializeField] private EdgeCollider2D playerEdgeCollider;
 
+    // Get width of screen
+    private int screenSizeX;
+    // Get height of screen
+    private int screenSizeY;
+
+    // Time to respawn
+    // private int timeToRespawn = 1000;
+    // Lives remaining
+    private int livesRemaining = 3;
 
     //public Transform groundCheck;
     //public float checkRadius;
     //public LayerMask whatIsGround;
 
+    
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -45,6 +55,14 @@ public class Jump : NetworkBehaviour
         ground = GetComponent<Ground>();
 
         defaultGravityScale = 10f;
+
+        // Set screen size variables
+        screenSizeX = Screen.width;
+        screenSizeY = Screen.height;
+
+        print("================Screen width: " + screenSizeX + "=======================");
+        print("================Screen height: " + screenSizeY + "=======================");
+
     }
 
 
@@ -119,6 +137,9 @@ public class Jump : NetworkBehaviour
                 //desiredJump |= input.RetrieveJumpInput();
             }
 
+        StartCoroutine(RespawnOnScreen());
+        StopCoroutine(RespawnOnScreen());
+
         onGround = ground.GetOnGround();
         //onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         velocity = body.velocity;
@@ -143,9 +164,28 @@ public class Jump : NetworkBehaviour
 
         UpdateVelocity();
         CheckPlatformFall();
+
+        //timeToRespawn--;
+
+        
+        
     }
 
-
+    private IEnumerator RespawnOnScreen()
+    {
+        if (livesRemaining != 0 && body.position.y < (-(screenSizeY / 4)))
+        {
+            livesRemaining--;
+            isDownPressed = false;
+            body.velocity.y = 0;
+            body.gravityScale = downwardMovementMultiplier;
+            body.position = new Vector2(0, 5);
+            print("====================== player respawned =====================");
+            print("lives remaining: " + livesRemaining);
+            
+            yield return new WaitForSeconds(4f);
+        }
+    }
     private void FastFall()
     {
         if (isDownPressed)
