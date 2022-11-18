@@ -90,6 +90,7 @@ public class AccountManager : MonoBehaviour
             {
                 // On successful login, set the PlayFabId
                 PlayerPrefsManager.SetPlayfabId(response.PlayFabId);
+                PlayerPrefsManager.SetPlayerName(Username);
                 Debug.Log($"The id is  {response.PlayFabId}");
                 Debug.Log($"User successfully logged in | Username: {Username}");
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
@@ -146,4 +147,25 @@ public static class PlayerPrefsManager
     {
         return PlayerPrefs.GetString("PlayfabId");
     }
+    
+    /// <summary>
+    /// Set the player name to the PlayerPrefs.
+    /// </summary>
+    /// <param name="playerName"></param>
+    /// <returns></returns>
+    public static string SetPlayerName(string playerName)
+    {
+        PlayerPrefs.SetString("PlayerName", playerName);
+        return playerName;
+    }
+    
+    /// <summary>
+    /// Get the player name from the PlayerPrefs.
+    /// </summary>
+    /// <returns></returns>
+    public static string GetPlayerName()
+    {
+        return PlayerPrefs.GetString("PlayerName");
+    }
+
 }
