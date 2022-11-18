@@ -129,9 +129,6 @@ public class Jump : NetworkBehaviour
             isDownPressed = false;
         }
 
-        StartCoroutine(RespawnOnScreen());
-        StopCoroutine(RespawnOnScreen());
-
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
@@ -168,14 +165,19 @@ public class Jump : NetworkBehaviour
             (body.position.x > stageBoundaryRight) ||
             (body.position.x < stageBoundaryLeft)))
         {
-            livesRemaining--;
-            isDownPressed = false;
-            velocity.y = 0;
-            body.gravityScale = downwardMovementMultiplier;
-            body.position = new Vector2(0, 3);
-            print("====================== player respawned =====================");
-            print("lives remaining: " + livesRemaining);
+            Respawn();
         }
+    }
+
+    public void Respawn()
+    {
+        livesRemaining--;
+        isDownPressed = false;
+        velocity.y = 0;
+        body.gravityScale = downwardMovementMultiplier;
+        body.position = new Vector2(0, 3);
+        print("====================== player respawned =====================");
+        print("lives remaining: " + livesRemaining);
     }
 
     private void FastFall()

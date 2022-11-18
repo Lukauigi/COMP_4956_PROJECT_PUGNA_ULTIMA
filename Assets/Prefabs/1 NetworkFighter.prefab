@@ -411,8 +411,6 @@ MonoBehaviour:
   maxAirJumps: 2
   downwardMovementMultiplier: 2.5
   upwardMovementMultiplier: 1.7
-  playerCollider: {fileID: 8890905694752838623}
-  playerEdgeCollider: {fileID: 261806375952415373}
 --- !u!114 &4977875603341989461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  health: 250
+  health: 300
 --- !u!114 &-8388165017813984341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1010,7 @@ PolygonCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}

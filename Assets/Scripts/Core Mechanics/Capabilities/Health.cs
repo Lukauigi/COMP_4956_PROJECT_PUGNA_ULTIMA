@@ -5,9 +5,10 @@ using Fusion;
 
 public class Health : NetworkBehaviour
 {
-    [SerializeField] private int health = 100;
+    [SerializeField] private int health = 300;
 
-    private int MAX_HEALTH = 100;
+    private int MAX_HEALTH;
+    private Jump jump;
 
     // Update is called once per frame
     void Update()
@@ -21,6 +22,12 @@ public class Health : NetworkBehaviour
         {
             // Heal(10);
         }*/
+    }
+
+    private void Awake()
+    {
+        MAX_HEALTH = health;
+        jump = GetComponent<Jump>();
     }
 
     public void Damage(int amount)
@@ -38,7 +45,8 @@ public class Health : NetworkBehaviour
 
         if (health <= 0)
         {
-            Die();
+            jump.Respawn();
+            this.health = MAX_HEALTH;
         }
     }
 
