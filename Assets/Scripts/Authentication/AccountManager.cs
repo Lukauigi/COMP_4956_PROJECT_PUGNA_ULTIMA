@@ -95,12 +95,13 @@ public class AccountManager : MonoBehaviour
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
                 IsSignedIn = true;
 
+
                 // Database functions calls on login
                 //UserData.SetUserData("Wins", "13");
                 //UserData.GetUserData(response.PlayFabId, "Favourite Character");
                 //UserData.GetUserProfileData(response.PlayFabId);
                 //UserData.SendLeaderboard("MostWins", 0);
-                UserData.GetLeaderboard("MostWins");
+                //UserData.GetLeaderboard("MostWins");
 
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
             },
