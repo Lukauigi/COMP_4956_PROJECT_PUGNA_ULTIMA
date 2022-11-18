@@ -43,6 +43,7 @@ public class Jump : NetworkBehaviour
     //public float checkRadius;
     //public LayerMask whatIsGround;
 
+    
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -127,6 +128,9 @@ public class Jump : NetworkBehaviour
         {
             isDownPressed = false;
         }
+
+        StartCoroutine(RespawnOnScreen());
+        StopCoroutine(RespawnOnScreen());
 
         onGround = ground.GetOnGround();
         velocity = body.velocity;
