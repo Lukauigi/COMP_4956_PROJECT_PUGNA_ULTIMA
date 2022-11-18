@@ -8,9 +8,10 @@ public class Attack : NetworkBehaviour
 
     //public Collider2D[] attackHitboxes;
 
+    private GameObject attackArea;
 
-    //nov 7
-    private GameObject attackArea = default;
+    private bool isAttackPressed;
+
     private bool attacking = false;
     private float timeToAttack = 0.25f;
     private float timer = 0f;
@@ -18,7 +19,7 @@ public class Attack : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        attackArea = transform.GetChild(0).gameObject;
+        attackArea = transform.Find("AttackArea").gameObject;
     }
 
     private void OnDrawGizmosSelected()
@@ -26,43 +27,23 @@ public class Attack : NetworkBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.G)) {
-            Debug.Log("TEST TEST PRESSING G LOOK AT ME");
-            iAttack();
-        }//If user presses G an attack is launched
-                                                    //LaunchAttack(attackHitboxes[0]);
-
-        if (attacking)
-        {
-            timer += Time.deltaTime;
-
-            if (timer >= timeToAttack)
-            {
-                timer = 0;
-                attacking = false;
-                attackArea.SetActive(attacking);
-            }
-        }*/
-    }
-
+    // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
-        /*if (Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log("TEST TEST PRESSING G LOOK AT ME");
-            iAttack();
-        }//If user presses G an attack is launched
-         //LaunchAttack(attackHitboxes[0]);*/
+        //if (GameManager.instance.GameState != GameStates.running)
+        //    return;
 
+        // checking for input presses
         if (GetInput(out NetworkInputData data))
         {
-            if (data.neutralAttack) {
-                Debug.Log("Attack.FixedUpdateNetwork() : NetworkInputData not null, Attack Key (G) pressed!");
-                iAttack();
-            }
+            isAttackPressed |= data.attack;
+        }
+
+        if (isAttackPressed)
+        {
+            Debug.Log("Attack.isAttackPressed : Attack Key (G) pressed!");
+            isAttackPressed = false;
+            iAttack();
         }
 
         if (attacking)
@@ -83,7 +64,7 @@ public class Attack : NetworkBehaviour
     {
         attacking = true;
         attackArea.SetActive(attacking);
-        Debug.Log("Attack.iAttack() triggered : I am attacking and enabling my attackArea (hitbox)!");
+        Debug.Log("Attack.iAttack() : Enabling AttackArea hitbox!");
     }
 
 /*    private void LaunchAttack(Collider2D col)

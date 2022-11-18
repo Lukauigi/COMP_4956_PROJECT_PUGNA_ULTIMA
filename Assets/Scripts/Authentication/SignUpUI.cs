@@ -21,14 +21,21 @@ public class SignUpUI : MonoBehaviour
     /*[SerializeField] public Button Submit;*/
 
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
+    /// 
     /// Sign up a new user
     /// </summary>
     public void CreateAccount()
     { 
         AccountManager.Instance.CreateAccount(Username.text, Email.text, Password.text);
+
     }
     
     /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2020-10-20
+    /// 
     /// Navigate back to the main menu
     /// </summary>
     public void NavigateBackToHome()

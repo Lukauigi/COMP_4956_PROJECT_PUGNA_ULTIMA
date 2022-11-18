@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SpawnPoint
   - TwoWayPlatform
+  - SoundManager
   layers:
   - Default
   - TransparentFX

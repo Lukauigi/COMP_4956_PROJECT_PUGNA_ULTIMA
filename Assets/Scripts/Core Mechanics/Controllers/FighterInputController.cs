@@ -8,52 +8,45 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// Remark(s):
+///     The Fighter Inputs are initialized in Unity, under 'Edit' > 'Project Settings' > 'Input Manager'
+/// Change History: Nov 16 2022 - Jason Cheung
+///     Modified Controller so all inputs from Unity's Input Manager
 /// </summary>
 [CreateAssetMenu(fileName ="FighterInputController", menuName ="InputController/FighterInputController")] // makes sure we can make an instance of it in the menu
 public class FighterInputController : InputController
 {
     // returns the raw axis for horizontal movements
-    // to note, this checks if left or right is pressed
-    public override float RetrieveMoveInput()
+    // checks if left or right is pressed
+    public override float RetrieveHorizontalInput()
     {
         return Input.GetAxisRaw("Horizontal");
     }
+    // returns the raw axis for vertical movements
+    // checks if up or down is pressed
+    public override float RetrieveVerticalInput()
+    {
 
-    // returns a bool to check if space is pressed
+        return Input.GetAxisRaw("Vertical");
+    }
+
+    // checks if jump (space) is pressed
     public override bool RetrieveJumpInput()
     {
         return Input.GetButtonDown("Jump");
     }
 
-    // returns a bool to check if down is pressed
-    public override bool RetrieveDownInput()
+
+    // checks if attack (g) is pressed
+    public override bool RetrieveAttackInput()
     {
-        return Input.GetKeyDown(KeyCode.DownArrow);
+        return Input.GetButtonDown("Attack");
+        //return Input.GetKeyDown(KeyCode.G);
     }
 
-    // returns a bool to check if attack is pressed
-    public override bool RetrieveAttackNeutralInput()
+    // checks if dodge (h) is pressed
+    public override bool RetrieveDodgeInput()
     {
-        return Input.GetKeyDown(KeyCode.G);
+        return Input.GetButtonDown("Dodge");
     }
-
-    /* public override bool RetrieveAttackSideTiltInput()
-     {
-
-         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.LeftArrow);
-     }
-
-     public override bool RetrieveAttackUpTiltInput()
-     {
-
-         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.UpArrow);
-     }
-
-     public override bool RetrieveAttackDownTiltInput()
-     {
-
-         return Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.DownArrow);
-     }*/
-
-    // TODO: (for jason) disable player input when GameManager.GameState is not 'running'
 }

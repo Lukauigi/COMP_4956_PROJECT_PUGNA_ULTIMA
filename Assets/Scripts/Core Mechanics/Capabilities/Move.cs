@@ -12,7 +12,6 @@ using UnityEngine;
 /// </summary>
 public class Move : NetworkBehaviour
 {
-    [SerializeField] public InputController input = null; // generic input
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
@@ -26,60 +25,49 @@ public class Move : NetworkBehaviour
     private float maxSpeedChange;
     private float acceleration;
     private bool onGround;
+    
+    private bool isFacingRight;
 
     // Start is called before the first frame update
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         ground = GetComponent<Ground>();
+        // TODO: might have to change, right now its under the assumption
+        //  that both players are facing right.
+        isFacingRight = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //direction.x = input.RetrieveMoveInput();
-        /*desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);*/
-    }
-
+    // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
         //if (GameManager.instance.GameState != GameStates.running)
         //    return;
 
-        // For Host-Client Mode
+        // checking for input presses
         if (GetInput(out NetworkInputData data))
         {
-            direction.x = data.move;
-        } else
-        {
-            //direction.x = input.RetrieveMoveInput();
+            direction.x = data.horizontalMovement;
         }
+
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
 
-        float inputHorizontal = input.RetrieveMoveInput();
         onGround = ground.GetOnGround();
         velocity = body.velocity;
 
-        // region : johnny & richard's feature branch
-        if (inputHorizontal != 0)
+        // flipping the entire body
+        if (direction.x > 0 && !isFacingRight)
         {
-            body.AddForce(new Vector2(inputHorizontal * Time.deltaTime, 0f));
+            body.transform.RotateAround(body.transform.position, body.transform.up, 180f);
+            isFacingRight = true;
         }
-
-        if (inputHorizontal > 0)
+        if (direction.x < 0 && isFacingRight)
         {
-            body.transform.localScale = new Vector3(1, 1, 1);
+            body.transform.RotateAround(body.transform.position, body.transform.up, 180f);
+            isFacingRight = false;
         }
-
-        if (inputHorizontal < 0)
-        {
-            body.transform.localScale = new Vector3(-1, 1, 1);
-        }
-        // end-region
-
 
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-        /*maxSpeedChange = acceleration * Time.deltaTime;*/
         maxSpeedChange = acceleration * Runner.DeltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
