@@ -3,59 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
+/// <summary>
+/// Class that handles the current / max health of a fighter/player.
+/// Author(s): Faiz Hassany, Jason Cheung
+/// Date: Nov 07 2022
+/// Remarks: Attack affects player health. Also, fighter respawn on losing all their health is in Stock.cs
+/// Change History: Nov 18 2022 - Jason Cheung
+/// - Reorganized code to be more consistent with other capabilities.
+/// - Moved some of the logic to Stock.cs
+/// </summary>
 public class Health : NetworkBehaviour
 {
     [SerializeField] private int health = 300;
+    // getter
+    public int CurrentHealth => health;
+
 
     private int MAX_HEALTH;
-    private Jump jump;
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*if (Input.GetButtonDown("D"))
-        {
-            // Damage(10);
-        }
 
-        if (Input.GetButtonDown("H"))
-        {
-            // Heal(10);
-        }*/
-    }
-
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
         MAX_HEALTH = health;
-        jump = GetComponent<Jump>();
     }
 
+    // Method to damage the player
     public void Damage(int amount)
     {
         if (amount < 0)
         {
-            //throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
-            // should not throw exceptions; rather, negate the healing amount
+            // negate the damage amount if negative
             amount = 0;
         }
 
-        this.health -= amount;
+        health -= amount;
 
-        Debug.Log("Health.Damage() triggered : HEALTH LEFT = " + health);
+        Debug.Log("Player Lost Health! HEALTH LEFT = " + health);
 
-        if (health <= 0)
-        {
-            jump.Respawn();
-            this.health = MAX_HEALTH;
-        }
     }
 
+    // Method to heal the player
     public void Heal(int amount)
     {
         if (amount < 0)
         {
-            //throw new System.ArgumentOutOfRangeException("Cannot have negative healing");
-            // should not throw exceptions; rather, negate the healing amount
+            // negate the healing amount if negative
             amount = 0;
         }
 
@@ -63,17 +56,18 @@ public class Health : NetworkBehaviour
 
         if (wouldBeOverMaxHealth)
         {
-            this.health = MAX_HEALTH;
+            health = MAX_HEALTH;
         }
         else
         {
-            this.health += amount;
+            health += amount;
         }
     }
 
-    private void Die()
+    // Method to reset the Health of the player
+    public void ResetHealth()
     {
-        Debug.Log("I am Dead!");
-        Destroy(gameObject);
+        health = MAX_HEALTH;
     }
+
 }
