@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/jr/Login Page.unity
+    guid: 98cbc3477c3e4ca4fb9036830799597a
+  - enabled: 1
     path: Assets/Scenes/Network/Select&Gameplay.unity
     guid: d8c41d0812dd2af4997488351f89123e
   - enabled: 1
@@ -32,7 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/Main Menu.unity
     guid: c059a810b3cf9774689279cc1c40d440
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game Design/Screen Navigation/Login Screen.unity
     guid: 0f49a1c140c8cd940b4020afa5b41b10
   - enabled: 1
