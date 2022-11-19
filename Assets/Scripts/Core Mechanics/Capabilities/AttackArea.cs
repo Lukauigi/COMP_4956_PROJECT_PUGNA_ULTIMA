@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using System.Diagnostics;
 
 /// <summary>
 /// Class that checks the attack hitbox of a fighter/player.
@@ -12,15 +13,33 @@ using Fusion;
 /// </summary>
 public class AttackArea : NetworkBehaviour
 {
-    private int damage = 50;
+    public List<Collider2D> overlappingColliders = new List<Collider2D>();
 
+    // Adds to collision list
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.GetComponent<Health>() != null)
+        // Check specifically one type of collider instead of adding all
+        if (!overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
         {
-            Debug.Log("AttackArea hitbox found something to damage...");
-            Health health = collider.GetComponent<Health>();
-            health.Damage(damage);
+            overlappingColliders.Add(collider);
+        }
+    }
+
+    // Removes from collision list
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
+        {
+            overlappingColliders.Remove(collider);
+        }
+    }
+
+    // Keeps checking every frame
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (!overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
+        {
+            overlappingColliders.Add(collider);
         }
     }
 }

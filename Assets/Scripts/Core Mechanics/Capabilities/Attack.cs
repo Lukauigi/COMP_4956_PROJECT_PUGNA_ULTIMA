@@ -1,6 +1,7 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 /// <summary>
@@ -17,10 +18,8 @@ public class Attack : NetworkBehaviour
     // fighter prefab components
     protected Animator _animator; //player's animator controller
 
-    //public Collider2D[] attackHitboxes;
-
     // AttackArea component, which is inside player prefab hierarchy
-    protected GameObject _attackArea;
+    protected AttackArea _attackArea;
 
     private bool isAttackPressed;
 
@@ -28,6 +27,7 @@ public class Attack : NetworkBehaviour
     private float attackRate = 1f;
     private float timer = 0f;
 
+    [SerializeField] private int damage = 50;
     // reference the animator controller for player
     //public Animator animator;
 
@@ -43,13 +43,8 @@ public class Attack : NetworkBehaviour
         if (!_animator) _animator = GetComponent<Animator>();
 
         // cache AttackArea gameObject, which is inside Fighter prefab hierarchy
-        if (!_attackArea) _attackArea = transform.Find("AttackArea").gameObject;
+        if (!_attackArea) _attackArea = transform.Find("AttackArea").gameObject.GetComponent<AttackArea>();
     }
-
-    //private void OnDrawGizmosSelected()
-    //{
-
-    //}
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
@@ -77,7 +72,7 @@ public class Attack : NetworkBehaviour
             {
                 timer = 0;
                 isAttacking = false;
-                _attackArea.SetActive(isAttacking);
+                //_attackArea.SetActive(isAttacking);
 
                 // signal to stop attacking 
                 _animator.SetBool("isAttacking", false);
@@ -92,34 +87,22 @@ public class Attack : NetworkBehaviour
         if (!isAttacking)
         {
             isAttacking = true;
-            _attackArea.SetActive(isAttacking);
-            Debug.Log("Player Attacked! Enabling AttackArea hitbox!");
+            //_attackArea.SetActive(isAttacking);
+            print("Player Attacked! Enabling AttackArea hitbox!");
+            List<Collider2D> overlappingColliders = _attackArea.overlappingColliders;
+            foreach (Collider2D collider in overlappingColliders)
+            {
+                if (collider.GetComponent<Health>() != null && isAttacking == true)
+                {
+                    print("AttackArea hitbox found something to damage...");
+                    Health health = collider.GetComponent<Health>();
+                    health.Damage(damage);
+                }
+            }
 
-            // signal to attack
-            _animator.SetBool("isAttacking", true);
+                // signal to attack
+                _animator.SetBool("isAttacking", true);
         }
     }
-
-/*    private void LaunchAttack(Collider2D col)
-    {
-        Collider2D[] cols = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.extents, col.transform.rotation.x, LayerMask.GetMask("Hitbox"));
-        foreach (Collider2D c in cols)
-        {
-            //float damage = 1;
-            //Debug.Log("Hit Registered"); //Test if attack is going through
-
-            if (c.transform.parent.parent == transform) // Check if attack hitbox is colliding with the player that used the attack
-                continue;                               // If so do not register a hit and continue foreach loop
-
-            Debug.Log(c.name); //If this shows the attack is hitting another player
-
-
-        }
-    }*/
-
-    /*    public override void FixedUpdateNetwork()
-        {
-
-        }*/
 
 }
