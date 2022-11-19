@@ -14,22 +14,20 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// Remarks: The Input Controls are initialized in Unity, under 'Edit' > 'Project Settings' > 'Input Manager'
+/// Change History: Nov 16 2022 - Jason Cheung
+///     Modified Controller so all inputs from Unity's Input Manager
 /// </summary>
 public abstract class InputController : ScriptableObject
 {
-    // everything here might be subject to change
-    public abstract float RetrieveMoveInput();
+
+    public abstract float RetrieveHorizontalInput();
+    public abstract float RetrieveVerticalInput();
 
     public abstract bool RetrieveJumpInput();
 
-    public abstract bool RetrieveDownInput();
+    public abstract bool RetrieveAttackInput();
 
-    public abstract bool RetrieveAttackNeutralInput();
+    public abstract bool RetrieveDodgeInput();
 
-/*    public abstract bool RetrieveAttackSideTiltInput();
-    public abstract bool RetrieveAttackUpTiltInput();
-    public abstract bool RetrieveAttackDownTiltInput();*/
-
-
-    // TODO: add more inputs for different attacks
 }

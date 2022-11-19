@@ -510,9 +510,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 746276691}
-        m_TargetAssemblyTypeName: LoginButton, Assembly-CSharp
-        m_MethodName: OnClickLoginButton
+      - m_Target: {fileID: 746276692}
+        m_TargetAssemblyTypeName: SignInUI, Assembly-CSharp
+        m_MethodName: SignIn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1488,6 +1488,7 @@ GameObject:
   - component: {fileID: 746276689}
   - component: {fileID: 746276690}
   - component: {fileID: 746276691}
+  - component: {fileID: 746276692}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1613,6 +1614,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2c81c66e4a9024da67c160340a5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &746276692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746276684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8497193c562b81e46913e2e7d587283e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Username: {fileID: 1131418312}
+  Password: {fileID: 598832680}
 --- !u!1 &1069862408
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,14 +5,18 @@ using UnityEngine;
 
 /// <summary>
 /// Class that handles all the movement (horizontal) of a fighter/player
-/// /// Author(s): Jun Earl Solomon
+/// Author(s): Jun Earl Solomon
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
 /// </summary>
 public class Move : NetworkBehaviour
 {
-    [SerializeField] public InputController input = null; // generic input
+    // fighter prefab components
+    protected Rigidbody2D _body; //detect x velocity (horizontal movement)
+    protected Ground _ground; //detect ground
+    protected Animator _animator; //player's animator controller
+
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
@@ -20,79 +24,74 @@ public class Move : NetworkBehaviour
     private Vector2 direction;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
-    private Rigidbody2D body;
-    private Ground ground;
+
 
     private float maxSpeedChange;
     private float acceleration;
     private bool onGround;
+    
+    private bool isFacingRight;
 
     // reference the animator controller for player
-    public Animator animator;
+    //public Animator animator;
 
-    // Start is called before the first frame update
+
+    // Awake is called when the script instance is being loaded
     void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        ground = GetComponent<Ground>();
+        CacheComponents();
+        // TODO: might have to change, right now its under the assumption
+        //  that both players are facing right.
+        isFacingRight = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Helper method to initialize fighter prefab components
+    private void CacheComponents()
     {
-        //// Update animator variable to tell when to play movement animation
-        //animator.SetFloat("Speed", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
-        //direction.x = input.RetrieveMoveInput();
-        /*desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);*/
+        if (!_body) _body = GetComponent<Rigidbody2D>();
+        if (!_ground) _ground = GetComponent<Ground>();
+        if (!_animator) _animator = GetComponent<Animator>();
     }
 
+    // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
         //if (GameManager.instance.GameState != GameStates.running)
         //    return;
 
-        // For Host-Client Mode
+        // checking for input presses
         if (GetInput(out NetworkInputData data))
         {
-            direction.x = data.move;
-        } else
-        {
-            //direction.x = input.RetrieveMoveInput();
+            direction.x = data.horizontalMovement;
         }
-        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - ground.GetFriction(), 0f);
-
-        float inputHorizontal = input.RetrieveMoveInput();
+        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - _ground.GetFriction(), 0f);
 
         // Update animator variable to tell when to play movement animation
-        animator.SetFloat("Speed", Mathf.Abs(input.RetrieveMoveInput()));
+        _animator.SetFloat("Speed", Mathf.Abs(direction.x));
 
-        onGround = ground.GetOnGround();
-        velocity = body.velocity;
+        onGround = _ground.GetOnGround();
+        velocity = _body.velocity;
 
-        // region : johnny & richard's feature branch
-        if (inputHorizontal != 0)
+        // flipping the entire body
+        if (direction.x > 0 && !isFacingRight)
         {
-            body.AddForce(new Vector2(inputHorizontal * Time.deltaTime, 0f));
+            _body.transform.RotateAround(_body.transform.position, _body.transform.up, 180f);
+            isFacingRight = true;
         }
-
-        if (inputHorizontal > 0)
+        if (direction.x < 0 && isFacingRight)
         {
-            body.transform.localScale = new Vector3(1, 1, 1);
+            _body.transform.RotateAround(_body.transform.position, _body.transform.up, 180f);
+            isFacingRight = false;
         }
-
-        if (inputHorizontal < 0)
-        {
-            body.transform.localScale = new Vector3(-1, 1, 1);
-        }
-        // end-region
-
 
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-        /*maxSpeedChange = acceleration * Time.deltaTime;*/
         maxSpeedChange = acceleration * Runner.DeltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
-        body.velocity = velocity;
+        //// Try this: Update animator variable to tell when to play movement animation
+        //animator.SetFloat("Speed", Mathf.Abs(velocity.x));
+
+        _body.velocity = velocity;
     }
 
 }

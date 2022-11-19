@@ -30,9 +30,8 @@ public class GameManager : NetworkBehaviour
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        Debug.Log("GameManager Null: " + Manager);
         Manager = this;
-        Debug.Log("GameManager not Null: " + Manager);
+        Debug.Log("GameManager instance assigned: " + Manager);
     }
 
     // Set Game State to waiting
@@ -40,7 +39,7 @@ public class GameManager : NetworkBehaviour
     public void RPC_SetGameStateWaiting()
     {
         GameState = GameStates.Waiting;
-        Debug.Log("GameManager - Game is  " + GameState.ToString());
+        Debug.Log("GameManager state is: " + GameState.ToString());
     }
 
     // Set Game State to countdown
@@ -48,7 +47,7 @@ public class GameManager : NetworkBehaviour
     public void RPC_SetGameStateStarting()
     {
         GameState = GameStates.Starting;
-        Debug.Log("GameManager - Game is " + GameState.ToString());
+        Debug.Log("GameManager state is: " + GameState.ToString());
 
         RPC_OnGameStateStarting();
         // TODO: (not in this method) disable player input until this countdown is finished
@@ -59,7 +58,7 @@ public class GameManager : NetworkBehaviour
     public void RPC_SetGameStateRunning()
     {
         GameState = GameStates.Running;
-        Debug.Log("GameManager - Game is " + GameState.ToString());
+        Debug.Log("GameManager state is: " + GameState.ToString());
 
         RPC_OnGameStateRunning();
     }
@@ -69,7 +68,7 @@ public class GameManager : NetworkBehaviour
     public void RPC_SetGameStateGameOver()
     {
         GameState = GameStates.GameOver;
-        Debug.Log("GameManager - Game is " + GameState.ToString());
+        Debug.Log("GameManager state is: " + GameState.ToString());
 
         RPC_OnGameStateGameOver();
     }
@@ -114,7 +113,23 @@ public class GameManager : NetworkBehaviour
     {
         // TODO:
         // - disable player input once game is over (not in this method?)
-        // - trigger endGame state to end the game, gather win/lose results, and move to the next screen.
+        // - trigger endGame state to end the game, gather win/lose results, send info to database, and move to the next screen.
+
+        StartCoroutine(GameOverCheck());
+    }
+
+    IEnumerator GameOverCheck()
+    {
+        while (GameState == GameStates.GameOver)
+        {
+            yield return new WaitForSeconds(3.0f);
+
+            Debug.Log("returning to Main Menu...");
+            SceneManager.LoadScene("Main Menu");
+        }
+
+        // stop this check since gamestate has changed
+        StopCoroutine(GameOverCheck());
     }
 
 }
