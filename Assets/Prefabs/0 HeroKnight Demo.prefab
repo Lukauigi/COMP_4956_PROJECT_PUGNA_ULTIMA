@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 2677045459043747659}
   - component: {fileID: 3051689496601915307}
   m_Layer: 0
-  m_Name: HeroKnight Demo
+  m_Name: 0 HeroKnight Demo
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

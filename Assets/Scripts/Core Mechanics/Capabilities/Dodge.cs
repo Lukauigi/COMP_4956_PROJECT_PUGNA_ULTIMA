@@ -14,6 +14,7 @@ public class Dodge : NetworkBehaviour
     protected Rigidbody2D _body; // affects jump velocity
     protected BoxCollider2D _playerHitbox; // player's box collider (hitbox)
     protected Animator _animator;
+    protected NetworkMecanimAnimator _networkMecanimAnimator; // networked animator controller
 
     private bool isDodgePressed;
 
@@ -29,6 +30,7 @@ public class Dodge : NetworkBehaviour
         if (!_body) _body = GetComponent<Rigidbody2D>();
         if (!_playerHitbox) _playerHitbox = GetComponent<BoxCollider2D>();
         if (!_animator) _animator = GetComponent<Animator>();
+        if (!_networkMecanimAnimator) _networkMecanimAnimator = GetComponent<NetworkMecanimAnimator>();
     }
 
     public override void FixedUpdateNetwork()

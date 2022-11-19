@@ -15,6 +15,7 @@ public class Attack : NetworkBehaviour
 {
     // fighter prefab components
     protected Animator _animator; //player's animator controller
+    protected NetworkMecanimAnimator _networkMecanimAnimator; // networked animator controller
 
     //public Collider2D[] attackHitboxes;
 
@@ -40,6 +41,7 @@ public class Attack : NetworkBehaviour
     private void CacheComponents()
     {
         if (!_animator) _animator = GetComponent<Animator>();
+        //if (!_networkMecanimAnimator) _networkMecanimAnimator = GetComponent<NetworkMecanimAnimator>();
 
         // cache AttackArea gameObject, which is inside Fighter prefab hierarchy
         if (!_attackArea) _attackArea = transform.Find("AttackArea").gameObject;

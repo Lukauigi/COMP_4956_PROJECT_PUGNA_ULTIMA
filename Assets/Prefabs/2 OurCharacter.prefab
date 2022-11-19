@@ -284,7 +284,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2289108225291002619}
-  - component: {fileID: 6492338790765148509}
   - component: {fileID: 3025970049571235334}
   - component: {fileID: 1078723948603803585}
   - component: {fileID: 547372453338538265}
@@ -292,6 +291,7 @@ GameObject:
   - component: {fileID: 2476623925517331120}
   - component: {fileID: 5047646993045172135}
   - component: {fileID: 1924839081219202440}
+  - component: {fileID: -6396025907678806502}
   - component: {fileID: 699889836560267878}
   - component: {fileID: 1090350054710066291}
   - component: {fileID: 9191633509567682993}
@@ -300,7 +300,8 @@ GameObject:
   - component: {fileID: 995587658763326512}
   - component: {fileID: 2736844490793416708}
   - component: {fileID: 9118863558597344364}
-  - component: {fileID: -6396025907678806502}
+  - component: {fileID: 6492338790765148509}
+  - component: {fileID: 1076577044579495469}
   m_Layer: 0
   m_Name: 2 OurCharacter
   m_TagString: Player
@@ -332,26 +333,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6492338790765148509
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6590790387576107922}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4d050467b3edcaa40bb2955ad21ed0b0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &3025970049571235334
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -621,15 +602,29 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 547372453338538265}
+  - {fileID: -6396025907678806502}
   - {fileID: 699889836560267878}
   - {fileID: 1090350054710066291}
   - {fileID: 9191633509567682993}
   - {fileID: 9067251257825840559}
   - {fileID: 7739673853743360534}
   - {fileID: 995587658763326512}
-  - {fileID: -6396025907678806502}
+  - {fileID: 1076577044579495469}
   - {fileID: 3300202328800128204}
   SimulationBehaviours: []
+--- !u!114 &-6396025907678806502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590790387576107922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c87ddd1ff2dfa14d8402cd5a0ace083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!114 &699889836560267878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,7 +737,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: ba207f9bf24da1c4aa92b9aae1fe94fd, type: 2}
---- !u!114 &-6396025907678806502
+--- !u!95 &6492338790765148509
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590790387576107922}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4d050467b3edcaa40bb2955ad21ed0b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1076577044579495469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -751,10 +766,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 6590790387576107922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c87ddd1ff2dfa14d8402cd5a0ace083, type: 3}
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  Animator: {fileID: 6492338790765148509}
+  TotalWords: 2
+  SyncSettings: 79
+  FloatAccuracy:
+    _value: 0
+    _inverse: 0
+    _hash: -814817977
+  TimeAccuracy:
+    _value: 0
+    _inverse: 0
+    _hash: 1061325578
+  WeightAccuracy:
+    _value: 0
+    _inverse: 0
+    _hash: -814817977
+  StateHashes: 000000001b0f6d8499402101a3b2cc3d487144c0e97822cb91c62aaa1780183e6f3e105f537ed477d13198f23479e444b636a8c15ab8a6eed8f7ea6b2a969f9b3007a5712860e77732f1dd9d049799ab80b44f44e07f4410a3d17713
+  TriggerHashes: 00000000
 --- !u!1 &6613123950086126393
 GameObject:
   m_ObjectHideFlags: 0

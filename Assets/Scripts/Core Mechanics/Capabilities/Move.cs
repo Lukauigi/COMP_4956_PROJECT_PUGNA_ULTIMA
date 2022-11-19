@@ -16,6 +16,7 @@ public class Move : NetworkBehaviour
     protected Rigidbody2D _body; //detect x velocity (horizontal movement)
     protected Ground _ground; //detect ground
     protected Animator _animator; //player's animator controller
+    //protected NetworkMecanimAnimator _networkMecanimAnimator; // networked animator controller
 
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
@@ -51,6 +52,7 @@ public class Move : NetworkBehaviour
         if (!_body) _body = GetComponent<Rigidbody2D>();
         if (!_ground) _ground = GetComponent<Ground>();
         if (!_animator) _animator = GetComponent<Animator>();
+        //if (!_networkMecanimAnimator) _networkMecanimAnimator = GetComponent<NetworkMecanimAnimator>();
     }
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
@@ -66,8 +68,8 @@ public class Move : NetworkBehaviour
         }
         desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - _ground.GetFriction(), 0f);
 
-        // Update animator variable to tell when to play movement animation
-        _animator.SetFloat("Speed", Mathf.Abs(direction.x));
+        ////Update animator variable to tell when to play movement animation
+        //_animator.SetFloat("Speed", Mathf.Abs(direction.x));
 
         onGround = _ground.GetOnGround();
         velocity = _body.velocity;
@@ -88,8 +90,8 @@ public class Move : NetworkBehaviour
         maxSpeedChange = acceleration * Runner.DeltaTime;
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
 
-        //// Try this: Update animator variable to tell when to play movement animation
-        //animator.SetFloat("Speed", Mathf.Abs(velocity.x));
+        // Try this: Update animator variable to tell when to play movement animation
+        _animator.SetFloat("Speed", Mathf.Abs(velocity.x));
 
         _body.velocity = velocity;
     }
