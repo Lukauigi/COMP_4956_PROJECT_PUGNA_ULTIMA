@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  isAttacking: 0
+  damage: 50
 --- !u!114 &1090350054710066291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  health: 300
+  health: 400
 --- !u!114 &9067251257825840559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  stocks: 3
+  stocks: 4
 --- !u!114 &2736844490793416708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,6 +955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  overlappingColliders: []
 --- !u!1 &8809859247926058765
 GameObject:
   m_ObjectHideFlags: 0

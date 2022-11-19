@@ -24,6 +24,9 @@ public class GameManager : NetworkBehaviour
     // Static instance of GameManager so other scripts can access it
     public static GameManager Manager = null;
 
+
+    protected NetworkFighterObserver _networkPlayerObserver;
+
     // Current Game State
     public GameStates GameState { get; private set; } = GameStates.Waiting;
 
@@ -31,7 +34,19 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         Manager = this;
-        Debug.Log("GameManager instance assigned: " + Manager);
+        Debug.Log("GameManager instance awake: " + Manager);
+    }
+
+    // Start is called after Awake, and before Update
+    public void Start()
+    {
+        CacheOtherObjects();
+    }
+
+    // Helper method to initialize OTHER game objects and their components
+    private void CacheOtherObjects()
+    {
+        if (!_networkPlayerObserver) _networkPlayerObserver = NetworkFighterObserver.Observer;
     }
 
     // Set Game State to waiting

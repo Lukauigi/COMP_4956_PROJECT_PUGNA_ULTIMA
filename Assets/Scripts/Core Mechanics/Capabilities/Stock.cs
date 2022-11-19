@@ -18,6 +18,7 @@ public class Stock : NetworkBehaviour
 
     // how many lives the player has
     [SerializeField] private int stocks = 3;
+    public int Stocks => stocks; //getter
 
     // the out-of-map stage boundary
     private readonly int stageBoundaryTop = 15;

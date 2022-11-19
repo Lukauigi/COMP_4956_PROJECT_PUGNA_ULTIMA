@@ -15,8 +15,7 @@ using Fusion;
 public class Health : NetworkBehaviour
 {
     [SerializeField] private int health = 300;
-    // getter
-    public int CurrentHealth => health;
+    public int CurrentHealth => health; //getter
 
 
     private int MAX_HEALTH;
