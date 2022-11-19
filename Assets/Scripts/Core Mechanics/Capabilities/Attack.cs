@@ -9,13 +9,13 @@ using UnityEngine;
 /// Date: Nov 07 2022
 /// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
 /// Change History: Nov 18 2022 - Jason Cheung
+/// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Renamed some methods to be more consistent with other capabilities.
 /// </summary>
 public class Attack : NetworkBehaviour
 {
     // fighter prefab components
     protected Animator _animator; //player's animator controller
-    protected NetworkMecanimAnimator _networkMecanimAnimator; // networked animator controller
 
     //public Collider2D[] attackHitboxes;
 
@@ -41,7 +41,6 @@ public class Attack : NetworkBehaviour
     private void CacheComponents()
     {
         if (!_animator) _animator = GetComponent<Animator>();
-        //if (!_networkMecanimAnimator) _networkMecanimAnimator = GetComponent<NetworkMecanimAnimator>();
 
         // cache AttackArea gameObject, which is inside Fighter prefab hierarchy
         if (!_attackArea) _attackArea = transform.Find("AttackArea").gameObject;

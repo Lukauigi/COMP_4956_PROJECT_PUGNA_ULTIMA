@@ -9,6 +9,8 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// Change History: Nov 18 2022 - Jason Cheung
+/// - integrated Jaspers' animations using Animator controller and set triggers
 /// </summary>
 public class Move : NetworkBehaviour
 {
@@ -16,7 +18,6 @@ public class Move : NetworkBehaviour
     protected Rigidbody2D _body; //detect x velocity (horizontal movement)
     protected Ground _ground; //detect ground
     protected Animator _animator; //player's animator controller
-    //protected NetworkMecanimAnimator _networkMecanimAnimator; // networked animator controller
 
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
@@ -52,7 +53,6 @@ public class Move : NetworkBehaviour
         if (!_body) _body = GetComponent<Rigidbody2D>();
         if (!_ground) _ground = GetComponent<Ground>();
         if (!_animator) _animator = GetComponent<Animator>();
-        //if (!_networkMecanimAnimator) _networkMecanimAnimator = GetComponent<NetworkMecanimAnimator>();
     }
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method

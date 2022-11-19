@@ -11,6 +11,7 @@ using UnityEngine;
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
 /// Change History: Nov 18 2022 - Jason Cheung
+/// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Moved stage bounds / respawn logic to Stock.cs script
 /// </summary>
 public class Jump : NetworkBehaviour
@@ -22,7 +23,6 @@ public class Jump : NetworkBehaviour
     protected BoxCollider2D _playerCollider; // player's hitbox collider
     protected EdgeCollider2D _playerEdgeCollider; // player's ground hitbox collider
     protected Animator _animator; //player's animator controller
-    protected NetworkMecanimAnimator _networkMecanimAnimator; // networked animator controller
 
     [SerializeField, Range(0f, 4f)] private float jumpHeight = 3f;
     [SerializeField, Range(1, 3)] private int maxAirJumps = 2; //how many jumps character can make while in the air
@@ -63,7 +63,6 @@ public class Jump : NetworkBehaviour
         if (!_playerCollider) _playerCollider = GetComponent<BoxCollider2D>();
         if (!_playerEdgeCollider) _playerEdgeCollider = GetComponent<EdgeCollider2D>();
         if (!_animator) _animator = GetComponent<Animator>();
-        //if (!_networkMecanimAnimator) _networkMecanimAnimator = GetComponent<NetworkMecanimAnimator>();
     }
 
 
