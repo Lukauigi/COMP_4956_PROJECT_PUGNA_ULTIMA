@@ -122,7 +122,6 @@ public class GameManager : NetworkBehaviour
         {
             // TODO:
             // perform win/lose checks (a player's stock reaches zero)
-            Debug.Log("checking for win/lose");
 
             // check if a player has left
 

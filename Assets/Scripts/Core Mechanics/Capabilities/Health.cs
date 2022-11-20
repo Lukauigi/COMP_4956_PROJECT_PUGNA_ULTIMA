@@ -7,24 +7,49 @@ using Fusion;
 /// Class that handles the current / max health of a fighter/player.
 /// Author(s): Faiz Hassany, Jason Cheung
 /// Date: Nov 07 2022
-/// Remarks: Attack affects player health. Also, fighter respawn on losing all their health is in Stock.cs
-/// Change History: Nov 18 2022 - Jason Cheung
+/// Source(s):
+///     FPS Unity & Photon Fusion EP4.1 (player names and RPCs): https://youtu.be/-opvmn_QKw0?t=647
+/// Remarks: 
+/// - Health value is affected by attack, and it affects stock.
+/// - health is a networked property so the NetworkFighterObserver will know of its changes.
+/// Change History: Nov 19 2022 - Jason Cheung
+/// - Modified health to be a networked property, will call the NetworkFighterObserver to update its UI.
 /// - Reorganized code to be more consistent with other capabilities.
 /// - Moved some of the logic to Stock.cs
 /// </summary>
 public class Health : NetworkBehaviour
 {
-    [SerializeField] private int health = 300;
-    public int CurrentHealth => health; //getter
+    // other game object references
+    protected NetworkFighterObserver _networkFighterObserver;
 
+    // how much health the fighter has per stock
+    [SerializeField] private int maxHealth = 300;
 
-    private int MAX_HEALTH;
-
-
-    // Awake is called when the script instance is being loaded
-    private void Awake()
+    private int currentHealth;
+    [Networked(OnChanged = nameof(OnHealthChanged)), UnityNonSerialized]
+    public int CurrentHealth
     {
-        MAX_HEALTH = health;
+        get
+        {
+            return currentHealth;
+        }
+        set
+        {
+            currentHealth = value;
+            // client update changes to host
+            if (Object.HasInputAuthority)
+            {
+                RPC_SetHealth(value);
+            }
+        }
+    }
+
+
+    // Start is called after Awake, and before Update
+    private void Start()
+    {
+        // Networked property has to be set after Awake and all other objects have been initialized
+        CurrentHealth = maxHealth;
     }
 
     // Method to damage the player
@@ -36,9 +61,8 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
-        health -= amount;
+        CurrentHealth -= amount;
 
-        Debug.Log("Player Lost Health! HEALTH LEFT = " + health);
 
     }
 
@@ -51,22 +75,41 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
-        bool wouldBeOverMaxHealth = health + amount > MAX_HEALTH;
+        bool wouldBeOverMaxHealth = CurrentHealth + amount > maxHealth;
 
         if (wouldBeOverMaxHealth)
         {
-            health = MAX_HEALTH;
+            CurrentHealth = maxHealth;
         }
         else
         {
-            health += amount;
+            CurrentHealth += amount;
         }
+
     }
 
     // Method to reset the Health of the player
     public void ResetHealth()
     {
-        health = MAX_HEALTH;
+        CurrentHealth = maxHealth;
     }
+
+    static void OnHealthChanged(Changed<Health> changed)
+    {
+        changed.Behaviour.OnHealthChanged();
+    }
+
+    private void OnHealthChanged()
+    {
+        // update the fighter status ui
+        NetworkFighterObserver.Observer.RPC_UpdateFighterStatusUI();
+    }
+
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetHealth(int health, RpcInfo info = default)
+    {
+        this.CurrentHealth = health;
+    }
+
 
 }

@@ -24,10 +24,11 @@ public class NetworkFighterObserver : NetworkBehaviour
     // is true when both playerOne and playerTwo are assigned
     private bool isPlayersAssigned = false;
 
+
     // Awake is called when the script instance is being loaded
     public void Awake()
     {
-        Observer = this;
+        if (!Observer) Observer = this;
         Debug.Log("NetworkPlayerObserver instance awake: " + Observer);
     }
 
@@ -58,18 +59,20 @@ public class NetworkFighterObserver : NetworkBehaviour
         // change assigned status
         isPlayersAssigned = true;
 
-        PrintPlayersFighterStatus();
+        RPC_UpdateFighterStatusUI();
     }
 
-    private void PrintPlayersFighterStatus()
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
+    public void RPC_UpdateFighterStatusUI()
     {
         Debug.Log("===== NetworkFighter Status ======");
-        Debug.Log("Player One ID: " + playerOneRef);
-        Debug.Log("Player One Health: " + playerOne.gameObject.GetComponent<Health>().CurrentHealth);
-        Debug.Log("Player One Stocks: " + playerOne.gameObject.GetComponent<Stock>().Stocks);
-        Debug.Log("Player Two ID: " + playerTwoRef);
-        Debug.Log("Player Two Health: " + playerTwo.gameObject.GetComponent<Health>().CurrentHealth);
-        Debug.Log("Player Two Stocks: " + playerTwo.gameObject.GetComponent<Stock>().Stocks);
+        Debug.Log("Player One ID: " + playerOneRef + 
+            ", Stocks - " + playerOne.gameObject.GetComponent<Stock>().Stocks + 
+            ", Health - " + playerOne.gameObject.GetComponent<Health>().CurrentHealth);
+        Debug.Log("Player Two ID: " + playerTwoRef +
+            ", Stocks - " + playerTwo.gameObject.GetComponent<Stock>().Stocks +
+            ", Health - " + playerTwo.gameObject.GetComponent<Health>().CurrentHealth);
     }
+
 
 }

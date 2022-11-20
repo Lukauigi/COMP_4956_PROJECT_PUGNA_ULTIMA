@@ -14,7 +14,7 @@ using Fusion;
 public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 {
     // our local player
-    public static NetworkPlayer Local = null;
+    public static NetworkPlayer Local { get; set; }
 
     /// <summary>
     /// gives input authority to the local player

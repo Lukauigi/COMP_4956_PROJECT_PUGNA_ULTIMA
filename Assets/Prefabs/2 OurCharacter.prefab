@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  health: 400
+  maxHealth: 300
 --- !u!114 &9067251257825840559
 MonoBehaviour:
   m_ObjectHideFlags: 0

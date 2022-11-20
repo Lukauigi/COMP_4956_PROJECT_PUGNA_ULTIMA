@@ -9,6 +9,13 @@ using Fusion;
 /// ie. falling out of the map, or losing all their health.
 /// Author(s): Jason Cheung, Matthew Kan
 /// Date: Nov 18 2022
+/// Source(s):
+///     FPS Unity & Photon Fusion EP4.1 (player names and RPCs): https://youtu.be/-opvmn_QKw0?t=647
+/// Remarks: 
+/// - Stock is affected by listening to player health.
+/// - stock is a networked property so the NetworkFighterObserver will know of its changes.
+/// Change History: Nov 19 2022 - Jason Cheung
+/// - Modified stock to be a networked property, will call the NetworkFighterObserver to update its UI.
 /// </summary>
 public class Stock : NetworkBehaviour
 {
@@ -16,9 +23,30 @@ public class Stock : NetworkBehaviour
     protected Health _health;
     protected Rigidbody2D _body;
 
-    // how many lives the player has
+    // other game object references
+    protected NetworkFighterObserver _networkFighterObserver;
+
+    // how many lives the fighter has
     [SerializeField] private int stocks = 3;
-    public int Stocks => stocks; //getter
+
+    private int _stocks;
+    [Networked(OnChanged = nameof(OnStocksChanged)), UnityNonSerialized]
+    public int Stocks
+    {
+        get
+        {
+            return _stocks;
+        }
+        set
+        {
+            _stocks = value;
+            // client update changes to host
+            if (Object.HasInputAuthority)
+            {
+                RPC_SetStocks(value);
+            }
+        }
+    }
 
     // the out-of-map stage boundary
     private readonly int stageBoundaryTop = 15;
@@ -39,6 +67,14 @@ public class Stock : NetworkBehaviour
         if (!_body) _body = GetComponent<Rigidbody2D>();
     }
 
+    // Start is called after Awake, and before Update
+    private void Start()
+    {
+        // Networked property has to be set after Awake and all other objects have been initialized
+        Stocks = stocks;
+    }
+
+
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
@@ -48,9 +84,9 @@ public class Stock : NetworkBehaviour
         // check if player has lost a life (out of stage or lost all their health)
         if (IsOutOfHealth() || IsOutOfStage())
         {
-            stocks--;
+            Stocks--;
 
-            if (stocks > 0)
+            if (Stocks > 0)
             {
                 // respawn player if they still have any stocks left
                 Respawn();
@@ -80,20 +116,33 @@ public class Stock : NetworkBehaviour
     // Helper method to reset player position & health
     private void Respawn()
     {
+        _body.position = new Vector2(0, 3);
         //velocity.y = 0;
         //_body.gravityScale = downwardMovementMultiplier;
-
-        _body.position = new Vector2(0, 3);
         _health.ResetHealth();
-        Debug.Log("===== Player Respawned =====");
-        Debug.Log("Player Stocks: " + stocks);
-        Debug.Log("Player Health:" + _health.CurrentHealth);
     }
 
     private void TriggerLoss()
     {
         Debug.Log("Player is dead!!!");
         Destroy(gameObject);
+    }
+
+    static void OnStocksChanged(Changed<Stock> changed)
+    {
+        changed.Behaviour.OnStocksChanged();
+    }
+
+    private void OnStocksChanged()
+    {
+        // update the fighter status ui
+        NetworkFighterObserver.Observer.RPC_UpdateFighterStatusUI();
+    }
+
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetStocks(int stocks, RpcInfo info = default)
+    {
+        this.Stocks = stocks;
     }
 
 }

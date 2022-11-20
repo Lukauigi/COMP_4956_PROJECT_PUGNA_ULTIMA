@@ -21,15 +21,14 @@ public class Attack : NetworkBehaviour
     // AttackArea component, which is inside player prefab hierarchy
     protected AttackArea _attackArea;
 
+    [SerializeField] private int damage = 50;
+
     private bool isAttackPressed;
 
     private bool isAttacking = false;
     private float attackRate = 1f;
     private float timer = 0f;
 
-    [SerializeField] private int damage = 50;
-    // reference the animator controller for player
-    //public Animator animator;
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -72,7 +71,6 @@ public class Attack : NetworkBehaviour
             {
                 timer = 0;
                 isAttacking = false;
-                //_attackArea.SetActive(isAttacking);
 
                 // signal to stop attacking 
                 _animator.SetBool("isAttacking", false);
@@ -87,21 +85,24 @@ public class Attack : NetworkBehaviour
         if (!isAttacking)
         {
             isAttacking = true;
-            //_attackArea.SetActive(isAttacking);
-            print("Player Attacked! Enabling AttackArea hitbox!");
+
+            // signal to attack
+            _animator.SetBool("isAttacking", true);
+
+
+            print("Player Attacked! finding objects to hit in AttackArea hitbox...");
+
             List<Collider2D> overlappingColliders = _attackArea.overlappingColliders;
             foreach (Collider2D collider in overlappingColliders)
             {
                 if (collider.GetComponent<Health>() != null && isAttacking == true)
                 {
-                    print("AttackArea hitbox found something to damage...");
+                    print("Attack hit!");
                     Health health = collider.GetComponent<Health>();
                     health.Damage(damage);
                 }
             }
 
-                // signal to attack
-                _animator.SetBool("isAttacking", true);
         }
     }
 
