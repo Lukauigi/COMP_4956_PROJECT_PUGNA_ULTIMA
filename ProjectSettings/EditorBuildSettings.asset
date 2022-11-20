@@ -6,30 +6,42 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Network/Select&Gameplay.unity
+    guid: d8c41d0812dd2af4997488351f89123e
+  - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/Start Page.unity
     guid: 68ebc578f7cc007488435564eedd1ee9
   - enabled: 1
-    path: Assets/Scenes/Game Design/Screen Navigation/Character Selection page.unity
-    guid: 526e8a9550356ce42a31937cf28dfef0
-  - enabled: 1
-    path: Assets/Scenes/Game Design/Screen Navigation/Login Screen.unity
-    guid: 0f49a1c140c8cd940b4020afa5b41b10
-  - enabled: 1
-    path: Assets/Scenes/Game Design/Screen Navigation/Main Menu.unity
-    guid: c059a810b3cf9774689279cc1c40d440
-  - enabled: 1
-    path: Assets/Scenes/Network/Select&Gameplay.unity
-    guid: d8c41d0812dd2af4997488351f89123e
+    path: Assets/Scenes/Game Design/Screen Navigation/Signup Screen.unity
+    guid: 7cd5c229a7dd2f740bd7431b97f800fe
   - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/Setting Screen.unity
     guid: 674895cf03fb9e141b0f27266a7f4c5c
   - enabled: 1
-    path: Assets/Scenes/Game Design/Screen Navigation/Signup Screen.unity
-    guid: 7cd5c229a7dd2f740bd7431b97f800fe
+    path: Assets/Scenes/Game Design/Screen Navigation/Searching Screen.unity
+    guid: b90960da6ed4d8449ad6b0a6b78fe71e
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Profile Scene.unity
+    guid: 3809a9f5449005e41a2d6d6ac142fded
   - enabled: 0
-    path: Assets/Scenes/Test2.unity
-    guid: 41c4bf5ee2cd87b43b44127db13a959c
+    path: Assets/Scenes/Game Design/Screen Navigation/Matchmaking Menu.unity
+    guid: 161d54fd9a46c704e9a1fb58e8026c4f
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Main Menu.unity
+    guid: c059a810b3cf9774689279cc1c40d440
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Login Screen.unity
+    guid: 0f49a1c140c8cd940b4020afa5b41b10
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Loading Scene.unity
+    guid: 78248618d71260945a3f2f8a010a97cd
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/FireScene.unity
+    guid: c30ab8c3fe8dd8746928e8ee878dbdc7
   - enabled: 0
-    path: Assets/Scenes/Network/CharacterSelect.unity
-    guid: 6d072430fbb75654091274ab841e9711
+    path: Assets/Scenes/Game Design/Screen Navigation/Character Selection page.unity
+    guid: 526e8a9550356ce42a31937cf28dfef0
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Match Menu.unity
+    guid: 2e6690ecdafac494f8479e09935ff2db
   m_configObjects: {}

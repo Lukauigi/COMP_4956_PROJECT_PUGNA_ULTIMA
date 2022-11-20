@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 2135631}
   m_Layer: 0
   m_Name: Light Platform (L)
-  m_TagString: OneWayPlatform
+  m_TagString: TwoWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -312,7 +312,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -75}
-  m_SizeDelta: {x: 350, y: 50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15625231
 MonoBehaviour:
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00.00
+  m_text: 00:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -739,12 +739,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 510978525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 646dc96c5ce3e8347adb0b0764fec74a, type: 3}
+  m_Script: {fileID: 11500000, guid: ba425057c72d42c4b932a048fd288586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdownText: {fileID: 1845450427}
-  countdownStartGame: 3
-  countdownEndGame: 5
+  _interpolationDataSource: 0
+  _countdownText: {fileID: 1845450427}
+  _startingCountdown: 3
+  _endingCountdown: 5
 --- !u!1 &511404699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,10 +1086,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 649337021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1f4b4973d93b7447a8abff4ce8d3496, type: 3}
+  m_Script: {fileID: 11500000, guid: b794d2a73040e304496580931c173598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 6050059081701548858, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
+  playerPrefab: {fileID: 5990361418844448480, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
 --- !u!1 &677721430
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1105,7 @@ GameObject:
   - component: {fileID: 677721431}
   m_Layer: 0
   m_Name: Light Platform (R)
-  m_TagString: OneWayPlatform
+  m_TagString: TwoWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1254,6 +1255,7 @@ GameObject:
   - component: {fileID: 718807178}
   - component: {fileID: 718807177}
   - component: {fileID: 718807176}
+  - component: {fileID: 718807180}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -1375,6 +1377,25 @@ Transform:
   m_Father: {fileID: 250847706}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!251 &718807180
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718807175}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &726157498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,10 +1443,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 726157498}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bccd2561186fa54bab60cdcf82b2650, type: 3}
+  m_Script: {fileID: 11500000, guid: bbf62e054ffd5284391a00df5af66ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTimerText: {fileID: 15625231}
+  _interpolationDataSource: 0
+  _gameTimerText: {fileID: 15625231}
+  _gameLengthMinutes: 3
+  _gameLengthSeconds: 0
 --- !u!1 &731279119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1515,6 +1539,8 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 731279124}
+  - {fileID: 510978527}
+  - {fileID: 726157500}
   SimulationBehaviours: []
 --- !u!1 &965950099
 GameObject:
@@ -1731,7 +1757,8 @@ MonoBehaviour:
   Flags: 2561
   NetworkGuid:
     RawGuidValue: adb60f1ee6b64e208711633025437ee4
-  NestedObjects: []
+  NestedObjects:
+  - {fileID: 1087515794}
   NetworkedBehaviours:
   - {fileID: 976004377}
   - {fileID: 976004376}
@@ -1747,9 +1774,10 @@ Transform:
   m_LocalPosition: {x: 4.704623, y: 3.713013, z: 0.0111789545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1087515792}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1041555839
 GameObject:
@@ -1812,16 +1840,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087515791}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.704623, y: -6.2130127, z: -0.0111789545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 289820449}
   - {fileID: 250847706}
   - {fileID: 1107943640}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 976004379}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1087515793
 MonoBehaviour:
@@ -2368,6 +2396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3984b71a4b0fcb46bae2594b17295e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!4 &1711816415
 Transform:
   m_ObjectHideFlags: 0
@@ -2431,6 +2460,7 @@ MonoBehaviour:
     RawGuidValue: 4a5841b62d3e49f88dfbfbb5b6bd7bde
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 1711816414}
   - {fileID: 1711816416}
   SimulationBehaviours: []
 --- !u!1 &1727767005
@@ -2638,7 +2668,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -350}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1845450427
 MonoBehaviour:
@@ -2660,7 +2690,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: TIME!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -2703,7 +2733,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
