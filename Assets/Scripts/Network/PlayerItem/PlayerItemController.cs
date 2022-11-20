@@ -3,6 +3,7 @@ using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
 using System.Threading;
+using TMPro;
 
 /// <summary>
 /// Author: Roswell Doria
@@ -28,6 +29,7 @@ public class PlayerItemController : NetworkBehaviour
     [SerializeField] private Color[] Colors;
     [SerializeField] private NetworkObject[] CharacterPrefabs;
     [SerializeField] private int selected;
+    [SerializeField] private TMP_Text _username;
 
     public bool isLocal = true;
     public bool clientJoined{get; set;}
@@ -107,6 +109,12 @@ public class PlayerItemController : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {   
         Avatar.color = Colors[selected];
+
+        if(Object.HasInputAuthority)
+        {
+            RPC_SetPlayerName(PlayerPrefs.GetString("PlayerName"));
+        }
+
         if (isClient)
         {
             Debug.Log("Client is Local------------------------------------------------------------------------");
@@ -211,5 +219,11 @@ public class PlayerItemController : NetworkBehaviour
     {
         selected--;
         if (selected < 0) selected = Colors.Length - 1;
+    }
+
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_SetPlayerName(string username)
+    {
+        _username.text = username;
     }
 }
