@@ -43,6 +43,7 @@ public class CountdownController : NetworkBehaviour
 
     /// <summary>
     /// Start StartingCoundown when the game is ready to start.
+    /// Only the host observes the ready status of both PlayerItems, so only the host can call this rpc.
     /// </summary>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_StartStartingCountdown()
@@ -52,8 +53,9 @@ public class CountdownController : NetworkBehaviour
 
     /// <summary>
     /// Start EndingCoundown when the game is about to end.
+    /// Either the host/client can call this rpc, depending on who's game timer is earlier (if they are no longer sync'd)
     /// </summary>
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_StartEndingCountdown()
     {
         StartCoroutine(UpdateEndingCountdown());
@@ -68,8 +70,6 @@ public class CountdownController : NetworkBehaviour
         yield return new WaitForSeconds(0.3f);
 
         int counter = _startingCountdown;
-
-        //GameManager.Manager.RPC_SetGameStateStarting();
 
         while (true)
         {

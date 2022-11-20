@@ -50,52 +50,64 @@ public class GameManager : NetworkBehaviour
     }
 
     // Set Game State to waiting
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_SetGameStateWaiting()
     {
-        GameState = GameStates.Waiting;
-        Debug.Log("GameManager state is: " + GameState.ToString());
+        if (GameState != GameStates.Waiting)
+        {
+            GameState = GameStates.Waiting;
+            Debug.Log("GameManager state is: " + GameState.ToString());
+        }
     }
 
     // Set Game State to countdown
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_SetGameStateStarting()
     {
-        GameState = GameStates.Starting;
-        Debug.Log("GameManager state is: " + GameState.ToString());
+        if (GameState != GameStates.Starting)
+        {
+            GameState = GameStates.Starting;
+            Debug.Log("GameManager state is: " + GameState.ToString());
 
-        RPC_OnGameStateStarting();
-        // TODO: (not in this method) disable player input until this countdown is finished
+            RPC_OnGameStateStarting();
+            // TODO: (not in this method) disable player input until this countdown is finished
+        }
     }
 
     // Set Game State to running
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_SetGameStateRunning()
     {
-        GameState = GameStates.Running;
-        Debug.Log("GameManager state is: " + GameState.ToString());
+        if (GameState != GameStates.Running)
+        {
+            GameState = GameStates.Running;
+            Debug.Log("GameManager state is: " + GameState.ToString());
 
-        RPC_OnGameStateRunning();
+            RPC_OnGameStateRunning();
+        }
     }
 
     // Set Game State to gameOver
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_SetGameStateGameOver()
     {
-        GameState = GameStates.GameOver;
-        Debug.Log("GameManager state is: " + GameState.ToString());
+        if (GameState != GameStates.GameOver)
+        {
+            GameState = GameStates.GameOver;
+            Debug.Log("GameManager state is: " + GameState.ToString());
 
-        RPC_OnGameStateGameOver();
+            RPC_OnGameStateGameOver();
+        }
     }
 
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     protected void RPC_OnGameStateStarting()
     {
         // start the starting countdown
         CountdownController.Instance.RPC_StartStartingCountdown();
     }
 
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     protected void RPC_OnGameStateRunning()
     {
         // start the game timer
@@ -110,20 +122,21 @@ public class GameManager : NetworkBehaviour
         {
             // TODO:
             // perform win/lose checks (a player's stock reaches zero)
+            Debug.Log("checking for win/lose");
 
             // check if a player has left
 
             // if so, forcibly end the game
 
             // perform this co-routine check every .5 seconds
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
 
         // stop this check since gamestate has changed
         StopCoroutine(GameRunningCheck());
     }
 
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     protected void RPC_OnGameStateGameOver()
     {
         // TODO:
