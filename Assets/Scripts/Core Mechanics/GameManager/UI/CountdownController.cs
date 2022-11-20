@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// Countdown Controller Class to count down the start and end of a game match.
@@ -22,7 +23,7 @@ public class CountdownController : NetworkBehaviour
     public static CountdownController Instance = null;
 
     // Unity UI Text to update the CountDown Timer
-    [SerializeField] private TMPro.TextMeshProUGUI _countdownText;
+    [SerializeField] private TextMeshProUGUI _countdownText;
 
     // seconds to countdown before starting the game
     [SerializeField] private int _startingCountdown = 3;

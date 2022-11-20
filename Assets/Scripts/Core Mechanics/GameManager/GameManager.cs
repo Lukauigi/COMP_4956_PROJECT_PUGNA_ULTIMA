@@ -24,7 +24,7 @@ public class GameManager : NetworkBehaviour
     // Static instance of GameManager so other scripts can access it
     public static GameManager Manager = null;
 
-
+    // other scene objects to reference
     protected NetworkFighterObserver _networkPlayerObserver;
 
     // Current Game State

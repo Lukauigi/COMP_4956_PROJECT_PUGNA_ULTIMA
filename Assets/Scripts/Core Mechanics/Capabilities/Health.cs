@@ -19,12 +19,13 @@ using Fusion;
 /// </summary>
 public class Health : NetworkBehaviour
 {
-    // other game object references
+    // other scene objects to reference
     protected NetworkFighterObserver _networkFighterObserver;
 
     // how much health the fighter has per stock
     [SerializeField] private int maxHealth = 300;
 
+    // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
     private int currentHealth;
     [Networked(OnChanged = nameof(OnHealthChanged)), UnityNonSerialized]
     public int CurrentHealth
@@ -45,10 +46,10 @@ public class Health : NetworkBehaviour
     }
 
 
-    // Start is called after Awake, and before Update
-    private void Start()
+    // Post Spawn callback
+    public override void Spawned()
     {
-        // Networked property has to be set after Awake and all other objects have been initialized
+        // Networked property can only be accessed after object has Spawned
         CurrentHealth = maxHealth;
     }
 
@@ -94,17 +95,19 @@ public class Health : NetworkBehaviour
         CurrentHealth = maxHealth;
     }
 
+    // Networked OnChanged method for the Network Property Stocks
     static void OnHealthChanged(Changed<Health> changed)
     {
         changed.Behaviour.OnHealthChanged();
     }
 
+    // OnChanged method to update the network fighter status ui
     private void OnHealthChanged()
     {
-        // update the fighter status ui
-        NetworkFighterObserver.Observer.RPC_UpdateFighterStatusUI();
+        NetworkFighterObserver.Observer.UpdateFighterStatusUI();
     }
 
+    // RPC method for client to notify host its changes for CurrentHealth
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetHealth(int health, RpcInfo info = default)
     {

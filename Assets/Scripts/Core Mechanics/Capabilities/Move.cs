@@ -75,15 +75,11 @@ public class Move : NetworkBehaviour
         velocity = _body.velocity;
 
         // flipping the entire body
-        if (direction.x > 0 && !isFacingRight)
+        if ((direction.x > 0 && !isFacingRight) ||
+            (direction.x < 0 && isFacingRight))
         {
-            _body.transform.RotateAround(_body.transform.position, _body.transform.up, 180f);
-            isFacingRight = true;
-        }
-        if (direction.x < 0 && isFacingRight)
-        {
-            _body.transform.RotateAround(_body.transform.position, _body.transform.up, 180f);
-            isFacingRight = false;
+            transform.RotateAround(transform.position, transform.up, 180f);
+            isFacingRight = !isFacingRight;
         }
 
         acceleration = onGround ? maxAcceleration : maxAirAcceleration;

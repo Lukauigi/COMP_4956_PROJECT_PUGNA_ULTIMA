@@ -7,6 +7,7 @@ public class PlayerItemObserver : NetworkBehaviour
 {
     public static PlayerItemObserver Observer = null;
 
+    // other scene objects to reference
     protected GameManager _gameManager;
     protected NetworkFighterObserver _networkPlayerObserver;
 

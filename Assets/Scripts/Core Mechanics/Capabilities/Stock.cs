@@ -23,12 +23,13 @@ public class Stock : NetworkBehaviour
     protected Health _health;
     protected Rigidbody2D _body;
 
-    // other game object references
+    // other scene objects to reference
     protected NetworkFighterObserver _networkFighterObserver;
 
     // how many lives the fighter has
     [SerializeField] private int stocks = 3;
 
+    // networked property of the fighter's Stocks; listens for OnChanged and notifies others
     private int _stocks;
     [Networked(OnChanged = nameof(OnStocksChanged)), UnityNonSerialized]
     public int Stocks
@@ -67,10 +68,10 @@ public class Stock : NetworkBehaviour
         if (!_body) _body = GetComponent<Rigidbody2D>();
     }
 
-    // Start is called after Awake, and before Update
-    private void Start()
+    // Post Spawn callback
+    public override void Spawned()
     {
-        // Networked property has to be set after Awake and all other objects have been initialized
+        // Networked property can only be accessed after object has Spawned
         Stocks = stocks;
     }
 
@@ -125,20 +126,22 @@ public class Stock : NetworkBehaviour
     private void TriggerLoss()
     {
         Debug.Log("Player is dead!!!");
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
+    // Networked OnChanged method for the Network Property Stocks
     static void OnStocksChanged(Changed<Stock> changed)
     {
         changed.Behaviour.OnStocksChanged();
     }
 
+    // OnChanged method to update the network fighter status ui
     private void OnStocksChanged()
     {
-        // update the fighter status ui
-        NetworkFighterObserver.Observer.RPC_UpdateFighterStatusUI();
+        NetworkFighterObserver.Observer.UpdateFighterStatusUI();
     }
 
+    // RPC method for client to notify host its changes for Stocks
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetStocks(int stocks, RpcInfo info = default)
     {

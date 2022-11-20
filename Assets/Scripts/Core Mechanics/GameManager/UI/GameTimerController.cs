@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// GameTimer Controller Class to update the game match timer.
@@ -24,7 +25,7 @@ public class GameTimerController : NetworkBehaviour
     public static GameTimerController Instance = null;
 
     // Unity UI Text to update the Match Timer
-    [SerializeField] private TMPro.TextMeshProUGUI _gameTimerText;
+    [SerializeField] private TextMeshProUGUI _gameTimerText;
 
     // Length of a Game Match, in minutes & seconds
     [SerializeField] private int _gameLengthMinutes = 8;
