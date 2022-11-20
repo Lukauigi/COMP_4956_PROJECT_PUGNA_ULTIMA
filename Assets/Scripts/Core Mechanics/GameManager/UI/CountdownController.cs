@@ -109,7 +109,7 @@ public class CountdownController : NetworkBehaviour
                 _countdownText.text = counter.ToString();
             else
             {
-                _countdownText.text = "TIME!";
+                //DisplayEndText();
                 GameManager.Manager.RPC_SetGameStateGameOver();
                 break;
             }
@@ -119,11 +119,16 @@ public class CountdownController : NetworkBehaviour
         }
 
         // how long to keep the 'TIME!' text for
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(2.5f);
 
         // hide the ui and stop updating the countdown
         _countdownText.text = "";
         StopCoroutine(UpdateEndingCountdown());
+    }
+
+    public void DisplayEndText()
+    {
+        _countdownText.text = "TIME!";
     }
 
 }

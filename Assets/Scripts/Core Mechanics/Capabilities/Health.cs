@@ -64,7 +64,6 @@ public class Health : NetworkBehaviour
 
         CurrentHealth -= amount;
 
-
     }
 
     // Method to heal the player
@@ -75,6 +74,7 @@ public class Health : NetworkBehaviour
             // negate the healing amount if negative
             amount = 0;
         }
+
 
         bool wouldBeOverMaxHealth = CurrentHealth + amount > maxHealth;
 

@@ -2310,5 +2310,13 @@ PrefabInstance:
       propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
       value: -5793666754571377480
       objectReference: {fileID: 0}
+    - target: {fileID: 2654881368008077406, guid: 748513bc346c1b3409e6a77c085e8cf5, type: 3}
+      propertyPath: _gameLengthMinutes
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2654881368008077406, guid: 748513bc346c1b3409e6a77c085e8cf5, type: 3}
+      propertyPath: _gameLengthSeconds
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 748513bc346c1b3409e6a77c085e8cf5, type: 3}

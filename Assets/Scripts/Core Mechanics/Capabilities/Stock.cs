@@ -55,6 +55,7 @@ public class Stock : NetworkBehaviour
     private readonly int stageBoundaryLeft = -15;
     private readonly int stageBoundaryRight = 15;
 
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -68,6 +69,7 @@ public class Stock : NetworkBehaviour
         if (!_body) _body = GetComponent<Rigidbody2D>();
     }
 
+    
     // Post Spawn callback
     public override void Spawned()
     {
@@ -85,9 +87,12 @@ public class Stock : NetworkBehaviour
         // check if player has lost a life (out of stage or lost all their health)
         if (IsOutOfHealth() || IsOutOfStage())
         {
-            Stocks--;
+            // local assignment of stocks is faster than always using the networked property
+            int newStocks = Stocks;
 
-            if (Stocks > 0)
+            newStocks--;
+
+            if (newStocks > 0)
             {
                 // respawn player if they still have any stocks left
                 Respawn();
@@ -95,6 +100,8 @@ public class Stock : NetworkBehaviour
             {
                 TriggerLoss();
             }
+
+            Stocks = newStocks;
         }
 
     }
@@ -118,15 +125,16 @@ public class Stock : NetworkBehaviour
     private void Respawn()
     {
         _body.position = new Vector2(0, 3);
-        //velocity.y = 0;
+        //_velocity.y = 0;
         //_body.gravityScale = downwardMovementMultiplier;
         _health.ResetHealth();
     }
 
     private void TriggerLoss()
     {
-        Debug.Log("Player is dead!!!");
+        Debug.Log("Player is dead!!! Ending game...");
         gameObject.SetActive(false);
+        GameManager.Manager.RPC_SetGameStateGameOver();
     }
 
     // Networked OnChanged method for the Network Property Stocks
