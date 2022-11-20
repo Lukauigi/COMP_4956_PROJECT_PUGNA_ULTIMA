@@ -38,8 +38,13 @@ public class PlayerItemObserver : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        Debug.Log("PlayerOneReady: " + PlayerOneReady);
-        Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
+        // show console logs that player(s) is not ready
+        if (!PlayerOneReady || !PlayerTwoReady)
+        {
+            //Debug.Log("PlayerOneReady: " + PlayerOneReady);
+            //Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
+        }
+
         //Both players are ready, Host connection runs this code
         if (PlayerOneReady && PlayerTwoReady && Runner.IsServer && !Spawned)
         {
@@ -50,9 +55,10 @@ public class PlayerItemObserver : NetworkBehaviour
             // Spawn Player one and player two selected characters
             RPC_SpawnBothPlayers(PlayerOneIndexSelect, PlayerTwoIndexSelect, PlayerOneRef, PlayerTwoRef);
             Spawned = true;
-            
-            CountdownController.instance.BeginStartGameCountdown();
-            // Start Countdown timer ( Change game state )
+
+            // Switch Game State to 'Starting' Game
+            //CountdownController.Instance.RPC_StartStartingCountdown();
+            GameManager.Manager.RPC_SetGameStateStarting();
         }
     }
 

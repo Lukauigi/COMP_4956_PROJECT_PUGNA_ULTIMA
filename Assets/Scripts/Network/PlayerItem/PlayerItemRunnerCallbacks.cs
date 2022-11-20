@@ -11,7 +11,7 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
     private Boolean _player2Joined = false;
     
 
-    private NetworkCharacterControlHandler localCharacterControlHandler;
+    private FighterControlHandler localCharacterControlHandler;
 
     public void OnEnable()
     {
