@@ -15,19 +15,23 @@ public class Chat : NetworkBehaviour
     
     public void clickSendBtn()
     {
-        if(HasStateAuthority) RPC_SendChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
-        if (HasInputAuthority) RPC_SendClientChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
+        if(Runner.IsServer) RPC_SendChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
+        else RPC_SendClientChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
     }
 
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_SendChat(string message, string sender)
     {
+        Debug.Log("Clicked send server");
         _chatText.text += "[" + sender + "] : " + message + "\n";
+        _chatInputField.text = "";
     }
 
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.Proxies, RpcTargets.All)]
     public void RPC_SendClientChat(string message, string sender)
     {
+        Debug.Log("Clicked send client");
         _chatText.text += "[" + sender + "] : " + message + "\n";
+        _chatInputField.text = "";
     }
 }
