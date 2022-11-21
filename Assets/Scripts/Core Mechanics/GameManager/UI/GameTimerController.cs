@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// GameTimer Controller Class to update the game match timer.
@@ -24,7 +25,7 @@ public class GameTimerController : NetworkBehaviour
     public static GameTimerController Instance = null;
 
     // Unity UI Text to update the Match Timer
-    [SerializeField] private TMPro.TextMeshProUGUI _gameTimerText;
+    [SerializeField] private TextMeshProUGUI _gameTimerText;
 
     // Length of a Game Match, in minutes & seconds
     [SerializeField] private int _gameLengthMinutes = 8;
@@ -46,22 +47,28 @@ public class GameTimerController : NetworkBehaviour
     /// <summary>
     /// Begin the Game's Match Timer.
     /// </summary>
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_StartTimer()
     {
-        _isTimerRunning = true;
+        if (!_isTimerRunning)
+        {
+            _isTimerRunning = true;
+        }
     }
 
     /// <summary>
     /// End the Game's Match Timer.
     /// </summary>
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_EndTimer()
     {
-        _isTimerRunning = false;
+        if (_isTimerRunning)
+        {
+            _isTimerRunning = false;
 
-        // hide game timer text; ending countdown will show instead
-        CountdownController.Instance.RPC_StartEndingCountdown();
+            // hide game timer text; ending countdown will show instead
+            CountdownController.Instance.RPC_StartEndingCountdown();
+        }
     }
 
     private void Update()
@@ -85,12 +92,6 @@ public class GameTimerController : NetworkBehaviour
         int minutes = Mathf.FloorToInt(_timeValue / 60);
         int seconds = Mathf.FloorToInt(_timeValue % 60);
         _gameTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-        // Display Timer in minutes, seconds & milliseconds
-        //int minutes = Mathf.FloorToInt(_timeValue / 60);
-        //int seconds = Mathf.FloorToInt(_timeValue % 60);
-        //int hundredths = Mathf.FloorToInt((_timeValue * 100) % 60);
-        //_gameTimerText.text = string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, hundredths);
     }
 
 }

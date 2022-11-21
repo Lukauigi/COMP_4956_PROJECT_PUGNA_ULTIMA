@@ -15,50 +15,71 @@ public class PlayerItemObserver : NetworkBehaviour
 {
     public static PlayerItemObserver Observer = null;
 
+    // other scene objects to reference
+    protected GameManager _gameManager;
+    protected NetworkFighterObserver _networkPlayerObserver;
+
     [SerializeField] private NetworkObject[] CharacterPrefabs;
 
-    private bool PlayerOneReady = false;
-    private bool PlayerTwoReady = false;
+    private bool isPlayerOneReady = false;
+    private bool isPlayerTwoReady = false;
 
     //default
-    private int PlayerOneIndexSelect = 0;
-    private int PlayerTwoIndexSelect = 0;
+    private int playerOneIndexSelect = 0;
+    private int playerTwoIndexSelect = 0;
 
-    //default
-    private int PlayerOneRef = 0;
-    private int PlayerTwoRef = 0;
-
-    private bool Spawned = false;
+    //the fighters they will spawn
+    private NetworkObject playerOneFighter;
+    private NetworkObject playerTwoFighter;
     
+    //default
+    private int playerOneRef = 0;
+    private int playerTwoRef = 0;
+
+    private bool isPlayersSpawned = false;
+    
+
+    // Awake is called when the script instance is being loaded
     public void Awake()
     {
-        Debug.Log("Observer Null: " + Observer);
         Observer = this;
-        Debug.Log("Obserer not Null: " + Observer);
+        Debug.Log("PlayerItemObserver instance awake: " + Observer);
     }
+
+
+    // Start is called after Awake, and before Update
+    public void Start()
+    {
+        CacheOtherObjects();
+    }
+
+    // Helper method to initialize OTHER game objects and their components
+    private void CacheOtherObjects()
+    {
+        if (!_gameManager) _gameManager = GameManager.Manager;
+        if (!_networkPlayerObserver) _networkPlayerObserver = NetworkFighterObserver.Observer;
+    }
+
+
     public override void FixedUpdateNetwork()
     {
-        // show console logs that player(s) is not ready
-        if (!PlayerOneReady || !PlayerTwoReady)
-        {
-            //Debug.Log("PlayerOneReady: " + PlayerOneReady);
-            //Debug.Log("PlayerTwoReady: " + PlayerTwoReady);
-        }
 
-        //Both players are ready, Host connection runs this code
-        if (PlayerOneReady && PlayerTwoReady && Runner.IsServer && !Spawned)
+        // Both players are ready (selected their character)
+        if (isPlayerOneReady && isPlayerTwoReady && Runner.IsServer && !isPlayersSpawned)
         {
-            
-            Debug.Log("PlayerItemObserver.cs : Both players are ready, Host connection runs this code");
             // Despawn Player one and player two character select objects
-            RPC_DespawnPlayerItems(PlayerOneRef, PlayerTwoRef);
+            RPC_DespawnPlayerItems(playerOneRef, playerTwoRef);
             // Spawn Player one and player two selected characters
-            RPC_SpawnBothPlayers(PlayerOneIndexSelect, PlayerTwoIndexSelect, PlayerOneRef, PlayerTwoRef);
-            Spawned = true;
+            RPC_SpawnNetworkFighters(playerOneIndexSelect, playerTwoIndexSelect, playerOneRef, playerTwoRef);
+            isPlayersSpawned = true;
+
+            // Assign Player one and player two references to GameManager
+            //_networkPlayerObserver.RPC_SetNetworkFighters(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
+            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
+
 
             // Switch Game State to 'Starting' Game
-            //CountdownController.Instance.RPC_StartStartingCountdown();
-            GameManager.Manager.RPC_SetGameStateStarting();
+            _gameManager.RPC_SetGameStateStarting();
         }
     }
 
@@ -74,23 +95,21 @@ public class PlayerItemObserver : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost)
     { 
-        Debug.Log("PlayerItemObserver.cs : RPC_SetPlayerReady() cycle");
-        Debug.Log("PlayerRefIndex: " + playerRefIndex);
         if(isHost)
         {
-            PlayerOneRef = playerRefIndex;
-            PlayerOneIndexSelect = playerPrefabIndex;
-            PlayerOneReady = true;
+            playerOneRef = playerRefIndex;
+            playerOneIndexSelect = playerPrefabIndex;
+            isPlayerOneReady = true;
         }
-        else
+        else if (!isHost)
         {
-            PlayerTwoRef = playerRefIndex;
-            PlayerTwoIndexSelect = playerPrefabIndex;
-            PlayerTwoReady = true;
-
+            playerTwoRef = playerRefIndex;
+            playerTwoIndexSelect = playerPrefabIndex;
+            isPlayerTwoReady = true;
         }
         
     }
+
 
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_CheckBothPlayerReady()
@@ -128,16 +147,15 @@ public class PlayerItemObserver : NetworkBehaviour
     /// <param name="playerOneRef"></param>
     /// <param name="playerTwoRef"></param>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_SpawnBothPlayers(int playerOneSelected, int playerTwoSelected, int playerOneRef, int playerTwoRef)
+    public void RPC_SpawnNetworkFighters(int playerOneSelected, int playerTwoSelected, int playerOneRef, int playerTwoRef)
     {
-        //Player Spawn points
+        // Player Spawn points
         Vector3 playerOneSpawnLocation = new Vector3(1, 0, 0);
         Vector3 playerTwoSpawnLocation = new Vector3(-1, 0, 0);
-        // Spawn player one
-        this.Runner.Spawn(CharacterPrefabs[playerOneSelected], playerOneSpawnLocation, Quaternion.identity, playerOneRef);
-        this.Runner.Spawn(CharacterPrefabs[playerTwoSelected], playerTwoSpawnLocation, Quaternion.identity, playerTwoRef);
+        // Spawn players
+        playerOneFighter = this.Runner.Spawn(CharacterPrefabs[playerOneSelected], playerOneSpawnLocation, Quaternion.identity, playerOneRef);
+        playerTwoFighter = this.Runner.Spawn(CharacterPrefabs[playerTwoSelected], playerTwoSpawnLocation, Quaternion.identity, playerTwoRef);
+
     }
 
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_StartCountDownGameState() { }
 }

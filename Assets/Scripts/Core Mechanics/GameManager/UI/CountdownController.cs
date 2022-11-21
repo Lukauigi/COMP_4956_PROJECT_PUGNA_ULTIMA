@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// Countdown Controller Class to count down the start and end of a game match.
@@ -22,7 +23,7 @@ public class CountdownController : NetworkBehaviour
     public static CountdownController Instance = null;
 
     // Unity UI Text to update the CountDown Timer
-    [SerializeField] private TMPro.TextMeshProUGUI _countdownText;
+    [SerializeField] private TextMeshProUGUI _countdownText;
 
     // seconds to countdown before starting the game
     [SerializeField] private int _startingCountdown = 3;
@@ -43,6 +44,7 @@ public class CountdownController : NetworkBehaviour
 
     /// <summary>
     /// Start StartingCoundown when the game is ready to start.
+    /// Only the host observes the ready status of both PlayerItems, so only the host can call this rpc.
     /// </summary>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_StartStartingCountdown()
@@ -52,8 +54,9 @@ public class CountdownController : NetworkBehaviour
 
     /// <summary>
     /// Start EndingCoundown when the game is about to end.
+    /// Either the host/client can call this rpc, depending on who's game timer is earlier (if they are no longer sync'd)
     /// </summary>
-    [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_StartEndingCountdown()
     {
         StartCoroutine(UpdateEndingCountdown());
@@ -68,8 +71,6 @@ public class CountdownController : NetworkBehaviour
         yield return new WaitForSeconds(0.3f);
 
         int counter = _startingCountdown;
-
-        //GameManager.Manager.RPC_SetGameStateStarting();
 
         while (true)
         {
@@ -108,7 +109,7 @@ public class CountdownController : NetworkBehaviour
                 _countdownText.text = counter.ToString();
             else
             {
-                _countdownText.text = "TIME!";
+                //DisplayEndText();
                 GameManager.Manager.RPC_SetGameStateGameOver();
                 break;
             }
@@ -118,11 +119,16 @@ public class CountdownController : NetworkBehaviour
         }
 
         // how long to keep the 'TIME!' text for
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(2.5f);
 
         // hide the ui and stop updating the countdown
         _countdownText.text = "";
         StopCoroutine(UpdateEndingCountdown());
+    }
+
+    public void DisplayEndText()
+    {
+        _countdownText.text = "TIME!";
     }
 
 }

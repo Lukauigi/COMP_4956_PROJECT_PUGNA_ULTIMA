@@ -3,16 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class that handles the jump and down-press of a fighter/player
+/// Down-press capability checks for FastFall and Falling through a Light Platform.
+/// Author(s): Richard Mac, John Ryue, Jun Solomon, Matthew Kan, Jason Cheung
+/// Date: Oct 29 2022
+/// Source(s):
+///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// Change History: Nov 18 2022 - Jason Cheung
+/// - integrated Jaspers' animations using Animator controller and set triggers
+/// - Moved stage bounds / respawn logic to Stock.cs script
+/// </summary>
 public class Jump : NetworkBehaviour
 {
-    [SerializeField, Range(0f, 10f)] private float jumpHeight = 1f;
-    [SerializeField, Range(0, 2)] private int maxAirJumps = 2; //max 2 jumps
-    [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
-    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f; //affects how fast character moves vertically when jumping
+    // fighter prefab components
+    protected Rigidbody2D _body; //detect y velocity (jump / falling)
+    //protected NetworkRigidbody2D _body;
+    protected Ground _ground; //detect ground
+    protected BoxCollider2D _playerCollider; // player's hitbox collider
+    protected EdgeCollider2D _playerEdgeCollider; // player's ground hitbox collider
+    protected Animator _animator; //player's animator controller
 
-    private Rigidbody2D body; //detect jump velocity
-    //private NetworkRigidbody2D body;
-    private Ground ground; //detect ground
+    [SerializeField, Range(0f, 4f)] private float jumpHeight = 3f;
+    [SerializeField, Range(1, 3)] private int maxAirJumps = 2; //how many jumps character can make while in the air
+    [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
+    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 6f; //affects how fast character moves vertically when jumping
+
     private Vector2 direction;
     private Vector2 velocity;
 
@@ -20,74 +36,35 @@ public class Jump : NetworkBehaviour
     private float defaultGravityScale;
 
     private bool isJumpPressed;
-    private bool onGround;
     private bool isDownPressed;
+
+    private bool onGround;
+
+    // reference the animator controller for player
+    //public Animator animator;
 
     // Game object for platform on screen
     private GameObject currentLightPlatform;
 
-    // Player BoxCollider2D field
-    [SerializeField] private BoxCollider2D playerCollider;
-    // Player EdgeCollider2D field
-    [SerializeField] private EdgeCollider2D playerEdgeCollider;
 
-    //public Transform groundCheck;
-    //public float checkRadius;
-    //public LayerMask whatIsGround;
-
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        //body = GetComponent<NetworkRigidbody2D>();
-        ground = GetComponent<Ground>();
+        CacheComponents();
 
-        defaultGravityScale = 10f;
+        defaultGravityScale = 1f;
     }
 
-    //Method to perform jump action.
-    private void JumpAction()
+    // Helper method to initialize fighter prefab components
+    private void CacheComponents()
     {
-        
-        Debug.Log("Update Jump");
-        //check if we are on ground OR we still have jumps left
-        if (onGround || currentJump < maxAirJumps)
-        {
-            currentJump += 1;
-            onGround = false;
-            Debug.Log(currentJump);
-
-            float jumpSpeed = Mathf.Sqrt(-4f * Physics2D.gravity.y * jumpHeight);
-            
-            //jump speed never goes negative
-            if (velocity.y > 0f)
-            {
-                jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
-            }
-            velocity.y += jumpSpeed;
-        }
+        if (!_body) _body = GetComponent<Rigidbody2D>();
+        if (!_ground) _ground = GetComponent<Ground>();
+        if (!_playerCollider) _playerCollider = GetComponent<BoxCollider2D>();
+        if (!_playerEdgeCollider) _playerEdgeCollider = GetComponent<EdgeCollider2D>();
+        if (!_animator) _animator = GetComponent<Animator>();
     }
 
-    // Method to check and apply velocity
-    private void UpdateVelocity()
-    {
-        //if going up, apply upward movement
-        if (body.velocity.y > 0 )
-        {
-
-            body.gravityScale = upwardMovementMultiplier;
-            FastFall();
-        }
-        else if (body.velocity.y < 0) //if going down, apply downward movement
-        {
-            body.gravityScale = downwardMovementMultiplier;
-            FastFall();
-        }
-        else if (body.velocity.y == 0)
-        {
-            body.gravityScale = defaultGravityScale;
-        }
-        body.velocity = velocity; //apply velocity to rigidbody
-    }
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
@@ -100,50 +77,105 @@ public class Jump : NetworkBehaviour
             {
                 isJumpPressed |= data.jump;
                 direction.y = data.verticalMovement;
-                //isDownPressed |= data.down; 
             }
 
-        if (direction.y < 0)
-        {
-            isDownPressed = true;
-        }
+        // checking if Down is pressed
+        isDownPressed = direction.y < 0;
 
-        onGround = ground.GetOnGround();
-        velocity = body.velocity;
+        onGround = _ground.GetOnGround();
+        velocity = _body.velocity;
 
-        //if object on ground, reset nth jump to 0
-        if (onGround && body.velocity.y == 0)
+        // if player is on ground, reset jump counter and stop the jumping animation
+        if (onGround && _body.velocity.y == 0)
         {
             currentJump = 0;
+
+            // stop the jumping animation
+            _animator.SetBool("isJumping", false);
+            _animator.SetBool("isDoubleJumping", false);
         }
 
-        //if jump action is requested
+        // checking jump - if jump action is requested
         if (isJumpPressed)
         {
             isJumpPressed = false;
             JumpAction();
         }
 
+        CheckFallThroughPlatform();
+
         UpdateVelocity();
-        CheckPlatformFall();
     }
 
 
+    //Method to perform jump action.
+    private void JumpAction()
+    {
+        //check if we are on ground OR we still have jumps left
+        if (onGround || currentJump < maxAirJumps)
+        {
+
+            if (onGround)
+            {
+                // play jumping animation
+                _animator.SetBool("isJumping", true);
+            }
+            else {
+                // replay jump animation
+                _animator.SetBool("isDoubleJumping", true);
+            }
+
+
+
+            currentJump += 1;
+            onGround = false;
+            Debug.Log("Player Jumped! Jumps Left: " + (maxAirJumps - currentJump));
+
+            float jumpSpeed = Mathf.Sqrt(-4f * Physics2D.gravity.y * jumpHeight);
+            
+            //jump speed never goes negative
+            if (velocity.y > 0f)
+            {
+                jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
+            }
+            velocity.y += jumpSpeed;
+        }
+    }
+    
+
+    // Method to check and apply velocity
+    private void UpdateVelocity()
+    {
+        //if going up, apply upward movement
+        if (_body.velocity.y > 0)
+        {
+            _body.gravityScale = upwardMovementMultiplier;
+            FastFall();
+        }
+        else if (_body.velocity.y < 0) //if going down, apply downward movement
+        {
+            _body.gravityScale = downwardMovementMultiplier;
+            FastFall();
+        }
+        else if (_body.velocity.y == 0)
+        {
+            _body.gravityScale = defaultGravityScale;
+        }
+        _body.velocity = velocity; //apply velocity to rigidbody
+    }
+
+
+    // Method to activate fast falling
     private void FastFall()
     {
         if (isDownPressed)
         {
-            body.gravityScale = 4 * downwardMovementMultiplier;
-            if (onGround)
-            {
-                body.gravityScale = defaultGravityScale;
-                isDownPressed = false;
-            }
-
+            _body.gravityScale = 3 * downwardMovementMultiplier;
         }
     }
 
-    private void CheckPlatformFall()
+    // Method to check if player should fall through a Light Platform
+    private void CheckFallThroughPlatform()
     {
         if (isDownPressed && currentLightPlatform != null)
         {
@@ -151,37 +183,46 @@ public class Jump : NetworkBehaviour
         }
     }
 
-    // Triggers when player makes contact with the platform
+    // Triggers when player makes contact with the light platform
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //print("platform not assigned");
-        if (collision.gameObject.CompareTag("TwoWayPlatform"))
+        if (collision.gameObject.CompareTag("TwoWayPlatform") && 
+            currentLightPlatform != collision.gameObject)
         {
-            print("platform assigned");
             currentLightPlatform = collision.gameObject;
         }
     }
 
-    // Triggers when player passes through the platform from above
-    /*private void OnCollisionExit2D(Collision2D collision)
+    // Triggers when player stays on the light platform
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("TwoWayPlatform"))
+        if (collision.gameObject.CompareTag("TwoWayPlatform") && 
+            currentLightPlatform != collision.gameObject)
+        {
+            currentLightPlatform = collision.gameObject;
+        }
+    }
+
+    // Triggers when player leave the light platform
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("TwoWayPlatform") &&
+            currentLightPlatform == collision.gameObject)
         {
             currentLightPlatform = null;
         }
-    }*/
+    }
 
-    // Method used to ignore the collision field of the platform 
+    // Disables collision of the light platform so the player can fall through it
     private IEnumerator DisableCollision()
     {
-        print("disable collision method called");
+        Debug.Log("disabling collision of light platform...");
         BoxCollider2D platformCollider = currentLightPlatform.GetComponent<BoxCollider2D>();
-        Physics2D.IgnoreCollision(playerCollider, platformCollider);
-        Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider);
-        yield return new WaitForSeconds(3f);
-        Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
-        Physics2D.IgnoreCollision(playerEdgeCollider, platformCollider, false);
-        currentLightPlatform = null;
+        Physics2D.IgnoreCollision(_playerCollider, platformCollider);
+        Physics2D.IgnoreCollision(_playerEdgeCollider, platformCollider);
+        yield return new WaitForSeconds(1f);
+        Physics2D.IgnoreCollision(_playerCollider, platformCollider, false);
+        Physics2D.IgnoreCollision(_playerEdgeCollider, platformCollider, false);
         StopCoroutine(DisableCollision());
     }
 
