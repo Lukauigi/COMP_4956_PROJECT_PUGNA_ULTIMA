@@ -98,9 +98,8 @@ public class AccountManager : MonoBehaviour
 
 
                 // Database functions calls on login
+                UserData.GetUserProfileData(response.PlayFabId);
                 //UserData.SetUserData("Wins", "13");
-                //UserData.GetUserData(response.PlayFabId, "Favourite Character");
-                //UserData.GetUserProfileData(response.PlayFabId);
                 //UserData.SendLeaderboard("MostWins", 0);
                 //UserData.GetLeaderboard("MostWins");
 

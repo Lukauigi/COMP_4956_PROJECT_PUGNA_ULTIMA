@@ -23,7 +23,6 @@ public class ProfileUI : MonoBehaviour
     [SerializeField] public TMP_Text TextLoses;
     [SerializeField] public TMP_Text TextTotalMatchesPlayed;
     [SerializeField] public TMP_Text TextRating;
-    [SerializeField] public TMP_Text TextFavoriteCharacter;
 
     void Start()
     {
@@ -32,7 +31,6 @@ public class ProfileUI : MonoBehaviour
         TextLoses.text = TextLoses.text + " " + UserData.ProfileInfo["Loses"];
         TextTotalMatchesPlayed.text = TextTotalMatchesPlayed.text + " " + UserData.ProfileInfo["Total Matches"];
         TextRating.text = TextRating.text + " " + UserData.ProfileInfo["Player Rating"];
-        TextFavoriteCharacter.text = TextFavoriteCharacter.text + " " + UserData.ProfileInfo["Favourite Character"];
 
     }
 
