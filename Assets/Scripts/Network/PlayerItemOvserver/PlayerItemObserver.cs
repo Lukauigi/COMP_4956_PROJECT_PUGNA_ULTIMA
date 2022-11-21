@@ -9,7 +9,6 @@ public class PlayerItemObserver : NetworkBehaviour
 
     // other scene objects to reference
     protected GameManager _gameManager;
-    protected NetworkFighterObserver _networkPlayerObserver;
 
     [SerializeField] private NetworkObject[] CharacterPrefabs;
 
@@ -49,7 +48,6 @@ public class PlayerItemObserver : NetworkBehaviour
     private void CacheOtherObjects()
     {
         if (!_gameManager) _gameManager = GameManager.Manager;
-        if (!_networkPlayerObserver) _networkPlayerObserver = NetworkFighterObserver.Observer;
     }
 
 
@@ -59,6 +57,9 @@ public class PlayerItemObserver : NetworkBehaviour
         // Both players are ready (selected their character)
         if (isPlayerOneReady && isPlayerTwoReady && Runner.IsServer && !isPlayersSpawned)
         {
+            // Spawn the game stage
+            GameStageController.Instance.RPC_SelectRandomStage();
+
             // Despawn Player one and player two character select objects
             RPC_DespawnPlayerItems(playerOneRef, playerTwoRef);
             // Spawn Player one and player two selected characters
@@ -66,7 +67,6 @@ public class PlayerItemObserver : NetworkBehaviour
             isPlayersSpawned = true;
 
             // Assign Player one and player two references to GameManager
-            //_networkPlayerObserver.RPC_SetNetworkFighters(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
             _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
 
 
