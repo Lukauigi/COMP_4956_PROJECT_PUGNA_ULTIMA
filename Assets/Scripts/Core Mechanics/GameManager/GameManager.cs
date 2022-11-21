@@ -34,6 +34,7 @@ public class GameManager : NetworkBehaviour
     private NetworkObject _playerOne;
     private NetworkObject _playerTwo;
 
+    // player references - fusion gives them a player id
     private int _playerOneRef = 0;
     private int _playerTwoRef = 0;
 
@@ -77,7 +78,7 @@ public class GameManager : NetworkBehaviour
         _playerTwoRef = playerTwoRef;
 
         // cache players for the other scene objects that need it
-        _networkFighterObserver.RPC_SetNetworkFighters(playerOneRef, playerOne, playerTwoRef, playerTwo);
+        _networkFighterObserver.RPC_CachePlayers(playerOneRef, playerOne, playerTwoRef, playerTwo);
         _gameResultsController.RPC_CachePlayers(playerOne, playerTwo);
     }
 

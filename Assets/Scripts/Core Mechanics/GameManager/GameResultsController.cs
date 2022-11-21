@@ -6,47 +6,57 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+/// <summary>
+/// Static class that displays the results screen at the end of a game.
+/// Shows the winner, kills, and damage done.
+/// Author(s): Jason Cheung
+/// Date: Nov 20 2022
+/// </summary>
 public class GameResultsController : NetworkBehaviour
 {
     // Static instance of GameManager so other scripts can access it
     public static GameResultsController Instance = null;
 
+    // other scene objects to reference
     protected GameManager _gameManager;
 
+    // the fighter they are controlling
     private NetworkObject _playerOne;
     private NetworkObject _playerTwo;
 
+    // the winner and loser when the game ends
     private NetworkObject _winner;
     private NetworkObject _loser;
 
-    // winner - shown on top
+    // TextMeshPro UI elements to update
+    // winner
     [SerializeField] private Image _winnerBGMaskImageColor;
     [SerializeField] private RawImage _winnerAvatar;
     [SerializeField] private TextMeshProUGUI _winnerName;
-    // left player
+    // left player results
     [SerializeField] private RawImage _playerTwoAvatar;
     [SerializeField] private TextMeshProUGUI _playerTwoName;
     [SerializeField] private TextMeshProUGUI _playerTwoKills;
     [SerializeField] private TextMeshProUGUI _playerTwoDamageDone;
-    // right player
+    // right player results
     [SerializeField] private RawImage _playerOneAvatar;
     [SerializeField] private TextMeshProUGUI _playerOneName;
     [SerializeField] private TextMeshProUGUI _playerOneKills;
     [SerializeField] private TextMeshProUGUI _playerOneDamageDone;
 
-    // for results screen and/or database
+    // stored values for results screen and/or database
     private int playerOneKills;
     private int playerOneDamageDone;
 
     private int playerTwoKills;
     private int playerTwoDamageDone;
 
-
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
         Instance = this;
 
-        // hide this initially
+        // hide the game results screen initially
         gameObject.SetActive(false);
     }
 
@@ -103,6 +113,7 @@ public class GameResultsController : NetworkBehaviour
 
     }
 
+    // Helper method to get player stats from this game
     private void GetStats()
     {
         // get damage done
@@ -115,6 +126,7 @@ public class GameResultsController : NetworkBehaviour
 
     }
 
+    // Helper method to set the text values of the game results screen
     private void SetResultsScreen()
     {
         // TODO set winner & players' raw image
@@ -135,9 +147,10 @@ public class GameResultsController : NetworkBehaviour
 
     }
 
-    // TODO save results to database
+    // Helper method to save player stats to database
     private void SaveToDatabase()
     {
+        // TODO save results to database
         // relevant member variables:
         // - NetworkObject _winner
         // - NetworkObject _loser
@@ -149,17 +162,15 @@ public class GameResultsController : NetworkBehaviour
         // - int playerTwoDamageDone
     }
 
-    // Method to reference the players and find the winner/loser
+    // Method to unhide/show the game results scene object
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_ShowGameResults()
     {
-        //Debug.Log(_winner.gameObject.GetComponent<NetworkPlayer>().NickName + " won!");
-        //Debug.Log(_loser.gameObject.GetComponent<NetworkPlayer>().NickName + " lost...");
-
         // show the game object
         gameObject.SetActive(true);
     }
 
+    // OnClick event method for the 'Main Menu' button
     public void OnMainMenuBtnClick()
     {
         // load next scene: return to main menu

@@ -53,17 +53,6 @@ public class NetworkFighterObserver : NetworkBehaviour
     private int prevPlayerTwoCurrentHealth;
     private int prevPlayerTwoStocks;
 
-    // max health; also used to compare
-    private int playerOneMaxHealth;
-    private int playerTwoMaxHealth;
-
-    // new values to store fighter stats
-    private int playerOneKills = 0;
-    private int playerOneDamageDone = 0;
-    private int playerTwoKills = 0;
-    private int playerTwoDamageDone = 0;
-
-
 
     // Awake is called when the script instance is being loaded
     public void Awake()
@@ -88,8 +77,9 @@ public class NetworkFighterObserver : NetworkBehaviour
         if (!_gameManager) _gameManager = GameManager.Manager;
     }
 
+    // Method to cache the selected and spawned fighters
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_SetNetworkFighters(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo)
+    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo)
     {
         // assign player ref
         this.playerOneRef = playerOneRef;
@@ -168,6 +158,7 @@ public class NetworkFighterObserver : NetworkBehaviour
         int playerTwoCurrentHealth = playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
         int playerTwoStocks = playerTwo.gameObject.GetComponent<Stock>().Stocks;
 
+        // compare values with old stored ones
         // check player 1 health
         if (prevPlayerOneCurrentHealth != playerOneCurrentHealth)
         {
@@ -200,21 +191,10 @@ public class NetworkFighterObserver : NetworkBehaviour
         prevPlayerTwoCurrentHealth = playerTwoCurrentHealth;
         prevPlayerTwoStocks = playerTwoStocks;
 
-        //if (playerOne) // update if not null
-        //{
-        //    _playerOneCurrentHealth.text = playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-        //    _playerOneStocks.text = playerOne.gameObject.GetComponent<Stock>().Stocks.ToString();
-        //}
-
-        //if (playerTwo)
-        //{
-        //    _playerTwoCurrentHealth.text = playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-        //    _playerTwoStocks.text = playerTwo.gameObject.GetComponent<Stock>().Stocks.ToString();
-        //}
-
 
     }
 
+    // Helper method to update the fighter status ui for the passed element.
     private void UpdateFighterStatusUI(TextMeshProUGUI textObj, int newValue)
     {
         textObj.text = newValue.ToString();
