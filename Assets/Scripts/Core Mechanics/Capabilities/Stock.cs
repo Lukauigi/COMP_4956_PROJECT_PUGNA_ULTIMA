@@ -49,6 +49,9 @@ public class Stock : NetworkBehaviour
         }
     }
 
+    // for database - player deaths is the amount of kills the other player got
+    [UnityNonSerialized] public int Deaths { get; set; } = 0;
+
     // helper bool to pause respawn checks in update method WHILE respawning
     private bool isRespawning = false;
 
@@ -97,8 +100,9 @@ public class Stock : NetworkBehaviour
             int newStocks = Stocks;
 
             newStocks--;
+            Deaths++;
 
-            if (newStocks > 0)
+            if (newStocks != 0)
             {
                 // respawn player if they still have any stocks left
                 Respawn();
@@ -155,7 +159,7 @@ public class Stock : NetworkBehaviour
     // OnChanged method to update the network fighter status ui
     private void OnStocksChanged()
     {
-        NetworkFighterObserver.Observer.UpdateFighterStatusUI();
+        NetworkFighterObserver.Observer.UpdateFighterStatus();
     }
 
     // RPC method for client to notify host its changes for Stocks

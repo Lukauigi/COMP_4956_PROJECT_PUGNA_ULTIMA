@@ -34,6 +34,13 @@ public class GameResultsController : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI _playerOneKills;
     [SerializeField] private TextMeshProUGUI _playerOneDamageDone;
 
+    // for results screen and/or database
+    private int playerOneKills;
+    private int playerOneDamageDone;
+
+    private int playerTwoKills;
+    private int playerTwoDamageDone;
+
 
     private void Awake()
     {
@@ -57,50 +64,32 @@ public class GameResultsController : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_CacheGameResults()
     {
-        FindWinnerLoser();
+        GetStats();
+        GetWinnerLoser();
+        SetResultsScreen();
+        SaveToDatabase();   // TODO
     }
 
     // Helper method to determine the winner/loser
-    private void FindWinnerLoser()
+    private void GetWinnerLoser()
     {
-        // check for null (despawned) players
-        if (!_playerOne)
-        {
-            Debug.Log("Player 1 (client) is null. player 1 auto-loses");
-            _winner = _playerTwo;
-            _loser = _playerOne;
-        }
-        if (!_playerTwo)
-        {
-            Debug.Log("Player 2 (host) is null. player 2 auto-loses");
-            _winner = _playerOne;
-            _loser = _playerTwo;
-        }
-
-        // find the winner and loser
-        int playerOneStocks = _playerOne.gameObject.GetComponent<Stock>().Stocks;
-        int playerTwoStocks = _playerTwo.gameObject.GetComponent<Stock>().Stocks;
-
-        // higher stocks wins
-        if (playerOneStocks > playerTwoStocks)
+        // check who has more kills
+        if (playerOneKills > playerTwoKills)
         {
             _winner = _playerOne;
             _loser = _playerTwo;
         }
-        else if (playerOneStocks < playerTwoStocks)
+        else if (playerOneKills < playerTwoKills)
         {
             _winner = _playerTwo;
             _loser = _playerOne;
-        }
-        else  //(playerOneStocks == playerTwoStocks)
+        } else  // same amount of kills/deaths
         {
-            // stocks are equal, check current health to find winner
-            int playerOneHealth = _playerOne.gameObject.GetComponent<Health>().CurrentHealth;
-            int playerTwoHealth = _playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
+            // check their final health
+            int playerOneCurrentHealth = _playerOne.gameObject.GetComponent<Health>().CurrentHealth;
+            int playerTwoCurrentHealth = _playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
 
-            // higher health wins
-            // TODO: reverse this if we want lower health wins (working knockback implemented & no max health)
-            if (playerOneHealth >= playerTwoHealth)
+            if (playerOneCurrentHealth >= playerTwoCurrentHealth) // TODO: reverse this condition if knockback & damage done% is implemented
             {
                 _winner = _playerOne;
                 _loser = _playerTwo;
@@ -111,14 +100,61 @@ public class GameResultsController : NetworkBehaviour
                 _loser = _playerOne;
             }
         }
+
+    }
+
+    private void GetStats()
+    {
+        // get damage done
+        playerOneDamageDone = _playerOne.gameObject.GetComponent<Attack>().DamageDone;
+        playerTwoDamageDone = _playerTwo.gameObject.GetComponent<Attack>().DamageDone;
+
+        // get the other player's deaths to get your individual amount of kills
+        playerOneKills = _playerTwo.gameObject.GetComponent<Stock>().Deaths;
+        playerTwoKills = _playerOne.gameObject.GetComponent<Stock>().Deaths;
+
+    }
+
+    private void SetResultsScreen()
+    {
+        // TODO set winner & players' raw image
+        // TODO set winner's mask color -> _winnerBGMaskImageColor
+
+        // set winner & players' names
+        _winnerName.text = _winner.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
+        _playerOneName.text = _playerOne.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
+        _playerTwoName.text = _playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
+
+        // set player kills
+        _playerOneKills.text = playerOneKills.ToString();
+        _playerTwoKills.text = playerTwoKills.ToString();
+
+        // set player damage done
+        _playerOneDamageDone.text = playerOneDamageDone.ToString();
+        _playerTwoDamageDone.text = playerTwoDamageDone.ToString();
+
+    }
+
+    // TODO save results to database
+    private void SaveToDatabase()
+    {
+        // relevant member variables:
+        // - NetworkObject _winner
+        // - NetworkObject _loser
+        // - NetworkObject _playerOne
+        // - NetworkObject _playerTwo
+        // - int playerOneKills
+        // - int playerTwoKills
+        // - int playerOneDamageDone
+        // - int playerTwoDamageDone
     }
 
     // Method to reference the players and find the winner/loser
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_ShowGameResults()
     {
-        Debug.Log(_winner.gameObject.GetComponent<NetworkPlayer>().NickName + " won!");
-        Debug.Log(_loser.gameObject.GetComponent<NetworkPlayer>().NickName + " lost...");
+        //Debug.Log(_winner.gameObject.GetComponent<NetworkPlayer>().NickName + " won!");
+        //Debug.Log(_loser.gameObject.GetComponent<NetworkPlayer>().NickName + " lost...");
 
         // show the game object
         gameObject.SetActive(true);

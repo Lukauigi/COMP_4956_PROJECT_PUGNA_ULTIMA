@@ -176,66 +176,12 @@ public class GameManager : NetworkBehaviour
 
         _gameResultsController.RPC_CacheGameResults();
 
-        //FindWinnerLoser();
-
         // TODO:
         // - disable player input once game is over (not in this method?)
 
         StartCoroutine(GameOverCheck());
     }
 
-    //// Helper method ran at the GameOver to determine the winner/loser
-    //private void FindWinnerLoser()
-    //{
-    //    // check for null (despawned) players
-    //    if (!_playerOne)
-    //    {
-    //        Debug.Log("Player 1 (client) is null. player 1 auto-loses");
-    //        _winner = _playerTwo;
-    //        _loser = _playerOne;
-    //    }
-    //    if (!_playerTwo)
-    //    {
-    //        Debug.Log("Player 2 (host) is null. player 2 auto-loses");
-    //        _winner = _playerOne;
-    //        _loser = _playerTwo;
-    //    }
-
-    //    // find the winner and loser
-    //    int playerOneStocks = _playerOne.gameObject.GetComponent<Stock>().Stocks;
-    //    int playerTwoStocks = _playerTwo.gameObject.GetComponent<Stock>().Stocks;
-
-    //    // higher stocks wins
-    //    if (playerOneStocks > playerTwoStocks)
-    //    {
-    //        _winner = _playerOne;
-    //        _loser = _playerTwo;
-    //    }
-    //    else if (playerOneStocks < playerTwoStocks)
-    //    {
-    //        _winner = _playerTwo;
-    //        _loser = _playerOne;
-    //    }
-    //    else  //(playerOneStocks == playerTwoStocks)
-    //    {
-    //        // stocks are equal, check current health to find winner
-    //        int playerOneHealth = _playerOne.gameObject.GetComponent<Health>().CurrentHealth;
-    //        int playerTwoHealth = _playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
-
-    //        // higher health wins
-    //        // TODO: reverse this if we want lower health wins (working knockback implemented & no max health)
-    //        if (playerOneHealth >= playerTwoHealth)
-    //        {
-    //            _winner = _playerOne;
-    //            _loser = _playerTwo;
-    //        }
-    //        else
-    //        {
-    //            _winner = _playerTwo;
-    //            _loser = _playerOne;
-    //        }
-    //    }
-    //}
 
     // Helper method to hide the game scene like players, stage, game ui
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
@@ -249,29 +195,6 @@ public class GameManager : NetworkBehaviour
         _networkFighterObserver.gameObject.SetActive(false);
     }
 
-
-    // Helper method to gather the game over results then display it
-    //[Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    //protected void RPC_UpdateGameResults()
-    //{
-    //    // TODO: gather stats
-    //    // TOOD: send stats to database
-        
-
-
-    //    // display results
-    //    RPC_ShowGameResultsScene();
-    //}
-
-    //// Helper method to display the game results scene
-    //[Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    //protected void RPC_ShowGameResultsScene()
-    //{
-    //    Debug.Log(_winner.gameObject.GetComponent<NetworkPlayer>().NickName + " won!");
-    //    Debug.Log(_loser.gameObject.GetComponent<NetworkPlayer>().NickName + " lost...");
-
-    //    // show game results controller game scene
-    //}
 
     IEnumerator GameOverCheck()
     {
@@ -300,10 +223,6 @@ public class GameManager : NetworkBehaviour
                 _gameResultsController.RPC_ShowGameResults();
             }
 
-            //yield return new WaitForSeconds(10f);
-            //// load next scene: return to main menu
-            //Debug.Log("returning to Main Menu...");
-            //SceneManager.LoadScene("Main Menu");
         }
 
         // stop this check since gamestate has changed

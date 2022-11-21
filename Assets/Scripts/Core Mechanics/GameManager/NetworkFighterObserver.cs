@@ -47,6 +47,24 @@ public class NetworkFighterObserver : NetworkBehaviour
     private int playerTwoRef = 0;
 
 
+    // previous character status values; used to compare and gather fighter stats
+    private int prevPlayerOneCurrentHealth;
+    private int prevPlayerOneStocks;
+    private int prevPlayerTwoCurrentHealth;
+    private int prevPlayerTwoStocks;
+
+    // max health; also used to compare
+    private int playerOneMaxHealth;
+    private int playerTwoMaxHealth;
+
+    // new values to store fighter stats
+    private int playerOneKills = 0;
+    private int playerOneDamageDone = 0;
+    private int playerTwoKills = 0;
+    private int playerTwoDamageDone = 0;
+
+
+
     // Awake is called when the script instance is being loaded
     public void Awake()
     {
@@ -77,13 +95,13 @@ public class NetworkFighterObserver : NetworkBehaviour
         this.playerOneRef = playerOneRef;
         this.playerTwoRef = playerTwoRef;
 
-        // TODO - assign selected images
-
         // assign network fighter
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
 
-        // assign player nickname TODO - change to actual username
+        // TODO - assign selected images
+
+        // TODO - change set nicknames to the login'd names
         this.playerOne.gameObject.GetComponent<NetworkPlayer>().NickName = "Player " + playerOneRef.ToString();
         this.playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName = "Player " + playerTwoRef.ToString();
 
@@ -95,6 +113,7 @@ public class NetworkFighterObserver : NetworkBehaviour
     public void RPC_CacheFighterStatusUI()
     {
         // TODO - set selected images
+        // TODO - change set nicknames to the login'd names
 
         // set intial values
         if (playerOne) // check for null
@@ -102,8 +121,14 @@ public class NetworkFighterObserver : NetworkBehaviour
             _playerOneName.text = "Player " + playerOneRef.ToString();
             Debug.Log("updated player name text: " + _playerOneName.text);
             _playerOneMaxHealth.text = "/ " + playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-            _playerOneCurrentHealth.text = playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-            _playerOneStocks.text = playerOne.gameObject.GetComponent<Stock>().Stocks.ToString();
+
+            // store the initial values to the "old" ones
+            prevPlayerOneCurrentHealth = playerOne.gameObject.GetComponent<Health>().CurrentHealth;
+            prevPlayerOneStocks = playerOne.gameObject.GetComponent<Stock>().Stocks;
+
+            // continue caching the ui
+            _playerOneCurrentHealth.text = prevPlayerOneCurrentHealth.ToString();
+            _playerOneStocks.text = prevPlayerOneStocks.ToString();
         } else
         {
             Debug.Log("CacheFighterStatusUI Error - Player One null.");
@@ -114,8 +139,14 @@ public class NetworkFighterObserver : NetworkBehaviour
             _playerTwoName.text = "Player " + playerTwoRef.ToString();
             Debug.Log("updated player name text: " + _playerTwoName.text);
             _playerTwoMaxHealth.text = "/ " + playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-            _playerTwoCurrentHealth.text = playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-            _playerTwoStocks.text = playerTwo.gameObject.GetComponent<Stock>().Stocks.ToString();
+
+            // store the initial values to the "old" ones
+            prevPlayerTwoCurrentHealth = playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
+            prevPlayerTwoStocks = playerTwo.gameObject.GetComponent<Stock>().Stocks;
+
+            // continue caching the ui
+            _playerTwoCurrentHealth.text = prevPlayerTwoCurrentHealth.ToString();
+            _playerTwoStocks.text = prevPlayerTwoStocks.ToString();
         } else
         {
             Debug.Log("CacheFighterStatusUI Error - Player Two null.");
@@ -128,20 +159,65 @@ public class NetworkFighterObserver : NetworkBehaviour
 
 
     // Method to update the fighter status ui; health and stock changes
-    public void UpdateFighterStatusUI()
+    public void UpdateFighterStatus()
     {
-        if (playerOne) // update if not null
+        // fighter status values to check
+        int playerOneCurrentHealth = playerOne.gameObject.GetComponent<Health>().CurrentHealth;
+        int playerOneStocks = playerOne.gameObject.GetComponent<Stock>().Stocks;
+
+        int playerTwoCurrentHealth = playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
+        int playerTwoStocks = playerTwo.gameObject.GetComponent<Stock>().Stocks;
+
+        // check player 1 health
+        if (prevPlayerOneCurrentHealth != playerOneCurrentHealth)
         {
-            _playerOneCurrentHealth.text = playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-            _playerOneStocks.text = playerOne.gameObject.GetComponent<Stock>().Stocks.ToString();
+            UpdateFighterStatusUI(_playerOneCurrentHealth, playerOneCurrentHealth);
+            prevPlayerOneCurrentHealth = playerOneCurrentHealth;
+        }
+        // check player 1 stocks
+        if (prevPlayerOneStocks != playerOneStocks)
+        {
+            UpdateFighterStatusUI(_playerOneStocks, playerOneStocks);
+            prevPlayerOneStocks = playerOneStocks;
         }
 
-        if (playerTwo)
+        // check player 2 health
+        if (prevPlayerTwoCurrentHealth != playerTwoCurrentHealth)
         {
-            _playerTwoCurrentHealth.text = playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
-            _playerTwoStocks.text = playerTwo.gameObject.GetComponent<Stock>().Stocks.ToString();
+            UpdateFighterStatusUI(_playerTwoCurrentHealth, playerTwoCurrentHealth);
+            prevPlayerTwoCurrentHealth = playerTwoCurrentHealth;
+        }
+        // check player 2 stocks
+        if (prevPlayerTwoStocks != playerTwoStocks)
+        {
+            UpdateFighterStatusUI(_playerTwoStocks, playerTwoStocks);
+            prevPlayerTwoStocks = playerTwoStocks;
         }
 
+        // store the values again
+        prevPlayerOneCurrentHealth = playerOneCurrentHealth;
+        prevPlayerOneStocks = playerOneStocks;
+        prevPlayerTwoCurrentHealth = playerTwoCurrentHealth;
+        prevPlayerTwoStocks = playerTwoStocks;
+
+        //if (playerOne) // update if not null
+        //{
+        //    _playerOneCurrentHealth.text = playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
+        //    _playerOneStocks.text = playerOne.gameObject.GetComponent<Stock>().Stocks.ToString();
+        //}
+
+        //if (playerTwo)
+        //{
+        //    _playerTwoCurrentHealth.text = playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
+        //    _playerTwoStocks.text = playerTwo.gameObject.GetComponent<Stock>().Stocks.ToString();
+        //}
+
+
+    }
+
+    private void UpdateFighterStatusUI(TextMeshProUGUI textObj, int newValue)
+    {
+        textObj.text = newValue.ToString();
     }
 
 

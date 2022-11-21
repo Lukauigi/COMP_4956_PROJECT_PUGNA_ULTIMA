@@ -104,7 +104,7 @@ public class Health : NetworkBehaviour
     // OnChanged method to update the network fighter status ui
     private void OnHealthChanged()
     {
-        NetworkFighterObserver.Observer.UpdateFighterStatusUI();
+        NetworkFighterObserver.Observer.UpdateFighterStatus();
     }
 
     // RPC method for client to notify host its changes for CurrentHealth

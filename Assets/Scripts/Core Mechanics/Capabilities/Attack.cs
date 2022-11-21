@@ -29,6 +29,8 @@ public class Attack : NetworkBehaviour
     private float attackRate = 1f;
     private float timer = 0f;
 
+    // for database - the amount of damage done by the player
+    [UnityNonSerialized] public int DamageDone { get; set; } = 0;
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -100,6 +102,7 @@ public class Attack : NetworkBehaviour
                     print("Attack hit!");
                     Health health = collider.GetComponent<Health>();
                     health.Damage(damage);
+                    DamageDone += damage;
                 }
             }
 
