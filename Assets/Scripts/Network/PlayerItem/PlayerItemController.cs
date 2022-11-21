@@ -12,7 +12,12 @@ using TMPro;
 /// Network Controller for PlayerItem Prefab. 
 /// This is responsible for functionality of the Prefab object across the network.
 /// 
-/// Change History: 2022-11-19 - Jason Cheung
+/// Change History:
+/// 2022-11-21 - Roswell Doria
+/// - Added private field for remote username
+/// - Added RPC for sending remote username to State authority
+///
+/// 2022-11-19 - Jason Cheung
 /// - Fixed "Local simulation is not allowed" on client instance errors 
 ///   by adding Object.IsStateAuthority clause to RPC_SetPlayerReady calls
 ///
@@ -44,6 +49,8 @@ public class PlayerItemController : NetworkBehaviour
 
     private bool isPlayersReady = false;
 
+    private string remoteUsername;
+
 
     /// <summary>
     /// Author: Roswell Doria
@@ -68,6 +75,10 @@ public class PlayerItemController : NetworkBehaviour
     ///
     /// Method calls when network playerItem is spawned.
     ///
+    /// Change History:
+    /// 2022-11-21 - Roswell Doria
+    /// - Added Call to RPC_SetRemoteUsername() to set remote player's username to state authority
+    ///     
     /// </summary>
     public override void Spawned()
     {
@@ -81,6 +92,8 @@ public class PlayerItemController : NetworkBehaviour
 
         if (!Object.HasStateAuthority) clientJoined = true;
         if (Object.HasStateAuthority) clientJoined = false;
+
+        if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteUsername(PlayerPrefs.GetString("PlayerName"));
 
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
@@ -113,7 +126,9 @@ public class PlayerItemController : NetworkBehaviour
     /// Date: 2022-10-29
     /// 
     /// Updates the network of a local client's changes to their ownership of this networked object.
-    ///
+    /// 
+    /// Changes: Ross 2022-11-21
+    ///     - Modified call to RPC_SetPlayerReady() to take paramters for usernames
     /// </summary>
     public override void FixedUpdateNetwork()
     {   
@@ -131,12 +146,12 @@ public class PlayerItemController : NetworkBehaviour
             if (isClientReady)
             {
                 //Debug.Log("Client is Local------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername);
             }
             if (isHostReady)
             {
                 //Debug.Log("Host is Local -------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text);
             }
 
             if (isClientReady && isHostReady)
@@ -227,5 +242,19 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_SetPlayerName(string username)
     {
         _username.text = username;
+    }
+
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-11-21
+    /// 
+    /// Remote procedure to inform the state authority the username of the remote client.
+    ///
+    /// </summary>
+    /// <param name="username"></param>
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetRemoteUsername(string username)
+    {
+        remoteUsername = username;
     }
 }

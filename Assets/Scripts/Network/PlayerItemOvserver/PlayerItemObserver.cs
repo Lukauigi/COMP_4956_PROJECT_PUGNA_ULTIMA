@@ -36,6 +36,10 @@ public class PlayerItemObserver : NetworkBehaviour
     private int playerOneRef = 0;
     private int playerTwoRef = 0;
 
+    //Player usernames
+    private string _playerOneUsername;
+    private string _playerTwoUsername;
+
     private bool isPlayersSpawned = false;
     
 
@@ -60,7 +64,13 @@ public class PlayerItemObserver : NetworkBehaviour
         if (!_networkPlayerObserver) _networkPlayerObserver = NetworkFighterObserver.Observer;
     }
 
-
+    /// <summary>
+    /// 
+    /// Change History:
+    /// 2022-11-21 Roswell Doria
+    /// - Added paramaters to RPC_CachePlayers() for player one and player two usernames.
+    ///
+    /// </summary>
     public override void FixedUpdateNetwork()
     {
 
@@ -75,7 +85,7 @@ public class PlayerItemObserver : NetworkBehaviour
 
             // Assign Player one and player two references to GameManager
             //_networkPlayerObserver.RPC_SetNetworkFighters(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
-            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
+            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter, _playerOneUsername, _playerTwoUsername);
 
 
             // Switch Game State to 'Starting' Game
@@ -88,24 +98,33 @@ public class PlayerItemObserver : NetworkBehaviour
     /// Date: 2022-11-10
     /// 
     /// RPC respsonible for setting players to the ready state.
+    /// 
+    /// Change history:
+    /// 2022-11-21 - Roswell Doria
+    ///  - Added paramter username
+    ///  - set _playerOneUsername and _playerTwoUsername
+    /// 
     /// </summary>
     /// <param name="playerRefIndex">an interger representing the playerRef Index of player one</param>
     /// <param name="playerPrefabIndex">an interger representing the playerRef Index of player two</param>
     /// <param name="isHost">a bool if player is host</param>
+    /// <param name="username"> a string of the player's username</param>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost)
+    public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost, string username)
     { 
         if(isHost)
         {
             playerOneRef = playerRefIndex;
             playerOneIndexSelect = playerPrefabIndex;
             isPlayerOneReady = true;
+            _playerOneUsername = username;
         }
         else if (!isHost)
         {
             playerTwoRef = playerRefIndex;
             playerTwoIndexSelect = playerPrefabIndex;
             isPlayerTwoReady = true;
+            _playerTwoUsername = username;
         }
         
     }

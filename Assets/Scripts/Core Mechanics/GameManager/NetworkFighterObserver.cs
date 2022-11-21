@@ -78,8 +78,23 @@ public class NetworkFighterObserver : NetworkBehaviour
     }
 
     // Method to cache the selected and spawned fighters
+    /// <summary>
+    /// 
+    /// Change History:
+    /// 2022-11-21 - Roswell Doria
+    ///  - Added paramters for player one and player two usernames.
+    ///  - Modifed this.playerOne and this.playerTwo Nicknames to take player usernames.
+    ///
+    /// </summary>
+    /// <param name="playerOneRef"></param>
+    /// <param name="playerOne"></param>
+    /// <param name="playerTwoRef"></param>
+    /// <param name="playerTwo"></param>
+    /// <param name="playerOneUsername">a string of player one's username</param>
+    /// <param name="playerTwoUsername">a string of player two's username</param>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo)
+    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo,
+        string playerOneUsername, string playerTwoUsername)
     {
         // assign player ref
         this.playerOneRef = playerOneRef;
@@ -92,13 +107,21 @@ public class NetworkFighterObserver : NetworkBehaviour
         // TODO - assign selected images
 
         // TODO - change set nicknames to the login'd names
-        this.playerOne.gameObject.GetComponent<NetworkPlayer>().NickName = "Player " + playerOneRef.ToString();
-        this.playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName = "Player " + playerTwoRef.ToString();
+        // Ross implemented. Review the changes.
+        this.playerOne.gameObject.GetComponent<NetworkPlayer>().NickName = playerOneUsername;
+        this.playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName = playerTwoUsername;
 
         RPC_CacheFighterStatusUI();
     }
 
     // Method to initialize the fighter status ui based on the newly assigned network fighters
+    /// <summary>
+    /// 
+    /// Change history:
+    /// 2022-11-21 - Roswell Doria
+    ///  - Modfied _playerOneName.text and _playerTwoName.text to grab the stored loggin username inside NetworkPlayer NickName value.
+    ///
+    /// </summary>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_CacheFighterStatusUI()
     {
@@ -108,7 +131,8 @@ public class NetworkFighterObserver : NetworkBehaviour
         // set intial values
         if (playerOne) // check for null
         {
-            _playerOneName.text = "Player " + playerOneRef.ToString();
+            //_playerOneName.text = "Player " + playerOneRef.ToString();
+            _playerOneName.text = this.playerOne.gameObject.GetComponent<NetworkPlayer>().NickName.Value;
             Debug.Log("updated player name text: " + _playerOneName.text);
             _playerOneMaxHealth.text = "/ " + playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
 
@@ -126,7 +150,8 @@ public class NetworkFighterObserver : NetworkBehaviour
 
         if (playerTwo)
         {
-            _playerTwoName.text = "Player " + playerTwoRef.ToString();
+            //_playerTwoName.text = "Player " + playerTwoRef.ToString();
+            _playerTwoName.text = _playerTwoName.text = this.playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName.Value;
             Debug.Log("updated player name text: " + _playerTwoName.text);
             _playerTwoMaxHealth.text = "/ " + playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
 
