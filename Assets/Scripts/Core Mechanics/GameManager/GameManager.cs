@@ -28,10 +28,14 @@ public class GameManager : NetworkBehaviour
     protected GameTimerController _gameTimerController;
     protected CountdownController _countdownController;
     protected NetworkFighterObserver _networkFighterObserver;
+    protected GameResultsController _gameResultsController;
 
     // the fighter they are controlling
     private NetworkObject _playerOne;
     private NetworkObject _playerTwo;
+
+    private int _playerOneRef = 0;
+    private int _playerTwoRef = 0;
 
     // the winner and loser when the game ends
     private NetworkObject _winner;
@@ -59,14 +63,22 @@ public class GameManager : NetworkBehaviour
         if (!_gameTimerController) _gameTimerController = GameTimerController.Instance;
         if (!_countdownController) _countdownController = CountdownController.Instance;
         if (!_networkFighterObserver) _networkFighterObserver = NetworkFighterObserver.Observer;
+        if (!_gameResultsController) _gameResultsController = GameResultsController.Instance;
     }
 
     // Method to cache the selected and spawned fighters
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    public void RPC_CachePlayers(NetworkObject playerOne, NetworkObject playerTwo)
+    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo)
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
+
+        _playerOneRef = playerOneRef;
+        _playerTwoRef = playerTwoRef;
+
+        // cache players for the other scene objects that need it
+        _networkFighterObserver.RPC_SetNetworkFighters(playerOneRef, playerOne, playerTwoRef, playerTwo);
+        _gameResultsController.RPC_CachePlayers(playerOne, playerTwo);
     }
 
     // Set Game State to waiting
@@ -162,7 +174,9 @@ public class GameManager : NetworkBehaviour
         _countdownController.DisplayEndText();
         _gameTimerController.gameObject.SetActive(false);
 
-        FindWinnerLoser();
+        _gameResultsController.RPC_CacheGameResults();
+
+        //FindWinnerLoser();
 
         // TODO:
         // - disable player input once game is over (not in this method?)
@@ -170,58 +184,58 @@ public class GameManager : NetworkBehaviour
         StartCoroutine(GameOverCheck());
     }
 
-    // Helper method ran at the GameOver to determine the winner/loser
-    private void FindWinnerLoser()
-    {
-        // check for null (despawned) players
-        if (!_playerOne)
-        {
-            Debug.Log("Player 1 (client) is null. player 1 auto-loses");
-            _winner = _playerTwo;
-            _loser = _playerOne;
-        }
-        if (!_playerTwo)
-        {
-            Debug.Log("Player 2 (host) is null. player 2 auto-loses");
-            _winner = _playerOne;
-            _loser = _playerTwo;
-        }
+    //// Helper method ran at the GameOver to determine the winner/loser
+    //private void FindWinnerLoser()
+    //{
+    //    // check for null (despawned) players
+    //    if (!_playerOne)
+    //    {
+    //        Debug.Log("Player 1 (client) is null. player 1 auto-loses");
+    //        _winner = _playerTwo;
+    //        _loser = _playerOne;
+    //    }
+    //    if (!_playerTwo)
+    //    {
+    //        Debug.Log("Player 2 (host) is null. player 2 auto-loses");
+    //        _winner = _playerOne;
+    //        _loser = _playerTwo;
+    //    }
 
-        // find the winner and loser
-        int playerOneStocks = _playerOne.gameObject.GetComponent<Stock>().Stocks;
-        int playerTwoStocks = _playerTwo.gameObject.GetComponent<Stock>().Stocks;
+    //    // find the winner and loser
+    //    int playerOneStocks = _playerOne.gameObject.GetComponent<Stock>().Stocks;
+    //    int playerTwoStocks = _playerTwo.gameObject.GetComponent<Stock>().Stocks;
 
-        // higher stocks wins
-        if (playerOneStocks > playerTwoStocks)
-        {
-            _winner = _playerOne;
-            _loser = _playerTwo;
-        }
-        else if (playerOneStocks < playerTwoStocks)
-        {
-            _winner = _playerTwo;
-            _loser = _playerOne;
-        }
-        else  //(playerOneStocks == playerTwoStocks)
-        {
-            // stocks are equal, check current health to find winner
-            int playerOneHealth = _playerOne.gameObject.GetComponent<Health>().CurrentHealth;
-            int playerTwoHealth = _playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
+    //    // higher stocks wins
+    //    if (playerOneStocks > playerTwoStocks)
+    //    {
+    //        _winner = _playerOne;
+    //        _loser = _playerTwo;
+    //    }
+    //    else if (playerOneStocks < playerTwoStocks)
+    //    {
+    //        _winner = _playerTwo;
+    //        _loser = _playerOne;
+    //    }
+    //    else  //(playerOneStocks == playerTwoStocks)
+    //    {
+    //        // stocks are equal, check current health to find winner
+    //        int playerOneHealth = _playerOne.gameObject.GetComponent<Health>().CurrentHealth;
+    //        int playerTwoHealth = _playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
 
-            // higher health wins
-            // TODO: reverse this if we want lower health wins (working knockback implemented & no max health)
-            if (playerOneHealth >= playerTwoHealth)
-            {
-                _winner = _playerOne;
-                _loser = _playerTwo;
-            }
-            else
-            {
-                _winner = _playerTwo;
-                _loser = _playerOne;
-            }
-        }
-    }
+    //        // higher health wins
+    //        // TODO: reverse this if we want lower health wins (working knockback implemented & no max health)
+    //        if (playerOneHealth >= playerTwoHealth)
+    //        {
+    //            _winner = _playerOne;
+    //            _loser = _playerTwo;
+    //        }
+    //        else
+    //        {
+    //            _winner = _playerTwo;
+    //            _loser = _playerOne;
+    //        }
+    //    }
+    //}
 
     // Helper method to hide the game scene like players, stage, game ui
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
@@ -237,46 +251,59 @@ public class GameManager : NetworkBehaviour
 
 
     // Helper method to gather the game over results then display it
-    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    protected void RPC_UpdateGameResults()
-    {
-        // TODO: gather stats
-        // TOOD: send stats to database
+    //[Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    //protected void RPC_UpdateGameResults()
+    //{
+    //    // TODO: gather stats
+    //    // TOOD: send stats to database
         
 
 
-        // display results
-        RPC_ShowGameResultsScene();
-    }
+    //    // display results
+    //    RPC_ShowGameResultsScene();
+    //}
 
-    // Helper method to display the game results scene
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    protected void RPC_ShowGameResultsScene()
-    {
-        Debug.Log(_winner.gameObject.GetComponent<NetworkPlayer>().NickName + " won!");
-        Debug.Log(_loser.gameObject.GetComponent<NetworkPlayer>().NickName + " lost...");
-    }
+    //// Helper method to display the game results scene
+    //[Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    //protected void RPC_ShowGameResultsScene()
+    //{
+    //    Debug.Log(_winner.gameObject.GetComponent<NetworkPlayer>().NickName + " won!");
+    //    Debug.Log(_loser.gameObject.GetComponent<NetworkPlayer>().NickName + " lost...");
+
+    //    // show game results controller game scene
+    //}
 
     IEnumerator GameOverCheck()
     {
+        bool cachedGameResults = false;
+        bool showedGameResults = false;
+
         while (GameState == GameStates.GameOver)
         {
+            if (Object.HasStateAuthority && !cachedGameResults)
+            {
+                cachedGameResults = true;
+                // ask the game results controller to process the end-game results
+                _gameResultsController.RPC_CacheGameResults();
+            }
+
             yield return new WaitForSeconds(3.5f);
 
-            if (Object.HasStateAuthority)
+            if (Object.HasStateAuthority && !showedGameResults)
             {
+                showedGameResults = true;
+
                 // update the scene to hide game elements
                 RPC_HideGameScene();
 
-                // update the game to display results
-                RPC_UpdateGameResults();
+                // update the game results controller to display results
+                _gameResultsController.RPC_ShowGameResults();
             }
 
-
-            yield return new WaitForSeconds(10f);
-            // load next scene: return to main menu
-            Debug.Log("returning to Main Menu...");
-            SceneManager.LoadScene("Main Menu");
+            //yield return new WaitForSeconds(10f);
+            //// load next scene: return to main menu
+            //Debug.Log("returning to Main Menu...");
+            //SceneManager.LoadScene("Main Menu");
         }
 
         // stop this check since gamestate has changed

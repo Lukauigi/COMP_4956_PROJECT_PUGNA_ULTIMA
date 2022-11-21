@@ -65,9 +65,10 @@ public class PlayerItemObserver : NetworkBehaviour
             RPC_SpawnNetworkFighters(playerOneIndexSelect, playerTwoIndexSelect, playerOneRef, playerTwoRef);
             isPlayersSpawned = true;
 
-            // Assign Player one and player two references to NetworkFighterObserver & GameManager
-            _networkPlayerObserver.RPC_SetNetworkFighters(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
-            _gameManager.RPC_CachePlayers(playerOneFighter, playerTwoFighter);
+            // Assign Player one and player two references to GameManager
+            //_networkPlayerObserver.RPC_SetNetworkFighters(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
+            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
+
 
             // Switch Game State to 'Starting' Game
             _gameManager.RPC_SetGameStateStarting();

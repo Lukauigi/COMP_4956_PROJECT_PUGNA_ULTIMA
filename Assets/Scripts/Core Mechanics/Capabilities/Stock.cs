@@ -49,6 +49,9 @@ public class Stock : NetworkBehaviour
         }
     }
 
+    // helper bool to pause respawn checks in update method WHILE respawning
+    private bool isRespawning = false;
+
     // the out-of-map stage boundary
     private readonly int stageBoundaryTop = 15;
     private readonly int stageBoundaryBottom = -5;
@@ -85,8 +88,11 @@ public class Stock : NetworkBehaviour
         //    return;
 
         // check if player has lost a life (out of stage or lost all their health)
-        if (IsOutOfHealth() || IsOutOfStage())
+        if ((IsOutOfHealth() || IsOutOfStage()) && !isRespawning)
         {
+            // pause update
+            isRespawning = true;
+
             // local assignment of stocks is faster than always using the networked property
             int newStocks = Stocks;
 
@@ -102,6 +108,9 @@ public class Stock : NetworkBehaviour
             }
 
             Stocks = newStocks;
+
+            // end of code-block; can resume checks
+            isRespawning = false;
         }
 
     }
