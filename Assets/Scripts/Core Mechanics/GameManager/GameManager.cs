@@ -68,8 +68,24 @@ public class GameManager : NetworkBehaviour
     }
 
     // Method to cache the selected and spawned fighters
+    /// <summary>
+    /// 
+    /// Change history:
+    /// 2022-11-21 Roswell Doria
+    ///  - Added playerOneUsername and playerTwoUsername paramters
+    ///  - Modified _networkFighterObserver.RPC_CachePlayers() to take player one and player two usernames.
+    ///  - I dunno who the author of this RPC is but I'll let you fill out the rest of this summary.
+    ///
+    /// </summary>
+    /// <param name="playerOneRef"></param>
+    /// <param name="playerOne"></param>
+    /// <param name="playerTwoRef"></param>
+    /// <param name="playerTwo"></param>
+    /// <param name="playerOneUsername">a string of player one's username</param>
+    /// <param name="playerTwoUsername">a string of player two's username</param>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo)
+    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo,
+        string playerOneUsername, string playerTwoUsername)
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
@@ -78,7 +94,7 @@ public class GameManager : NetworkBehaviour
         _playerTwoRef = playerTwoRef;
 
         // cache players for the other scene objects that need it
-        _networkFighterObserver.RPC_CachePlayers(playerOneRef, playerOne, playerTwoRef, playerTwo);
+        _networkFighterObserver.RPC_CachePlayers(playerOneRef, playerOne, playerTwoRef, playerTwo, playerOneUsername, playerTwoUsername);
         _gameResultsController.RPC_CachePlayers(playerOne, playerTwo);
     }
 
