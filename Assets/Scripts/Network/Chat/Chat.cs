@@ -17,6 +17,7 @@ public class Chat : NetworkBehaviour
     {
         if(Runner.IsServer) RPC_SendChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
         else RPC_SendClientChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
+        _chatInputField.text = "";
     }
 
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
@@ -24,7 +25,6 @@ public class Chat : NetworkBehaviour
     {
         Debug.Log("Clicked send server");
         _chatText.text += "[" + sender + "] : " + message + "\n";
-        _chatInputField.text = "";
     }
 
     [Rpc(sources: RpcSources.Proxies, RpcTargets.All)]
@@ -32,6 +32,5 @@ public class Chat : NetworkBehaviour
     {
         Debug.Log("Clicked send client");
         _chatText.text += "[" + sender + "] : " + message + "\n";
-        _chatInputField.text = "";
     }
 }
