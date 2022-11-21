@@ -35,7 +35,7 @@ public class PlayerItemController : NetworkBehaviour
     [SerializeField] private GameObject prevBtn;
     [SerializeField] private GameObject selectBtn;
     [SerializeField] private GameObject dialogueText;
-    [SerializeField] private Color[] Colors;
+    [SerializeField] private Sprite[] Avatars;
     [SerializeField] private NetworkObject[] CharacterPrefabs;
     [SerializeField] private int selected;
     [SerializeField] private TMP_Text _username;
@@ -114,6 +114,7 @@ public class PlayerItemController : NetworkBehaviour
 
         selected = 0;
         //if(!_color) _color = GetComponent<NetworkColor>();
+        
     }
 
     private void CacheOtherObjects()
@@ -131,8 +132,12 @@ public class PlayerItemController : NetworkBehaviour
     ///     - Modified call to RPC_SetPlayerReady() to take paramters for usernames
     /// </summary>
     public override void FixedUpdateNetwork()
-    {   
-        Avatar.color = Colors[selected];
+    {
+        Avatar.sprite = Avatars[selected];
+        //Remove these when andrew finishes avatars
+        if (selected == 0) Avatar.color = Color.white;
+        if (selected == 1) Avatar.color = Color.red;
+        if (selected == 2) Avatar.color = Color.cyan;
 
         //Display This player's username
         if(Object.HasInputAuthority)
@@ -221,7 +226,7 @@ public class PlayerItemController : NetworkBehaviour
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_OnNextBtnClick()
     {
-        selected = (selected + 1) % Colors.Length;
+        selected = (selected + 1) % Avatars.Length;
     }
 
     /// <summary>
@@ -235,7 +240,7 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_OnPrevBtnClick()
     {
         selected--;
-        if (selected < 0) selected = Colors.Length - 1;
+        if (selected < 0) selected = Avatars.Length - 1;
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
