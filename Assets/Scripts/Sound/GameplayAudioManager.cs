@@ -83,8 +83,15 @@ public class GameplayAudioManager : NetworkBehaviour
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void RPC_StopAudio()
+    {
+        sfxAudioSource.Stop();
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlayMenuSFXAudio()
     {
 
     }
+
 }

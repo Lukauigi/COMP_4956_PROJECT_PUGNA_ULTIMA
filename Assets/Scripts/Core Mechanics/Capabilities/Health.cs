@@ -24,13 +24,11 @@ public class Health : NetworkBehaviour
 
     // how much health the fighter has per stock
     [SerializeField] private int maxHealth = 300;
-
-    [SerializeField] AudioClip takeDamageAudioClip;
-    private AudioSource audioSource;
+    private GameObject audioManager;
 
     private void Start()
     {
-        this.audioSource = gameObject.GetComponent<AudioSource>();
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
@@ -48,7 +46,6 @@ public class Health : NetworkBehaviour
             // client update changes to host
             if (Object.HasInputAuthority)
             {
-                RPC_PlayTakeDamageAudio();
                 RPC_SetHealth(value);
             }
         }
@@ -71,7 +68,7 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
-
+        audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString(), false);
         CurrentHealth -= amount;
 
     }
@@ -123,13 +120,4 @@ public class Health : NetworkBehaviour
     {
         this.CurrentHealth = health;
     }
-
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
-    private void RPC_PlayTakeDamageAudio()
-    {
-        audioSource.loop = false;
-        print("RPC Health Deduction Audio");
-        audioSource.PlayOneShot(takeDamageAudioClip);
-    }
-
 }

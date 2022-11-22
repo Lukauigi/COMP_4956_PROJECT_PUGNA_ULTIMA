@@ -24,6 +24,7 @@ public class Move : NetworkBehaviour
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
     [SerializeField] private AudioClip moveAudioClip;
     private AudioSource audioSource;
+    private GameObject audioManager;
     private bool isMoveSoundPlaying = false;
 
     private Vector2 direction;
@@ -53,6 +54,7 @@ public class Move : NetworkBehaviour
     private void Start()
     {
         this.audioSource = gameObject.GetComponent<AudioSource>();
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // Helper method to initialize fighter prefab components
@@ -98,17 +100,18 @@ public class Move : NetworkBehaviour
         _animator.SetFloat("Speed", Mathf.Abs(velocity.x));
 
         _body.velocity = velocity;
-        /*
+        
         if (_ground && (velocity.x != 0) && !isMoveSoundPlaying)
         {
-            RPC_PlayAudioClip();
+            //RPC_PlayAudioClip();
             isMoveSoundPlaying = true;
+            //audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Move.ToString(), true);
         } 
         if (isMoveSoundPlaying && velocity.x == 0)
         {
-            RPC_StopAudioClip();
+            //RPC_StopAudioClip();
             isMoveSoundPlaying = false;
-        }*/
+        }
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
