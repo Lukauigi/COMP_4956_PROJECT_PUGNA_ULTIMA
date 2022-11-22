@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 /// <summary>
 /// Class that determines if we are on the ground or in the air
@@ -9,20 +10,27 @@ using UnityEngine;
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
 /// </summary>
-public class Ground : MonoBehaviour
+public class Ground : NetworkBehaviour
 {
 
+    [SerializeField] private AudioClip landAudioClip;
+    private AudioSource audioSource;
     private bool onGround;
     private float friction;
 
     // reference the animator controller for player
     //public Animator animator;
 
+    private void Start()
+    {
+        this.audioSource = gameObject.GetComponent<AudioSource>();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        RPC_PlayLandingAudio();
         EvaluateCollision(collision);
         RetrieveFriction(collision);
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -72,5 +80,12 @@ public class Ground : MonoBehaviour
     public float GetFriction()
     {
         return friction;
+    }
+    
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_PlayLandingAudio()
+    {
+        audioSource.loop = false;
+        audioSource.PlayOneShot(landAudioClip);
     }
 }

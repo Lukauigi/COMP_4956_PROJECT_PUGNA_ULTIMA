@@ -22,6 +22,9 @@ public class Move : NetworkBehaviour
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
+    [SerializeField] private AudioClip moveAudioClip;
+    private AudioSource audioSource;
+    private bool isMoveSoundPlaying = false;
 
     private Vector2 direction;
     private Vector2 desiredVelocity;
@@ -45,6 +48,11 @@ public class Move : NetworkBehaviour
         // TODO: might have to change, right now its under the assumption
         //  that both players are facing right.
         isFacingRight = true;
+    }
+
+    private void Start()
+    {
+        this.audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Helper method to initialize fighter prefab components
@@ -90,6 +98,33 @@ public class Move : NetworkBehaviour
         _animator.SetFloat("Speed", Mathf.Abs(velocity.x));
 
         _body.velocity = velocity;
+        /*
+        if (_ground && (velocity.x != 0) && !isMoveSoundPlaying)
+        {
+            RPC_PlayAudioClip();
+            isMoveSoundPlaying = true;
+        } 
+        if (isMoveSoundPlaying && velocity.x == 0)
+        {
+            RPC_StopAudioClip();
+            isMoveSoundPlaying = false;
+        }*/
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_PlayAudioClip()
+    {
+        audioSource.loop = true;
+        print("RPC Move Audio Call");
+        audioSource.PlayOneShot(moveAudioClip);
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_StopAudioClip()
+    {
+        audioSource.loop = false;
+        print("RPC Stop Audio Call");
+        audioSource.Stop();
     }
 
 }

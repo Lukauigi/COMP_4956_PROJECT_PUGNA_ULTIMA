@@ -121,7 +121,8 @@ public class Attack : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     private void RPC_PlayAuioClip()
     {
-        print("RPC Jump Audio Call");
+        audioSource.loop = false;
+        print("RPC Attack Audio Call");
         audioSource.PlayOneShot(attackAudio);
     }
 
