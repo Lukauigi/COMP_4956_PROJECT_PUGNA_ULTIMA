@@ -22,6 +22,8 @@ public class Attack : NetworkBehaviour
     protected AttackArea _attackArea;
 
     [SerializeField] private int damage = 50;
+    [SerializeField] private AudioClip attackAudio;
+    private AudioSource audioSource;
 
     private bool isAttackPressed;
 
@@ -36,6 +38,12 @@ public class Attack : NetworkBehaviour
     void Awake()
     {
         CacheComponents();
+    }
+
+    // Start is called after Awake, and before Update
+    private void Start()
+    {
+        this.audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Helper method to initialize fighter prefab components
@@ -90,6 +98,7 @@ public class Attack : NetworkBehaviour
 
             // signal to attack
             _animator.SetBool("isAttacking", true);
+            RPC_PlayAuioClip();
 
 
             print("Player Attacked! finding objects to hit in AttackArea hitbox...");
@@ -107,6 +116,13 @@ public class Attack : NetworkBehaviour
             }
 
         }
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_PlayAuioClip()
+    {
+        print("RPC Jump Audio Call");
+        audioSource.PlayOneShot(attackAudio);
     }
 
 }

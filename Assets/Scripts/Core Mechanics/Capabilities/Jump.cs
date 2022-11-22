@@ -28,6 +28,8 @@ public class Jump : NetworkBehaviour
     [SerializeField, Range(1, 3)] private int maxAirJumps = 2; //how many jumps character can make while in the air
     [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
     [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 6f; //affects how fast character moves vertically when jumping
+    [SerializeField] private AudioClip jumpAudio;
+    private AudioSource audioSource;
 
     private Vector2 direction;
     private Vector2 velocity;
@@ -53,6 +55,12 @@ public class Jump : NetworkBehaviour
         CacheComponents();
 
         defaultGravityScale = 1f;
+    }
+
+    // Start is called after Awake, and before Update
+    private void Start()
+    {
+        this.audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Helper method to initialize fighter prefab components
@@ -125,7 +133,9 @@ public class Jump : NetworkBehaviour
                 _animator.SetBool("isDoubleJumping", true);
             }
 
-
+            //print("input authority: " + Object.HasInputAuthority);
+            //audioSource.clip = jumpAudio;
+            RPC_PlayAuioClip();
 
             currentJump += 1;
             onGround = false;
@@ -224,6 +234,13 @@ public class Jump : NetworkBehaviour
         Physics2D.IgnoreCollision(_playerCollider, platformCollider, false);
         Physics2D.IgnoreCollision(_playerEdgeCollider, platformCollider, false);
         StopCoroutine(DisableCollision());
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_PlayAuioClip()
+    {
+        print("RPC Attack Audio Call");
+        audioSource.PlayOneShot(jumpAudio);
     }
 
 }
