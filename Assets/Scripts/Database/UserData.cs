@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using static ProfileUI;
+using UnityEngine.UI;
 
 /// <summary>
 /// Database portion of the script
@@ -12,8 +13,9 @@ using static ProfileUI;
 /// Date: - Oct 29 2022
 /// Source(s): 
 /// 	  https://www.youtube.com/watch?v=DQWYMfZyMNU&list=PL1aAeF6bPTB4oP-Tejys3n8P8iXlj7uj-&ab_channel=CocoCode
+/// 	  
 /// Remarks: (
-/// Change History: 10/29/2022, Eric, added the leaderboard function
+/// Change History: 11/21/2022, Justin, Removed unnessecary functions + Added comments
 /// </summary>
 public static class UserData
 {
@@ -21,8 +23,12 @@ public static class UserData
     // Stores all the user's profile data for local use
     public static Dictionary<string, string> ProfileInfo = new Dictionary<string, string>();
 
+
     /// <summary>
-    /// Sends user data to the database
+    /// Author: Justin Payne
+    /// Date: Nov 21 2022
+    /// 
+    /// SetUserData sends data from the game client to the Azure Playfab database. Takes a key for the database key and value for the value of the key
     /// </summary>
     /// <param name="key">String: Key for the data field</param>
     /// <param name="value">String: Value for the data field</param>
@@ -41,6 +47,9 @@ public static class UserData
     }
 
     /// <summary>
+    /// Author: Justin Payne
+    /// Date: Nov 21 2022
+    /// 
     /// Gets specific user data by sending a string for a key to match a key in the database
     /// </summary>
     /// <param name="myPlayFabId">String: Users PlayFabId</param>
@@ -64,6 +73,9 @@ public static class UserData
     }
 
     /// <summary>
+    /// Author: Justin Payne
+    /// Date: Nov 21 2022
+    /// 
     /// Grabs the profile data from the database
     /// Currently this function is just called and stores the data locally to populate the game scenes
     /// Ideally this function could be turned into an async function that could be called whenever the data is needed and returns the values specified. 
@@ -85,7 +97,6 @@ public static class UserData
             ProfileInfo.Add("Loses", result.Data["Loses"].Value);
             ProfileInfo.Add("Total Matches", result.Data["Total Matches"].Value);
             ProfileInfo.Add("Player Rating", result.Data["Player Rating"].Value);
-            ProfileInfo.Add("Favourite Character", result.Data["Favourite Character"].Value);
 
         }, (error) =>
         {
@@ -121,23 +132,6 @@ public static class UserData
         Debug.Log("sent BattleStats");
     }
 
-    public static void GetLeaderboard(string leaderboardName)
-    {
-        var request = new GetLeaderboardRequest
-        {
-            StatisticName = leaderboardName,
-            StartPosition = 0,
-            MaxResultsCount = 10
-        };
-        PlayFabClientAPI.GetLeaderboard(request, onleaderboardGet, OnError);
-    }
-    private static void onleaderboardGet(GetLeaderboardResult result)
-    {
-        foreach (var item in result.Leaderboard)
-        {
-            Debug.Log(item.Position + " " + item.DisplayName+ " " + item.StatValue);
-        }
-    }
 }
 
 

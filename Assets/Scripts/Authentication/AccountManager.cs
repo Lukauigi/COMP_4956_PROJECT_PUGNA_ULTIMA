@@ -101,7 +101,6 @@ public class AccountManager : MonoBehaviour
                 UserData.GetUserProfileData(response.PlayFabId);
                 //UserData.SetUserData("Wins", "13");
                 //UserData.SendLeaderboard("MostWins", 0);
-                //UserData.GetLeaderboard("MostWins");
 
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
             },
