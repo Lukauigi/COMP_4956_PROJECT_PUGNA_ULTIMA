@@ -29,8 +29,7 @@ public class Stock : NetworkBehaviour
     // how many lives the fighter has
     [SerializeField] private int stocks = 3;
 
-    [SerializeField] public AudioClip deathzoneAudioClip;
-    private AudioSource audioSource;
+    private GameObject audioManager;
 
     // networked property of the fighter's Stocks; listens for OnChanged and notifies others
     private int _stocks;
@@ -73,7 +72,7 @@ public class Stock : NetworkBehaviour
 
     private void Start()
     {
-        this.audioSource = gameObject.GetComponent<AudioSource>();
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // Helper method to initialize fighter prefab components
@@ -145,7 +144,8 @@ public class Stock : NetworkBehaviour
     // Helper method to reset player position & health
     private void Respawn()
     {
-        RPC_PlayHitDeathzoneAudio();
+        //RPC_PlayHitDeathzoneAudio();
+        audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Death.ToString(), false);
         _body.position = new Vector2(0, 3);
         //_velocity.y = 0;
         //_body.gravityScale = downwardMovementMultiplier;
@@ -177,14 +177,5 @@ public class Stock : NetworkBehaviour
     {
         this.Stocks = stocks;
     }
-
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    private void RPC_PlayHitDeathzoneAudio()
-    {
-        audioSource.loop = false;
-        print("RPC Attack Audio Call");
-        audioSource.PlayOneShot(deathzoneAudioClip);
-    }
-
 }
 

@@ -12,9 +12,7 @@ using Fusion;
 /// </summary>
 public class Ground : NetworkBehaviour
 {
-
-    [SerializeField] private AudioClip landAudioClip;
-    private AudioSource audioSource;
+    private GameObject audioManager;
     private bool onGround;
     private float friction;
 
@@ -23,12 +21,12 @@ public class Ground : NetworkBehaviour
 
     private void Start()
     {
-        this.audioSource = gameObject.GetComponent<AudioSource>();
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        RPC_PlayLandingAudio();
+        if (onGround) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.JumpLand.ToString(), false);
         EvaluateCollision(collision);
         RetrieveFriction(collision);
     }
@@ -80,12 +78,5 @@ public class Ground : NetworkBehaviour
     public float GetFriction()
     {
         return friction;
-    }
-    
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    private void RPC_PlayLandingAudio()
-    {
-        audioSource.loop = false;
-        audioSource.PlayOneShot(landAudioClip);
     }
 }
