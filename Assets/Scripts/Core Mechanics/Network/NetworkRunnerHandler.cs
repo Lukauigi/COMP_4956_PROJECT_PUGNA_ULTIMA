@@ -9,7 +9,6 @@ using System;
 using System.Linq;
 
 /// <summary>
-/// !!! DEPRECATED AFTER MERGING CORE MECHANICS SCENE WITH NETWORKING !!!
 /// Handles and tells Photon Fusion's Network Runner what to do.
 /// This is where you initialize what the network runner is going to be.
 /// Author(s): Jun Earl Solomon
@@ -17,6 +16,8 @@ using System.Linq;
 /// Source(s):
 ///     Online multiplayer with Photon Fusion - 2D Arcade Style Car Controller in Unity tutorial Part 12: https://youtu.be/yrXQSM1cleU
 ///     Online multiplayer ?? FPS Unity & Photon Fusion EP1 (Fusion setup + movement): https://youtu.be/hqIZCoLHOig
+/// Remark(s):
+/// DEPRECATED AFTER MERGING CORE MECHANICS' "Test 2" UNITY SCENE WITH NETWORKING TEAM
 /// </summary>
 public class NetworkRunnerHandler : MonoBehaviour
 {

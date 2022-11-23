@@ -23,9 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/Profile Scene.unity
     guid: 3809a9f5449005e41a2d6d6ac142fded
-  - enabled: 0
-    path: Assets/Scenes/Game Design/Screen Navigation/Matchmaking Menu.unity
-    guid: 161d54fd9a46c704e9a1fb58e8026c4f
   - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/Main Menu.unity
     guid: c059a810b3cf9774689279cc1c40d440
@@ -38,10 +35,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/FireScene.unity
     guid: c30ab8c3fe8dd8746928e8ee878dbdc7
-  - enabled: 0
-    path: Assets/Scenes/Game Design/Screen Navigation/Character Selection page.unity
-    guid: 526e8a9550356ce42a31937cf28dfef0
-  - enabled: 1
-    path: Assets/Scenes/Game Design/Screen Navigation/Match Menu.unity
-    guid: 2e6690ecdafac494f8479e09935ff2db
   m_configObjects: {}
