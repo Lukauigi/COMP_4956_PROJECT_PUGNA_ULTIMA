@@ -29,6 +29,7 @@ public class GameManager : NetworkBehaviour
     protected CountdownController _countdownController;
     protected NetworkFighterObserver _networkFighterObserver;
     protected GameResultsController _gameResultsController;
+    protected GameplayAudioManager _gameplayAudioManager;
 
     // the fighter they are controlling
     private NetworkObject _playerOne;
@@ -65,6 +66,7 @@ public class GameManager : NetworkBehaviour
         if (!_countdownController) _countdownController = CountdownController.Instance;
         if (!_networkFighterObserver) _networkFighterObserver = NetworkFighterObserver.Observer;
         if (!_gameResultsController) _gameResultsController = GameResultsController.Instance;
+        if (!_gameplayAudioManager) _gameplayAudioManager = GameplayAudioManager.Instance;
     }
 
     // Method to cache the selected and spawned fighters

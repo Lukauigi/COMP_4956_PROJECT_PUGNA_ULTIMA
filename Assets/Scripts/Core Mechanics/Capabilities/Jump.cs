@@ -10,9 +10,10 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
-/// Change History: Nov 18 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Moved stage bounds / respawn logic to Stock.cs script
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Jump : NetworkBehaviour
 {
@@ -28,6 +29,7 @@ public class Jump : NetworkBehaviour
     [SerializeField, Range(1, 3)] private int maxAirJumps = 2; //how many jumps character can make while in the air
     [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
     [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 6f; //affects how fast character moves vertically when jumping
+    private GameObject audioManager;
 
     private Vector2 direction;
     private Vector2 velocity;
@@ -53,6 +55,13 @@ public class Jump : NetworkBehaviour
         CacheComponents();
 
         defaultGravityScale = 1f;
+    }
+
+    // Start is called after Awake, and before Update
+    private void Start()
+    {
+        this.audioManager = GameObject.Find("SceneAudioManager");
+        print("got this from audio" + audioManager.name);
     }
 
     // Helper method to initialize fighter prefab components
@@ -125,7 +134,8 @@ public class Jump : NetworkBehaviour
                 _animator.SetBool("isDoubleJumping", true);
             }
 
-
+            //RPC_PlayAuioClip();
+            audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Jump.ToString(), false);
 
             currentJump += 1;
             onGround = false;
@@ -225,5 +235,4 @@ public class Jump : NetworkBehaviour
         Physics2D.IgnoreCollision(_playerEdgeCollider, platformCollider, false);
         StopCoroutine(DisableCollision());
     }
-
 }

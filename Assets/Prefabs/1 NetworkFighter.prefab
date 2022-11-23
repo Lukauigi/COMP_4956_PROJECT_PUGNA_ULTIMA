@@ -335,6 +335,7 @@ MonoBehaviour:
   - {fileID: 261806375952415372}
   - {fileID: 261806375952415378}
   - {fileID: 6654690710935817995}
+  - {fileID: 261806375952415379}
   - {fileID: 4477711004666605217}
   - {fileID: 5423015663125788574}
   SimulationBehaviours: []
@@ -366,6 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   damage: 50
+  attackAudio: {fileID: 0}
 --- !u!114 &-8388165017813984341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +412,7 @@ MonoBehaviour:
   maxAirJumps: 2
   downwardMovementMultiplier: 3
   upwardMovementMultiplier: 1.7
+  jumpAudio: {fileID: 0}
 --- !u!114 &261806375952415378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,6 +455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264a4a855e2263e45ab26a81c9565def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  landAudioClip: {fileID: 0}
 --- !u!114 &7201283148702718108
 MonoBehaviour:
   m_ObjectHideFlags: 0
