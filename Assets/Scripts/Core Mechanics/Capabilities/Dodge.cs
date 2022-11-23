@@ -14,7 +14,7 @@ public class Dodge : NetworkBehaviour
 {
     // fighter prefab components
     protected Rigidbody2D _body; // affects jump velocity
-    protected BoxCollider2D _playerHitbox; // player's box collider (hitbox)
+    protected Collider2D _playerHitbox; // player's box collider (hitbox)
     protected Animator _animator;
 
     private bool isDodgePressed;
@@ -29,7 +29,7 @@ public class Dodge : NetworkBehaviour
     private void CacheComponents()
     {
         if (!_body) _body = GetComponent<Rigidbody2D>();
-        if (!_playerHitbox) _playerHitbox = GetComponent<BoxCollider2D>();
+        if (!_playerHitbox) _playerHitbox = GetComponent<Collider2D>();
         if (!_animator) _animator = GetComponent<Animator>();
     }
 
@@ -43,13 +43,16 @@ public class Dodge : NetworkBehaviour
         if (isDodgePressed)
         {
             isDodgePressed = false;
-            DodgeAction();
+            StartCoroutine(DodgeAction());
         }
     }
-    private void DodgeAction()
+    private IEnumerator DodgeAction()
     {
-        //playerHitbox.enabled = false;
-        Debug.Log("Player Dodged!");
+        _playerHitbox.enabled = false;
+        Debug.Log("hitbox down");
+        yield return new WaitForSeconds(1);
+        Debug.Log("hitbox back");
+        _playerHitbox.enabled = true; 
     }
 
 }
