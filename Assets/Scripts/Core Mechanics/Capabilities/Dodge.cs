@@ -7,8 +7,9 @@ using Fusion;
 /// Class that handles the dodge of a fighter/player.
 /// Author(s): Richard Mac
 /// Date: Nov 18 2022
-/// Change History: Nov 18 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Dodge : NetworkBehaviour
 {
@@ -26,6 +27,7 @@ public class Dodge : NetworkBehaviour
         CacheComponents();
     }
 
+    // Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
     private void Start()
     {
         this._audioManager = GameObject.Find("SceneAudioManager");
