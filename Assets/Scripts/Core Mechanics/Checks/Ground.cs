@@ -9,6 +9,8 @@ using Fusion;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// Changes: November 22, 2022
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Ground : NetworkBehaviour
 {
@@ -26,9 +28,9 @@ public class Ground : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (onGround) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.JumpLand.ToString(), false);
         EvaluateCollision(collision);
         RetrieveFriction(collision);
+        if (onGround) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.JumpLand.ToString(), false);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -55,6 +57,7 @@ public class Ground : NetworkBehaviour
             Vector2 normal = collision.GetContact(i).normal;
             onGround |= normal.y >= 0.9f;
         }
+        
     }
 
 

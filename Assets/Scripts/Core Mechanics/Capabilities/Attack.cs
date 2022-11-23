@@ -9,9 +9,10 @@ using UnityEngine;
 /// Author(s): Faiz Hassany
 /// Date: Nov 07 2022
 /// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
-/// Change History: Nov 18 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Renamed some methods to be more consistent with other capabilities.
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Attack : NetworkBehaviour
 {

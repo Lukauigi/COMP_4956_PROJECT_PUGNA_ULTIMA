@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
+/// <summary>
+/// An enumeration of available player actions of a character.
+/// Author(s): Lukasz Bednarek
+/// Date: November 22, 2022
+/// Remarks: N/A
+/// Change History: November 22, 2022 - Lukasz Bednarek
+/// - Add enumeratioon
+/// - Add docuementation
+/// </summary>
 public enum PlayerActions
 {
     Attack,
@@ -14,6 +23,15 @@ public enum PlayerActions
     Dodge
 }
 
+/// <summary>
+/// An audio manager GameObject for the gameplay battle scene.
+/// Author(s): Lukasz Bednarek
+/// Date: November 22, 2022
+/// Remarks: N/A
+/// Change History: November 22, 2022 = Lukasz Bednarek
+/// -Add class
+/// -Add documentation
+/// </summary>
 public class GameplayAudioManager : NetworkBehaviour
 {
     public static GameplayAudioManager Instance = null;
@@ -32,6 +50,9 @@ public class GameplayAudioManager : NetworkBehaviour
     [SerializeField] public AudioSource sfxAudioSource;
     [SerializeField] public AudioSource musicAudioSource;
 
+    /// <summary>
+    /// Initializes a game object's properties.
+    /// </summary>
     private void Awake()
     {
         Instance = this;
@@ -54,18 +75,12 @@ public class GameplayAudioManager : NetworkBehaviour
         };
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        CacheOtherObjects();
-    }
-
-    // Helper method to initialize OTHER game objects and their components
-    private void CacheOtherObjects()
-    {
-        if (!_gameManager) _gameManager = GameManager.Manager;
-    }
-
+    /// <summary>
+    /// Plays a specific character sound effect.
+    /// </summary>
+    /// <param name="playerRefId">Reference ID of a player</param>
+    /// <param name="playerAction">The Player Action string of the enumeration</param>
+    /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlaySpecificCharatcerSFXAudio(int playerRefId, string playerAction, bool isLoopingAudio)
     {
@@ -74,6 +89,11 @@ public class GameplayAudioManager : NetworkBehaviour
         sfxAudioSource.PlayOneShot(hostPlayerAudio[playerAction][0]);
     }
 
+    /// <summary>
+    /// Plays a universal character sound effect.
+    /// </summary>
+    /// <param name="playerAction">The Player Action string of the enumeration</param>
+    /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlayUniversalCharatcerSFXAudio(string playerAction, bool isLoopingAudio)
     {
@@ -82,12 +102,18 @@ public class GameplayAudioManager : NetworkBehaviour
         sfxAudioSource.PlayOneShot(universalPlayerAudio[playerAction]);
     }
 
+    /// <summary>
+    /// Stops the audio of all sound effects
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_StopAudio()
+    public void RPC_StopSFXAudio()
     {
         sfxAudioSource.Stop();
     }
 
+    /// <summary>
+    /// Plays a menu sound effect.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlayMenuSFXAudio()
     {

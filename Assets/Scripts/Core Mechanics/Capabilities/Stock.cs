@@ -14,8 +14,9 @@ using Fusion;
 /// Remarks: 
 /// - Stock is affected by listening to player health.
 /// - stock is a networked property so the NetworkFighterObserver will know of its changes.
-/// Change History: Nov 19 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - Modified stock to be a networked property, will call the NetworkFighterObserver to update its UI.
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Stock : NetworkBehaviour
 {

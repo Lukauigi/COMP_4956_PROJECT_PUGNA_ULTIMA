@@ -643,7 +643,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   damage: 50
-  attackAudio: {fileID: 8300000, guid: 5814245ac6decfb499e9dfd401880c83, type: 3}
 --- !u!114 &1090350054710066291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +670,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   maxHealth: 300
-  takeDamageAudioClip: {fileID: 8300000, guid: fe409508e7e2e5a4392887456cd25514, type: 3}
 --- !u!114 &9067251257825840559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +687,6 @@ MonoBehaviour:
   maxAirJumps: 2
   downwardMovementMultiplier: 3
   upwardMovementMultiplier: 1.7
-  jumpAudio: {fileID: 8300000, guid: 1c078771b0773064f85b9ad4ff0a0c79, type: 3}
 --- !u!114 &7739673853743360534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,7 +703,7 @@ MonoBehaviour:
   maxSpeed: 4
   maxAcceleration: 35
   maxAirAcceleration: 20
-  moveAudioClip: {fileID: 8300000, guid: 801e07321a847bf45a626d8bac0297b9, type: 3}
+  moveAudioClip: {fileID: 0}
 --- !u!114 &995587658763326512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,7 +718,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   stocks: 4
-  deathzoneAudioClip: {fileID: 8300000, guid: fd31d2ed6f7cf064f8ba19aaea4b1a6a, type: 3}
 --- !u!114 &2736844490793416708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,7 +731,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  landAudioClip: {fileID: 8300000, guid: bf9e5bf59312afd44989e7bf333bb0be, type: 3}
 --- !u!114 &9118863558597344364
 MonoBehaviour:
   m_ObjectHideFlags: 0

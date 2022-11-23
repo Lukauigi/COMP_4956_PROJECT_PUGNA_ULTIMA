@@ -467,7 +467,7 @@ MonoBehaviour:
   moveSoundPool: []
   deathSound: {fileID: 8300000, guid: fd31d2ed6f7cf064f8ba19aaea4b1a6a, type: 3}
   jumpSound: {fileID: 8300000, guid: 1c078771b0773064f85b9ad4ff0a0c79, type: 3}
-  jumpLandSound: {fileID: 8300000, guid: bf9e5bf59312afd44989e7bf333bb0be, type: 3}
+  jumpLandSound: {fileID: 8300000, guid: 9d1b5f278b2d81141ad6b984aef1596f, type: 3}
   dodgeSound: {fileID: 8300000, guid: 627d204022f64474080df9fd265ce541, type: 3}
   sfxAudioSource: {fileID: 217232111}
   musicAudioSource: {fileID: 217232110}
