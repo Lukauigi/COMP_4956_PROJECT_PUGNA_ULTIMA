@@ -50,7 +50,7 @@ public class Dodge : NetworkBehaviour
     {
         _playerHitbox.enabled = false;
         Debug.Log("hitbox down");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("hitbox back");
         _playerHitbox.enabled = true; 
     }
