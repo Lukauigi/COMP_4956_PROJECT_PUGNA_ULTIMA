@@ -3,14 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Author: Roswell Doria
-/// Date: 2022-11-10
-/// 
-/// The purpose of this Network Behavior is to monitor the PlayerITem Object that is spawned by the Network Runner
-/// on player joined. This object observes when both players select a character. Once both have selected a character
-/// spawn the associated character prefabs and start GameManager countdown.
-/// </summary>
 public class PlayerItemObserver : NetworkBehaviour
 {
     public static PlayerItemObserver Observer = null;
@@ -30,13 +22,13 @@ public class PlayerItemObserver : NetworkBehaviour
     //the fighters they will spawn
     private NetworkObject playerOneFighter;
     private NetworkObject playerTwoFighter;
-
+    
     //default
     private int playerOneRef = 0;
     private int playerTwoRef = 0;
 
     private bool isPlayersSpawned = false;
-
+    
 
     // Awake is called when the script instance is being loaded
     public void Awake()
@@ -83,19 +75,11 @@ public class PlayerItemObserver : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Author: Roswell Doria
-    /// Date: 2022-11-10
-    /// 
-    /// RPC respsonible for setting players to the ready state.
-    /// </summary>
-    /// <param name="playerRefIndex">an interger representing the playerRef Index of player one</param>
-    /// <param name="playerPrefabIndex">an interger representing the playerRef Index of player two</param>
-    /// <param name="isHost">a bool if player is host</param>
+
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost)
-    {
-        if (isHost)
+    { 
+        if(isHost)
         {
             playerOneRef = playerRefIndex;
             playerOneIndexSelect = playerPrefabIndex;
@@ -107,24 +91,17 @@ public class PlayerItemObserver : NetworkBehaviour
             playerTwoIndexSelect = playerPrefabIndex;
             isPlayerTwoReady = true;
         }
-
+        
     }
 
 
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_CheckBothPlayerReady()
     {
-
+    
     }
 
-    /// <summary>
-    /// Author: Roswell Doria
-    /// Date: 2022-11-10
-    /// 
-    /// This RPC is responsible for dispawning the PlayerItems that are responsible for character select.
-    /// </summary>
-    /// <param name="playerOneRef">an interger representing the playerRef Index of player one</param>
-    /// <param name="playerTwoRef">an interger representing the playerRef Index of player two</param>
+
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_DespawnPlayerItems(int playerOneRef, int playerTwoRef)
     {
@@ -136,16 +113,7 @@ public class PlayerItemObserver : NetworkBehaviour
         Runner.Despawn(playerTwoPlayerItem);
     }
 
-    /// <summary>
-    /// Author: Roswell Doria
-    /// Date: 2022-11-10
-    /// 
-    /// This Rpc method is to be used to spawn player one and player two objects and assign the associated player references.
-    /// </summary>
-    /// <param name="playerOneSelected"></param>
-    /// <param name="playerTwoSelected"></param>
-    /// <param name="playerOneRef"></param>
-    /// <param name="playerTwoRef"></param>
+
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_SpawnNetworkFighters(int playerOneSelected, int playerTwoSelected, int playerOneRef, int playerTwoRef)
     {
