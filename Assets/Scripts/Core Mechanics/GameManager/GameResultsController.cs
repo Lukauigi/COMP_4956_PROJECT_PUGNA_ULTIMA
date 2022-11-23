@@ -160,6 +160,9 @@ public class GameResultsController : NetworkBehaviour
         // - int playerTwoKills
         // - int playerOneDamageDone
         // - int playerTwoDamageDone
+
+        // use _winner and _loser to find user data by playfabid
+        // do something to update user data 
     }
 
     // Method to unhide/show the game results scene object
