@@ -11,7 +11,7 @@ using System.Threading;
 /// Network Controller for PlayerItem Prefab. 
 /// This is responsible for functionality of the Prefab object across the network.
 /// 
-/// Change History: 2022-11-19 - Jason Cheung
+/// Change History: 2022-11-23 - Lukasz Bednarek
 /// - Fixed "Local simulation is not allowed" on client instance errors 
 ///   by adding Object.IsStateAuthority clause to RPC_SetPlayerReady calls
 ///
@@ -23,6 +23,7 @@ public class PlayerItemController : NetworkBehaviour
     protected NetworkTransform _nt;
     protected PlayerItemObserver _playerObserver;
     //protected NetworkBehaviour _networkRunnerCallbacks;
+    protected GameObject audioManager;
 
     [SerializeField] private Image Avatar;
     [SerializeField] private GameObject nextBtn;
@@ -58,6 +59,7 @@ public class PlayerItemController : NetworkBehaviour
     public void Start()
     {
         CacheOtherObjects();
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     /// <summary>
@@ -174,6 +176,8 @@ public class PlayerItemController : NetworkBehaviour
         prevBtn.SetActive(false);
         dialogueText.SetActive(true);
 
+        InitiateAudio(true);
+
         Debug.Log("Object has Input Authority: --->>> " + Object.HasInputAuthority);
         if (!Object.HasInputAuthority)
         {
@@ -199,6 +203,7 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_OnNextBtnClick()
     {
         selected = (selected + 1) % Colors.Length;
+        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
     }
 
     /// <summary>
@@ -213,5 +218,16 @@ public class PlayerItemController : NetworkBehaviour
     {
         selected--;
         if (selected < 0) selected = Colors.Length - 1;
+        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="isCharacterSelection">If button press is selection button press.</param>
+    private void InitiateAudio(bool isCharacterSelection)
+    {
+        if (!isCharacterSelection) audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Navigate.ToString());
+        else audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Confirm.ToString());
     }
 }
