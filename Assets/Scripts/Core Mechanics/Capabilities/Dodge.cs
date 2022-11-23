@@ -16,6 +16,7 @@ public class Dodge : NetworkBehaviour
     protected Rigidbody2D _body; // affects jump velocity
     protected Collider2D _playerHitbox; // player's box collider (hitbox)
     protected Animator _animator;
+    protected GameObject _audioManager;
 
     private bool isDodgePressed;
 
@@ -23,6 +24,11 @@ public class Dodge : NetworkBehaviour
     private void Awake()
     {
         CacheComponents();
+    }
+
+    private void Start()
+    {
+        this._audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // Helper method to initialize fighter prefab components
@@ -50,6 +56,7 @@ public class Dodge : NetworkBehaviour
     {
         _playerHitbox.enabled = false;
         Debug.Log("hitbox down");
+        _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Dodge.ToString(), false);
         yield return new WaitForSeconds(0.5f);
         Debug.Log("hitbox back");
         _playerHitbox.enabled = true; 
