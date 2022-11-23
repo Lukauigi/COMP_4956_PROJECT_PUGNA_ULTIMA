@@ -1,30 +1,58 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
+/// <summary>
+/// Class that handles the attack of a fighter/player.
+/// Author(s): Faiz Hassany
+/// Date: Nov 07 2022
+/// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
+/// Change History: Nov 22 2022 - Lukasz Bednarek
+/// - integrated Jaspers' animations using Animator controller and set triggers
+/// - Renamed some methods to be more consistent with other capabilities.
+/// - Add logic for RPC call for sound effect method.
+/// </summary>
 public class Attack : NetworkBehaviour
 {
+    // fighter prefab components
+    protected Animator _animator; //player's animator controller
 
-    //public Collider2D[] attackHitboxes;
+    // AttackArea component, which is inside player prefab hierarchy
+    protected AttackArea _attackArea;
 
-    private GameObject attackArea;
+    [SerializeField] private int damage = 50;
+    private GameObject audioManager;
 
     private bool isAttackPressed;
 
-    private bool attacking = false;
-    private float timeToAttack = 0.25f;
+    private bool isAttacking = false;
+    private float attackRate = 1f;
     private float timer = 0f;
 
-    // Start is called before the first frame update
-    void Start()
+    // for database - the amount of damage done by the player
+    [UnityNonSerialized] public int DamageDone { get; set; } = 0;
+
+    // Awake is called when the script instance is being loaded
+    void Awake()
     {
-        attackArea = transform.Find("AttackArea").gameObject;
+        CacheComponents();
     }
 
-    private void OnDrawGizmosSelected()
+    // Start is called after Awake, and before Update
+    private void Start()
     {
+        this.audioManager = GameObject.Find("SceneAudioManager");
+    }
 
+    // Helper method to initialize fighter prefab components
+    private void CacheComponents()
+    {
+        if (!_animator) _animator = GetComponent<Animator>();
+
+        // cache AttackArea gameObject, which is inside Fighter prefab hierarchy
+        if (!_attackArea) _attackArea = transform.Find("AttackArea").gameObject.GetComponent<AttackArea>();
     }
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
@@ -41,52 +69,52 @@ public class Attack : NetworkBehaviour
 
         if (isAttackPressed)
         {
-            Debug.Log("Attack.isAttackPressed : Attack Key (G) pressed!");
             isAttackPressed = false;
-            iAttack();
+            AttackAction();
         }
 
-        if (attacking)
+        if (isAttacking)
         {
             timer += Runner.DeltaTime;
 
-            if (timer >= timeToAttack)
+            if (timer >= attackRate)
             {
                 timer = 0;
-                attacking = false;
-                attackArea.SetActive(attacking);
+                isAttacking = false;
+
+                // signal to stop attacking 
+                _animator.SetBool("isAttacking", false);
             }
         }
     }
 
-    //nov 7
-    private void iAttack()
+    // Perform attack action
+    private void AttackAction()
     {
-        attacking = true;
-        attackArea.SetActive(attacking);
-        Debug.Log("Attack.iAttack() : Enabling AttackArea hitbox!");
-    }
-
-/*    private void LaunchAttack(Collider2D col)
-    {
-        Collider2D[] cols = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.extents, col.transform.rotation.x, LayerMask.GetMask("Hitbox"));
-        foreach (Collider2D c in cols)
+        // perform attack only if fighter is not currenty attacking
+        if (!isAttacking)
         {
-            //float damage = 1;
-            //Debug.Log("Hit Registered"); //Test if attack is going through
+            isAttacking = true;
 
-            if (c.transform.parent.parent == transform) // Check if attack hitbox is colliding with the player that used the attack
-                continue;                               // If so do not register a hit and continue foreach loop
+            // signal to attack
+            _animator.SetBool("isAttacking", true);
+            audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString(), false);
 
-            Debug.Log(c.name); //If this shows the attack is hitting another player
 
+            print("Player Attacked! finding objects to hit in AttackArea hitbox...");
+
+            List<Collider2D> overlappingColliders = _attackArea.overlappingColliders;
+            foreach (Collider2D collider in overlappingColliders)
+            {
+                if (collider.GetComponent<Health>() != null && isAttacking == true)
+                {
+                    print("Attack hit!");
+                    Health health = collider.GetComponent<Health>();
+                    health.Damage(damage);
+                    DamageDone += damage;
+                }
+            }
 
         }
-    }*/
-
-    /*    public override void FixedUpdateNetwork()
-        {
-
-        }*/
-
+    }
 }

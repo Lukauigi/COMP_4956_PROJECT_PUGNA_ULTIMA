@@ -3,69 +3,122 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
+/// <summary>
+/// Class that handles the current / max health of a fighter/player.
+/// Author(s): Faiz Hassany, Jason Cheung
+/// Date: Nov 07 2022
+/// Source(s):
+///     FPS Unity & Photon Fusion EP4.1 (player names and RPCs): https://youtu.be/-opvmn_QKw0?t=647
+/// Remarks: 
+/// - Health value is affected by attack, and it affects stock.
+/// - health is a networked property so the NetworkFighterObserver will know of its changes.
+/// Change History: Nov 22 2022 - Lukasz Bednarek
+/// - Modified health to be a networked property, will call the NetworkFighterObserver to update its UI.
+/// - Reorganized code to be more consistent with other capabilities.
+/// - Moved some of the logic to Stock.cs
+/// - Add logic for RPC call for sound effect method.
+/// </summary>
 public class Health : NetworkBehaviour
 {
-    [SerializeField] private int health = 100;
+    // other scene objects to reference
+    protected NetworkFighterObserver _networkFighterObserver;
 
-    private int MAX_HEALTH = 100;
+    // how much health the fighter has per stock
+    [SerializeField] private int maxHealth = 300;
+    private GameObject audioManager;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        /*if (Input.GetButtonDown("D"))
-        {
-            // Damage(10);
-        }
-
-        if (Input.GetButtonDown("H"))
-        {
-            // Heal(10);
-        }*/
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
+    // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
+    private int currentHealth;
+    [Networked(OnChanged = nameof(OnHealthChanged)), UnityNonSerialized]
+    public int CurrentHealth
+    {
+        get
+        {
+            return currentHealth;
+        }
+        set
+        {
+            currentHealth = value;
+            // client update changes to host
+            if (Object.HasInputAuthority)
+            {
+                RPC_SetHealth(value);
+            }
+        }
+    }
+
+
+    // Post Spawn callback
+    public override void Spawned()
+    {
+        // Networked property can only be accessed after object has Spawned
+        CurrentHealth = maxHealth;
+    }
+
+    // Method to damage the player
     public void Damage(int amount)
     {
         if (amount < 0)
         {
-            //throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
-            // should not throw exceptions; rather, negate the healing amount
+            // negate the damage amount if negative
             amount = 0;
         }
 
-        this.health -= amount;
+        audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString(), false);
+        CurrentHealth -= amount;
 
-        Debug.Log("Health.Damage() triggered : HEALTH LEFT = " + health);
-
-        if (health <= 0)
-        {
-            Die();
-        }
     }
 
+    // Method to heal the player
     public void Heal(int amount)
     {
         if (amount < 0)
         {
-            //throw new System.ArgumentOutOfRangeException("Cannot have negative healing");
-            // should not throw exceptions; rather, negate the healing amount
+            // negate the healing amount if negative
             amount = 0;
         }
 
-        bool wouldBeOverMaxHealth = health + amount > MAX_HEALTH;
+
+        bool wouldBeOverMaxHealth = CurrentHealth + amount > maxHealth;
 
         if (wouldBeOverMaxHealth)
         {
-            this.health = MAX_HEALTH;
+            CurrentHealth = maxHealth;
         }
         else
         {
-            this.health += amount;
+            CurrentHealth += amount;
         }
+
     }
 
-    private void Die()
+    // Method to reset the Health of the player
+    public void ResetHealth()
     {
-        Debug.Log("I am Dead!");
-        Destroy(gameObject);
+        CurrentHealth = maxHealth;
+    }
+
+    // Networked OnChanged method for the Network Property Stocks
+    static void OnHealthChanged(Changed<Health> changed)
+    {
+        changed.Behaviour.OnHealthChanged();
+    }
+
+    // OnChanged method to update the network fighter status ui
+    private void OnHealthChanged()
+    {
+        NetworkFighterObserver.Observer.UpdateFighterStatus();
+    }
+
+    // RPC method for client to notify host its changes for CurrentHealth
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetHealth(int health, RpcInfo info = default)
+    {
+        this.CurrentHealth = health;
     }
 }

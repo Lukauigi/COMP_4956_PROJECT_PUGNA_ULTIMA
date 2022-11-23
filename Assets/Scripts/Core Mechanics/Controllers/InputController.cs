@@ -14,8 +14,7 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
-/// Remark(s):
-///     The Input Controls are initialized in Unity, under 'Edit' > 'Project Settings' > 'Input Manager'
+/// Remarks: The Input Controls are initialized in Unity, under 'Edit' > 'Project Settings' > 'Input Manager'
 /// Change History: Nov 16 2022 - Jason Cheung
 ///     Modified Controller so all inputs from Unity's Input Manager
 /// </summary>

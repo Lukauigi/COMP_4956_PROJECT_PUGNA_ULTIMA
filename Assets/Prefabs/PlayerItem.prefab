@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 6811589961629168574}
   - component: {fileID: 1218920481065823314}
   m_Layer: 0
-  m_Name: diaglogueText
+  m_Name: dialogueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   nextBtn: {fileID: 3614456190985989111}
   prevBtn: {fileID: 6188687287752001490}
   selectBtn: {fileID: 7547389548694991596}
-  diaglogueText: {fileID: 327376220926647827}
+  dialogueText: {fileID: 327376220926647827}
   Colors:
   - {r: 0.754717, g: 0.15236738, b: 0.15236738, a: 0.972549}
   - {r: 0.08218223, g: 0.764151, b: 0.09437889, a: 1}
