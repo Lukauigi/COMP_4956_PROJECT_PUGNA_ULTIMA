@@ -15,10 +15,14 @@ using UnityEngine;
 public class Chat : NetworkBehaviour
 {
 
-    [SerializeField] private GameObject _chatUI;
-    [SerializeField] private TMP_Text _chatText;
-    [SerializeField] private TMP_InputField _chatInputField;
-    [SerializeField] private GameObject _sendBtn;
+    [SerializeField] 
+    private GameObject _chatUI;
+    [SerializeField] 
+    private TMP_Text _chatText;
+    [SerializeField] 
+    private TMP_InputField _chatInputField;
+    [SerializeField] 
+    private GameObject _sendBtn;
     
     /// <summary>
     /// Author: Roswell Doria
