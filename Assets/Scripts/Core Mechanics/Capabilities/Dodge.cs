@@ -19,6 +19,8 @@ public class Dodge : NetworkBehaviour
     protected Animator _animator;
     protected GameObject _audioManager;
 
+    private float cooldown = 1f;
+    private float nextDodgeTime = 0f; 
     private bool isDodgePressed;
 
     // Awake is called when the script instance is being loaded
@@ -51,7 +53,12 @@ public class Dodge : NetworkBehaviour
         if (isDodgePressed)
         {
             isDodgePressed = false;
-            StartCoroutine(DodgeAction());
+            if (Time.time > nextDodgeTime)
+            {
+                StartCoroutine(DodgeAction());
+                nextDodgeTime = Time.time + cooldown;
+            }
+           
         }
     }
     private IEnumerator DodgeAction()
