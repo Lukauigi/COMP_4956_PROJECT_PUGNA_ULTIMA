@@ -6,7 +6,7 @@ using UnityEngine;
 
 /// <summary>
 /// Class that handles the attack of a fighter/player.
-/// Author(s): Faiz Hassany
+/// Author(s): Faiz Hassany, John Ryue
 /// Date: Nov 07 2022
 /// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
 /// Change History: Nov 22 2022 - Lukasz Bednarek
