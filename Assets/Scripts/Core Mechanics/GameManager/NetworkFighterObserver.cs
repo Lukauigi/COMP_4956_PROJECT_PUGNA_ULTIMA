@@ -15,36 +15,37 @@ using TMPro;
 /// Date: Nov 19 2022
 /// Remarks:
 /// - CurrentHealth and Stocks are network properties that will notify this observer to update itself.
+/// Change History:
+/// Nov 24 2022 - Jason Cheung
+/// - caches player username and avatar image
 /// </summary>
 public class NetworkFighterObserver : NetworkBehaviour
 {
     // Static instance of NetworkFighterObserver so other scripts can access it
     public static NetworkFighterObserver Observer = null;
 
-    // other scene objects to reference
-    protected GameManager _gameManager;
-
     // Game UI Components to update
-    [SerializeField] private RawImage _playerTwoAvatar;
+    [SerializeField] private Image _playerTwoImage;
     [SerializeField] private TextMeshProUGUI _playerTwoName;
     [SerializeField] private TextMeshProUGUI _playerTwoStocks;
     [SerializeField] private TextMeshProUGUI _playerTwoCurrentHealth;
     [SerializeField] private TextMeshProUGUI _playerTwoMaxHealth;
 
-    [SerializeField] private RawImage _playerOneAvatar;
+    [SerializeField] private Image _playerOneImage;
     [SerializeField] private TextMeshProUGUI _playerOneName;
     [SerializeField] private TextMeshProUGUI _playerOneStocks;
     [SerializeField] private TextMeshProUGUI _playerOneCurrentHealth;
     [SerializeField] private TextMeshProUGUI _playerOneMaxHealth;
 
+    // list of character avatar images from PlayerItem
+    [SerializeField] private Sprite[] _avatars;
 
     // the fighter they are controlling
     private NetworkObject playerOne;    
     private NetworkObject playerTwo;
 
-    // player references - fusion gives them a player id
-    private int playerOneRef = 0;
-    private int playerTwoRef = 0;
+    private string playerOneUsername;
+    private string playerTwoUsername;
 
 
     // previous character status values; used to compare and gather fighter stats
@@ -65,18 +66,6 @@ public class NetworkFighterObserver : NetworkBehaviour
     }
 
 
-    // Start is called after Awake, and before Update
-    public void Start()
-    {
-        CacheOtherObjects();
-    }
-
-    // Helper method to initialize OTHER game objects and their components
-    private void CacheOtherObjects()
-    {
-        if (!_gameManager) _gameManager = GameManager.Manager;
-    }
-
     // Method to cache the selected and spawned fighters
     /// <summary>
     /// 
@@ -86,32 +75,35 @@ public class NetworkFighterObserver : NetworkBehaviour
     ///  - Modifed this.playerOne and this.playerTwo Nicknames to take player usernames.
     ///
     /// </summary>
-    /// <param name="playerOneRef"></param>
     /// <param name="playerOne"></param>
-    /// <param name="playerTwoRef"></param>
     /// <param name="playerTwo"></param>
     /// <param name="playerOneUsername">a string of player one's username</param>
     /// <param name="playerTwoUsername">a string of player two's username</param>
+    /// <param name="playerOneSelectedIndex">the selected index for the avatar image</param>
+    /// <param name="playerTwoSelectedIndex">the selected index for the avatar image</param>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo,
-        string playerOneUsername, string playerTwoUsername)
+    public void RPC_CachePlayers(
+        NetworkObject playerOne, NetworkObject playerTwo,
+        string playerOneUsername, string playerTwoUsername,
+        int playerOneSelectedIndex, int playerTwoSelectedIndex)
     {
-        // assign player ref
-        this.playerOneRef = playerOneRef;
-        this.playerTwoRef = playerTwoRef;
-
         // assign network fighter
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
 
-        // TODO - assign selected images
+        // assign player usernames
+        this.playerOneUsername = playerOneUsername;
+        this.playerTwoUsername = playerTwoUsername;
 
-        // TODO - change set nicknames to the login'd names
-        // Ross implemented. Review the changes.
+        // set avatar images to ui
+        _playerOneImage.sprite = _avatars[playerOneSelectedIndex];
+        _playerTwoImage.sprite = _avatars[playerTwoSelectedIndex];
+
+        // assign nicknames to their NetworkPlayer
         this.playerOne.gameObject.GetComponent<NetworkPlayer>().NickName = playerOneUsername;
         this.playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName = playerTwoUsername;
 
-        RPC_CacheFighterStatusUI();
+        RPC_CacheFighterStatusUI(playerOneSelectedIndex, playerTwoSelectedIndex);
     }
 
     // Method to initialize the fighter status ui based on the newly assigned network fighters
@@ -123,18 +115,15 @@ public class NetworkFighterObserver : NetworkBehaviour
     ///
     /// </summary>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_CacheFighterStatusUI()
+    public void RPC_CacheFighterStatusUI(int playerOneSelectedIndex, int playerTwoSelectedIndex)
     {
-        // TODO - set selected images
-        // TODO - change set nicknames to the login'd names
-
-        // set intial values
+        // set intial values for player one
         if (playerOne) // check for null
         {
-            //_playerOneName.text = "Player " + playerOneRef.ToString();
-            _playerOneName.text = this.playerOne.gameObject.GetComponent<NetworkPlayer>().NickName.Value;
-            Debug.Log("updated player name text: " + _playerOneName.text);
+            // cache name, max health and image; doesn't change after initial cache
+            _playerOneName.text = playerOneUsername;
             _playerOneMaxHealth.text = "/ " + playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
+            _playerOneImage.sprite = _avatars[playerOneSelectedIndex];
 
             // store the initial values to the "old" ones
             prevPlayerOneCurrentHealth = playerOne.gameObject.GetComponent<Health>().CurrentHealth;
@@ -148,12 +137,13 @@ public class NetworkFighterObserver : NetworkBehaviour
             Debug.Log("CacheFighterStatusUI Error - Player One null.");
         }
 
+        // set initial values for player two
         if (playerTwo)
         {
-            //_playerTwoName.text = "Player " + playerTwoRef.ToString();
-            _playerTwoName.text = _playerTwoName.text = this.playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName.Value;
-            Debug.Log("updated player name text: " + _playerTwoName.text);
+            // cache name, max health and image; doesn't change after initial cache
+            _playerTwoName.text = playerTwoUsername;
             _playerTwoMaxHealth.text = "/ " + playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
+            _playerTwoImage.sprite = _avatars[playerTwoSelectedIndex];
 
             // store the initial values to the "old" ones
             prevPlayerTwoCurrentHealth = playerTwo.gameObject.GetComponent<Health>().CurrentHealth;

@@ -52,11 +52,16 @@ public class AccountManager : MonoBehaviour
                 Email = Email,
                 Password = Password,
                 Username = Username,
+                DisplayName = Username,
                 RequireBothUsernameAndEmail = true
             },
             response => { 
                 Debug.Log($"User successfully registered | " +
                                     $"Username: {Username} | Email: {Email}"); 
+                
+                // Database call to set all initial data in database
+                SetUserDataOnRegister();
+                
                 IsRegistered = true;
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Login Screen");
             },
@@ -98,11 +103,9 @@ public class AccountManager : MonoBehaviour
 
 
                 // Database functions calls on login
-                //UserData.SetUserData("Wins", "13");
-                //UserData.GetUserData(response.PlayFabId, "Favourite Character");
-                //UserData.GetUserProfileData(response.PlayFabId);
-                //UserData.SendLeaderboard("MostWins", 0);
-                //UserData.GetLeaderboard("MostWins");
+                GetUserProfileData(response.PlayFabId);
+                //SetUserData("Wins", "13");
+                //SendLeaderboard("MostWins", 10);
 
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
             },
@@ -153,7 +156,7 @@ public static class PlayerPrefsManager
     {
         return PlayerPrefs.GetString("PlayfabId");
     }
-    
+
     /// <summary>
     /// Set the player name to the PlayerPrefs.
     /// </summary>
@@ -164,7 +167,7 @@ public static class PlayerPrefsManager
         PlayerPrefs.SetString("PlayerName", playerName);
         return playerName;
     }
-    
+
     /// <summary>
     /// Get the player name from the PlayerPrefs.
     /// </summary>

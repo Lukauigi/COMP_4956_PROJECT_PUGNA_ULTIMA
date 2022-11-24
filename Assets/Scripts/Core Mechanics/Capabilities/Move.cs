@@ -9,8 +9,9 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
-/// Change History: Nov 18 2022 - Jason Cheung
+/// Change History: Nov 23 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
+/// - Add logic for RPC call for sound effect method. Does not work properly; therefore, it is commencted out.
 /// </summary>
 public class Move : NetworkBehaviour
 {
@@ -22,6 +23,8 @@ public class Move : NetworkBehaviour
     [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
     [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
     [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
+    //private GameObject _audioManager;
+    //private bool isMoveSoundPlaying = false;
 
     private Vector2 direction;
     private Vector2 desiredVelocity;
@@ -45,6 +48,11 @@ public class Move : NetworkBehaviour
         // TODO: might have to change, right now its under the assumption
         //  that both players are facing right.
         isFacingRight = true;
+    }
+
+    private void Start()
+    {
+        //this._audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // Helper method to initialize fighter prefab components
@@ -90,6 +98,18 @@ public class Move : NetworkBehaviour
         _animator.SetFloat("Speed", Mathf.Abs(velocity.x));
 
         _body.velocity = velocity;
-    }
 
+        // Controls move audio
+        /*
+        if (_ground && (velocity.x != 0) && !isMoveSoundPlaying)
+        {
+            _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayMoveAudio(PlayerActions.Move.ToString());
+            isMoveSoundPlaying = true;
+        } 
+        if (isMoveSoundPlaying && velocity.x == 0)
+        {
+            _audioManager.GetComponent<GameplayAudioManager>().RPC_StopMoveAudio();
+            isMoveSoundPlaying = false;
+        }*/
+    }
 }

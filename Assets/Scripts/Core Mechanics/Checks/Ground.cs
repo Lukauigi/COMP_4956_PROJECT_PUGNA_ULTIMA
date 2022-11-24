@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 /// <summary>
 /// Class that determines if we are on the ground or in the air
@@ -8,21 +9,28 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
+/// Changes: November 22, 2022
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
-public class Ground : MonoBehaviour
+public class Ground : NetworkBehaviour
 {
-
+    private GameObject audioManager;
     private bool onGround;
     private float friction;
 
     // reference the animator controller for player
     //public Animator animator;
 
+    private void Start()
+    {
+        this.audioManager = GameObject.Find("SceneAudioManager");
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EvaluateCollision(collision);
         RetrieveFriction(collision);
-
+        if (onGround) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.JumpLand.ToString());
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -49,6 +57,7 @@ public class Ground : MonoBehaviour
             Vector2 normal = collision.GetContact(i).normal;
             onGround |= normal.y >= 0.9f;
         }
+        
     }
 
 

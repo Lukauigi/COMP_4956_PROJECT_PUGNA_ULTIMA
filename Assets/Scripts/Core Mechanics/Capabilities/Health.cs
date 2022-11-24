@@ -12,10 +12,11 @@ using Fusion;
 /// Remarks: 
 /// - Health value is affected by attack, and it affects stock.
 /// - health is a networked property so the NetworkFighterObserver will know of its changes.
-/// Change History: Nov 19 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - Modified health to be a networked property, will call the NetworkFighterObserver to update its UI.
 /// - Reorganized code to be more consistent with other capabilities.
 /// - Moved some of the logic to Stock.cs
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Health : NetworkBehaviour
 {
@@ -24,6 +25,34 @@ public class Health : NetworkBehaviour
 
     // how much health the fighter has per stock
     [SerializeField] private int maxHealth = 300;
+    private GameObject audioManager;
+
+    // parent components of character
+    private Attack attack;
+    private Jump jump;
+    private Move move;
+
+    private void Start()
+    {
+        this.audioManager = GameObject.Find("SceneAudioManager");
+        // find and set the parent components of this character
+        this.attack = gameObject.GetComponentInParent<Attack>();
+        this.jump = gameObject.GetComponentInParent<Jump>();
+        this.move = gameObject.GetComponentInParent<Move>();
+
+    }
+
+    // disable character inputs relating to these components temporarily
+    IEnumerator disableInputsTemporarily()
+    {
+        attack.enabled = false;
+        jump.enabled = false;
+        move.enabled = false;
+        yield return new WaitForSeconds(3);
+        attack.enabled = true;
+        jump.enabled = true;
+        move.enabled = true;
+    }
 
     // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
     private int currentHealth;
@@ -62,8 +91,9 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
+        audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
         CurrentHealth -= amount;
-
+        StartCoroutine(disableInputsTemporarily());
     }
 
     // Method to heal the player
@@ -113,6 +143,4 @@ public class Health : NetworkBehaviour
     {
         this.CurrentHealth = health;
     }
-
-
 }

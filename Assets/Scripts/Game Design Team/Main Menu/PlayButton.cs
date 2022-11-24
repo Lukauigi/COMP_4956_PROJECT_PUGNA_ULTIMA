@@ -17,7 +17,7 @@ public class PlayButton : MonoBehaviour
         
     }
 
-    public void onClickPlayButton()
+    public void OnClickPlayButton()
     {
         SceneManager.LoadScene("Select&GamePlay");
     }

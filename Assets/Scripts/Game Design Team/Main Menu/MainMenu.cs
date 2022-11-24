@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         Username.text = "Welcome " + PlayerPrefs.GetString("PlayerName") + "!";
-        
+
     }
 
     // Update is called once per frame
