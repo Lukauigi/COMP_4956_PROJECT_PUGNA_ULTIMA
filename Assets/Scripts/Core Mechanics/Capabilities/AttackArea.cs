@@ -21,7 +21,7 @@ public class AttackArea : NetworkBehaviour
         // Check specifically one type of collider instead of adding all
         if (!overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
         {
-            overlappingColliders.Add(collider);
+           overlappingColliders.Add(collider);
         }
     }
 

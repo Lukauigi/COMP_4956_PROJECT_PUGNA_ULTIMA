@@ -111,6 +111,23 @@ public class Attack : NetworkBehaviour
                     print("Attack hit!");
                     Health health = collider.GetComponent<Health>();
                     health.Damage(damage);
+                    if (collider.transform.position.x > transform.position.x)
+                    {
+                        if (collider.transform.position.y <= transform.position.y)
+                        {
+                            health.knockBack(new Vector2(3, 1));
+                        } else health.knockBack(new Vector2(3, -1));
+                        //health.knockBack(new Vector2(3, 1));
+                    }
+                    if (collider.transform.position.x < transform.position.x)
+                    {
+                        if (collider.transform.position.y <= transform.position.y)
+                        {
+                            health.knockBack(new Vector2(-3, 1));
+                        }
+                        else health.knockBack(new Vector2(-3, -1));
+                        //health.knockBack(new Vector2(-3, 1));
+                    }
                     DamageDone += damage;
                 }
             }
