@@ -52,6 +52,7 @@ public class AccountManager : MonoBehaviour
                 Email = Email,
                 Password = Password,
                 Username = Username,
+                DisplayName = Username,
                 RequireBothUsernameAndEmail = true
             },
             response => { 
@@ -100,7 +101,7 @@ public class AccountManager : MonoBehaviour
                 // Database functions calls on login
                 UserData.GetUserProfileData(response.PlayFabId);
                 //UserData.SetUserData("Wins", "13");
-                //UserData.SendLeaderboard("MostWins", 0);
+                UserData.SendLeaderboard("MostWins", 10);
 
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
             },
