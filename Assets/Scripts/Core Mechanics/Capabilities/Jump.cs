@@ -135,7 +135,7 @@ public class Jump : NetworkBehaviour
             }
 
             //RPC_PlayAuioClip();
-            audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Jump.ToString());
+            audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Jump.ToString(), false);
 
             currentJump += 1;
             onGround = false;

@@ -6,7 +6,7 @@ using UnityEngine;
 
 /// <summary>
 /// Class that handles the attack of a fighter/player.
-/// Author(s): Faiz Hassany, John Ryue
+/// Author(s): Faiz Hassany
 /// Date: Nov 07 2022
 /// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
 /// Change History: Nov 22 2022 - Lukasz Bednarek
@@ -98,7 +98,7 @@ public class Attack : NetworkBehaviour
 
             // signal to attack
             _animator.SetBool("isAttacking", true);
-            audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString());
+            audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString(), false);
 
 
             print("Player Attacked! finding objects to hit in AttackArea hitbox...");

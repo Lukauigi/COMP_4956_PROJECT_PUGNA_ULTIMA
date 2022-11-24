@@ -11,14 +11,14 @@ using TMPro;
 /// Shows the winner, kills, and damage done.
 /// Author(s): Jason Cheung
 /// Date: Nov 20 2022
-/// Change History:
-/// Nov 24 2022 - Jason Cheung
-/// - caches player username and avatar image
 /// </summary>
 public class GameResultsController : NetworkBehaviour
 {
     // Static instance of GameManager so other scripts can access it
     public static GameResultsController Instance = null;
+
+    // other scene objects to reference
+    protected GameManager _gameManager;
 
     // the fighter they are controlling
     private NetworkObject _playerOne;
@@ -31,26 +31,18 @@ public class GameResultsController : NetworkBehaviour
     // TextMeshPro UI elements to update
     // winner
     [SerializeField] private Image _winnerBGMaskImageColor;
-    [SerializeField] private Image _winnerImage;
+    [SerializeField] private RawImage _winnerAvatar;
     [SerializeField] private TextMeshProUGUI _winnerName;
     // left player results
-    [SerializeField] private Image _playerTwoImage;
+    [SerializeField] private RawImage _playerTwoAvatar;
     [SerializeField] private TextMeshProUGUI _playerTwoName;
     [SerializeField] private TextMeshProUGUI _playerTwoKills;
     [SerializeField] private TextMeshProUGUI _playerTwoDamageDone;
     // right player results
-    [SerializeField] private Image _playerOneImage;
+    [SerializeField] private RawImage _playerOneAvatar;
     [SerializeField] private TextMeshProUGUI _playerOneName;
     [SerializeField] private TextMeshProUGUI _playerOneKills;
     [SerializeField] private TextMeshProUGUI _playerOneDamageDone;
-
-    // list of character avatar images from PlayerItem
-    [SerializeField] private Sprite[] _avatars;
-
-    // their selected index from the list of avatars
-    private int playerOneSelectedIndex;
-    private int playerTwoSelectedIndex;
-    private int winnerSelectedIndex;
 
     // stored values for results screen and/or database
     private int playerOneKills;
@@ -58,7 +50,6 @@ public class GameResultsController : NetworkBehaviour
 
     private int playerTwoKills;
     private int playerTwoDamageDone;
-
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -72,14 +63,10 @@ public class GameResultsController : NetworkBehaviour
 
     // Method to cache the selected and spawned fighters
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    public void RPC_CachePlayers(NetworkObject playerOne, NetworkObject playerTwo,
-        int playerOneSelectedIndex, int playerTwoSelectedIndex)
+    public void RPC_CachePlayers(NetworkObject playerOne, NetworkObject playerTwo)
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
-
-        this.playerOneSelectedIndex = playerOneSelectedIndex;
-        this.playerTwoSelectedIndex = playerTwoSelectedIndex;
     }
 
 
@@ -101,13 +88,11 @@ public class GameResultsController : NetworkBehaviour
         {
             _winner = _playerOne;
             _loser = _playerTwo;
-            winnerSelectedIndex = playerOneSelectedIndex;   // cache selected image index
         }
         else if (playerOneKills < playerTwoKills)
         {
             _winner = _playerTwo;
             _loser = _playerOne;
-            winnerSelectedIndex = playerTwoSelectedIndex;
         } else  // same amount of kills/deaths
         {
             // check their final health
@@ -118,13 +103,11 @@ public class GameResultsController : NetworkBehaviour
             {
                 _winner = _playerOne;
                 _loser = _playerTwo;
-                winnerSelectedIndex = playerOneSelectedIndex;
             }
             else
             {
                 _winner = _playerTwo;
                 _loser = _playerOne;
-                winnerSelectedIndex = playerTwoSelectedIndex;
             }
         }
 
@@ -146,12 +129,8 @@ public class GameResultsController : NetworkBehaviour
     // Helper method to set the text values of the game results screen
     private void SetResultsScreen()
     {
-        // set winner & players' image
-        _winnerImage.sprite = _avatars[winnerSelectedIndex];
-        _playerOneImage.sprite = _avatars[playerOneSelectedIndex];
-        _playerTwoImage.sprite = _avatars[playerTwoSelectedIndex];
-
-        // TODO ? set winner's mask color -> _winnerBGMaskImageColor
+        // TODO set winner & players' raw image
+        // TODO set winner's mask color -> _winnerBGMaskImageColor
 
         // set winner & players' names
         _winnerName.text = _winner.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();

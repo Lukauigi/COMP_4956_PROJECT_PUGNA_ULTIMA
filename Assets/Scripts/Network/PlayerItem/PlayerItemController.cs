@@ -3,7 +3,6 @@ using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
 using System.Threading;
-using TMPro;
 
 /// <summary>
 /// Author: Roswell Doria
@@ -12,12 +11,9 @@ using TMPro;
 /// Network Controller for PlayerItem Prefab. 
 /// This is responsible for functionality of the Prefab object across the network.
 /// 
-/// Change History:
-/// 2022-11-23 - Lukasz Bednarek
-/// - Added sound to button presses
-/// 2022-11-21 - Roswell Doria
-/// - Added private field for remote username
-/// - Added RPC for sending remote username to State authority
+/// Change History: 2022-11-19 - Jason Cheung
+/// - Fixed "Local simulation is not allowed" on client instance errors 
+///   by adding Object.IsStateAuthority clause to RPC_SetPlayerReady calls
 ///
 /// </summary>
 public class PlayerItemController : NetworkBehaviour
@@ -27,17 +23,15 @@ public class PlayerItemController : NetworkBehaviour
     protected NetworkTransform _nt;
     protected PlayerItemObserver _playerObserver;
     //protected NetworkBehaviour _networkRunnerCallbacks;
-    protected GameObject audioManager;
 
     [SerializeField] private Image Avatar;
     [SerializeField] private GameObject nextBtn;
     [SerializeField] private GameObject prevBtn;
     [SerializeField] private GameObject selectBtn;
     [SerializeField] private GameObject dialogueText;
-    [SerializeField] private Sprite[] Avatars;
+    [SerializeField] private Color[] Colors;
     [SerializeField] private NetworkObject[] CharacterPrefabs;
     [SerializeField] private int selected;
-    [SerializeField] private TMP_Text _username;
 
     public bool isLocal = true;
     public bool clientJoined { get; set;}
@@ -47,8 +41,6 @@ public class PlayerItemController : NetworkBehaviour
     private bool isClientReady = false;
 
     private bool isPlayersReady = false;
-
-    private string remoteUsername;
 
 
     /// <summary>
@@ -66,7 +58,6 @@ public class PlayerItemController : NetworkBehaviour
     public void Start()
     {
         CacheOtherObjects();
-        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     /// <summary>
@@ -75,10 +66,6 @@ public class PlayerItemController : NetworkBehaviour
     ///
     /// Method calls when network playerItem is spawned.
     ///
-    /// Change History:
-    /// 2022-11-21 - Roswell Doria
-    /// - Added Call to RPC_SetRemoteUsername() to set remote player's username to state authority
-    ///     
     /// </summary>
     public override void Spawned()
     {
@@ -92,8 +79,6 @@ public class PlayerItemController : NetworkBehaviour
 
         if (!Object.HasStateAuthority) clientJoined = true;
         if (Object.HasStateAuthority) clientJoined = false;
-
-        if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteUsername(PlayerPrefs.GetString("PlayerName"));
 
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
@@ -114,7 +99,6 @@ public class PlayerItemController : NetworkBehaviour
 
         selected = 0;
         //if(!_color) _color = GetComponent<NetworkColor>();
-        
     }
 
     private void CacheOtherObjects()
@@ -127,23 +111,11 @@ public class PlayerItemController : NetworkBehaviour
     /// Date: 2022-10-29
     /// 
     /// Updates the network of a local client's changes to their ownership of this networked object.
-    /// 
-    /// Changes: Ross 2022-11-21
-    ///     - Modified call to RPC_SetPlayerReady() to take paramters for usernames
+    ///
     /// </summary>
     public override void FixedUpdateNetwork()
-    {
-        Avatar.sprite = Avatars[selected];
-        //Remove these when andrew finishes avatars
-        if (selected == 0) Avatar.color = Color.white;
-        if (selected == 1) Avatar.color = Color.red;
-        if (selected == 2) Avatar.color = Color.cyan;
-
-        //Display This player's username
-        if(Object.HasInputAuthority)
-        {
-            RPC_SetPlayerName(PlayerPrefs.GetString("PlayerName"));
-        }
+    {   
+        Avatar.color = Colors[selected];
 
         // only the Host has state authority; this removes the 'Local simulation is not allowed' errors on Client
         if (Object.HasStateAuthority && !isPlayersReady)
@@ -151,12 +123,12 @@ public class PlayerItemController : NetworkBehaviour
             if (isClientReady)
             {
                 //Debug.Log("Client is Local------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal);
             }
             if (isHostReady)
             {
                 //Debug.Log("Host is Local -------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal);
             }
 
             if (isClientReady && isHostReady)
@@ -202,8 +174,6 @@ public class PlayerItemController : NetworkBehaviour
         prevBtn.SetActive(false);
         dialogueText.SetActive(true);
 
-        InitiateAudio(true);
-
         Debug.Log("Object has Input Authority: --->>> " + Object.HasInputAuthority);
         if (!Object.HasInputAuthority)
         {
@@ -228,8 +198,7 @@ public class PlayerItemController : NetworkBehaviour
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_OnNextBtnClick()
     {
-        selected = (selected + 1) % Avatars.Length;
-        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
+        selected = (selected + 1) % Colors.Length;
     }
 
     /// <summary>
@@ -243,37 +212,6 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_OnPrevBtnClick()
     {
         selected--;
-        if (selected < 0) selected = Avatars.Length - 1;
-        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
-    }
-
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
-    public void RPC_SetPlayerName(string username)
-    {
-        _username.text = username;
-    }
-
-    /// <summary>
-    /// Author: Roswell Doria
-    /// Date: 2022-11-21
-    /// 
-    /// Remote procedure to inform the state authority the username of the remote client.
-    ///
-    /// </summary>
-    /// <param name="username"></param>
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_SetRemoteUsername(string username)
-    {
-        remoteUsername = username;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="isCharacterSelection">If button press is selection button press.</param>
-    private void InitiateAudio(bool isCharacterSelection)
-    {
-        if (!isCharacterSelection) audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Navigate.ToString());
-        else audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Confirm.ToString());
+        if (selected < 0) selected = Colors.Length - 1;
     }
 }
