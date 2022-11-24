@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/GameStage.prefab.meta
+guid: e7a3284170de84b4f8b4b542d2e8d67a
+labels:
+- FusionPrefab
+PrefabImporter:
+=======
+guid: e732df5ff6d52ec458bc6197e1f32df1
+folderAsset: yes
+DefaultImporter:
+>>>>>>> origin/networking:Assets/Scripts/Game Design Team/Main Menu.meta
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
