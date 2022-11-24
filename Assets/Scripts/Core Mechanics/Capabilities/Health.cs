@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using System;
 
 /// <summary>
 /// Class that handles the current / max health of a fighter/player.
@@ -29,8 +30,14 @@ public class Health : NetworkBehaviour
 
     // parent components of character
     private Attack attack;
+    private AttackArea attackArea;
     private Jump jump;
     private Move move;
+    private Rigidbody2D rb;
+    private Vector2 knockbackAmount;
+    private Vector2 sentRight = new Vector2(3, 0);
+    private Vector2 sentLeft = new Vector2(-3, 0);
+    private Vector2 characterPosition;
 
     private void Start()
     {
@@ -39,7 +46,8 @@ public class Health : NetworkBehaviour
         this.attack = gameObject.GetComponentInParent<Attack>();
         this.jump = gameObject.GetComponentInParent<Jump>();
         this.move = gameObject.GetComponentInParent<Move>();
-
+        this.rb = gameObject.GetComponentInParent<Rigidbody2D>();
+        this.attackArea = transform.Find("AttackArea").gameObject.GetComponent<AttackArea>();
     }
 
     // disable character inputs relating to these components temporarily
@@ -48,10 +56,26 @@ public class Health : NetworkBehaviour
         attack.enabled = false;
         jump.enabled = false;
         move.enabled = false;
-        yield return new WaitForSeconds(3);
+        knockback();
+        yield return new WaitForSeconds(0.5f);
         attack.enabled = true;
         jump.enabled = true;
         move.enabled = true;
+    }
+
+    private void knockback()
+    {
+        characterPosition = rb.position;
+        if (attackArea.rightOfAttacker)
+        {
+            knockbackAmount = sentRight;
+        }
+        else
+        {
+            knockbackAmount = sentLeft;
+        }
+        rb.AddForce(knockbackAmount, ForceMode2D.Impulse);
+
     }
 
     // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
