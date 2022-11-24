@@ -22,10 +22,6 @@ public class Attack : NetworkBehaviour
         attackArea = transform.Find("AttackArea").gameObject;
     }
 
-    private void OnDrawGizmosSelected()
-    {
-
-    }
 
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
@@ -41,7 +37,7 @@ public class Attack : NetworkBehaviour
 
         if (isAttackPressed)
         {
-            Debug.Log("Attack.isAttackPressed : Attack Key (G) pressed!");
+            //Debug.Log("Attack.isAttackPressed : Attack Key (G) pressed!");
             isAttackPressed = false;
             iAttack();
         }
@@ -64,7 +60,7 @@ public class Attack : NetworkBehaviour
     {
         attacking = true;
         attackArea.SetActive(attacking);
-        Debug.Log("Attack.iAttack() : Enabling AttackArea hitbox!");
+        //Debug.Log("Attack.iAttack() : Enabling AttackArea hitbox!");
     }
 
 /*    private void LaunchAttack(Collider2D col)

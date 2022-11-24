@@ -9,6 +9,7 @@ public class AttackArea : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        
         //Debug.Log("BEFORE ATTACKING BAM BAM");
         if (collider.GetComponent<Health>() != null)
         {

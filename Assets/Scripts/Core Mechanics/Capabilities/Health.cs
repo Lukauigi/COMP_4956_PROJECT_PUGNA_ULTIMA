@@ -27,8 +27,6 @@ public class Health : NetworkBehaviour
     {
         if (amount < 0)
         {
-            //throw new System.ArgumentOutOfRangeException("Cannot have negative Damage");
-            // should not throw exceptions; rather, negate the healing amount
             amount = 0;
         }
 
