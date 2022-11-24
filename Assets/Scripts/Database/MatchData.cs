@@ -24,11 +24,7 @@ public static class MatchData
     // Stores all the user's profile data for local use
     public static Dictionary<string, string> PlayerTwoInfo = new Dictionary<string, string>();
 
-    public static string PlayerOneName;
 
-    public static string PlayerTwoName;
-    
-    
 
     /// <summary>
     /// Sends user data to the database
@@ -86,7 +82,7 @@ public static class MatchData
         });
     }
     
-    public static void SetPostGameData(string name, string wins, string loses, string totalMatches)
+    public static void SetPostGameData(string name, string wins, string loses, string totalMatches, string playerRating, string totalKills, string totalDamage)
     {
         if (PlayerPrefs.GetString("PlayerName") == name)
         {
@@ -95,8 +91,12 @@ public static class MatchData
                     Data = new Dictionary<string, string>() {
                         { "Wins", wins },
                         {"Loses", loses},
-                        {"Total Matches", totalMatches}
-                    }
+                        {"Total Matches", totalMatches},
+                        {"Player Rating", playerRating},
+                        {"Total Kills", totalKills},
+                        {"Total Damage Done", totalDamage}
+                    },
+                    Permission = UserDataPermission.Public
                 },
                 result => Debug.Log("Successfully updated user data"),
                 error => {

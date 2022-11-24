@@ -165,32 +165,63 @@ public class GameResultsController : NetworkBehaviour
 
         if (!savedToDB)
         {
+            // Sets savedToDb boolean to true so SaveToDatabase() command runs once.
             savedToDB = true;
+            
+            // Saves player names to variables for single player game api call checks.
             _DatabasePlayerOneName = _playerOne.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
             _DatabasePlayerTwoName = _playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
+            
+            // All player data that needs to be updated for each player
+            // Player 1
             int DatabasePlayerOneWins = Int32.Parse(MatchData.PlayerOneInfo["Wins"]);
             int DatabasePlayerOneLoses = Int32.Parse(MatchData.PlayerOneInfo["Loses"]);
             int DatabasePlayerOneTotalMatches = Int32.Parse(MatchData.PlayerOneInfo["Total Matches"]);
+            int DatabasePlayerOnePlayerRating = Int32.Parse(MatchData.PlayerOneInfo["Player Rating"]);
+            int DatabasePlayerOneTotalDamageDone = Int32.Parse(MatchData.PlayerOneInfo["Total Damage Done"]);
+            int DatabasePlayerOneTotalKills = Int32.Parse(MatchData.PlayerOneInfo["Total Kills"]);
+            
+            
+            //Player 2
             int DatabasePlayerTwoWins = Int32.Parse(MatchData.PlayerTwoInfo["Wins"]);
             int DatabasePlayerTwoLoses = Int32.Parse(MatchData.PlayerTwoInfo["Loses"]);
             int DatabasePlayerTwoTotalMatches = Int32.Parse(MatchData.PlayerTwoInfo["Total Matches"]);
+            int DatabasePlayerTwoPlayerRating = Int32.Parse(MatchData.PlayerTwoInfo["Player Rating"]);
+            int DatabasePlayerTwoTotalDamageDone = Int32.Parse(MatchData.PlayerTwoInfo["Total Damage Done"]);
+            int DatabasePlayerTwoTotalKills = Int32.Parse(MatchData.PlayerTwoInfo["Total Kills"]);
+            
+            // Set data for which player wins
             if (_winner == _playerOne)
             {
                 DatabasePlayerOneWins = DatabasePlayerOneWins + 1;
-                DatabasePlayerOneTotalMatches = DatabasePlayerOneTotalMatches + 1;
                 DatabasePlayerTwoLoses = DatabasePlayerTwoLoses + 1;
-                DatabasePlayerTwoTotalMatches = DatabasePlayerTwoTotalMatches + 1;
+                
+                // Use some kind of algorithm to determine player rating gains/losses after match
+                DatabasePlayerOnePlayerRating = DatabasePlayerOnePlayerRating + 20;
+                DatabasePlayerTwoPlayerRating = DatabasePlayerTwoPlayerRating - 20;
             }
             else
             {
                 DatabasePlayerOneLoses = DatabasePlayerOneLoses + 1;
                 DatabasePlayerTwoWins = DatabasePlayerTwoWins + 1;
-                DatabasePlayerTwoTotalMatches = DatabasePlayerTwoTotalMatches + 1;
-                DatabasePlayerOneTotalMatches = DatabasePlayerOneTotalMatches + 1;
+                DatabasePlayerOnePlayerRating = DatabasePlayerOnePlayerRating - 20;
+                DatabasePlayerTwoPlayerRating = DatabasePlayerTwoPlayerRating + 20;
             }
+            // Set all other data not dependant on who won
+            DatabasePlayerOneTotalMatches = DatabasePlayerOneTotalMatches + 1;
+            DatabasePlayerTwoTotalMatches = DatabasePlayerTwoTotalMatches + 1;
+            DatabasePlayerOneTotalDamageDone = DatabasePlayerOneTotalDamageDone + playerOneDamageDone;
+            DatabasePlayerTwoTotalDamageDone = DatabasePlayerTwoTotalDamageDone + playerTwoDamageDone;
+            DatabasePlayerOneTotalKills = DatabasePlayerOneTotalKills + playerOneKills;
+            DatabasePlayerTwoTotalKills = DatabasePlayerTwoTotalKills + playerTwoKills;
+            
+            
+            
             Debug.Log("Update Data for players");
-            MatchData.SetPostGameData( _DatabasePlayerOneName, DatabasePlayerOneWins.ToString(), DatabasePlayerOneLoses.ToString(), DatabasePlayerOneTotalMatches.ToString());
-            MatchData.SetPostGameData(_DatabasePlayerTwoName, DatabasePlayerTwoWins.ToString(), DatabasePlayerTwoLoses.ToString(), DatabasePlayerTwoTotalMatches.ToString());
+            MatchData.SetPostGameData( _DatabasePlayerOneName, DatabasePlayerOneWins.ToString(), DatabasePlayerOneLoses.ToString(), DatabasePlayerOneTotalMatches.ToString(),
+                DatabasePlayerOnePlayerRating.ToString(), DatabasePlayerOneTotalKills.ToString(), DatabasePlayerOneTotalDamageDone.ToString());
+            MatchData.SetPostGameData(_DatabasePlayerTwoName, DatabasePlayerTwoWins.ToString(), DatabasePlayerTwoLoses.ToString(), DatabasePlayerTwoTotalMatches.ToString(),
+                DatabasePlayerTwoPlayerRating.ToString(), DatabasePlayerTwoTotalKills.ToString(), DatabasePlayerTwoTotalDamageDone.ToString());
         }
 
         // TODO save results to database
