@@ -19,6 +19,6 @@ public class ProfileButton : MonoBehaviour
 
     public void OnClickProfileButton()
     {
-        SceneManager.LoadScene("Tab Test");
+        SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Profile Screen");
     }
 }
