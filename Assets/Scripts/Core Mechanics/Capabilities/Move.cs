@@ -103,12 +103,12 @@ public class Move : NetworkBehaviour
         /*
         if (_ground && (velocity.x != 0) && !isMoveSoundPlaying)
         {
-            _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayMoveAudio(PlayerActions.Move.ToString());
+            if (Object.HasStateAuthority)_audioManager.GetComponent<GameplayAudioManager>().RPC_PlayMoveAudio(PlayerActions.Move.ToString());
             isMoveSoundPlaying = true;
         } 
         if (isMoveSoundPlaying && velocity.x == 0)
         {
-            _audioManager.GetComponent<GameplayAudioManager>().RPC_StopMoveAudio();
+            if (Object.HasStateAuthority) _audioManager.GetComponent<GameplayAudioManager>().RPC_StopMoveAudio();
             isMoveSoundPlaying = false;
         }*/
     }
