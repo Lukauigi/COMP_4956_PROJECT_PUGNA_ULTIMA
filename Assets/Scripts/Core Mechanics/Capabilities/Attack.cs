@@ -98,7 +98,7 @@ public class Attack : NetworkBehaviour
 
             // signal to attack
             _animator.SetBool("isAttacking", true);
-            audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString(), false);
+            audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString());
 
 
             print("Player Attacked! finding objects to hit in AttackArea hitbox...");

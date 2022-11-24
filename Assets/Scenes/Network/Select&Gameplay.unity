@@ -469,6 +469,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneAudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1518892933813082737, guid: ab22a900816908d408d60ec2005713d7, type: 3}
+      propertyPath: attackSoundPool.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1518892933813082737, guid: ab22a900816908d408d60ec2005713d7, type: 3}
+      propertyPath: attackSoundPool.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3f44c26b302c3ea418edfa1575dc8e97, type: 3}
+    - target: {fileID: 1518892933813082737, guid: ab22a900816908d408d60ec2005713d7, type: 3}
+      propertyPath: attackSoundPool.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: feb3db9bf88feb346b3136b379f60d80, type: 3}
+    - target: {fileID: 1518892933813082737, guid: ab22a900816908d408d60ec2005713d7, type: 3}
+      propertyPath: receiveDamageSoundPool.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1518892933813082737, guid: ab22a900816908d408d60ec2005713d7, type: 3}
+      propertyPath: receiveDamageSoundPool.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2086c68732378054583f3bb01a3499e1, type: 3}
     - target: {fileID: 1518892933813082740, guid: ab22a900816908d408d60ec2005713d7, type: 3}
       propertyPath: m_RootOrder
       value: 7
