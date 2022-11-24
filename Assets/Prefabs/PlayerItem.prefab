@@ -1257,7 +1257,6 @@ MonoBehaviour:
   - {fileID: 7408881512176793842, guid: 33975cc2d6e5cfd4cb09708d6ae740be, type: 3}
   - {fileID: 7408881512176793842, guid: 0df462f0b37545d4eb5d0304e2d85138, type: 3}
   selected: 0
-  _username: {fileID: 6004188729032777143}
   isLocal: 0
 --- !u!114 &8717897240154946938
 MonoBehaviour:

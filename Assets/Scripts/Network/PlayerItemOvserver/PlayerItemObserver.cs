@@ -3,14 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Author: Roswell Doria
-/// Date: 2022-11-10
-/// 
-/// The purpose of this Network Behavior is to monitor the PlayerITem Object that is spawned by the Network Runner
-/// on player joined. This object observes when both players select a character. Once both have selected a character
-/// spawn the associated character prefabs and start GameManager countdown.
-/// </summary>
 public class PlayerItemObserver : NetworkBehaviour
 {
     public static PlayerItemObserver Observer = null;

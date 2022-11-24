@@ -3,7 +3,6 @@ using UnityEngine;
 using Fusion;
 using UnityEngine.UI;
 using System.Threading;
-using TMPro;
 
 /// <summary>
 /// Author: Roswell Doria
@@ -37,7 +36,6 @@ public class PlayerItemController : NetworkBehaviour
     [SerializeField] private Sprite[] Avatars;
     [SerializeField] private NetworkObject[] CharacterPrefabs;
     [SerializeField] private int selected;
-    [SerializeField] private TMP_Text _username;
 
     public bool isLocal = true;
     public bool clientJoined { get; set;}
