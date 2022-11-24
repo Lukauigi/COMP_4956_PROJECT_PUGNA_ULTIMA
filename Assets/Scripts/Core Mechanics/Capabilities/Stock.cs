@@ -146,7 +146,7 @@ public class Stock : NetworkBehaviour
     private void Respawn()
     {
         //RPC_PlayHitDeathzoneAudio();
-        audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Death.ToString(), false);
+        audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Death.ToString());
         _body.position = new Vector2(0, 3);
         //_velocity.y = 0;
         //_body.gravityScale = downwardMovementMultiplier;
