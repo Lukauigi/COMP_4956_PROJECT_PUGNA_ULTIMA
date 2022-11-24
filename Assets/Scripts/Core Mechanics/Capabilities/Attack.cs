@@ -6,7 +6,7 @@ using UnityEngine;
 
 /// <summary>
 /// Class that handles the attack of a fighter/player.
-/// Author(s): Faiz Hassany
+/// Author(s): Faiz Hassany, John Ryue
 /// Date: Nov 07 2022
 /// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
 /// Change History: Nov 22 2022 - Lukasz Bednarek
@@ -98,7 +98,7 @@ public class Attack : NetworkBehaviour
 
             // signal to attack
             _animator.SetBool("isAttacking", true);
-            audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString());
+            if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString());
 
 
             print("Player Attacked! finding objects to hit in AttackArea hitbox...");
@@ -111,6 +111,23 @@ public class Attack : NetworkBehaviour
                     print("Attack hit!");
                     Health health = collider.GetComponent<Health>();
                     health.Damage(damage);
+                    if (collider.transform.position.x > transform.position.x)
+                    {
+                        if (collider.transform.position.y <= transform.position.y)
+                        {
+                            health.knockBack(new Vector2(3, 1));
+                        } else health.knockBack(new Vector2(3, -1));
+                        //health.knockBack(new Vector2(3, 1));
+                    }
+                    if (collider.transform.position.x < transform.position.x)
+                    {
+                        if (collider.transform.position.y <= transform.position.y)
+                        {
+                            health.knockBack(new Vector2(-3, 1));
+                        }
+                        else health.knockBack(new Vector2(-3, -1));
+                        //health.knockBack(new Vector2(-3, 1));
+                    }
                     DamageDone += damage;
                 }
             }

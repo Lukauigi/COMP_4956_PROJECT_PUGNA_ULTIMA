@@ -65,7 +65,7 @@ public class Dodge : NetworkBehaviour
     {
         _playerHitbox.enabled = false;
         Debug.Log("hitbox down");
-        _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Dodge.ToString());
+        if (Object.HasStateAuthority) _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Dodge.ToString());
         yield return new WaitForSeconds(0.5f);
         Debug.Log("hitbox back");
         _playerHitbox.enabled = true; 

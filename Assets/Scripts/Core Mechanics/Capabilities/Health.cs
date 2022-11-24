@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using System;
 
 /// <summary>
 /// Class that handles the current / max health of a fighter/player.
@@ -27,9 +28,39 @@ public class Health : NetworkBehaviour
     [SerializeField] private int maxHealth = 300;
     private GameObject audioManager;
 
+    // parent components of character
+    private Attack attack;
+    private Jump jump;
+    private Move move;
+    private Rigidbody2D rb;
+    private Vector2 characterPosition;
+
     private void Start()
     {
         this.audioManager = GameObject.Find("SceneAudioManager");
+        // find and set the parent components of this character
+        this.attack = gameObject.GetComponentInParent<Attack>();
+        this.jump = gameObject.GetComponentInParent<Jump>();
+        this.move = gameObject.GetComponentInParent<Move>();
+        this.rb = gameObject.GetComponentInParent<Rigidbody2D>();
+    }
+
+    // disable character inputs relating to these components temporarily
+    IEnumerator disableInputsTemporarily()
+    {
+        attack.enabled = false;
+        jump.enabled = false;
+        move.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        attack.enabled = true;
+        jump.enabled = true;
+        move.enabled = true;
+    }
+
+    public void knockBack(Vector2 knockback)
+    {
+        characterPosition = rb.position;
+        rb.AddForce(knockback, ForceMode2D.Impulse);
     }
 
     // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
@@ -69,9 +100,9 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
-        audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
+        if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
         CurrentHealth -= amount;
-
+        StartCoroutine(disableInputsTemporarily());
     }
 
     // Method to heal the player
