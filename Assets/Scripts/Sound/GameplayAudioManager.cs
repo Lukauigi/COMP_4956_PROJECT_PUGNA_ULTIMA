@@ -120,7 +120,6 @@ public class GameplayAudioManager : NetworkBehaviour
     /// </summary>
     /// <param name="playerRefId">Reference ID of a player</param>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
-    /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlaySpecificCharatcerSFXAudio(int playerRefId, string playerAction)
     {
@@ -137,7 +136,6 @@ public class GameplayAudioManager : NetworkBehaviour
     /// Plays a universal character sound effect.
     /// </summary>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
-    /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlayUniversalCharatcerSFXAudio(string playerAction)
     {

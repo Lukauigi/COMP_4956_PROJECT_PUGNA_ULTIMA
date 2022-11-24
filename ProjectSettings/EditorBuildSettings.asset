@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game Design/Screen Navigation/Start Page.unity
     guid: 68ebc578f7cc007488435564eedd1ee9
   - enabled: 1
