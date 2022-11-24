@@ -7,10 +7,10 @@ using Fusion;
 /// An enumeration of available player actions of a character.
 /// Author(s): Lukasz Bednarek
 /// Date: November 23, 2022
-/// Remarks: Functionality relating to move is present but not functioning properly.
+/// Remarks: N/A
 /// Change History: November 23, 2022 - Lukasz Bednarek
-/// - Add enumeratioon
-/// - Add docuementation
+/// - Add enumeration
+/// - Add documentation
 /// </summary>
 public enum PlayerActions
 {
@@ -23,6 +23,11 @@ public enum PlayerActions
     Dodge
 }
 
+/// <summary>
+/// An enumeration of user menu iteraction types.
+/// Author(s): Lukasz Bednarek
+/// Date: November 23, 2022
+/// </summary>
 public enum MenuActions
 {
     Navigate,
@@ -34,11 +39,13 @@ public enum MenuActions
 /// <summary>
 /// An audio manager GameObject for the gameplay battle scene.
 /// Author(s): Lukasz Bednarek
-/// Date: November 22, 2022
-/// Remarks: N/A
+/// Date: November 23, 2022
+/// Remarks: Functionality relating to move is present but not functioning properly.
 /// Change History: November 22, 2022 = Lukasz Bednarek
-/// -Add class
-/// -Add documentation
+/// - Add class
+/// - Add documentation
+/// - Add random usage of sound effects in sound pool.
+/// - Edit method headers and add method documentation.
 /// </summary>
 public class GameplayAudioManager : NetworkBehaviour
 {
@@ -115,11 +122,15 @@ public class GameplayAudioManager : NetworkBehaviour
     /// <param name="playerAction">The Player Action string of the enumeration</param>
     /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_PlaySpecificCharatcerSFXAudio(int playerRefId, string playerAction, bool isLoopingAudio)
+    public void RPC_PlaySpecificCharatcerSFXAudio(int playerRefId, string playerAction)
     {
-        sfxAudioSource.loop = isLoopingAudio;
         print("Audio Call " + playerAction);
-        sfxAudioSource.PlayOneShot(hostPlayerAudio[playerAction][0]);
+
+        // Get random audio clip from sound pool
+        int soundPoolLength = hostPlayerAudio[playerAction].Length;
+        int clipIndex = Random.Range(0, soundPoolLength);
+
+        sfxAudioSource.PlayOneShot(hostPlayerAudio[playerAction][clipIndex]);
     }
 
     /// <summary>
@@ -128,13 +139,18 @@ public class GameplayAudioManager : NetworkBehaviour
     /// <param name="playerAction">The Player Action string of the enumeration</param>
     /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_PlayUniversalCharatcerSFXAudio(string playerAction, bool isLoopingAudio)
+    public void RPC_PlayUniversalCharatcerSFXAudio(string playerAction)
     {
-        sfxAudioSource.loop = isLoopingAudio;
         print("Audio Call " + playerAction);
         sfxAudioSource.PlayOneShot(universalPlayerAudio[playerAction]);
     }
 
+    /// <summary>
+    /// Plays character ground movement audio.
+    /// 
+    /// This audio will loop until RPC_StopMoveAudio is called.
+    /// </summary>
+    /// <param name="playerAction">The Player Action string of the enumeration</param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlayMoveAudio(string playerAction)
     {
@@ -143,6 +159,9 @@ public class GameplayAudioManager : NetworkBehaviour
         moveLoopAudioSource.Play(); 
     }
 
+    /// <summary>
+    /// Stops character ground movement audio.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_StopMoveAudio()
     {
@@ -165,7 +184,6 @@ public class GameplayAudioManager : NetworkBehaviour
     /// </summary>
     public void PlayMenuSFXAudio(string menuAction)
     {
-        sfxAudioSource.loop = false;
         print("Audio Call " + menuAction);
         sfxAudioSource.PlayOneShot(menuAudioPlayer[menuAction]);
     }

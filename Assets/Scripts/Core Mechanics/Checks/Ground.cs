@@ -30,7 +30,7 @@ public class Ground : NetworkBehaviour
     {
         EvaluateCollision(collision);
         RetrieveFriction(collision);
-        if (onGround) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.JumpLand.ToString(), false);
+        if (onGround) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.JumpLand.ToString());
     }
 
     private void OnCollisionStay2D(Collision2D collision)
