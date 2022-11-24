@@ -58,6 +58,10 @@ public class AccountManager : MonoBehaviour
             response => { 
                 Debug.Log($"User successfully registered | " +
                                     $"Username: {Username} | Email: {Email}"); 
+                
+                // Database call to set all initial data in database
+                SetUserDataOnRegister();
+                
                 IsRegistered = true;
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Login Screen");
             },
@@ -99,9 +103,9 @@ public class AccountManager : MonoBehaviour
 
 
                 // Database functions calls on login
-                UserData.GetUserProfileData(response.PlayFabId);
-                //UserData.SetUserData("Wins", "13");
-                UserData.SendLeaderboard("MostWins", 10);
+                GetUserProfileData(response.PlayFabId);
+                //SetUserData("Wins", "13");
+                //SendLeaderboard("MostWins", 10);
 
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
             },

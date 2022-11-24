@@ -104,7 +104,32 @@ public static class UserData
         });
 
     }
-
+    
+    /// <summary>
+    /// Author: Justin Payne
+    /// Date: Nov 23 2022
+    ///
+    ///  This Function is to be called when a new account is registered. It sets initial data for all the
+    ///  the data being saved to the database.
+    /// </summary>
+    public static void SetUserDataOnRegister()
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+            {
+                Data = new Dictionary<string, string>() {
+                    {"Wins", "0"},
+                    {"Loses", "0"},
+                    {"Total Matches", "0"},
+                    {"Player Rating", "1000"},
+                    {"Total Damage Done", "0"},
+                    {"Total Kills", "0"}
+                }
+            },
+            result => Debug.Log("Successfully Set Inital user data"),
+            error => {
+                Debug.Log(error.GenerateErrorReport());
+            });
+    }
 
     public static void SendLeaderboard(string leaderboardName, int score)
     {
