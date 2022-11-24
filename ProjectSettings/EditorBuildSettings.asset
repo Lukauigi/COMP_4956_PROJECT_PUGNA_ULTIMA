@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/FireScene.unity
     guid: c30ab8c3fe8dd8746928e8ee878dbdc7
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/Tab Test.unity
+    guid: 22bb746a1326da844901dade16313b08
   m_configObjects: {}
