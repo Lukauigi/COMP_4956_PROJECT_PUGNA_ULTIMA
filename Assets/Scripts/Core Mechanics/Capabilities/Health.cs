@@ -27,9 +27,31 @@ public class Health : NetworkBehaviour
     [SerializeField] private int maxHealth = 300;
     private GameObject audioManager;
 
+    // parent components of character
+    private Attack attack;
+    private Jump jump;
+    private Move move;
+
     private void Start()
     {
         this.audioManager = GameObject.Find("SceneAudioManager");
+        // find and set the parent components of this character
+        this.attack = gameObject.GetComponentInParent<Attack>();
+        this.jump = gameObject.GetComponentInParent<Jump>();
+        this.move = gameObject.GetComponentInParent<Move>();
+
+    }
+
+    // disable character inputs relating to these components temporarily
+    IEnumerator disableInputsTemporarily()
+    {
+        attack.enabled = false;
+        jump.enabled = false;
+        move.enabled = false;
+        yield return new WaitForSeconds(3);
+        attack.enabled = true;
+        jump.enabled = true;
+        move.enabled = true;
     }
 
     // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
@@ -71,7 +93,7 @@ public class Health : NetworkBehaviour
 
         audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString(), false);
         CurrentHealth -= amount;
-
+        StartCoroutine(disableInputsTemporarily());
     }
 
     // Method to heal the player
