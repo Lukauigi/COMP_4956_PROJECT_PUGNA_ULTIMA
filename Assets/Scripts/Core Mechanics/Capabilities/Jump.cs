@@ -133,9 +133,7 @@ public class Jump : NetworkBehaviour
                 // replay jump animation
                 _animator.SetBool("isDoubleJumping", true);
             }
-
-            //RPC_PlayAuioClip();
-            audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Jump.ToString());
+            if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Jump.ToString());
 
             currentJump += 1;
             onGround = false;

@@ -104,7 +104,7 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
-        audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
+        if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
         CurrentHealth -= amount;
         StartCoroutine(disableInputsTemporarily());
     }
