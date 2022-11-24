@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Game Design.meta
 guid: b97e2b8deba92024382b8a96ba03e103
+========
+guid: 6f5391e1134bd6e4d8d251a84150c157
+>>>>>>>> Dev:Assets/Prefabs/Database.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
