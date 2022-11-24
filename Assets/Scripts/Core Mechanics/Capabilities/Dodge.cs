@@ -7,8 +7,9 @@ using Fusion;
 /// Class that handles the dodge of a fighter/player.
 /// Author(s): Richard Mac
 /// Date: Nov 18 2022
-/// Change History: Nov 18 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Dodge : NetworkBehaviour
 {
@@ -16,6 +17,7 @@ public class Dodge : NetworkBehaviour
     protected Rigidbody2D _body; // affects jump velocity
     protected Collider2D _playerHitbox; // player's box collider (hitbox)
     protected Animator _animator;
+    protected GameObject _audioManager;
 
     private bool isDodgePressed;
 
@@ -23,6 +25,12 @@ public class Dodge : NetworkBehaviour
     private void Awake()
     {
         CacheComponents();
+    }
+
+    // Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
+    private void Start()
+    {
+        this._audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // Helper method to initialize fighter prefab components
@@ -50,6 +58,7 @@ public class Dodge : NetworkBehaviour
     {
         _playerHitbox.enabled = false;
         Debug.Log("hitbox down");
+        _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Dodge.ToString());
         yield return new WaitForSeconds(0.5f);
         Debug.Log("hitbox back");
         _playerHitbox.enabled = true; 
