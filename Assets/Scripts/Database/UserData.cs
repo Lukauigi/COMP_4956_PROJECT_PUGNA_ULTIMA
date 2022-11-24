@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
-using static ProfileUI;
-using UnityEngine.UI;
+
 
 /// <summary>
 /// Database portion of the script
@@ -22,7 +20,6 @@ public static class UserData
 
     // Stores all the user's profile data for local use
     public static Dictionary<string, string> ProfileInfo = new Dictionary<string, string>();
-
 
     /// <summary>
     /// Author: Justin Payne

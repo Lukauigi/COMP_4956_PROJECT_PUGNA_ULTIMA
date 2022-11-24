@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
@@ -29,7 +26,7 @@ public class GetLeaderboard : MonoBehaviour
     /// 
     /// Onclick is called when you change the profile tab from user stats to leaderboard.
     /// </summary>
-    public void onClick()
+    public void OnClick()
     {
         GetLeaderboards("MostWins");
     }
@@ -41,7 +38,7 @@ public class GetLeaderboard : MonoBehaviour
     /// GetLeaderboard is the API call to the PlayFab database to get the requested leaderboard data, takes a string for the name of the leaderboard
     /// </summary>
     /// <param name="leaderboardName"> a string </param>
-    public void GetLeaderboards(string leaderboardName)
+    private void GetLeaderboards(string leaderboardName)
     {
         var request = new GetLeaderboardRequest
         {
@@ -49,7 +46,7 @@ public class GetLeaderboard : MonoBehaviour
             StartPosition = 0,
             MaxResultsCount = 10
         };
-        PlayFabClientAPI.GetLeaderboard(request, onleaderboardGet, OnError);
+        PlayFabClientAPI.GetLeaderboard(request, OnLeaderboardGet, OnError);
     }
 
     /// <summary>
@@ -58,8 +55,8 @@ public class GetLeaderboard : MonoBehaviour
     /// 
     /// onleaderboardGet function is passed to the API call request with information on what to do when the object returns from Azure PlayFab.
     /// </summary>
-    /// <param name="GetLeaderboardResult"> GetLeaderboardResult result from api call</param>
-    void onleaderboardGet(GetLeaderboardResult result)
+    /// <param name="result"> GetLeaderboardResult result from api call</param>
+    private void OnLeaderboardGet(GetLeaderboardResult result)
     {
 
         foreach (Transform item in rowsParent)
@@ -72,10 +69,9 @@ public class GetLeaderboard : MonoBehaviour
             GameObject newGo = Instantiate(rowPrefab, rowsParent);
             TMP_Text[] texts = newGo.GetComponentsInChildren<TMP_Text>();
             texts[0].text = (item.Position + 1).ToString();
-            //texts[1].text = item.DisplayName;
-            texts[1].text = item.PlayFabId;
+            texts[1].text = item.DisplayName;
+            //texts[1].text = item.PlayFabId;
             texts[2].text = item.StatValue.ToString();
-            //Debug.Log(item.Position + " " + item.PlayFabId + " " + item.StatValue);
         }
     }
 
@@ -85,8 +81,8 @@ public class GetLeaderboard : MonoBehaviour
     /// 
     /// OnError function is passed to the API call request with information on what to do when an error is found.
     /// </summary>
-    /// <param name="PlayFabError"> PlayFabError object </param>
-    void OnError(PlayFabError obj)
+    /// <param name="obj"> PlayFabError object </param>
+    private void OnError(PlayFabError obj)
     {
         throw new NotImplementedException();
     }
