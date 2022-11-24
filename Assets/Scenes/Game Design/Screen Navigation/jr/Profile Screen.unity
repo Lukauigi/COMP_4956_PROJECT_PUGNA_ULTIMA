@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FAVORITE CHAMP
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
   m_sharedMaterial: {fileID: -670905501723920600, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FAVORITE CHAMP
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
   m_sharedMaterial: {fileID: -670905501723920600, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EDIT
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
   m_sharedMaterial: {fileID: -670905501723920600, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
@@ -1807,7 +1807,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Friends
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
   m_sharedMaterial: {fileID: -670905501723920600, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
