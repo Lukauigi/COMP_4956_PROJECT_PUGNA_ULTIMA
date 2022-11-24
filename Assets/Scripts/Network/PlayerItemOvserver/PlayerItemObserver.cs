@@ -2,7 +2,16 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+/// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-11-10
+/// 
+/// The purpose of this Network Behavior is to monitor the PlayerITem Object that is spawned by the Network Runner
+/// on player joined. This object observes when both players select a character. Once both have selected a character
+/// spawn the associated character prefabs and start GameManager countdown.
+/// </summary>
 public class PlayerItemObserver : NetworkBehaviour
 {
     public static PlayerItemObserver Observer = null;
@@ -11,6 +20,7 @@ public class PlayerItemObserver : NetworkBehaviour
     protected GameManager _gameManager;
 
     [SerializeField] private NetworkObject[] CharacterPrefabs;
+    [SerializeField] private Sprite[] Avatars;
 
     private bool isPlayerOneReady = false;
     private bool isPlayerTwoReady = false;
@@ -20,8 +30,8 @@ public class PlayerItemObserver : NetworkBehaviour
     private int playerTwoIndexSelect = 0;
 
     //the fighters they will spawn
-    private NetworkObject playerOneFighter;
-    private NetworkObject playerTwoFighter;
+    private NetworkObject playerOne;
+    private NetworkObject playerTwo;
     
     //default
     private int playerOneRef = 0;
@@ -77,7 +87,9 @@ public class PlayerItemObserver : NetworkBehaviour
             isPlayersSpawned = true;
 
             // Assign Player one and player two references to GameManager
-            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter, _playerOneUsername, _playerTwoUsername);
+            _gameManager.RPC_CachePlayers(playerOne, playerTwo, 
+                _playerOneUsername, _playerTwoUsername,
+                playerOneIndexSelect, playerTwoIndexSelect);
 
 
             // Switch Game State to 'Starting' Game
@@ -164,8 +176,8 @@ public class PlayerItemObserver : NetworkBehaviour
         Vector3 playerOneSpawnLocation = new Vector3(1, 0, 0);
         Vector3 playerTwoSpawnLocation = new Vector3(-1, 0, 0);
         // Spawn players
-        playerOneFighter = this.Runner.Spawn(CharacterPrefabs[playerOneSelected], playerOneSpawnLocation, Quaternion.identity, playerOneRef);
-        playerTwoFighter = this.Runner.Spawn(CharacterPrefabs[playerTwoSelected], playerTwoSpawnLocation, Quaternion.identity, playerTwoRef);
+        playerOne = this.Runner.Spawn(CharacterPrefabs[playerOneSelected], playerOneSpawnLocation, Quaternion.identity, playerOneRef);
+        playerTwo = this.Runner.Spawn(CharacterPrefabs[playerTwoSelected], playerTwoSpawnLocation, Quaternion.identity, playerTwoRef);
 
     }
 

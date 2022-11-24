@@ -14,10 +14,10 @@ public enum GameStates { Waiting, Starting, Running, GameOver };
 /// Source(s):
 ///     Countdown - How to create a 2D Arcade Style Top Down Car Controller in Unity tutorial Part 13: https://youtu.be/-SR24s7AryI?t=1560
 /// Remarks:
-/// Change History: Nov 11 2022 - Jason Cheung
-/// - Modified methods to be networked and use rpc calls
-/// - 
-/// - bugfix: shows on both host & client instances
+/// Nov 24 2022 - Jason Cheung
+/// - caches player username and avatar image
+/// Nov 20 2022 - Jason Cheung
+/// - cache spawned players and sends their data to Game UI and Game Results objects
 /// </summary>
 public class GameManager : NetworkBehaviour
 {
@@ -34,14 +34,6 @@ public class GameManager : NetworkBehaviour
     // the fighter they are controlling
     private NetworkObject _playerOne;
     private NetworkObject _playerTwo;
-
-    // player references - fusion gives them a player id
-    private int _playerOneRef = 0;
-    private int _playerTwoRef = 0;
-
-    // the winner and loser when the game ends
-    private NetworkObject _winner;
-    private NetworkObject _loser;
 
     // Current Game State
     public GameStates GameState { get; private set; } = GameStates.Waiting;
@@ -79,25 +71,27 @@ public class GameManager : NetworkBehaviour
     ///  - I dunno who the author of this RPC is but I'll let you fill out the rest of this summary.
     ///
     /// </summary>
-    /// <param name="playerOneRef"></param>
     /// <param name="playerOne"></param>
-    /// <param name="playerTwoRef"></param>
     /// <param name="playerTwo"></param>
     /// <param name="playerOneUsername">a string of player one's username</param>
     /// <param name="playerTwoUsername">a string of player two's username</param>
+    /// <param name="playerOneSelectedIndex">the selected index for the avatar image</param>
+    /// <param name="playerTwoSelectedIndex">the selected index for the avatar image</param>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo,
-        string playerOneUsername, string playerTwoUsername)
+    public void RPC_CachePlayers(
+        NetworkObject playerOne, NetworkObject playerTwo,
+        string playerOneUsername, string playerTwoUsername,
+        int playerOneSelectedIndex, int playerTwoSelectedIndex)
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
 
-        _playerOneRef = playerOneRef;
-        _playerTwoRef = playerTwoRef;
-
-        // cache players for the other scene objects that need it
-        _networkFighterObserver.RPC_CachePlayers(playerOneRef, playerOne, playerTwoRef, playerTwo, playerOneUsername, playerTwoUsername);
-        _gameResultsController.RPC_CachePlayers(playerOne, playerTwo);
+        // cache players and its user properties for the other scene objects that need it
+        _networkFighterObserver.RPC_CachePlayers(playerOne, playerTwo, 
+            playerOneUsername, playerTwoUsername,
+            playerOneSelectedIndex, playerTwoSelectedIndex);
+        _gameResultsController.RPC_CachePlayers(playerOne, playerTwo,
+            playerOneSelectedIndex, playerTwoSelectedIndex);
     }
 
     // Set Game State to waiting

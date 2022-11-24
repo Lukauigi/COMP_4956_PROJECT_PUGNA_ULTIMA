@@ -1250,8 +1250,8 @@ MonoBehaviour:
   dialogueText: {fileID: 327376220926647827}
   Avatars:
   - {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
-  - {fileID: -103754332, guid: 5d731ba61ddbaea40a8728dea2435c73, type: 3}
-  - {fileID: -103754332, guid: 5d731ba61ddbaea40a8728dea2435c73, type: 3}
+  - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
+  - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
   CharacterPrefabs:
   - {fileID: 6050059081701548800, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
   - {fileID: 7408881512176793842, guid: 33975cc2d6e5cfd4cb09708d6ae740be, type: 3}
