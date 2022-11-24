@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using System;
+using System.Security.Cryptography;
 
 /// <summary>
 /// Class that handles the current / max health of a fighter/player.
@@ -48,6 +49,8 @@ public class Health : NetworkBehaviour
     // disable character inputs relating to these components temporarily
     IEnumerator disableInputsTemporarily()
     {
+        GameObject player = gameObject;
+        player.GetComponent<Renderer>().material.color = Color.red;
         attack.enabled = false;
         jump.enabled = false;
         move.enabled = false;
@@ -55,6 +58,7 @@ public class Health : NetworkBehaviour
         attack.enabled = true;
         jump.enabled = true;
         move.enabled = true;
+        player.GetComponent<Renderer>().material.color = Color.white;
     }
 
     public void knockBack(Vector2 knockback)
