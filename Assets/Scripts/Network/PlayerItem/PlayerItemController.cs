@@ -51,6 +51,9 @@ public class PlayerItemController : NetworkBehaviour
 
     private string remoteUsername;
 
+    private string remoteId;
+    private string playerId;
+
 
     /// <summary>
     /// Author: Roswell Doria
@@ -94,6 +97,7 @@ public class PlayerItemController : NetworkBehaviour
         if (Object.HasStateAuthority) clientJoined = false;
 
         if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteUsername(PlayerPrefs.GetString("PlayerName"));
+        if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteId(PlayerPrefs.GetString("PlayfabId"));
 
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
@@ -142,7 +146,9 @@ public class PlayerItemController : NetworkBehaviour
         //Display This player's username
         if(Object.HasInputAuthority)
         {
+            
             RPC_SetPlayerName(PlayerPrefs.GetString("PlayerName"));
+            RPC_SetPlayerId(PlayerPrefs.GetString("PlayfabId"));
         }
 
         // only the Host has state authority; this removes the 'Local simulation is not allowed' errors on Client
@@ -151,12 +157,12 @@ public class PlayerItemController : NetworkBehaviour
             if (isClientReady)
             {
                 //Debug.Log("Client is Local------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername, remoteId);
             }
             if (isHostReady)
             {
                 //Debug.Log("Host is Local -------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text, playerId);
             }
 
             if (isClientReady && isHostReady)
@@ -261,5 +267,17 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_SetRemoteUsername(string username)
     {
         remoteUsername = username;
+    }
+    
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetRemoteId(string id)
+    {
+        remoteId = id;
+    }
+    
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_SetPlayerId(string id)
+    {
+        playerId = id;
     }
 }

@@ -85,16 +85,13 @@ public static class UserData
             ProfileInfo.Add("Loses", result.Data["Loses"].Value);
             ProfileInfo.Add("Total Matches", result.Data["Total Matches"].Value);
             ProfileInfo.Add("Player Rating", result.Data["Player Rating"].Value);
-            ProfileInfo.Add("Favourite Character", result.Data["Favourite Character"].Value);
 
         }, (error) =>
         {
             Debug.Log(error.GenerateErrorReport());
         });
-
     }
-
-
+    
     public static void SendLeaderboard(string leaderboardName, int score)
     {
         var request = new UpdatePlayerStatisticsRequest

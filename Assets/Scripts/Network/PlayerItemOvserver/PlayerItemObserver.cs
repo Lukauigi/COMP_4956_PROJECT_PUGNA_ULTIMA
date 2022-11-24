@@ -39,6 +39,9 @@ public class PlayerItemObserver : NetworkBehaviour
     //Player usernames
     private string _playerOneUsername;
     private string _playerTwoUsername;
+    
+    private string _playerOneId;
+    private string _playerTwoId;
 
     private bool isPlayersSpawned = false;
     
@@ -85,7 +88,7 @@ public class PlayerItemObserver : NetworkBehaviour
 
             // Assign Player one and player two references to GameManager
             //_networkPlayerObserver.RPC_SetNetworkFighters(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
-            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter, _playerOneUsername, _playerTwoUsername);
+            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter, _playerOneUsername, _playerTwoUsername, _playerOneId, _playerTwoId);
 
 
             // Switch Game State to 'Starting' Game
@@ -110,7 +113,7 @@ public class PlayerItemObserver : NetworkBehaviour
     /// <param name="isHost">a bool if player is host</param>
     /// <param name="username"> a string of the player's username</param>
     [Rpc(sources: RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost, string username)
+    public void RPC_SetPlayerReady(int playerRefIndex, int playerPrefabIndex, bool isHost, string username, string id)
     { 
         if(isHost)
         {
@@ -118,6 +121,8 @@ public class PlayerItemObserver : NetworkBehaviour
             playerOneIndexSelect = playerPrefabIndex;
             isPlayerOneReady = true;
             _playerOneUsername = username;
+            _playerOneId = id;
+
         }
         else if (!isHost)
         {
@@ -125,6 +130,7 @@ public class PlayerItemObserver : NetworkBehaviour
             playerTwoIndexSelect = playerPrefabIndex;
             isPlayerTwoReady = true;
             _playerTwoUsername = username;
+            _playerTwoId = id;
         }
         
     }

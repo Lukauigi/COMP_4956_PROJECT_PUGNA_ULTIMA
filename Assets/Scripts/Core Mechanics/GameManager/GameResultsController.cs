@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 /// <summary>
 /// Static class that displays the results screen at the end of a game.
@@ -51,6 +52,12 @@ public class GameResultsController : NetworkBehaviour
     private int playerTwoKills;
     private int playerTwoDamageDone;
 
+    private bool savedToDB = false;
+    private string _playerOneId;
+    private string _playerTwoId;
+    private string _DatabasePlayerOneName;
+    private string _DatabasePlayerTwoName;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -63,10 +70,15 @@ public class GameResultsController : NetworkBehaviour
 
     // Method to cache the selected and spawned fighters
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    public void RPC_CachePlayers(NetworkObject playerOne, NetworkObject playerTwo)
+    public void RPC_CachePlayers(NetworkObject playerOne, NetworkObject playerTwo, string playerOneId, string playerTwoId)
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
+        _playerOneId = playerOneId;
+        _playerTwoId = playerTwoId;
+        
+        MatchData.GetGameProfileData(_playerOneId, 1);
+        MatchData.GetGameProfileData(_playerTwoId, 2);
     }
 
 
@@ -150,6 +162,37 @@ public class GameResultsController : NetworkBehaviour
     // Helper method to save player stats to database
     private void SaveToDatabase()
     {
+
+        if (!savedToDB)
+        {
+            savedToDB = true;
+            _DatabasePlayerOneName = _playerOne.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
+            _DatabasePlayerTwoName = _playerTwo.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
+            int DatabasePlayerOneWins = Int32.Parse(MatchData.PlayerOneInfo["Wins"]);
+            int DatabasePlayerOneLoses = Int32.Parse(MatchData.PlayerOneInfo["Loses"]);
+            int DatabasePlayerOneTotalMatches = Int32.Parse(MatchData.PlayerOneInfo["Total Matches"]);
+            int DatabasePlayerTwoWins = Int32.Parse(MatchData.PlayerTwoInfo["Wins"]);
+            int DatabasePlayerTwoLoses = Int32.Parse(MatchData.PlayerTwoInfo["Loses"]);
+            int DatabasePlayerTwoTotalMatches = Int32.Parse(MatchData.PlayerTwoInfo["Total Matches"]);
+            if (_winner == _playerOne)
+            {
+                DatabasePlayerOneWins = DatabasePlayerOneWins + 1;
+                DatabasePlayerOneTotalMatches = DatabasePlayerOneTotalMatches + 1;
+                DatabasePlayerTwoLoses = DatabasePlayerTwoLoses + 1;
+                DatabasePlayerTwoTotalMatches = DatabasePlayerTwoTotalMatches + 1;
+            }
+            else
+            {
+                DatabasePlayerOneLoses = DatabasePlayerOneLoses + 1;
+                DatabasePlayerTwoWins = DatabasePlayerTwoWins + 1;
+                DatabasePlayerTwoTotalMatches = DatabasePlayerTwoTotalMatches + 1;
+                DatabasePlayerOneTotalMatches = DatabasePlayerOneTotalMatches + 1;
+            }
+            Debug.Log("Update Data for players");
+            MatchData.SetPostGameData( _DatabasePlayerOneName, DatabasePlayerOneWins.ToString(), DatabasePlayerOneLoses.ToString(), DatabasePlayerOneTotalMatches.ToString());
+            MatchData.SetPostGameData(_DatabasePlayerTwoName, DatabasePlayerTwoWins.ToString(), DatabasePlayerTwoLoses.ToString(), DatabasePlayerTwoTotalMatches.ToString());
+        }
+
         // TODO save results to database
         // relevant member variables:
         // - NetworkObject _winner

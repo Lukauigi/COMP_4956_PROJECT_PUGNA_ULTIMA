@@ -42,6 +42,9 @@ public class GameManager : NetworkBehaviour
     private NetworkObject _winner;
     private NetworkObject _loser;
 
+    private string _playerOneId;
+    private string _playerTwoId;
+
     // Current Game State
     public GameStates GameState { get; private set; } = GameStates.Waiting;
 
@@ -85,7 +88,7 @@ public class GameManager : NetworkBehaviour
     /// <param name="playerTwoUsername">a string of player two's username</param>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_CachePlayers(int playerOneRef, NetworkObject playerOne, int playerTwoRef, NetworkObject playerTwo,
-        string playerOneUsername, string playerTwoUsername)
+        string playerOneUsername, string playerTwoUsername, string playerOneId, string playerTwoId)
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
@@ -93,9 +96,15 @@ public class GameManager : NetworkBehaviour
         _playerOneRef = playerOneRef;
         _playerTwoRef = playerTwoRef;
 
+        _playerOneId = playerOneId;
+        _playerTwoId = playerTwoId;
+        
+
+        
+
         // cache players for the other scene objects that need it
         _networkFighterObserver.RPC_CachePlayers(playerOneRef, playerOne, playerTwoRef, playerTwo, playerOneUsername, playerTwoUsername);
-        _gameResultsController.RPC_CachePlayers(playerOne, playerTwo);
+        _gameResultsController.RPC_CachePlayers(playerOne, playerTwo, playerOneId, playerTwoId);
     }
 
     // Set Game State to waiting
