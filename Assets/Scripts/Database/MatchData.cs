@@ -19,10 +19,17 @@ public static class MatchData
 {
 
     // Stores all the user's profile data for local use
-    public static Dictionary<string, string> PlayerOneInfo = new Dictionary<string, string>();
+    public static Dictionary<string, string> PlayerOneInfo = new Dictionary<string, string>()
+    {
+        {"Wins", ""}, {"Loses", ""}, {"Total Matches", ""}, {"Player Rating", ""},
+        {"Total Damage Done", ""}, {"Total Kills", ""}
+    };
     
     // Stores all the user's profile data for local use
-    public static Dictionary<string, string> PlayerTwoInfo = new Dictionary<string, string>();
+    public static Dictionary<string, string> PlayerTwoInfo = new Dictionary<string, string>(){
+        {"Wins", ""}, {"Loses", ""}, {"Total Matches", ""}, {"Player Rating", ""},
+        {"Total Damage Done", ""}, {"Total Kills", ""}
+    };
 
 
 
@@ -59,21 +66,33 @@ public static class MatchData
             if (player == 1)
             {
                 Debug.Log("Get player 1 data");
-                PlayerOneInfo.Add("Wins", result.Data["Wins"].Value);
+                PlayerOneInfo["Wins"] = result.Data["Wins"].Value;
+                PlayerOneInfo["Loses"] = result.Data["Loses"].Value;
+                PlayerOneInfo["Total Matches"] = result.Data["Total Matches"].Value;
+                PlayerOneInfo["Player Rating"] = result.Data["Player Rating"].Value;
+                PlayerOneInfo["Total Damage Done"] = result.Data["Total Damage Done"].Value;
+                PlayerOneInfo["Total Kills"] = result.Data["Total Kills"].Value;
+                /*PlayerOneInfo.Add("Wins", result.Data["Wins"].Value);
                 PlayerOneInfo.Add("Loses", result.Data["Loses"].Value);
                 PlayerOneInfo.Add("Total Matches", result.Data["Total Matches"].Value);
                 PlayerOneInfo.Add("Player Rating", result.Data["Player Rating"].Value);
                 PlayerOneInfo.Add("Total Damage Done", result.Data["Total Damage Done"].Value);
-                PlayerOneInfo.Add("Total Kills", result.Data["Total Kills"].Value);
+                PlayerOneInfo.Add("Total Kills", result.Data["Total Kills"].Value);*/
             } else if (player == 2)
             {
                 Debug.Log("Get player 2 data"); 
-                PlayerTwoInfo.Add("Wins", result.Data["Wins"].Value);
+                PlayerTwoInfo["Wins"] = result.Data["Wins"].Value;
+                PlayerTwoInfo["Loses"] = result.Data["Loses"].Value;
+                PlayerTwoInfo["Total Matches"] = result.Data["Total Matches"].Value;
+                PlayerTwoInfo["Player Rating"] = result.Data["Player Rating"].Value;
+                PlayerTwoInfo["Total Damage Done"] = result.Data["Total Damage Done"].Value;
+                PlayerTwoInfo["Total Kills"] = result.Data["Total Kills"].Value;
+                /*PlayerTwoInfo.Add("Wins", result.Data["Wins"].Value);
                 PlayerTwoInfo.Add("Loses", result.Data["Loses"].Value);
                 PlayerTwoInfo.Add("Total Matches", result.Data["Total Matches"].Value);
                 PlayerTwoInfo.Add("Player Rating", result.Data["Player Rating"].Value);
                 PlayerTwoInfo.Add("Total Damage Done", result.Data["Total Damage Done"].Value);
-                PlayerTwoInfo.Add("Total Kills", result.Data["Total Kills"].Value);
+                PlayerTwoInfo.Add("Total Kills", result.Data["Total Kills"].Value);*/
             }
 
         }, (error) =>
