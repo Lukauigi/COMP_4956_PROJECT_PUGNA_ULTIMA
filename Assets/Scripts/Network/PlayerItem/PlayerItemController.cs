@@ -13,13 +13,11 @@ using TMPro;
 /// This is responsible for functionality of the Prefab object across the network.
 /// 
 /// Change History:
+/// 2022-11-23 - Lukasz Bednarek
+/// - Added sound to button presses
 /// 2022-11-21 - Roswell Doria
 /// - Added private field for remote username
 /// - Added RPC for sending remote username to State authority
-///
-/// 2022-11-19 - Jason Cheung
-/// - Fixed "Local simulation is not allowed" on client instance errors 
-///   by adding Object.IsStateAuthority clause to RPC_SetPlayerReady calls
 ///
 /// </summary>
 public class PlayerItemController : NetworkBehaviour
@@ -29,6 +27,7 @@ public class PlayerItemController : NetworkBehaviour
     protected NetworkTransform _nt;
     protected PlayerItemObserver _playerObserver;
     //protected NetworkBehaviour _networkRunnerCallbacks;
+    protected GameObject audioManager;
 
     [SerializeField] private Image Avatar;
     [SerializeField] private GameObject nextBtn;
@@ -70,6 +69,7 @@ public class PlayerItemController : NetworkBehaviour
     public void Start()
     {
         CacheOtherObjects();
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     /// <summary>
@@ -208,6 +208,8 @@ public class PlayerItemController : NetworkBehaviour
         prevBtn.SetActive(false);
         dialogueText.SetActive(true);
 
+        InitiateAudio(true);
+
         Debug.Log("Object has Input Authority: --->>> " + Object.HasInputAuthority);
         if (!Object.HasInputAuthority)
         {
@@ -233,6 +235,7 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_OnNextBtnClick()
     {
         selected = (selected + 1) % Avatars.Length;
+        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
     }
 
     /// <summary>
@@ -247,6 +250,7 @@ public class PlayerItemController : NetworkBehaviour
     {
         selected--;
         if (selected < 0) selected = Avatars.Length - 1;
+        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
@@ -279,5 +283,15 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_SetPlayerId(string id)
     {
         playerId = id;
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="isCharacterSelection">If button press is selection button press.</param>
+    private void InitiateAudio(bool isCharacterSelection)
+    {
+        if (!isCharacterSelection) audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Navigate.ToString());
+        else audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Confirm.ToString());
     }
 }

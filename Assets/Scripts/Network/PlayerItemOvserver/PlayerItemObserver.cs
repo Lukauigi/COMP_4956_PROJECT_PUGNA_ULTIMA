@@ -2,6 +2,7 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Author: Roswell Doria
@@ -17,9 +18,9 @@ public class PlayerItemObserver : NetworkBehaviour
 
     // other scene objects to reference
     protected GameManager _gameManager;
-    protected NetworkFighterObserver _networkPlayerObserver;
 
     [SerializeField] private NetworkObject[] CharacterPrefabs;
+    [SerializeField] private Sprite[] Avatars;
 
     private bool isPlayerOneReady = false;
     private bool isPlayerTwoReady = false;
@@ -29,8 +30,8 @@ public class PlayerItemObserver : NetworkBehaviour
     private int playerTwoIndexSelect = 0;
 
     //the fighters they will spawn
-    private NetworkObject playerOneFighter;
-    private NetworkObject playerTwoFighter;
+    private NetworkObject playerOne;
+    private NetworkObject playerTwo;
     
     //default
     private int playerOneRef = 0;
@@ -64,7 +65,6 @@ public class PlayerItemObserver : NetworkBehaviour
     private void CacheOtherObjects()
     {
         if (!_gameManager) _gameManager = GameManager.Manager;
-        if (!_networkPlayerObserver) _networkPlayerObserver = NetworkFighterObserver.Observer;
     }
 
     /// <summary>
@@ -80,6 +80,9 @@ public class PlayerItemObserver : NetworkBehaviour
         // Both players are ready (selected their character)
         if (isPlayerOneReady && isPlayerTwoReady && Runner.IsServer && !isPlayersSpawned)
         {
+            // Spawn the game stage
+            GameStageController.Instance.RPC_SelectRandomStage();
+
             // Despawn Player one and player two character select objects
             RPC_DespawnPlayerItems(playerOneRef, playerTwoRef);
             // Spawn Player one and player two selected characters
@@ -87,8 +90,10 @@ public class PlayerItemObserver : NetworkBehaviour
             isPlayersSpawned = true;
 
             // Assign Player one and player two references to GameManager
-            //_networkPlayerObserver.RPC_SetNetworkFighters(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter);
-            _gameManager.RPC_CachePlayers(playerOneRef, playerOneFighter, playerTwoRef, playerTwoFighter, _playerOneUsername, _playerTwoUsername, _playerOneId, _playerTwoId);
+            _gameManager.RPC_CachePlayers(playerOne, playerTwo, 
+                _playerOneUsername, _playerTwoUsername,
+                playerOneIndexSelect, playerTwoIndexSelect,
+                _playerOneId, _playerTwoId);
 
 
             // Switch Game State to 'Starting' Game
@@ -178,8 +183,8 @@ public class PlayerItemObserver : NetworkBehaviour
         Vector3 playerOneSpawnLocation = new Vector3(1, 0, 0);
         Vector3 playerTwoSpawnLocation = new Vector3(-1, 0, 0);
         // Spawn players
-        playerOneFighter = this.Runner.Spawn(CharacterPrefabs[playerOneSelected], playerOneSpawnLocation, Quaternion.identity, playerOneRef);
-        playerTwoFighter = this.Runner.Spawn(CharacterPrefabs[playerTwoSelected], playerTwoSpawnLocation, Quaternion.identity, playerTwoRef);
+        playerOne = this.Runner.Spawn(CharacterPrefabs[playerOneSelected], playerOneSpawnLocation, Quaternion.identity, playerOneRef);
+        playerTwo = this.Runner.Spawn(CharacterPrefabs[playerTwoSelected], playerTwoSpawnLocation, Quaternion.identity, playerTwoRef);
 
     }
 

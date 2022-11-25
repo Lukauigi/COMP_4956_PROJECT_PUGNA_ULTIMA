@@ -79,5 +79,8 @@ Thumbs.db.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
-# Uncomment this line if the TextMesh Pro .asset file still gets changed in source control
-# !/[Aa]ssets/**/*.meta
+!/[Aa]ssets/**/*.meta
+
+# TextMesh Pro files and its Asset meta data
+[Aa]ssets/TextMesh*Pro/
+[Aa]ssets/TextMesh*Pro/**/*.meta

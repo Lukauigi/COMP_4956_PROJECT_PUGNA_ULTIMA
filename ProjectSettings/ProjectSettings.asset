@@ -99,7 +99,7 @@ PlayerSettings:
   xboxEnableFitness: 0
   visibleInBackground: 1
   allowFullscreenSwitch: 1
-  fullscreenMode: 3
+  fullscreenMode: 2
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
@@ -570,6 +570,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
+    Server: FUSION_WEAVER
     Standalone: FUSION_WEAVER;ENABLE_PLAYFABADMIN_API;ENABLE_PLAYFABSERVER_API
     WebGL: FUSION_WEAVER
   additionalCompilerArguments: {}

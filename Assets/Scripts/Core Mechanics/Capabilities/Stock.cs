@@ -14,8 +14,9 @@ using Fusion;
 /// Remarks: 
 /// - Stock is affected by listening to player health.
 /// - stock is a networked property so the NetworkFighterObserver will know of its changes.
-/// Change History: Nov 19 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - Modified stock to be a networked property, will call the NetworkFighterObserver to update its UI.
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Stock : NetworkBehaviour
 {
@@ -28,6 +29,8 @@ public class Stock : NetworkBehaviour
 
     // how many lives the fighter has
     [SerializeField] private int stocks = 3;
+
+    private GameObject audioManager;
 
     // networked property of the fighter's Stocks; listens for OnChanged and notifies others
     private int _stocks;
@@ -66,6 +69,11 @@ public class Stock : NetworkBehaviour
     private void Awake()
     {
         CacheComponents();
+    }
+
+    private void Start()
+    {
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // Helper method to initialize fighter prefab components
@@ -137,6 +145,8 @@ public class Stock : NetworkBehaviour
     // Helper method to reset player position & health
     private void Respawn()
     {
+        //RPC_PlayHitDeathzoneAudio();
+        audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Death.ToString());
         _body.position = new Vector2(0, 3);
         //_velocity.y = 0;
         //_body.gravityScale = downwardMovementMultiplier;
@@ -168,6 +178,5 @@ public class Stock : NetworkBehaviour
     {
         this.Stocks = stocks;
     }
-
 }
 

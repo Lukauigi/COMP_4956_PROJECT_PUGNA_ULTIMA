@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// This is the login screen
+/// Authors: John Ryue
+/// Date: Nov 10 2022
+/// Source:
+///     Mouse cursor - https://www.youtube.com/watch?v=8Fm37H1Mwxw&t=753s
+///     Mouse trail effect - https://www.youtube.com/watch?v=_TcEfIXpmRI&t=314s 
+/// </summary>
 public class MouseCursor : MonoBehaviour
 {
 

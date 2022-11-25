@@ -6,12 +6,13 @@ using UnityEngine;
 
 /// <summary>
 /// Class that handles the attack of a fighter/player.
-/// Author(s): Faiz Hassany
+/// Author(s): Faiz Hassany, John Ryue
 /// Date: Nov 07 2022
 /// Remarks: Attack uses AttackArea gameobject, which is in the fighter prefab hierarchy.
-/// Change History: Nov 18 2022 - Jason Cheung
+/// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Renamed some methods to be more consistent with other capabilities.
+/// - Add logic for RPC call for sound effect method.
 /// </summary>
 public class Attack : NetworkBehaviour
 {
@@ -22,6 +23,7 @@ public class Attack : NetworkBehaviour
     protected AttackArea _attackArea;
 
     [SerializeField] private int damage = 50;
+    private GameObject audioManager;
 
     private bool isAttackPressed;
 
@@ -36,6 +38,12 @@ public class Attack : NetworkBehaviour
     void Awake()
     {
         CacheComponents();
+    }
+
+    // Start is called after Awake, and before Update
+    private void Start()
+    {
+        this.audioManager = GameObject.Find("SceneAudioManager");
     }
 
     // Helper method to initialize fighter prefab components
@@ -90,6 +98,7 @@ public class Attack : NetworkBehaviour
 
             // signal to attack
             _animator.SetBool("isAttacking", true);
+            audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.Attack.ToString());
 
 
             print("Player Attacked! finding objects to hit in AttackArea hitbox...");
@@ -108,5 +117,4 @@ public class Attack : NetworkBehaviour
 
         }
     }
-
 }
