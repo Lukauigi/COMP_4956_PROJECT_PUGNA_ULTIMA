@@ -35,7 +35,7 @@ public static class UserData
         {
             Data = new Dictionary<string, string>() {
             { key, value }
-        }
+            }
         },
         result => Debug.Log("Successfully updated user data"),
         error => {
@@ -99,7 +99,6 @@ public static class UserData
         {
             Debug.Log(error.GenerateErrorReport());
         });
-
     }
     
     /// <summary>
@@ -120,7 +119,8 @@ public static class UserData
                     {"Player Rating", "1000"},
                     {"Total Damage Done", "0"},
                     {"Total Kills", "0"}
-                }
+                },
+                Permission = UserDataPermission.Public
             },
             result => Debug.Log("Successfully Set Inital user data"),
             error => {
