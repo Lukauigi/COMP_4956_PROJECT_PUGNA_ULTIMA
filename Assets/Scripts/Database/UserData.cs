@@ -152,18 +152,33 @@ public static class UserData
                     }
                 }
             };
-            PlayFabClientAPI.UpdatePlayerStatistics(request, onleaderboardUpdate, OnError);
+            PlayFabClientAPI.UpdatePlayerStatistics(request, OnLeaderboardUpdate, OnError);
         }
     }
 
+    /// <summary>
+    /// Author: Eric Kwon
+    /// Date: Oct 29 2022
+    /// 
+    /// OnError function for PlayFab UpdatePlayerStatisticsRequest 
+    /// </summary>
+    /// <param name="obj">PlayFabError: PlayFabError object from UpdatePlayerStatisticsRequest function </param>
     private static void OnError(PlayFabError obj)
     {
         throw new NotImplementedException();
     }
 
-    private static void onleaderboardUpdate(UpdatePlayerStatisticsResult result)
+    /// <summary>
+    /// Author: Eric Kwon
+    /// Date: Oct 29 2022
+    /// 
+    /// OnLeaderboardUpdate function for PlayFab UpdatePlayerStatisticsRequest.
+    /// Defines what to do after result is returned
+    /// </summary>
+    /// <param name="result">PlayFabError: UpdatePlayerStatisticsResult object from UpdatePlayerStatisticsRequest function </param>
+    private static void OnLeaderboardUpdate(UpdatePlayerStatisticsResult result)
     {
-        Debug.Log("sent BattleStats");
+        Debug.Log("Leaderboard Successfully Updated");
     }
 
 }
