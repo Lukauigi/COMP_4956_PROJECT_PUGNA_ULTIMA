@@ -13,6 +13,10 @@ using static UserData;
 /// This class is manages the login/registration process for the player.
 /// This is a singleton class.
 /// It makes sure only one instance of the class is created.
+/// 
+/// Change History:
+/// 2022-11-25 - Xiang Zhu
+/// - Change the navigation screen to the most updated one
 /// </summary>
 public class AccountManager : MonoBehaviour
 {
@@ -52,13 +56,18 @@ public class AccountManager : MonoBehaviour
                 Email = Email,
                 Password = Password,
                 Username = Username,
+                DisplayName = Username,
                 RequireBothUsernameAndEmail = true
             },
             response => { 
                 Debug.Log($"User successfully registered | " +
                                     $"Username: {Username} | Email: {Email}"); 
+                
+                // Database call to set all initial data in database
+                SetUserDataOnRegister();
+                
                 IsRegistered = true;
-                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Login Screen");
+                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Login Page");
             },
             error =>
             {
@@ -90,6 +99,7 @@ public class AccountManager : MonoBehaviour
             {
                 // On successful login, set the PlayFabId
                 PlayerPrefsManager.SetPlayfabId(response.PlayFabId);
+                PlayerPrefsManager.SetPlayerName(Username);
                 Debug.Log($"The id is  {response.PlayFabId}");
                 Debug.Log($"User successfully logged in | Username: {Username}");
                 Debug.Log($"The session ticket is: {response.SessionTicket}");
@@ -97,13 +107,11 @@ public class AccountManager : MonoBehaviour
 
 
                 // Database functions calls on login
-                //UserData.SetUserData("Wins", "13");
-                //UserData.GetUserData(response.PlayFabId, "Favourite Character");
-                //UserData.GetUserProfileData(response.PlayFabId);
-                //UserData.SendLeaderboard("MostWins", 0);
-                //UserData.GetLeaderboard("MostWins");
+                GetUserProfileData(response.PlayFabId);
+                //SetUserData("Wins", "13");
+                //SendLeaderboard("MostWins", 10);
 
-                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
+                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Main Menu");
             },
             error =>
             {
@@ -152,4 +160,25 @@ public static class PlayerPrefsManager
     {
         return PlayerPrefs.GetString("PlayfabId");
     }
+
+    /// <summary>
+    /// Set the player name to the PlayerPrefs.
+    /// </summary>
+    /// <param name="playerName"></param>
+    /// <returns></returns>
+    public static string SetPlayerName(string playerName)
+    {
+        PlayerPrefs.SetString("PlayerName", playerName);
+        return playerName;
+    }
+
+    /// <summary>
+    /// Get the player name from the PlayerPrefs.
+    /// </summary>
+    /// <returns></returns>
+    public static string GetPlayerName()
+    {
+        return PlayerPrefs.GetString("PlayerName");
+    }
+
 }
