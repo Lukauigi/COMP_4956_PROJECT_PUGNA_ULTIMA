@@ -10,6 +10,9 @@ using Fusion;
 /// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Add logic for RPC call for sound effect method.
+/// Change History: November 24 2022 - Richard Mac
+/// - implemented on dodge colour change
+/// - implemented a cooldown for the dodge mechanic 
 /// </summary>
 public class Dodge : NetworkBehaviour
 {
@@ -19,6 +22,8 @@ public class Dodge : NetworkBehaviour
     protected Animator _animator;
     protected GameObject _audioManager;
 
+    private float cooldown = 1f;
+    private float nextDodgeTime = 0f; 
     private bool isDodgePressed;
 
     // Awake is called when the script instance is being loaded
@@ -51,17 +56,24 @@ public class Dodge : NetworkBehaviour
         if (isDodgePressed)
         {
             isDodgePressed = false;
-            StartCoroutine(DodgeAction());
+            if (Time.time > nextDodgeTime)
+            {
+                StartCoroutine(DodgeAction());
+                nextDodgeTime = Time.time + cooldown;
+            }
+           
         }
     }
     private IEnumerator DodgeAction()
     {
+        GetComponent<Renderer>().material.color = Color.gray;
         _playerHitbox.enabled = false;
         Debug.Log("hitbox down");
         if (Object.HasStateAuthority) _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Dodge.ToString());
         yield return new WaitForSeconds(0.5f);
         Debug.Log("hitbox back");
-        _playerHitbox.enabled = true; 
+        _playerHitbox.enabled = true;
+        GetComponent<Renderer>().material.color = Color.white;
     }
 
 }
