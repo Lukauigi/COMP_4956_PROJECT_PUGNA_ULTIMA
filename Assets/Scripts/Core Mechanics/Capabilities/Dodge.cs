@@ -56,12 +56,18 @@ public class Dodge : NetworkBehaviour
     }
     private IEnumerator DodgeAction()
     {
+        // play the dodge animation
+        _animator.SetBool("isDodging", true);
+
         _playerHitbox.enabled = false;
         Debug.Log("hitbox down");
         _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Dodge.ToString());
         yield return new WaitForSeconds(0.5f);
         Debug.Log("hitbox back");
-        _playerHitbox.enabled = true; 
+        _playerHitbox.enabled = true;
+
+        // stop the dodge animation
+        _animator.SetBool("isDodging", false);
     }
 
 }
