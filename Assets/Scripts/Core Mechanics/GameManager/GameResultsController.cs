@@ -60,6 +60,7 @@ public class GameResultsController : NetworkBehaviour
     private int playerTwoKills;
     private int playerTwoDamageDone;
 
+    // Database variables for post match POST requests
     private bool savedToDB = false;
     private string _playerOneId;
     private string _playerTwoId;
@@ -83,8 +84,13 @@ public class GameResultsController : NetworkBehaviour
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
+        
+        // Database calls for player data
         _playerOneId = playerOneId;
         _playerTwoId = playerTwoId;
+        MatchData.GetGameProfileData(_playerOneId, 1);
+        MatchData.GetGameProfileData(_playerTwoId, 2);
+        
         this.playerOneSelectedIndex = playerOneSelectedIndex;
         this.playerTwoSelectedIndex = playerTwoSelectedIndex;
     }
@@ -175,7 +181,13 @@ public class GameResultsController : NetworkBehaviour
 
     }
 
-    // Helper method to save player stats to database
+    /// <summary>
+    /// Author: Justin Payne
+    /// Date: Nov 23 2022
+    /// 
+    /// Function called at end of game to handle sending post game data to database.
+    /// Also handles updating leaderboard results
+    /// </summary>
     private void SaveToDatabase()
     {
 
@@ -232,7 +244,7 @@ public class GameResultsController : NetworkBehaviour
             DatabasePlayerTwoTotalKills = DatabasePlayerTwoTotalKills + playerTwoKills;
             
             
-            
+            // POST requests to update data post game for each player
             Debug.Log("Update Data for players");
             MatchData.SetPostGameData( _DatabasePlayerOneName, DatabasePlayerOneWins.ToString(), DatabasePlayerOneLoses.ToString(), DatabasePlayerOneTotalMatches.ToString(),
                 DatabasePlayerOnePlayerRating.ToString(), DatabasePlayerOneTotalKills.ToString(), DatabasePlayerOneTotalDamageDone.ToString());
@@ -241,16 +253,7 @@ public class GameResultsController : NetworkBehaviour
         }
 
         // TODO save results to database
-        // relevant member variables:
-        // - NetworkObject _winner
-        // - NetworkObject _loser
-        // - NetworkObject _playerOne
-        // - NetworkObject _playerTwo
-        // - int playerOneKills
-        // - int playerTwoKills
-        // - int playerOneDamageDone
-        // - int playerTwoDamageDone
-
+        // Add leaderboard calls here
         // use _winner and _loser to find user data by playfabid
         // do something to update user data 
     }
