@@ -10,6 +10,9 @@ using Fusion;
 /// Change History: Nov 22 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Add logic for RPC call for sound effect method.
+/// Change History: November 24 2022 - Richard Mac
+/// - implemented on dodge colour change
+/// - implemented a cooldown for the dodge mechanic 
 /// </summary>
 public class Dodge : NetworkBehaviour
 {
