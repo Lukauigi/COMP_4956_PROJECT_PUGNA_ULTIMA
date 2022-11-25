@@ -52,8 +52,9 @@ public class Stock : NetworkBehaviour
         }
     }
 
-    // for database - player deaths is the amount of kills the other player got
-    [UnityNonSerialized] public int Deaths { get; set; } = 0;
+    // for database - deaths becomes the amount of kills gotten by the other player
+    private int _deaths = 0;
+    public int Deaths => _deaths; // getter
 
     // helper bool to pause respawn checks in update method WHILE respawning
     private bool isRespawning = false;
@@ -109,7 +110,7 @@ public class Stock : NetworkBehaviour
             int newStocks = Stocks;
 
             newStocks--;
-            Deaths++;
+            _deaths++;
 
             if (newStocks != 0)
             {
@@ -175,7 +176,7 @@ public class Stock : NetworkBehaviour
 
     // RPC method for client to notify host its changes for Stocks
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_SetStocks(int stocks, RpcInfo info = default)
+    public void RPC_SetStocks(int stocks)
     {
         this.Stocks = stocks;
     }
