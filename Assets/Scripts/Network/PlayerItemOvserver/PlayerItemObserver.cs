@@ -41,6 +41,7 @@ public class PlayerItemObserver : NetworkBehaviour
     private string _playerOneUsername;
     private string _playerTwoUsername;
     
+    //Azure PlayFab Ids
     private string _playerOneId;
     private string _playerTwoId;
 

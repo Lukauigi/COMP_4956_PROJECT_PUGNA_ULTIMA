@@ -61,7 +61,7 @@ public class GameResultsController : NetworkBehaviour
     private int playerTwoDamageDone;
 
     // Database variables for post match POST requests
-    private bool savedToDB = false;
+    private bool _savedToDB = false;
     private string _playerOneId;
     private string _playerTwoId;
     private string _DatabasePlayerOneName;
@@ -191,10 +191,10 @@ public class GameResultsController : NetworkBehaviour
     private void SaveToDatabase()
     {
 
-        if (!savedToDB)
+        if (!_savedToDB)
         {
             // Sets savedToDb boolean to true so SaveToDatabase() command runs once.
-            savedToDB = true;
+            _savedToDB = true;
             
             // Saves player names to variables for single player game api call checks.
             _DatabasePlayerOneName = _playerOne.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();

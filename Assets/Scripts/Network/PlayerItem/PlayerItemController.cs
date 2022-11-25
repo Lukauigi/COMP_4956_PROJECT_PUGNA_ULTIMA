@@ -50,8 +50,9 @@ public class PlayerItemController : NetworkBehaviour
 
     private string remoteUsername;
 
-    private string remoteId;
-    private string playerId;
+    // Database id's needed for mutliplayer
+    private string _remoteId;
+    private string _playerId;
 
 
     /// <summary>
@@ -157,12 +158,12 @@ public class PlayerItemController : NetworkBehaviour
             if (isClientReady)
             {
                 //Debug.Log("Client is Local------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername, remoteId);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername, _remoteId);
             }
             if (isHostReady)
             {
                 //Debug.Log("Host is Local -------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text, playerId);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text, _playerId);
             }
 
             if (isClientReady && isHostReady)
@@ -273,16 +274,30 @@ public class PlayerItemController : NetworkBehaviour
         remoteUsername = username;
     }
     
+    /// <summary>
+    /// Author: Justin Payne
+    /// Date: 2022-11-23
+    /// 
+    /// Remote procedure to inform the state authority the azure playfab id of the remote client.
+    /// </summary>
+    /// <param name="id"></param>
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetRemoteId(string id)
     {
-        remoteId = id;
+        _remoteId = id;
     }
     
+    /// <summary>
+    /// Author: Justin Payne
+    /// Date: 2022-11-23
+    /// 
+    /// Remote procedure to inform the state authority the azure playfab id of the remote client.
+    /// </summary>
+    /// <param name="id"></param>
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_SetPlayerId(string id)
     {
-        playerId = id;
+        _playerId = id;
     }
     
     /// <summary>
