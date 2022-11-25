@@ -128,20 +128,32 @@ public static class UserData
             });
     }
 
-    public static void SendLeaderboard(string leaderboardName, int score)
+    /// <summary>
+    /// Author: Justin Payne, Eric Kwon
+    /// Date: Nov 23 2022
+    ///
+    ///  This Function sends the updated user's wins stat to the leaderboard.
+    ///  It is called after the game ends and updates data for both players
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="score"></param>
+    public static void SendLeaderboard(string name, int score)
     {
-        var request = new UpdatePlayerStatisticsRequest
+        if (PlayerPrefs.GetString("PlayerName") == name)
         {
-            Statistics = new List<StatisticUpdate>
+            var request = new UpdatePlayerStatisticsRequest
             {
-                new StatisticUpdate
+                Statistics = new List<StatisticUpdate>
                 {
-                    StatisticName = leaderboardName,
-                    Value = score,
+                    new StatisticUpdate
+                    {
+                        StatisticName = "MostWins",
+                        Value = score,
+                    }
                 }
-            }
-        };
-        PlayFabClientAPI.UpdatePlayerStatistics(request, onleaderboardUpdate, OnError);
+            };
+            PlayFabClientAPI.UpdatePlayerStatistics(request, onleaderboardUpdate, OnError);
+        }
     }
 
     private static void OnError(PlayFabError obj)

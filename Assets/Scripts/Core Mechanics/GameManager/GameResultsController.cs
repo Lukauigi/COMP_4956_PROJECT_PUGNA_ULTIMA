@@ -250,6 +250,10 @@ public class GameResultsController : NetworkBehaviour
                 DatabasePlayerOnePlayerRating.ToString(), DatabasePlayerOneTotalKills.ToString(), DatabasePlayerOneTotalDamageDone.ToString());
             MatchData.SetPostGameData(_DatabasePlayerTwoName, DatabasePlayerTwoWins.ToString(), DatabasePlayerTwoLoses.ToString(), DatabasePlayerTwoTotalMatches.ToString(),
                 DatabasePlayerTwoPlayerRating.ToString(), DatabasePlayerTwoTotalKills.ToString(), DatabasePlayerTwoTotalDamageDone.ToString());
+            
+            // Leaderboard code
+            UserData.SendLeaderboard(_DatabasePlayerOneName, DatabasePlayerOneWins);
+            UserData.SendLeaderboard(_DatabasePlayerTwoName, DatabasePlayerTwoWins);
         }
 
         // TODO save results to database
