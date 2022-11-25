@@ -13,6 +13,10 @@ using static UserData;
 /// This class is manages the login/registration process for the player.
 /// This is a singleton class.
 /// It makes sure only one instance of the class is created.
+/// 
+/// Change History:
+/// 2022-11-25 - Xiang Zhu
+/// - Change the navigation screen to the most updated one
 /// </summary>
 public class AccountManager : MonoBehaviour
 {

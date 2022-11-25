@@ -19,7 +19,9 @@ public class SignInUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Navigate back to the main menu
+    /// Author: Xiang Zhu
+    /// Date: 2022-11-25
+    /// Navigate to the signup page
     /// </summary>
     public void NavigateToSignUp()
     {
