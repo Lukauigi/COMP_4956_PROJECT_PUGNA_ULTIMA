@@ -35,6 +35,17 @@ public class GameManager : NetworkBehaviour
     private NetworkObject _playerOne;
     private NetworkObject _playerTwo;
 
+    // player references - fusion gives them a player id
+    private int _playerOneRef = 0;
+    private int _playerTwoRef = 0;
+
+    // the winner and loser when the game ends
+    private NetworkObject _winner;
+    private NetworkObject _loser;
+
+    private string _playerOneId;
+    private string _playerTwoId;
+
     // Current Game State
     public GameStates GameState { get; private set; } = GameStates.Waiting;
 
@@ -81,7 +92,8 @@ public class GameManager : NetworkBehaviour
     public void RPC_CachePlayers(
         NetworkObject playerOne, NetworkObject playerTwo,
         string playerOneUsername, string playerTwoUsername,
-        int playerOneSelectedIndex, int playerTwoSelectedIndex)
+        int playerOneSelectedIndex, int playerTwoSelectedIndex,
+        string playerOneId, string playerTwoId)
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
@@ -91,7 +103,7 @@ public class GameManager : NetworkBehaviour
             playerOneUsername, playerTwoUsername,
             playerOneSelectedIndex, playerTwoSelectedIndex);
         _gameResultsController.RPC_CachePlayers(playerOne, playerTwo,
-            playerOneSelectedIndex, playerTwoSelectedIndex);
+            playerOneSelectedIndex, playerTwoSelectedIndex, playerOneId, playerTwoId);
     }
 
     // Set Game State to waiting

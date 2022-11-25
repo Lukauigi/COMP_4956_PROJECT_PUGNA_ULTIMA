@@ -99,7 +99,6 @@ public static class UserData
         {
             Debug.Log(error.GenerateErrorReport());
         });
-
     }
     
     /// <summary>
