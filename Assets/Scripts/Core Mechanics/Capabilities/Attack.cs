@@ -31,6 +31,11 @@ public class Attack : NetworkBehaviour
     private float attackRate = 1f;
     private float timer = 0f;
 
+    private Vector2 lowKnockback = new Vector2(3, 1);
+    private Vector2 medKnockback = new Vector2(6, 3);
+    private Vector2 highKnockback = new Vector2(10, 5);
+
+
     // for database - the amount of damage done by the player
     [UnityNonSerialized] public int DamageDone { get; set; } = 0;
 
@@ -111,22 +116,39 @@ public class Attack : NetworkBehaviour
                     print("Attack hit!");
                     Health health = collider.GetComponent<Health>();
                     health.Damage(damage);
+
+                    // calculate knockback health based on damaged health value
+                    Vector2 knockbackStrength;
+                    if (health.CurrentHealth <= 150) { knockbackStrength = lowKnockback;
+                    } else if (health.CurrentHealth <= 300) { knockbackStrength = medKnockback;
+                    } else { knockbackStrength = highKnockback; }
+
                     if (collider.transform.position.x > transform.position.x)
                     {
                         if (collider.transform.position.y <= transform.position.y)
                         {
-                            health.knockBack(new Vector2(3, 1));
-                        } else health.knockBack(new Vector2(3, -1));
-                        //health.knockBack(new Vector2(3, 1));
+                            //health.knockBack(new Vector2(3, 1));
+                            health.knockBack(knockbackStrength);
+                        }
+                        else
+                        {
+                            //health.knockBack(new Vector2(3, -1));
+                            health.knockBack(knockbackStrength);
+                        }
                     }
                     if (collider.transform.position.x < transform.position.x)
                     {
+                        knockbackStrength.x *= -1;
                         if (collider.transform.position.y <= transform.position.y)
                         {
-                            health.knockBack(new Vector2(-3, 1));
+                            //health.knockBack(new Vector2(-3, 1));
+                            health.knockBack(knockbackStrength);
                         }
-                        else health.knockBack(new Vector2(-3, -1));
-                        //health.knockBack(new Vector2(-3, 1));
+                        else
+                        {
+                            //health.knockBack(new Vector2(-3, -1));
+                            health.knockBack(knockbackStrength);
+                        }
                     }
                     DamageDone += damage;
                 }

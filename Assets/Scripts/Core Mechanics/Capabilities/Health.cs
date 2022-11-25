@@ -68,7 +68,7 @@ public class Health : NetworkBehaviour
     }
 
     // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
-    private int currentHealth;
+    private int currentHealth = 0;
     [Networked(OnChanged = nameof(OnHealthChanged)), UnityNonSerialized]
     public int CurrentHealth
     {
@@ -92,7 +92,7 @@ public class Health : NetworkBehaviour
     public override void Spawned()
     {
         // Networked property can only be accessed after object has Spawned
-        CurrentHealth = maxHealth;
+        //CurrentHealth = maxHealth;
     }
 
     // Method to damage the player
@@ -105,7 +105,7 @@ public class Health : NetworkBehaviour
         }
 
         if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
-        CurrentHealth -= amount;
+        CurrentHealth += amount;
         StartCoroutine(disableInputsTemporarily());
     }
 
@@ -127,7 +127,7 @@ public class Health : NetworkBehaviour
         }
         else
         {
-            CurrentHealth += amount;
+            CurrentHealth -= amount;
         }
 
     }
@@ -135,7 +135,8 @@ public class Health : NetworkBehaviour
     // Method to reset the Health of the player
     public void ResetHealth()
     {
-        CurrentHealth = maxHealth;
+        //CurrentHealth = maxHealth;
+        CurrentHealth = 0;
     }
 
     // Networked OnChanged method for the Network Property Stocks

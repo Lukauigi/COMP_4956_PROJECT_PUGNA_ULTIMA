@@ -99,7 +99,8 @@ public class Stock : NetworkBehaviour
         //    return;
 
         // check if player has lost a life (out of stage or lost all their health)
-        if ((IsOutOfHealth() || IsOutOfStage()) && !isRespawning)
+        //if ((IsOutOfHealth() || IsOutOfStage()) && !isRespawning)
+        if (IsOutOfStage() && !isRespawning)
         {
             // pause update
             isRespawning = true;
