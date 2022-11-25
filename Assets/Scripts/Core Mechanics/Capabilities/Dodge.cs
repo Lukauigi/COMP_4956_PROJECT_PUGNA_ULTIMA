@@ -63,12 +63,14 @@ public class Dodge : NetworkBehaviour
     }
     private IEnumerator DodgeAction()
     {
+        GetComponent<Renderer>().material.color = Color.gray;
         _playerHitbox.enabled = false;
         Debug.Log("hitbox down");
         if (Object.HasStateAuthority) _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Dodge.ToString());
         yield return new WaitForSeconds(0.5f);
         Debug.Log("hitbox back");
-        _playerHitbox.enabled = true; 
+        _playerHitbox.enabled = true;
+        GetComponent<Renderer>().material.color = Color.white;
     }
 
 }
