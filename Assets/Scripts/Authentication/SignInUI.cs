@@ -21,8 +21,8 @@ public class SignInUI : MonoBehaviour
     /// <summary>
     /// Navigate back to the main menu
     /// </summary>
-    public void NavigateBackToHome()
+    public void NavigateToSignUp()
     {
-        SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/Home");
+        SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Signup Page");
     }
 }

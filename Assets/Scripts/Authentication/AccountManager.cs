@@ -63,7 +63,7 @@ public class AccountManager : MonoBehaviour
                 SetUserDataOnRegister();
                 
                 IsRegistered = true;
-                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Login Screen");
+                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Login Page");
             },
             error =>
             {
@@ -107,7 +107,7 @@ public class AccountManager : MonoBehaviour
                 //SetUserData("Wins", "13");
                 //SendLeaderboard("MostWins", 10);
 
-                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
+                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Main Menu");
             },
             error =>
             {
