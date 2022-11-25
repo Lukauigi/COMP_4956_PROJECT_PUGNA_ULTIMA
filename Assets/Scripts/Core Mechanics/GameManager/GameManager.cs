@@ -34,6 +34,9 @@ public class GameManager : NetworkBehaviour
     // the fighter they are controlling
     private NetworkObject _playerOne;
     private NetworkObject _playerTwo;
+    // the NetworkPlayer components that belong to each player
+    private NetworkPlayer _playerOneNetworkPlayer;
+    private NetworkPlayer _playerTwoNetworkPlayer;
 
     // Current Game State
     public GameStates GameState { get; private set; } = GameStates.Waiting;
@@ -85,6 +88,9 @@ public class GameManager : NetworkBehaviour
     {
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
+        // cache the network player instance that belongs to the network object
+        _playerOneNetworkPlayer = _playerOne.gameObject.GetComponent<NetworkPlayer>();
+        _playerTwoNetworkPlayer = _playerTwo.gameObject.GetComponent<NetworkPlayer>();
 
         // cache players and its user properties for the other scene objects that need it
         _networkFighterObserver.RPC_CachePlayers(playerOne, playerTwo, 
@@ -153,6 +159,11 @@ public class GameManager : NetworkBehaviour
     {
         // start the starting countdown
         CountdownController.Instance.RPC_StartStartingCountdown();
+
+        // disable inputs of the two players for the starting countdown duration
+        float countdownDuration = CountdownController.Instance.StartingCountdown;
+        _playerOneNetworkPlayer.DisableInputsTemporarily(countdownDuration);
+        _playerTwoNetworkPlayer.DisableInputsTemporarily(countdownDuration);
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
@@ -183,9 +194,11 @@ public class GameManager : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     protected void RPC_OnGameStateGameOver()
     {
-        // display the "TIME!" text and stop the game timer
+        // display the "TIME!" text and stop the game timer, and stop the player inputs
         _countdownController.DisplayEndText();
         _gameTimerController.gameObject.SetActive(false);
+        _playerOneNetworkPlayer.DisableInputsTemporarily(10f);
+        _playerTwoNetworkPlayer.DisableInputsTemporarily(10f);
 
         _gameResultsController.RPC_CacheGameResults();
 

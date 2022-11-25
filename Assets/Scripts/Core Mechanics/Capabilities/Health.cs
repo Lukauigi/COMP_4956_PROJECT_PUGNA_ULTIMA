@@ -24,6 +24,7 @@ public class Health : NetworkBehaviour
 {
     // other scene objects to reference
     protected NetworkFighterObserver _networkFighterObserver;
+    protected NetworkPlayer _networkPlayer; //player's local instance
 
     // how much health the fighter has per stock
     [SerializeField] private int maxHealth = 300;
@@ -44,6 +45,7 @@ public class Health : NetworkBehaviour
         this.jump = gameObject.GetComponentInParent<Jump>();
         this.move = gameObject.GetComponentInParent<Move>();
         this.rb = gameObject.GetComponentInParent<Rigidbody2D>();
+        if (!_networkPlayer) _networkPlayer = GetComponent<NetworkPlayer>();
     }
 
     // disable character inputs relating to these components temporarily
@@ -106,7 +108,17 @@ public class Health : NetworkBehaviour
 
         if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
         CurrentHealth += amount;
-        StartCoroutine(disableInputsTemporarily());
+        //StartCoroutine(disableInputsTemporarily());
+        _networkPlayer.DisableInputsTemporarily(0.5f);
+        StartCoroutine(TriggerColorChangeInteraction(0.5f));
+    }
+
+    IEnumerator TriggerColorChangeInteraction(float duration)
+    {
+        GameObject player = gameObject;
+        player.GetComponent<Renderer>().material.color = Color.red;
+        yield return new WaitForSeconds(duration);
+        player.GetComponent<Renderer>().material.color = Color.white;
     }
 
     // Method to heal the player

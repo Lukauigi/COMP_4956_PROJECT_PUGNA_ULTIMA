@@ -20,6 +20,12 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     // our local player
     public static NetworkPlayer Local { get; set; }
 
+    // fighter components
+    private Attack attack;
+    private Jump jump;
+    private Move move;
+    private Dodge dodge;
+
     // fighter prefab UI components
     [SerializeField] private TextMeshProUGUI _playerNickname;
 
@@ -41,6 +47,15 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
                 RPC_SetNickName(value);
             }
         }
+    }
+
+    private void Awake()
+    {
+        this.attack = gameObject.GetComponentInParent<Attack>();
+        this.jump = gameObject.GetComponentInParent<Jump>();
+        this.move = gameObject.GetComponentInParent<Move>();
+        this.dodge = gameObject.GetComponentInParent<Dodge>();
+        Debug.Log("player attack component: " + attack);
     }
 
     /// <summary>
@@ -91,6 +106,26 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     {
         Debug.Log($"[RPC] SetNickName {NickName}");
         this.NickName = nickName;
+    }
+
+    public void DisableInputsTemporarily(float seconds)
+    {
+        StartCoroutine(DisableInputsTemporarilyCoroutine(seconds));
+    }
+
+
+    // disable character inputs relating to these components temporarily
+    public IEnumerator DisableInputsTemporarilyCoroutine(float seconds)
+    {
+        attack.enabled = false;
+        jump.enabled = false;
+        move.enabled = false;
+        dodge.enabled = false;
+        yield return new WaitForSeconds(seconds);
+        attack.enabled = true;
+        jump.enabled = true;
+        move.enabled = true;
+        dodge.enabled = true;
     }
 
 }
