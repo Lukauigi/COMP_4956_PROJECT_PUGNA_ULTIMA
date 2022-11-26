@@ -102,14 +102,14 @@ public class Move : NetworkBehaviour
         print("moving: " + _isMovingAudioPlaying + ".. onGround: " + onGround + ".. velocity.x: " + velocity.x + ".. velocity.y: " + velocity.y + ".. direction.x: " + direction.x);
 
         // Plays move audio clip
-        if (!_isMovingAudioPlaying && onGround && velocity.x != 0 && velocity.y == 0)
+        if (!_isMovingAudioPlaying && onGround && velocity.x != 0 && velocity.y == 0 && direction.x != 0)
         {
             _isMovingAudioPlaying = true;
             _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayMoveAudio(PlayerActions.Move.ToString(), Object.Id);
         }
 
         // Stops move audio clip
-        if (_isMovingAudioPlaying && (velocity.x == 0 || !onGround))
+        if (_isMovingAudioPlaying && (velocity.x == 0 || !onGround) && direction.x == 0)
         {
             _isMovingAudioPlaying = false;
             _audioManager.GetComponent<GameplayAudioManager>().RPC_StopMoveAudio(Object.Id);

@@ -230,12 +230,14 @@ public class GameplayAudioManager : NetworkBehaviour
         print("Stop Move Audio Call, id: " + playerId);
         if (playerId == _playerIds[0])
         {
-            StartCoroutine(AudioFadeOut.FadeOut(_player2MoveLoopAudioSource, 0.1f));
+            //StartCoroutine(AudioFadeOut.FadeOut(_player1MoveLoopAudioSource, 0.1f));
+            _player1MoveLoopAudioSource.Stop();
             _player1MoveLoopAudioSource.clip = null;
         }
         else if (playerId == _playerIds[1])
         {
-            StartCoroutine(AudioFadeOut.FadeOut(_player2MoveLoopAudioSource, 0.1f));
+            //StartCoroutine(AudioFadeOut.FadeOut(_player2MoveLoopAudioSource, 0.1f));
+            _player1MoveLoopAudioSource.Stop();
             _player1MoveLoopAudioSource.clip = null;
         }
     }
