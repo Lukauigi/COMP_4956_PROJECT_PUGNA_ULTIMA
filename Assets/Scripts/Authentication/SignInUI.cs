@@ -15,7 +15,6 @@ public class SignInUI : MonoBehaviour
     public void SignIn()
     {
         AccountManager.Instance.SignIn(Username.text, Password.text);
-
     }
 
     /// <summary>
