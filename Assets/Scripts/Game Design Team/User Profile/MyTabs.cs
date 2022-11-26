@@ -12,11 +12,11 @@ using UnityEngine;
 public class MyTabs : MonoBehaviour
 {
 
-    public GameObject tabbutton1;
-    public GameObject tabbutton2;
+    public GameObject tabButton1;
+    public GameObject tabButton2;
 
-    public GameObject tabcontent1;
-    public GameObject tabcontent2;
+    public GameObject tabContent1;
+    public GameObject tabContent2;
 
     /// <summary>
     /// Start is called before the first frame update
@@ -39,8 +39,8 @@ public class MyTabs : MonoBehaviour
     /// </summary>
     public void HideAllTabs()
     {
-        tabcontent1.SetActive(false);
-        tabcontent2.SetActive(false);
+        tabContent1.SetActive(false);
+        tabContent2.SetActive(false);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class MyTabs : MonoBehaviour
     public void ShowTab1()
     {
         HideAllTabs();
-        tabcontent1.SetActive(true);
+        tabContent1.SetActive(true);
     }
 
     /// <summary>
@@ -58,6 +58,6 @@ public class MyTabs : MonoBehaviour
     public void ShowTab2()
     {
         HideAllTabs();
-        tabcontent2.SetActive(true);
+        tabContent2.SetActive(true);
     }
 }
