@@ -98,6 +98,8 @@ public class GameManager : NetworkBehaviour
             playerOneSelectedIndex, playerTwoSelectedIndex);
         _gameResultsController.RPC_CachePlayers(playerOne, playerTwo,
             playerOneSelectedIndex, playerTwoSelectedIndex);
+
+        _gameplayAudioManager.RPC_SetPlayerIds(playerOne.Id, playerTwo.Id);
     }
 
     // Set Game State to waiting

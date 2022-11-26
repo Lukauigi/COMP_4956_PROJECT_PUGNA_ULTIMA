@@ -41,11 +41,12 @@ public enum MenuActions
 /// Author(s): Lukasz Bednarek
 /// Date: November 23, 2022
 /// Remarks: Functionality relating to move is present but not functioning properly.
-/// Change History: November 22, 2022 = Lukasz Bednarek
+/// Change History: November 25, 2022 - Lukasz Bednarek
 /// - Add class
 /// - Add documentation
 /// - Add random usage of sound effects in sound pool.
 /// - Edit method headers and add method documentation.
+/// - Edit Move audio logic.
 /// </summary>
 public class GameplayAudioManager : NetworkBehaviour
 {
@@ -75,9 +76,12 @@ public class GameplayAudioManager : NetworkBehaviour
     private Dictionary<string, AudioClip> _menuAudioPlayer;
 
     // audio sources, can be thought of as audio channels
-    [SerializeField] public AudioSource _sfxAudioSource;
-    [SerializeField] public AudioSource _musicAudioSource;
-    [SerializeField] public AudioSource _moveLoopAudioSource;
+    [SerializeField] private AudioSource _sfxAudioSource;
+    [SerializeField] private AudioSource _musicAudioSource;
+    [SerializeField] private AudioSource _player1MoveLoopAudioSource;
+    [SerializeField] private AudioSource _player2MoveLoopAudioSource;
+
+    private NetworkId[] _playerIds = new NetworkId[2];
 
     /// <summary>
     /// Initializes a game object's components. Ideal section to initialize instance data of game object.
@@ -115,6 +119,15 @@ public class GameplayAudioManager : NetworkBehaviour
         };
     }
 
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_SetPlayerIds(NetworkId playerOne, NetworkId playerTwo)
+    {
+        print("player ids: " + playerOne + ", " + playerTwo);
+        _playerIds[0] = playerOne;
+        _playerIds[1] = playerTwo;
+        
+    }
+
     /// <summary>
     /// Plays a specific character sound effect.
     /// </summary>
@@ -149,22 +162,41 @@ public class GameplayAudioManager : NetworkBehaviour
     /// This audio will loop until RPC_StopMoveAudio is called.
     /// </summary>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
+    /// <param name="playerId">A player's unique identifier on the network</param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_PlayMoveAudio(string playerAction)
+    public void RPC_PlayMoveAudio(string playerAction, NetworkId playerId)
     {
-        print("Audio Call " + playerAction);
-        _moveLoopAudioSource.clip = _hostPlayerAudio[playerAction][0];
-        _moveLoopAudioSource.Play(); 
+        print("Audio Call " + playerAction + " id: " + playerId);
+        if (playerId == _playerIds[0])
+        {
+            _player1MoveLoopAudioSource.clip = _hostPlayerAudio[playerAction][0];
+            _player1MoveLoopAudioSource.Play();
+        }
+        else if (playerId == _playerIds[1])
+        {
+            _player2MoveLoopAudioSource.clip = _hostPlayerAudio[playerAction][0];
+            _player2MoveLoopAudioSource.Play();
+        }
     }
 
     /// <summary>
     /// Stops character ground movement audio.
+    /// <param name="playerId">A player's unique identifier on the network</param>
     /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_StopMoveAudio()
+    public void RPC_StopMoveAudio(NetworkId playerId)
     {
-        print("Stop Move Audio Call");
-        _moveLoopAudioSource.Stop();
+        print("Stop Move Audio Call, id: " + playerId);
+        if (playerId == _playerIds[0])
+        {
+            _player1MoveLoopAudioSource.Stop();
+            _player1MoveLoopAudioSource.clip = null;
+        }
+        else if (playerId == _playerIds[1])
+        {
+            _player2MoveLoopAudioSource.Stop();
+            _player2MoveLoopAudioSource.clip = null;
+        }
     }
 
     /// <summary>
@@ -173,7 +205,7 @@ public class GameplayAudioManager : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_StopSFXAudio()
     {
-        _moveLoopAudioSource.Stop();
+        _player1MoveLoopAudioSource.Stop();
     }
 
     /// <summary>
