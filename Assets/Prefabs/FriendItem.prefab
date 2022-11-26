@@ -258,7 +258,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3173508416345292939}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4031627148436528432}
+        m_TargetAssemblyTypeName: FriendItem, Assembly-CSharp
+        m_MethodName: RemoveFriendBtnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4392445437535491608
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   username: {fileID: 9105498049267982610}
   removeBtn: {fileID: 2982217201673966619}
+  friendCache: []
 --- !u!1 &4405273763778273866
 GameObject:
   m_ObjectHideFlags: 0

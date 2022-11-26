@@ -33,8 +33,18 @@ public class FriendController : MonoBehaviour
     {
         if (_InputField.text.Length > 0)
         {
+            //Clear the components before fetching
+            FriendItem[] currentItems = _scrollViewContent.GetComponentsInChildren<FriendItem>();
+            foreach (FriendItem item in currentItems)
+            {
+                Destroy(item.gameObject);
+            }
+
+            //After clear, Add the friend to DB
             AddFriend(FriendIdType.Username, _InputField.text);
             Debug.Log("Added: " + _InputField.text);
+
+            //Fill the scroll view with friends
             GetFriends();
         }
     }
@@ -45,6 +55,7 @@ public class FriendController : MonoBehaviour
         {
             GameObject newFriendItem = Instantiate(_friendItemPrefab, _scrollViewContent);
             if (newFriendItem.TryGetComponent<FriendItem>(out FriendItem item)) {
+                item.friendCache = friendsCache;
                 item.username.text = friend.Username;
             }
             Debug.Log("CachedFriends: " + friend.Username);
@@ -94,7 +105,7 @@ public class FriendController : MonoBehaviour
         }, DisplayPlayFabError);
     }
 
-    void RemoveFriend(FriendInfo friendInfo)
+    public void RemoveFriend(FriendInfo friendInfo)
     {
         PlayFabClientAPI.RemoveFriend(new PlayFab.ClientModels.RemoveFriendRequest
         {
