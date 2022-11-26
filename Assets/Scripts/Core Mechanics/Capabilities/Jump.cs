@@ -140,12 +140,16 @@ public class Jump : NetworkBehaviour
             Debug.Log("Player Jumped! Jumps Left: " + (maxAirJumps - currentJump));
 
             float jumpSpeed = Mathf.Sqrt(-4f * Physics2D.gravity.y * jumpHeight);
-            
+
             //jump speed never goes negative
-            if (velocity.y > 0f)
+            /*if (velocity.y > 0f)
             {
                 jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
-            }
+            }*/
+            /*velocity.y += jumpSpeed;*/
+
+            // reset jump velocity beforehand regardless of being in air for double jump to reach the same height
+            velocity.y = 0f;
             velocity.y += jumpSpeed;
         }
     }
