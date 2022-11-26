@@ -229,7 +229,7 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_OnNextBtnClick()
     {
         selected = (selected + 1) % Avatars.Length;
-        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
+        InitiateAudio(false); //plays audio only for client responsible for RPC.
     }
 
     /// <summary>
@@ -244,7 +244,7 @@ public class PlayerItemController : NetworkBehaviour
     {
         selected--;
         if (selected < 0) selected = Avatars.Length - 1;
-        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
+        InitiateAudio(false); //plays audio only for client responsible for RPC.
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
