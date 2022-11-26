@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /// <summary>
 /// This is the login screen
 /// Authors: John Ryue
 /// Date: Nov 10 2022
 /// Source:
-///     Mouse cursor - https://www.youtube.com/watch?v=8Fm37H1Mwxw&t=753s
-///     Mouse trail effect - https://www.youtube.com/watch?v=_TcEfIXpmRI&t=314s 
+///     Mouse cursor - https://www.youtube.com/watch?v=cCKlMAwvQcI
+///     Mouse trail effect - https://www.youtube.com/watch?v=_TcEfIXpmRI 
 /// </summary>
 public class MouseCursor : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class MouseCursor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.visible = false;
+        Cursor.visible = true;
         trail = GetComponent<TrailRenderer>();
     }
 

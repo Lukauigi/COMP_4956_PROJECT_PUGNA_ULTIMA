@@ -12,19 +12,25 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SettingButton : MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
     void Update()
     {
         
     }
 
-    // Navigate to the setting screen
+    /// <summary>
+    /// Navigate to the setting screen
+    /// </summary>
     public void OnClickSettingButton()
     {
         SceneManager.LoadScene("Setting Screen");
