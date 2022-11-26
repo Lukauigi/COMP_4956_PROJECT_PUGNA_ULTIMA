@@ -13,6 +13,10 @@ using static UserData;
 /// This class is manages the login/registration process for the player.
 /// This is a singleton class.
 /// It makes sure only one instance of the class is created.
+/// 
+/// Change History:
+/// 2022-11-25 - Xiang Zhu
+/// - Change the navigation screen to the most updated one
 /// </summary>
 public class AccountManager : MonoBehaviour
 {
@@ -63,7 +67,7 @@ public class AccountManager : MonoBehaviour
                 SetUserDataOnRegister();
                 
                 IsRegistered = true;
-                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Login Screen");
+                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Login Page");
             },
             error =>
             {
@@ -107,7 +111,7 @@ public class AccountManager : MonoBehaviour
                 //SetUserData("Wins", "13");
                 //SendLeaderboard("MostWins", 10);
 
-                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/Main Menu");
+                SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Main Menu");
             },
             error =>
             {

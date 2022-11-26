@@ -128,30 +128,57 @@ public static class UserData
             });
     }
 
-    public static void SendLeaderboard(string leaderboardName, int score)
+    /// <summary>
+    /// Author: Justin Payne, Eric Kwon
+    /// Date: Nov 23 2022
+    ///
+    ///  This Function sends the updated user's wins stat to the leaderboard.
+    ///  It is called after the game ends and updates data for both players
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="score"></param>
+    public static void SendLeaderboard(string name, int score)
     {
-        var request = new UpdatePlayerStatisticsRequest
+        if (PlayerPrefs.GetString("PlayerName") == name)
         {
-            Statistics = new List<StatisticUpdate>
+            var request = new UpdatePlayerStatisticsRequest
             {
-                new StatisticUpdate
+                Statistics = new List<StatisticUpdate>
                 {
-                    StatisticName = leaderboardName,
-                    Value = score,
+                    new StatisticUpdate
+                    {
+                        StatisticName = "MostWins",
+                        Value = score,
+                    }
                 }
-            }
-        };
-        PlayFabClientAPI.UpdatePlayerStatistics(request, onleaderboardUpdate, OnError);
+            };
+            PlayFabClientAPI.UpdatePlayerStatistics(request, OnLeaderboardUpdate, OnError);
+        }
     }
 
+    /// <summary>
+    /// Author: Eric Kwon
+    /// Date: Oct 29 2022
+    /// 
+    /// OnError function for PlayFab UpdatePlayerStatisticsRequest 
+    /// </summary>
+    /// <param name="obj">PlayFabError: PlayFabError object from UpdatePlayerStatisticsRequest function </param>
     private static void OnError(PlayFabError obj)
     {
         throw new NotImplementedException();
     }
 
-    private static void onleaderboardUpdate(UpdatePlayerStatisticsResult result)
+    /// <summary>
+    /// Author: Eric Kwon
+    /// Date: Oct 29 2022
+    /// 
+    /// OnLeaderboardUpdate function for PlayFab UpdatePlayerStatisticsRequest.
+    /// Defines what to do after result is returned
+    /// </summary>
+    /// <param name="result">PlayFabError: UpdatePlayerStatisticsResult object from UpdatePlayerStatisticsRequest function </param>
+    private static void OnLeaderboardUpdate(UpdatePlayerStatisticsResult result)
     {
-        Debug.Log("sent BattleStats");
+        Debug.Log("Leaderboard Successfully Updated");
     }
 
 }

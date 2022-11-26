@@ -12,15 +12,19 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class StartButton : MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
       
     }
 
-    // Navigate from starting screen to login screen
+    /// <summary>
+    /// Navigate from starting screen to login screen
+    /// </summary>
     public void OnClickStartButton()
     {
-        SceneManager.LoadScene("Login Screen");
+        SceneManager.LoadScene("Login Page");
     }
 }

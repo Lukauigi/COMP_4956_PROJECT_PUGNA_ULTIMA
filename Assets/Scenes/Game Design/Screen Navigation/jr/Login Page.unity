@@ -363,9 +363,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 746276691}
-        m_TargetAssemblyTypeName: LoginButton, Assembly-CSharp
-        m_MethodName: OnClickLoginButton
+      - m_Target: {fileID: 746276692}
+        m_TargetAssemblyTypeName: SignInUI, Assembly-CSharp
+        m_MethodName: SignIn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1008,15 +1008,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
-  m_sharedMaterial: {fileID: -670905501723920600, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1e3ccc7b8b38ae4085d77531a491a7e, type: 2}
+  m_sharedMaterial: {fileID: 7219919784393709139, guid: f1e3ccc7b8b38ae4085d77531a491a7e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278329883
+  m_fontColor: {r: 0.105882354, g: 0.13333334, b: 0.007843138, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1033,15 +1033,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1233,6 +1233,7 @@ GameObject:
   - component: {fileID: 746276689}
   - component: {fileID: 746276690}
   - component: {fileID: 746276691}
+  - component: {fileID: 746276692}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1269,10 +1270,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1600, y: 900}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1359,6 +1360,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2c81c66e4a9024da67c160340a5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &746276692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746276684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8497193c562b81e46913e2e7d587283e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Username: {fileID: 1131418312}
+  Password: {fileID: 1931043987}
 --- !u!1 &792087698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,6 +1959,123 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258378423}
   m_CullTransparentMesh: 1
+--- !u!1001 &1412746871
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936720, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22769140527936733, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Name
+      value: Cursor_with_trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime1
+      value: 51657
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime1
+      value: 20817
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.15331936
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.55861515
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.9339623
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.8009529
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.a
+      value: 0.7411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.b
+      value: 0.9843137
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.g
+      value: 0.99215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.r
+      value: 0.9874888
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055791934103371047, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_NumColorKeys
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1f3b0f4b74f9eb458316d3f15492e8e, type: 3}
 --- !u!1 &1573598864
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,7 +2440,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1681124086}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 746276692}
+        m_TargetAssemblyTypeName: SignInUI, Assembly-CSharp
+        m_MethodName: NavigateToSignUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1681124086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2407,15 +2551,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
-  m_sharedMaterial: {fileID: -670905501723920600, guid: ad799dc98dd27ad48be72661bc6649f6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1e3ccc7b8b38ae4085d77531a491a7e, type: 2}
+  m_sharedMaterial: {fileID: 7219919784393709139, guid: f1e3ccc7b8b38ae4085d77531a491a7e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278329883
+  m_fontColor: {r: 0.105882354, g: 0.13333334, b: 0.007843138, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2432,15 +2576,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2632,7 +2776,7 @@ GameObject:
   - component: {fileID: 1931043988}
   - component: {fileID: 1931043987}
   m_Layer: 5
-  m_Name: InputField (Account)
+  m_Name: InputField (Password)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
