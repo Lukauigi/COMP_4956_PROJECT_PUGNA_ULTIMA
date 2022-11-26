@@ -31,6 +31,6 @@ public class LoginButton : MonoBehaviour
     /// </summary>
     public void OnClickLoginButton()
     {
-        SceneManager.LoadScene("Login Screen");
+        SceneManager.LoadScene("Login Page");
     }
 }
