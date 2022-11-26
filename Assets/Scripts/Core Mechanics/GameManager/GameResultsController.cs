@@ -276,6 +276,11 @@ public class GameResultsController : NetworkBehaviour
         // load next scene: return to main menu
         Debug.Log("returning to Main Menu...");
         Runner.Shutdown();
+
+        MusicManager musicManager = MusicManager.Instance;
+        musicManager.SwitchMusicTrack(MusicTrack.UniversalMenu);
+        musicManager.SetFullVolume();
+
         SceneManager.LoadScene("Main Menu");
     }
 }

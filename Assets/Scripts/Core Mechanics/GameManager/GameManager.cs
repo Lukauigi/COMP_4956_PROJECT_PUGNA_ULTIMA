@@ -30,6 +30,7 @@ public class GameManager : NetworkBehaviour
     protected NetworkFighterObserver _networkFighterObserver;
     protected GameResultsController _gameResultsController;
     protected GameplayAudioManager _gameplayAudioManager;
+    protected MusicManager _musicManager;
 
     // the fighter they are controlling
     private NetworkObject _playerOne;
@@ -70,6 +71,7 @@ public class GameManager : NetworkBehaviour
         if (!_networkFighterObserver) _networkFighterObserver = NetworkFighterObserver.Observer;
         if (!_gameResultsController) _gameResultsController = GameResultsController.Instance;
         if (!_gameplayAudioManager) _gameplayAudioManager = GameplayAudioManager.Instance;
+        if (!_musicManager) _musicManager = MusicManager.Instance;
     }
 
     // Method to cache the selected and spawned fighters
@@ -125,6 +127,8 @@ public class GameManager : NetworkBehaviour
         {
             GameState = GameStates.Starting;
             Debug.Log("GameManager state is: " + GameState.ToString());
+
+            _musicManager.GetComponent<MusicManager>().SwitchMusicTrack(MusicTrack.Battle); //start battle music
 
             RPC_OnGameStateStarting();
             // TODO: (not in this method) disable player input until this countdown is finished
@@ -198,6 +202,8 @@ public class GameManager : NetworkBehaviour
         // display the "TIME!" text and stop the game timer
         _countdownController.DisplayEndText();
         _gameTimerController.gameObject.SetActive(false);
+
+        _musicManager.GetComponent<MusicManager>().MuffleVolume(); // muffles the battle music.
 
         _gameResultsController.RPC_CacheGameResults();
 

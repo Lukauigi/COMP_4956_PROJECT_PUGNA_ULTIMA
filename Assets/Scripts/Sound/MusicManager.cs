@@ -59,7 +59,7 @@ public class MusicManager : MonoBehaviour
     /// Plays the specified audio track.
     /// </summary>
     /// <param name="theme"></param>
-    public void SwitchMusic(MusicTrack theme)
+    public void SwitchMusicTrack(MusicTrack theme)
     {
         _musicSource.Stop();
         _musicSource.clip = _musicCatalogue[theme];
