@@ -8,8 +8,10 @@ using UnityEngine;
 /// Date: November 11, 2022
 /// Source(s): N/A
 /// Remarks:
-/// Change History: November 11 - Lukasz Bednarek
-/// Added new methods for looping sound clips.
+/// Change History: November 26 - Lukasz Bednarek
+/// - Add new instance variables for audio clips and sources.
+/// - Add new methods for looping audio.
+/// - Add method overloads for playing audio with an enum item.
 /// </summary>
 public class AudioEffectsManager : MonoBehaviour
 {
@@ -19,11 +21,36 @@ public class AudioEffectsManager : MonoBehaviour
     private static int _instanceCount = 0; //amount of AudioEffectsManagers instances.
     private static int _oldInstanceNum = 1; //integer indicating which instance is the old instance manager to delete if a new instance is created.
 
+    // All menu sounds.
+    [SerializeField] private AudioClip _successSignInSound;
+    [SerializeField] private AudioClip _navigateSound;
+    [SerializeField] private AudioClip _successSound;
+    [SerializeField] private AudioClip _errorSound;
+    [SerializeField] private AudioClip _revertSound;
+    [SerializeField] private AudioClip _waitingSound;
+
+    // Audio sources.
+    [SerializeField] private AudioSource _oneShotAudioSource;
+    [SerializeField] private AudioSource _loopAudioSource;
+
+    // dictionary of all sounds.
+    private Dictionary<MenuActions, AudioClip> _menuAudioClips;
+
     /// <summary>
     /// Initializes and assigns instances and static members when a new AudioEffectsManager is created.
     /// </summary>
     void Awake()
     {
+        _menuAudioClips = new Dictionary<MenuActions, AudioClip>
+        {
+            { MenuActions.Navigate, _navigateSound },
+            { MenuActions.Confirm, _successSound },
+            { MenuActions.Error, _errorSound },
+            { MenuActions.Revert, _revertSound },
+            { MenuActions.Login, _successSignInSound },
+            { MenuActions.Waiting, _waitingSound }
+        };
+
         /*  
         This process is done to have an audio effect play through a scene transition and have the new audio effects manager for the next scene.
          */
@@ -86,8 +113,16 @@ public class AudioEffectsManager : MonoBehaviour
     /// <param name="audioClip"> a clip of audio. </param>
     public void PlaySoundClipOnce(AudioClip audioClip)
     {
-        this.gameObject.GetComponent<AudioSource>().loop = false;
-        this.gameObject.GetComponent<AudioSource>().PlayOneShot(audioClip);
+        _oneShotAudioSource.PlayOneShot(audioClip);
+    }
+
+    /// <summary>
+    /// Plays a given audio clip which is meant to loop its audio through this audio source.
+    /// </summary>
+    /// <param name="menuAction"> a type of menu action. </param>
+    public void PlaySoundClipOnce(MenuActions menuAction)
+    {
+        _oneShotAudioSource.PlayOneShot(_menuAudioClips[menuAction]);
     }
 
     /// <summary>
@@ -96,8 +131,18 @@ public class AudioEffectsManager : MonoBehaviour
     /// <param name="audioClip"> a clip of audio. </param>
     public void PlayLoopingSoundClip(AudioClip audioClip)
     {
-        this.gameObject.GetComponent<AudioSource>().loop = true;
-        this.gameObject.GetComponent<AudioSource>().PlayOneShot(audioClip);
+        _loopAudioSource.clip = audioClip;
+        _loopAudioSource.Play();
+    }
+
+    /// <summary>
+    /// Plays a given audio clip which is meant to loop its audio through this audio source.
+    /// </summary>
+    /// <param name="audioClip"> a clip of audio. </param>
+    public void PlayLoopingSoundClip(MenuActions menuAction)
+    {
+        _loopAudioSource.clip = _menuAudioClips[menuAction];
+        _loopAudioSource.Play();
     }
 
     /// <summary>
@@ -105,6 +150,7 @@ public class AudioEffectsManager : MonoBehaviour
     /// </summary>
     public void StopLoopingSoundClip()
     {
-        this.gameObject.GetComponent<AudioSource>().Stop();
+        _loopAudioSource.Stop();
+        _loopAudioSource.clip = null;
     }
 }
