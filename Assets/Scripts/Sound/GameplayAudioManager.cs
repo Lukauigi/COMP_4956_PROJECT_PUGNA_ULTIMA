@@ -37,52 +37,16 @@ public enum MenuActions
 }
 
 /// <summary>
-/// Controller of audio volume fade out of a given audio source.
-/// Author(s): Lukasz Bednarek
-/// Date: November 24, 2022
-/// Source(s):
-///     https://forum.unity.com/threads/fade-out-audio-source.335031/
-/// </summary>
-public static class AudioFadeOut
-{
-
-    /// <summary>
-    /// Decrements an audio source component's volume to create a fade out effect.
-    /// </summary>
-    /// <param name="audioSource">An audio source component</param>
-    /// <param name="FadeTime">Time for constant audio fade out</param>
-    /// <returns></returns>
-    public static IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
-    {
-        float startVolume = audioSource.volume;
-
-        while (audioSource.volume > 0)
-        {
-            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
-
-            yield return null;
-        }
-
-        audioSource.Stop();
-        audioSource.volume = startVolume;
-    }
-
-    public static IEnumerator WaitBeforeClip(float time)
-    {
-        yield return new WaitForSeconds(time);
-    }
-}
-
-/// <summary>
 /// An audio manager GameObject for the gameplay battle scene.
 /// Author(s): Lukasz Bednarek
 /// Date: November 23, 2022
 /// Remarks: Functionality relating to move is present but not functioning properly.
-/// Change History: November 22, 2022 = Lukasz Bednarek
+/// Change History: November 25, 2022 - Lukasz Bednarek
 /// - Add class
 /// - Add documentation
 /// - Add random usage of sound effects in sound pool.
 /// - Edit method headers and add method documentation.
+/// - Edit Move audio logic.
 /// </summary>
 public class GameplayAudioManager : NetworkBehaviour
 {
@@ -118,12 +82,6 @@ public class GameplayAudioManager : NetworkBehaviour
     [SerializeField] private AudioSource _player2MoveLoopAudioSource;
 
     private NetworkId[] _playerIds = new NetworkId[2];
-
-    public bool IsCharacterMoveAudioPlaying(NetworkId playerId)
-    {
-        if (playerId == _playerIds[0]) return _player1MoveLoopAudioSource.isPlaying;
-        else return _player1MoveLoopAudioSource.isPlaying;
-    }
 
     /// <summary>
     /// Initializes a game object's components. Ideal section to initialize instance data of game object.
@@ -204,11 +162,11 @@ public class GameplayAudioManager : NetworkBehaviour
     /// This audio will loop until RPC_StopMoveAudio is called.
     /// </summary>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
+    /// <param name="playerId">A player's unique identifier on the network</param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlayMoveAudio(string playerAction, NetworkId playerId)
     {
         print("Audio Call " + playerAction + " id: " + playerId);
-        //StartCoroutine(AudioFadeOut.WaitBeforeClip(2f));
         if (playerId == _playerIds[0])
         {
             _player1MoveLoopAudioSource.clip = _hostPlayerAudio[playerAction][0];
@@ -223,6 +181,7 @@ public class GameplayAudioManager : NetworkBehaviour
 
     /// <summary>
     /// Stops character ground movement audio.
+    /// <param name="playerId">A player's unique identifier on the network</param>
     /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_StopMoveAudio(NetworkId playerId)
@@ -230,15 +189,13 @@ public class GameplayAudioManager : NetworkBehaviour
         print("Stop Move Audio Call, id: " + playerId);
         if (playerId == _playerIds[0])
         {
-            //StartCoroutine(AudioFadeOut.FadeOut(_player1MoveLoopAudioSource, 0.1f));
             _player1MoveLoopAudioSource.Stop();
             _player1MoveLoopAudioSource.clip = null;
         }
         else if (playerId == _playerIds[1])
         {
-            //StartCoroutine(AudioFadeOut.FadeOut(_player2MoveLoopAudioSource, 0.1f));
-            _player1MoveLoopAudioSource.Stop();
-            _player1MoveLoopAudioSource.clip = null;
+            _player2MoveLoopAudioSource.Stop();
+            _player2MoveLoopAudioSource.clip = null;
         }
     }
 

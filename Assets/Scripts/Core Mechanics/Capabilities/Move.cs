@@ -9,9 +9,10 @@ using UnityEngine;
 /// Date: Oct 29 2022
 /// Source(s):
 ///     The ULTIMATE 2D Character CONTROLLER in UNITY (2021): https://youtu.be/lcw6nuc2uaU
-/// Change History: Nov 23 2022 - Lukasz Bednarek
+/// Change History: Nov 25 2022 - Lukasz Bednarek
 /// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Add logic for RPC call for sound effect method. Does not work properly; therefore, it is commencted out.
+/// - Fixed logic movement audio calls.
 /// </summary>
 public class Move : NetworkBehaviour
 {
