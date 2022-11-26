@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 527577921}
   - component: {fileID: 527577923}
   m_Layer: 5
-  m_Name: InputField (Email)
+  m_Name: InputField (Password)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1118,7 +1118,7 @@ GameObject:
   - component: {fileID: 670682450}
   - component: {fileID: 670682449}
   m_Layer: 5
-  m_Name: Text (Password)
+  m_Name: Text (Email)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1164,7 +1164,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DESIRED PASSWORD
+  m_text: EMAIL
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6acbbd613d14d89438c678e189744930, type: 2}
   m_sharedMaterial: {fileID: 6714429944489537403, guid: 6acbbd613d14d89438c678e189744930, type: 2}
@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1666,8 +1666,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Username: {fileID: 1131418312}
-  Email: {fileID: 527577923}
-  Password: {fileID: 1931043987}
+  Email: {fileID: 1931043987}
+  Password: {fileID: 527577923}
 --- !u!1 &792087698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3143,7 +3143,7 @@ GameObject:
   - component: {fileID: 1931043988}
   - component: {fileID: 1931043987}
   m_Layer: 5
-  m_Name: InputField (Password)
+  m_Name: InputField (Email)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3318,7 +3318,7 @@ GameObject:
   - component: {fileID: 1957656345}
   - component: {fileID: 1957656344}
   m_Layer: 5
-  m_Name: Text (Email)
+  m_Name: Text (Password)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
