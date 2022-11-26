@@ -51,6 +51,9 @@ public class AccountManager : MonoBehaviour
     {
         AudioEffectsManager.Instance2.PlayLoopingSoundClip(MenuActions.Waiting);
         var IsRegistered = false;
+        print("username: " + Username);
+        print("email: " + Email);
+        print("password: " + Password);
         PlayFabClientAPI.RegisterPlayFabUser(
             new RegisterPlayFabUserRequest()
             {
