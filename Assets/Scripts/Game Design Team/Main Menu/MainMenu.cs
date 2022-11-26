@@ -12,7 +12,9 @@ using UnityEngine;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private TMP_Text Username;
+    [SerializeField] 
+    private TMP_Text Username;
+    
     /// <summary>
     /// Start is called before the first frame update and update the user name to the welcome message.
     /// </summary>
