@@ -14,19 +14,25 @@ using UnityEngine.Events;
 /// </summary>
 public class Signup : MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
     void Update()
     {
         
     }
 
-    // Navigate to the signup screen
+    /// <summary>
+    /// Navigate to the signup screen
+    /// </summary>
     public void OnClickSignUpButton()
     {
         SceneManager.LoadScene("Signup Screen");

@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Design/Screen Navigation/jr/Login Page.unity
     guid: 98cbc3477c3e4ca4fb9036830799597a
+  - enabled: 1
+    path: Assets/Scenes/Game Design/Screen Navigation/FriendList.unity
+    guid: d1765f20d9cbfa44b8ff4a0b1f60173e
   - enabled: 0
     path: Assets/Scenes/Game Design/Screen Navigation/Searching Screen.unity
     guid: b90960da6ed4d8449ad6b0a6b78fe71e
