@@ -27,7 +27,7 @@ public class PlayerItemController : NetworkBehaviour
     protected NetworkTransform _nt;
     protected PlayerItemObserver _playerObserver;
     //protected NetworkBehaviour _networkRunnerCallbacks;
-    protected GameObject audioManager;
+    protected GameObject _audioManager;
 
     [SerializeField] private Image Avatar;
     [SerializeField] private GameObject nextBtn;
@@ -70,7 +70,7 @@ public class PlayerItemController : NetworkBehaviour
     public void Start()
     {
         CacheOtherObjects();
-        this.audioManager = GameObject.Find("SceneAudioManager");
+        this._audioManager = GameObject.Find("SceneAudioManager");
     }
 
     /// <summary>
@@ -306,7 +306,7 @@ public class PlayerItemController : NetworkBehaviour
     /// <param name="isCharacterSelection">If button press is selection button press.</param>
     private void InitiateAudio(bool isCharacterSelection)
     {
-        if (!isCharacterSelection) audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Navigate.ToString());
-        else audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Confirm.ToString());
+        if (!isCharacterSelection) _audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Navigate.ToString());
+        else _audioManager.GetComponent<GameplayAudioManager>().PlayMenuSFXAudio(MenuActions.Confirm.ToString());
     }
 }
