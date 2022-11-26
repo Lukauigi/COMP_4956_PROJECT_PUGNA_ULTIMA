@@ -18,6 +18,8 @@ public enum GameStates { Waiting, Starting, Running, GameOver };
 /// - caches player username and avatar image
 /// Nov 20 2022 - Jason Cheung
 /// - cache spawned players and sends their data to Game UI and Game Results objects
+/// Nov 26 2022 - Lukasz Bednarek
+/// - Add calls to musicManager to handle battle music.
 /// </summary>
 public class GameManager : NetworkBehaviour
 {

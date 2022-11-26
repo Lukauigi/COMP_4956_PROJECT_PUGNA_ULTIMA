@@ -15,6 +15,8 @@ using System;
 /// Change History:
 /// Nov 24 2022 - Jason Cheung
 /// - caches player username and avatar image
+/// Nov 26 2022 - Lukasz Bednarek
+/// - Add helper method to handle music change on results button click.
 /// </summary>
 public class GameResultsController : NetworkBehaviour
 {
@@ -276,11 +278,18 @@ public class GameResultsController : NetworkBehaviour
         // load next scene: return to main menu
         Debug.Log("returning to Main Menu...");
         Runner.Shutdown();
+        SwitchMusicOnClick();
 
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    /// <summary>
+    /// Signals to the music manager to play a different music track and resets the volume.
+    /// </summary>
+    private void SwitchMusicOnClick()
+    {
         MusicManager musicManager = MusicManager.Instance;
         musicManager.SwitchMusicTrack(MusicTrack.UniversalMenu);
         musicManager.SetFullVolume();
-
-        SceneManager.LoadScene("Main Menu");
     }
 }
