@@ -108,14 +108,19 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         this.NickName = nickName;
     }
 
+    /// <summary>
+    /// Utility method to disable player input temporarily.
+    /// This starts a co-routine to sleep all input-related components for the passed duration.
+    /// </summary>
+    /// <param name="seconds"></param>
     public void DisableInputsTemporarily(float seconds)
     {
-        StartCoroutine(DisableInputsTemporarilyCoroutine(seconds));
+        StartCoroutine(OnDisableInputsTemporarily(seconds));
     }
 
 
     // disable character inputs relating to these components temporarily
-    public IEnumerator DisableInputsTemporarilyCoroutine(float seconds)
+    IEnumerator OnDisableInputsTemporarily(float seconds)
     {
         attack.enabled = false;
         jump.enabled = false;
@@ -126,6 +131,25 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         jump.enabled = true;
         move.enabled = true;
         dodge.enabled = true;
+    }
+
+    /// <summary>
+    /// Utility method to color player sprite temporarily.
+    /// This starts a co-routine to color the sprite for the passed duration, and then reset it back to white.
+    /// </summary>
+    /// <param name="seconds"></param>
+    /// <param name="color"></param>
+    public void ColorSpriteTemporarily(float seconds, Color color)
+    {
+        StartCoroutine(OnColorSpriteTemporarily(seconds, color));
+    }
+
+    // color sprite renderer temporarily, as a visual effect
+    IEnumerator OnColorSpriteTemporarily(float seconds, Color color)
+    {
+        GetComponent<Renderer>().material.color = color;
+        yield return new WaitForSeconds(seconds);
+        GetComponent<Renderer>().material.color = Color.white;
     }
 
 }

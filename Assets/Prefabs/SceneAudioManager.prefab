@@ -293,24 +293,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  attackSoundPool:
+  _attackSoundPool:
   - {fileID: 8300000, guid: 5814245ac6decfb499e9dfd401880c83, type: 3}
-  receiveDamageSoundPool:
+  - {fileID: 8300000, guid: 3f44c26b302c3ea418edfa1575dc8e97, type: 3}
+  - {fileID: 8300000, guid: feb3db9bf88feb346b3136b379f60d80, type: 3}
+  _receiveDamageSoundPool:
   - {fileID: 8300000, guid: fe409508e7e2e5a4392887456cd25514, type: 3}
   - {fileID: 8300000, guid: a92c80edba2869f429511079b55d6524, type: 3}
-  moveSoundPool:
-  - {fileID: 8300000, guid: 801e07321a847bf45a626d8bac0297b9, type: 3}
-  deathSound: {fileID: 8300000, guid: fd31d2ed6f7cf064f8ba19aaea4b1a6a, type: 3}
-  jumpSound: {fileID: 8300000, guid: 1c078771b0773064f85b9ad4ff0a0c79, type: 3}
-  jumpLandSound: {fileID: 8300000, guid: 9d1b5f278b2d81141ad6b984aef1596f, type: 3}
-  dodgeSound: {fileID: 8300000, guid: 627d204022f64474080df9fd265ce541, type: 3}
-  navigateSound: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
-  confirmSound: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
-  revertSound: {fileID: 8300000, guid: 33544fb2ec93fdd429e2a8a0d7a8a543, type: 3}
-  errorSound: {fileID: 8300000, guid: f26fb5b66d898254996008830ec660a5, type: 3}
-  sfxAudioSource: {fileID: 1518892933813082730}
-  musicAudioSource: {fileID: 1518892933813082731}
-  moveLoopAudioSource: {fileID: 1518892933813082736}
+  - {fileID: 8300000, guid: 2086c68732378054583f3bb01a3499e1, type: 3}
+  _moveSoundPool: []
+  _deathSound: {fileID: 8300000, guid: fd31d2ed6f7cf064f8ba19aaea4b1a6a, type: 3}
+  _jumpSound: {fileID: 8300000, guid: 1c078771b0773064f85b9ad4ff0a0c79, type: 3}
+  _jumpLandSound: {fileID: 8300000, guid: 9d1b5f278b2d81141ad6b984aef1596f, type: 3}
+  _dodgeSound: {fileID: 8300000, guid: 627d204022f64474080df9fd265ce541, type: 3}
+  _navigateSound: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
+  _confirmSound: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
+  _revertSound: {fileID: 8300000, guid: 33544fb2ec93fdd429e2a8a0d7a8a543, type: 3}
+  _errorSound: {fileID: 8300000, guid: f26fb5b66d898254996008830ec660a5, type: 3}
+  _sfxAudioSource: {fileID: 1518892933813082730}
+  _musicAudioSource: {fileID: 1518892933813082730}
+  _moveLoopAudioSource: {fileID: 1518892933813082730}
 --- !u!82 &1518892933813082736
 AudioSource:
   m_ObjectHideFlags: 0

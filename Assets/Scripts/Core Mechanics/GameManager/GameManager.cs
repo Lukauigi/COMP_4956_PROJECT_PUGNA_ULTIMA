@@ -123,7 +123,6 @@ public class GameManager : NetworkBehaviour
             Debug.Log("GameManager state is: " + GameState.ToString());
 
             RPC_OnGameStateStarting();
-            // TODO: (not in this method) disable player input until this countdown is finished
         }
     }
 
@@ -203,9 +202,6 @@ public class GameManager : NetworkBehaviour
         _playerTwoNetworkPlayer.DisableInputsTemporarily(10f);
 
         _gameResultsController.RPC_CacheGameResults();
-
-        // TODO:
-        // - disable player input once game is over (not in this method?)
 
         StartCoroutine(GameOverCheck());
     }

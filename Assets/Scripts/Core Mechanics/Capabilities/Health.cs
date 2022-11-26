@@ -25,49 +25,12 @@ public class Health : NetworkBehaviour
     // other scene objects to reference
     protected NetworkFighterObserver _networkFighterObserver;
     protected NetworkPlayer _networkPlayer; //player's local instance
-
-    // how much health the fighter has per stock
-    [SerializeField] private int maxHealth = 300;
-    private GameObject audioManager;
+    protected GameObject _audioManager;
 
     // parent components of character
-    private Attack attack;
-    private Jump jump;
-    private Move move;
     private Rigidbody2D rb;
     private Vector2 characterPosition;
 
-    private void Start()
-    {
-        this.audioManager = GameObject.Find("SceneAudioManager");
-        // find and set the parent components of this character
-        this.attack = gameObject.GetComponentInParent<Attack>();
-        this.jump = gameObject.GetComponentInParent<Jump>();
-        this.move = gameObject.GetComponentInParent<Move>();
-        this.rb = gameObject.GetComponentInParent<Rigidbody2D>();
-        if (!_networkPlayer) _networkPlayer = GetComponent<NetworkPlayer>();
-    }
-
-    // disable character inputs relating to these components temporarily
-    IEnumerator disableInputsTemporarily()
-    {
-        GameObject player = gameObject;
-        player.GetComponent<Renderer>().material.color = Color.red;
-        attack.enabled = false;
-        jump.enabled = false;
-        move.enabled = false;
-        yield return new WaitForSeconds(0.5f);
-        attack.enabled = true;
-        jump.enabled = true;
-        move.enabled = true;
-        player.GetComponent<Renderer>().material.color = Color.white;
-    }
-
-    public void knockBack(Vector2 knockback)
-    {
-        characterPosition = rb.position;
-        rb.AddForce(knockback, ForceMode2D.Impulse);
-    }
 
     // networked property of the fighter's CurrentHealth; listens for OnChanged and notifies others
     private int currentHealth = 0;
@@ -90,6 +53,24 @@ public class Health : NetworkBehaviour
     }
 
 
+    private void Start()
+    {
+        this._audioManager = GameObject.Find("SceneAudioManager");
+        // find and set the parent components of this character
+        this.rb = gameObject.GetComponentInParent<Rigidbody2D>();
+        if (!_networkPlayer) _networkPlayer = GetComponent<NetworkPlayer>();
+    }
+
+
+    public void knockBack(Vector2 knockback)
+    {
+        characterPosition = rb.position;
+        rb.AddForce(knockback, ForceMode2D.Impulse);
+    }
+
+
+
+
     // Post Spawn callback
     public override void Spawned()
     {
@@ -106,20 +87,13 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
-        if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
+        if (Object.HasStateAuthority) _audioManager.GetComponent<GameplayAudioManager>().RPC_PlaySpecificCharatcerSFXAudio(0, PlayerActions.ReceiveDamage.ToString());
         CurrentHealth += amount;
-        //StartCoroutine(disableInputsTemporarily());
+
         _networkPlayer.DisableInputsTemporarily(0.5f);
-        StartCoroutine(TriggerColorChangeInteraction(0.5f));
+        _networkPlayer.ColorSpriteTemporarily(0.5f, Color.red);
     }
 
-    IEnumerator TriggerColorChangeInteraction(float duration)
-    {
-        GameObject player = gameObject;
-        player.GetComponent<Renderer>().material.color = Color.red;
-        yield return new WaitForSeconds(duration);
-        player.GetComponent<Renderer>().material.color = Color.white;
-    }
 
     // Method to heal the player
     public void Heal(int amount)
@@ -130,24 +104,12 @@ public class Health : NetworkBehaviour
             amount = 0;
         }
 
-
-        bool wouldBeOverMaxHealth = CurrentHealth + amount > maxHealth;
-
-        if (wouldBeOverMaxHealth)
-        {
-            CurrentHealth = maxHealth;
-        }
-        else
-        {
-            CurrentHealth -= amount;
-        }
-
+        CurrentHealth -= amount;
     }
 
     // Method to reset the Health of the player
     public void ResetHealth()
     {
-        //CurrentHealth = maxHealth;
         CurrentHealth = 0;
     }
 
@@ -165,8 +127,9 @@ public class Health : NetworkBehaviour
 
     // RPC method for client to notify host its changes for CurrentHealth
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_SetHealth(int health, RpcInfo info = default)
+    public void RPC_SetHealth(int health)
     {
         this.CurrentHealth = health;
     }
+
 }

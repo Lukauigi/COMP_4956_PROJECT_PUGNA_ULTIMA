@@ -110,11 +110,11 @@ public class GameResultsController : NetworkBehaviour
             winnerSelectedIndex = playerTwoSelectedIndex;
         } else  // same amount of kills/deaths
         {
-            // check their final health
+            // check their final health; whoever has less health wins
             int playerOneCurrentHealth = _playerOne.gameObject.GetComponent<Health>().CurrentHealth;
             int playerTwoCurrentHealth = _playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
 
-            if (playerOneCurrentHealth >= playerTwoCurrentHealth) // TODO: reverse this condition if knockback & damage done% is implemented
+            if (playerOneCurrentHealth <= playerTwoCurrentHealth)
             {
                 _winner = _playerOne;
                 _loser = _playerTwo;

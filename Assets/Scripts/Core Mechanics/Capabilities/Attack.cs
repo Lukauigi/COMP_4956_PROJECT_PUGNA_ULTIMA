@@ -37,7 +37,8 @@ public class Attack : NetworkBehaviour
 
 
     // for database - the amount of damage done by the player
-    [UnityNonSerialized] public int DamageDone { get; set; } = 0;
+    private int _damageDone = 0;
+    public int DamageDone => _damageDone; // getter
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -116,6 +117,7 @@ public class Attack : NetworkBehaviour
                     print("Attack hit!");
                     Health health = collider.GetComponent<Health>();
                     health.Damage(damage);
+                    _damageDone += damage;
 
                     // calculate knockback health based on damaged health value
                     Vector2 knockbackStrength;
@@ -150,7 +152,7 @@ public class Attack : NetworkBehaviour
                             health.knockBack(knockbackStrength);
                         }
                     }
-                    DamageDone += damage;
+                    
                 }
             }
 

@@ -29,13 +29,13 @@ public class NetworkFighterObserver : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI _playerTwoName;
     [SerializeField] private TextMeshProUGUI _playerTwoStocks;
     [SerializeField] private TextMeshProUGUI _playerTwoCurrentHealth;
-    [SerializeField] private TextMeshProUGUI _playerTwoMaxHealth;
+    //[SerializeField] private TextMeshProUGUI _playerTwoMaxHealth;
 
     [SerializeField] private Image _playerOneImage;
     [SerializeField] private TextMeshProUGUI _playerOneName;
     [SerializeField] private TextMeshProUGUI _playerOneStocks;
     [SerializeField] private TextMeshProUGUI _playerOneCurrentHealth;
-    [SerializeField] private TextMeshProUGUI _playerOneMaxHealth;
+    //[SerializeField] private TextMeshProUGUI _playerOneMaxHealth;
 
     // list of character avatar images from PlayerItem
     [SerializeField] private Sprite[] _avatars;
@@ -122,7 +122,7 @@ public class NetworkFighterObserver : NetworkBehaviour
         {
             // cache name, max health and image; doesn't change after initial cache
             _playerOneName.text = playerOneUsername;
-            _playerOneMaxHealth.text = "/ " + playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
+            //_playerOneMaxHealth.text = "/ " + playerOne.gameObject.GetComponent<Health>().CurrentHealth.ToString();
             _playerOneImage.sprite = _avatars[playerOneSelectedIndex];
 
             // store the initial values to the "old" ones
@@ -142,7 +142,7 @@ public class NetworkFighterObserver : NetworkBehaviour
         {
             // cache name, max health and image; doesn't change after initial cache
             _playerTwoName.text = playerTwoUsername;
-            _playerTwoMaxHealth.text = "/ " + playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
+            //_playerTwoMaxHealth.text = "/ " + playerTwo.gameObject.GetComponent<Health>().CurrentHealth.ToString();
             _playerTwoImage.sprite = _avatars[playerTwoSelectedIndex];
 
             // store the initial values to the "old" ones
