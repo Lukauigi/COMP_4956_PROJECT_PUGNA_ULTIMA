@@ -5,6 +5,13 @@ using TMPro;
 using PlayFab.ClientModels;
 using PlayFab;
 
+/// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-11-26
+/// 
+/// This script is responsible controlling the behavior for friendItem Prefabs that are dynamically created inside the friendsList prefab.
+///
+/// </summary>
 public class FriendItem : MonoBehaviour
 {
     [SerializeField]
@@ -15,6 +22,13 @@ public class FriendItem : MonoBehaviour
 
     public List<FriendInfo> friendCache;
 
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-11-16
+    /// 
+    /// This function is responsible for removing this selected FriendItem from the friends cache of the logged in user.
+    ///
+    /// </summary>
     public void RemoveFriendBtnClick()
     {
         if (friendCache != null)
@@ -35,5 +49,16 @@ public class FriendItem : MonoBehaviour
         }
     }
 
-    void DisplayPlayFabError(PlayFabError error) { Debug.Log(error.GenerateErrorReport()); }
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-11-16
+    /// 
+    /// This function is responsible for displaying PlayFab API errors for console logging.
+    ///
+    /// </summary>
+    /// <param name="error"></param>
+    void DisplayPlayFabError(PlayFabError error)
+    {
+        Debug.Log(error.GenerateErrorReport());
+    }
 }
