@@ -50,11 +50,13 @@ public class Dodge : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        // checking for input presses
         if (GetInput(out NetworkInputData data))
         {
             isDodgePressed |= data.dodge;
            
         }
+
         if (isDodgePressed)
         {
             isDodgePressed = false;

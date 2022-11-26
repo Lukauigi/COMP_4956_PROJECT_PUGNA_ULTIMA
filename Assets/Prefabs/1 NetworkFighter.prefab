@@ -367,7 +367,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   damage: 50
-  attackAudio: {fileID: 0}
 --- !u!114 &-8388165017813984341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,7 +393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  maxHealth: 400
 --- !u!114 &261806375952415372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,11 +406,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  jumpHeight: 3
+  jumpHeight: 2.5
   maxAirJumps: 2
   downwardMovementMultiplier: 3
   upwardMovementMultiplier: 1.7
-  jumpAudio: {fileID: 0}
 --- !u!114 &261806375952415378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  landAudioClip: {fileID: 0}
 --- !u!114 &7201283148702718108
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -67,9 +67,6 @@ public class Move : NetworkBehaviour
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
-        //if (GameManager.instance.GameState != GameStates.running)
-        //    return;
-
         // checking for input presses
         if (GetInput(out NetworkInputData data))
         {

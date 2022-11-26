@@ -24,12 +24,12 @@ public class Jump : NetworkBehaviour
     protected BoxCollider2D _playerCollider; // player's hitbox collider
     protected EdgeCollider2D _playerEdgeCollider; // player's ground hitbox collider
     protected Animator _animator; //player's animator controller
+    private GameObject audioManager;
 
-    [SerializeField, Range(0f, 4f)] private float jumpHeight = 3f;
+    [SerializeField, Range(0f, 4f)] private float jumpHeight = 2.5f;
     [SerializeField, Range(1, 3)] private int maxAirJumps = 2; //how many jumps character can make while in the air
     [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f; //how fast character will fall
-    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 6f; //affects how fast character moves vertically when jumping
-    private GameObject audioManager;
+    [SerializeField, Range(0f, 5f)] private float upwardMovementMultiplier = 1.7f; //affects how fast character moves vertically when jumping
 
     private Vector2 direction;
     private Vector2 velocity;
@@ -41,9 +41,6 @@ public class Jump : NetworkBehaviour
     private bool isDownPressed;
 
     private bool onGround;
-
-    // reference the animator controller for player
-    //public Animator animator;
 
     // Game object for platform on screen
     private GameObject currentLightPlatform;
@@ -78,9 +75,6 @@ public class Jump : NetworkBehaviour
     // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
     public override void FixedUpdateNetwork()
     {
-        //if (GameManager.instance.GameState != GameStates.running)
-        //    return;
-
         // checking for input presses
         if (GetInput(out NetworkInputData data))
             {
@@ -139,16 +133,10 @@ public class Jump : NetworkBehaviour
             onGround = false;
             Debug.Log("Player Jumped! Jumps Left: " + (maxAirJumps - currentJump));
 
+            // jump height
             float jumpSpeed = Mathf.Sqrt(-4f * Physics2D.gravity.y * jumpHeight);
 
-            //jump speed never goes negative
-            /*if (velocity.y > 0f)
-            {
-                jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
-            }*/
-            /*velocity.y += jumpSpeed;*/
-
-            // reset jump velocity beforehand regardless of being in air for double jump to reach the same height
+            // reset y velocity before jumping; so mid-air jumps are always the same distance
             velocity.y = 0f;
             velocity.y += jumpSpeed;
         }
