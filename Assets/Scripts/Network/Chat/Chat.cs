@@ -18,12 +18,18 @@ public class Chat : NetworkBehaviour
 
     [SerializeField] 
     private GameObject _chatUI;
+
     [SerializeField] 
     private TMP_Text _chatText;
+
     [SerializeField] 
     private TMP_InputField _chatInputField;
+
     [SerializeField] 
     private GameObject _sendBtn;
+
+    [SerializeField]
+    private GameObject _scrollView;
 
     /// <summary>
     /// Author: Roswell Doria
@@ -97,6 +103,7 @@ public class Chat : NetworkBehaviour
         //_chatUI.SetActive(enable);
         //_chatInputField.setActive(enable);
         _chatInputField.gameObject.SetActive(enable);
+        _scrollView.SetActive(enable);
         _chatText.enabled = enable;
         _sendBtn.SetActive(enable);
     }
