@@ -50,6 +50,10 @@ public class PlayerItemController : NetworkBehaviour
 
     private string remoteUsername;
 
+    // Database id's needed for mutliplayer
+    private string _remoteId;
+    private string _playerId;
+
 
     /// <summary>
     /// Author: Roswell Doria
@@ -82,6 +86,9 @@ public class PlayerItemController : NetworkBehaviour
     /// </summary>
     public override void Spawned()
     {
+        //Make chat visable for the client that spawned.
+        Chat.Instance.ChatVisible(true);
+
         if (Object.HasStateAuthority) isLocal = false;
         if (!Object.HasInputAuthority)
         {
@@ -94,6 +101,7 @@ public class PlayerItemController : NetworkBehaviour
         if (Object.HasStateAuthority) clientJoined = false;
 
         if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteUsername(PlayerPrefs.GetString("PlayerName"));
+        if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteId(PlayerPrefs.GetString("PlayfabId"));
 
         //if (_networkRunnerCallbacks != null) _networkRunnerCallbacks.enabled = true;
 
@@ -142,7 +150,9 @@ public class PlayerItemController : NetworkBehaviour
         //Display This player's username
         if(Object.HasInputAuthority)
         {
+            
             RPC_SetPlayerName(PlayerPrefs.GetString("PlayerName"));
+            RPC_SetPlayerId(PlayerPrefs.GetString("PlayfabId"));
         }
 
         // only the Host has state authority; this removes the 'Local simulation is not allowed' errors on Client
@@ -151,12 +161,12 @@ public class PlayerItemController : NetworkBehaviour
             if (isClientReady)
             {
                 //Debug.Log("Client is Local------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername, _remoteId);
             }
             if (isHostReady)
             {
                 //Debug.Log("Host is Local -------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text, _playerId);
             }
 
             if (isClientReady && isHostReady)
@@ -266,7 +276,33 @@ public class PlayerItemController : NetworkBehaviour
     {
         remoteUsername = username;
     }
-
+    
+    /// <summary>
+    /// Author: Justin Payne
+    /// Date: 2022-11-23
+    /// 
+    /// Remote procedure to inform the state authority the azure playfab id of the remote client.
+    /// </summary>
+    /// <param name="id"></param>
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetRemoteId(string id)
+    {
+        _remoteId = id;
+    }
+    
+    /// <summary>
+    /// Author: Justin Payne
+    /// Date: 2022-11-23
+    /// 
+    /// Remote procedure to inform the state authority the azure playfab id of the remote client.
+    /// </summary>
+    /// <param name="id"></param>
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_SetPlayerId(string id)
+    {
+        _playerId = id;
+    }
+    
     /// <summary>
     /// 
     /// </summary>

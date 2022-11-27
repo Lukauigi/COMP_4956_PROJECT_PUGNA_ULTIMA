@@ -12,19 +12,25 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class Login: MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
     void Update()
     {
         
     }
 
-    // The login button would navigate the user to the main menu screen. - (waiting for jashan to implement the login authentication functionality to this screen.
+    /// <summary>
+    /// The login button would navigate the user to the main menu screen. - (waiting for jashan to implement the login authentication functionality to this screen.
+    /// </summary>
     public void OnClickLogin()
     {
         SceneManager.LoadScene("Main Menu");

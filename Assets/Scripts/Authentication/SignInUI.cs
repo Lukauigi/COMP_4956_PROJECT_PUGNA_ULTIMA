@@ -15,14 +15,15 @@ public class SignInUI : MonoBehaviour
     public void SignIn()
     {
         AccountManager.Instance.SignIn(Username.text, Password.text);
-
     }
 
     /// <summary>
-    /// Navigate back to the main menu
+    /// Author: Xiang Zhu
+    /// Date: 2022-11-25
+    /// Navigate to the signup page
     /// </summary>
-    public void NavigateBackToHome()
+    public void NavigateToSignUp()
     {
-        SceneManager.LoadScene("Scenes/Authentication Skeleton Scenes/Home");
+        SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Signup Page");
     }
 }

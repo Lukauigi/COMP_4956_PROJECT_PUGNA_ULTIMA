@@ -7,7 +7,7 @@ using TMPro;
 
 /// <summary>
 /// Script for getting leaderboard + generating rows dynamically
-/// Author(s): Justin Payne,
+/// Author(s): Justin Payne
 /// Date: - Nov 21 2022
 /// Source(s): 
 /// 	  https://www.youtube.com/watch?v=DQWYMfZyMNU&list=PL1aAeF6bPTB4oP-Tejys3n8P8iXlj7uj-&ab_channel=CocoCode
@@ -70,7 +70,6 @@ public class GetLeaderboard : MonoBehaviour
             TMP_Text[] texts = newGo.GetComponentsInChildren<TMP_Text>();
             texts[0].text = (item.Position + 1).ToString();
             texts[1].text = item.DisplayName;
-            //texts[1].text = item.PlayFabId;
             texts[2].text = item.StatValue.ToString();
         }
     }

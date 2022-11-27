@@ -10,6 +10,12 @@ using PlayFab.ClientModels;
 //using UnityEditor.PackageManager;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Author: Jashanpreet Singh
+/// Date: 2020-10-20
+/// 
+/// Signin behaviour to create a new game account.
+/// </summary>
 public class SignUpUI : MonoBehaviour
 {
     [SerializeField] public TMP_InputField Username;
@@ -29,7 +35,6 @@ public class SignUpUI : MonoBehaviour
     public void CreateAccount()
     { 
         AccountManager.Instance.CreateAccount(Username.text, Email.text, Password.text);
-
     }
     
     /// <summary>

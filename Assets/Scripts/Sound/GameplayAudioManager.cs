@@ -27,13 +27,17 @@ public enum PlayerActions
 /// An enumeration of user menu iteraction types.
 /// Author(s): Lukasz Bednarek
 /// Date: November 23, 2022
+/// Change History: November 26, 2022 - Lukasz Bednarek
+/// - Add Waiting enum item.
 /// </summary>
 public enum MenuActions
 {
     Navigate,
     Confirm,
     Revert,
-    Error
+    Error,
+    Login,
+    Waiting
 }
 
 /// <summary>
