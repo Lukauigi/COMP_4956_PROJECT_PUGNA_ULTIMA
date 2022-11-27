@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chat
       objectReference: {fileID: 0}
+    - target: {fileID: 1144093118548076344, guid: 54623a82a3e2dc344ae467cf4fbbd773, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1144093118548076345, guid: 54623a82a3e2dc344ae467cf4fbbd773, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -224,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1144093118548076346, guid: 54623a82a3e2dc344ae467cf4fbbd773, type: 3}
       propertyPath: Flags
-      value: 2561
+      value: 133633
       objectReference: {fileID: 0}
     - target: {fileID: 1144093118548076346, guid: 54623a82a3e2dc344ae467cf4fbbd773, type: 3}
       propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
