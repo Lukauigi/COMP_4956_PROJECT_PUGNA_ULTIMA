@@ -47,7 +47,7 @@ public class Chat : NetworkBehaviour
     /// </summary>
     public void clickSendBtn()
     {
-        if(Runner.IsServer) RPC_SendChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
+        if(Object.HasStateAuthority) RPC_SendChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
         else RPC_SendClientChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
         _chatInputField.text = "";
     }
@@ -94,6 +94,10 @@ public class Chat : NetworkBehaviour
     /// <param name="enable">bool</param>
     public void ChatVisible(bool enable)
     {
-        _chatUI.SetActive(enable);
+        //_chatUI.SetActive(enable);
+        //_chatInputField.setActive(enable);
+        _chatInputField.gameObject.SetActive(enable);
+        _chatText.enabled = enable;
+        _sendBtn.SetActive(enable);
     }
 }
