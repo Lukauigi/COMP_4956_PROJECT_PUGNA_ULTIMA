@@ -77,6 +77,11 @@ public class PlayerItemObserver : NetworkBehaviour
     /// </summary>
     public override void FixedUpdateNetwork()
     {
+        //disable chat
+        if (isPlayerOneReady && isPlayerTwoReady)
+        {
+            Chat.Instance.ChatVisible(false);
+        }
 
         // Both players are ready (selected their character)
         if (isPlayerOneReady && isPlayerTwoReady && Runner.IsServer && !isPlayersSpawned)
