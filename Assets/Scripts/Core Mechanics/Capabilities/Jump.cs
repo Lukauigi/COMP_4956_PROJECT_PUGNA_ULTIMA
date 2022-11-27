@@ -88,6 +88,9 @@ public class Jump : NetworkBehaviour
         onGround = _ground.GetOnGround();
         velocity = _body.velocity;
 
+        // get upwards movement for player
+        _animator.SetFloat("jumping", velocity.y);
+
         // if player is on ground, reset jump counter and stop the jumping animation
         if (onGround && _body.velocity.y == 0)
         {
@@ -95,7 +98,6 @@ public class Jump : NetworkBehaviour
 
             // stop the jumping animation
             _animator.SetBool("isJumping", false);
-            _animator.SetBool("isDoubleJumping", false);
         }
 
         // checking jump - if jump action is requested
@@ -123,10 +125,7 @@ public class Jump : NetworkBehaviour
                 // play jumping animation
                 _animator.SetBool("isJumping", true);
             }
-            else {
-                // replay jump animation
-                _animator.SetBool("isDoubleJumping", true);
-            }
+            // play jump sound
             if (Object.HasStateAuthority) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Jump.ToString());
 
             currentJump += 1;

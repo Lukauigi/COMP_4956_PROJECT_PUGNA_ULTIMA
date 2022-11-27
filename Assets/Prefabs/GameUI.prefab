@@ -2204,7 +2204,6 @@ MonoBehaviour:
   _playerOneStocks: {fileID: 2654881367685638583}
   _playerOneCurrentHealth: {fileID: 2654881368683790889}
   _avatars:
-  - {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
   - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
 --- !u!1 &2654881368703287061

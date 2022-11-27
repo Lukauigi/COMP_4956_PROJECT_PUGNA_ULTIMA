@@ -2251,7 +2251,6 @@ MonoBehaviour:
   _playerOneKills: {fileID: 7731745295979733733}
   _playerOneDamageDone: {fileID: 8245954474388471853}
   _avatars:
-  - {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
   - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
 --- !u!1 &7733368742275616460

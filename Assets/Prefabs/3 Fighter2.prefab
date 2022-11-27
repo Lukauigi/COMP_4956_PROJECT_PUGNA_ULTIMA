@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5665410462262862068
 Transform:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3521370917105573101
 Transform:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1159152651393419161
 Transform:
   m_ObjectHideFlags: 0
@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6747502135698032416
 Transform:
   m_ObjectHideFlags: 0
@@ -231,7 +231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9096270704107366608
 Transform:
   m_ObjectHideFlags: 0
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 1076577044579495469}
   - component: {fileID: -1431887123164926127}
   m_Layer: 0
-  m_Name: 2 OurCharacter
+  m_Name: 3 Fighter2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -376,7 +376,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
+  m_Sprite: {fileID: -1781510551, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -447,7 +447,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.05}
+  m_Offset: {x: 0, y: 0.12}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -458,7 +458,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.85, y: 1.25}
+  m_Size: {x: 1, y: 1.4}
   m_EdgeRadius: 0
 --- !u!68 &2476623925517331120
 EdgeCollider2D:
@@ -600,7 +600,7 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: 9dcc0a5251fed6b4b91ff09abd33d5cf
+    RawGuidValue: da9042cc4b124e540bbe66fa3d4e408b
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 547372453338538265}
@@ -776,7 +776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   Animator: {fileID: 6492338790765148509}
-  TotalWords: 2
+  TotalWords: 3
   SyncSettings: 79
   FloatAccuracy:
     _value: 0
@@ -790,7 +790,7 @@ MonoBehaviour:
     _value: 0
     _inverse: 0
     _hash: -814817977
-  StateHashes: 000000001b0f6d8499402101a3b2cc3d487144c0e97822cb91c62aaa1780183e6f3e105f537ed477d13198f23479e444b636a8c15ab8a6eed8f7ea6b2a969f9b3007a5712860e77732f1dd9d049799ab80b44f44e07f4410a3d17713
+  StateHashes: 000000001b0f6d8499402101a3b2cc3d487144c0e97822cb91c62aaa1780183e6f3e105f4d56dabec9750c512860e77732f1dd9d049799ab80b44f44
   TriggerHashes: 00000000
 --- !u!82 &-1431887123164926127
 AudioSource:
@@ -1006,8 +1006,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7654509761164731852}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: -0.6, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: -0.3, y: -0.8, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.7, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2289108225291002619}
@@ -1193,7 +1193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7668580337637580805
 Transform:
   m_ObjectHideFlags: 0

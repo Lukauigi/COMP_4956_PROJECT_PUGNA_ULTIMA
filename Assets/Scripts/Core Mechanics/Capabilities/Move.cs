@@ -97,7 +97,7 @@ public class Move : NetworkBehaviour
 
         _body.velocity = velocity;
 
-        print("moving: " + _isMovingAudioPlaying + ".. onGround: " + onGround + ".. velocity.x: " + velocity.x + ".. velocity.y: " + velocity.y + ".. direction.x: " + direction.x);
+        //print("moving: " + _isMovingAudioPlaying + ".. onGround: " + onGround + ".. velocity.x: " + velocity.x + ".. velocity.y: " + velocity.y + ".. direction.x: " + direction.x);
 
         // Plays move audio clip
         if (!_isMovingAudioPlaying && onGround && velocity.x != 0 && velocity.y == 0 && direction.x != 0)

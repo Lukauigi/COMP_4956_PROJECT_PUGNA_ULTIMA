@@ -135,9 +135,9 @@ public class PlayerItemController : NetworkBehaviour
     {
         Avatar.sprite = Avatars[selected];
         //Remove these when andrew finishes avatars
-        if (selected == 0) Avatar.color = Color.white;
-        if (selected == 1) Avatar.color = Color.red;
-        if (selected == 2) Avatar.color = Color.cyan;
+        if (selected == 0) Avatar.color = Color.red;
+        if (selected == 1) Avatar.color = Color.cyan;
+        //if (selected == 2) Avatar.color = Color.white;
 
         //Display This player's username
         if(Object.HasInputAuthority)

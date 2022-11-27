@@ -18,8 +18,12 @@ public class AttackArea : NetworkBehaviour
     // Adds to collision list
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if (collider.GetType() != typeof(BoxCollider2D))
+            return;
+
         // Check specifically one type of collider instead of adding all
-        if (!overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
+        //if (!overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
+        if (!overlappingColliders.Contains(collider))
         {
            overlappingColliders.Add(collider);
         }
@@ -28,7 +32,10 @@ public class AttackArea : NetworkBehaviour
     // Removes from collision list
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
+        if (collider.GetType() != typeof(BoxCollider2D))
+            return;
+
+        if (overlappingColliders.Contains(collider))
         {
             overlappingColliders.Remove(collider);
         }
@@ -37,7 +44,10 @@ public class AttackArea : NetworkBehaviour
     // Keeps checking every frame
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (!overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
+        if (collider.GetType() != typeof(BoxCollider2D))
+            return;
+
+        if (!overlappingColliders.Contains(collider))
         {
             overlappingColliders.Add(collider);
         }

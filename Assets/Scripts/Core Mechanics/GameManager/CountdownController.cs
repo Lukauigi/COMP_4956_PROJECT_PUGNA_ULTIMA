@@ -35,6 +35,9 @@ public class CountdownController : NetworkBehaviour
     public int StartingCountdown => _startingCountdown;
     public int EndingCountdown => _endingCountdown;
 
+    private float startingDelay = 0.3f;
+    public float StartingDelay => startingDelay;
+
     // Awake is called when the script instance is being loaded
     void Awake()
     {
@@ -68,7 +71,7 @@ public class CountdownController : NetworkBehaviour
     /// <returns></returns>
     IEnumerator UpdateStartingCountdown()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(startingDelay);
 
         int counter = _startingCountdown;
 

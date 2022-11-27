@@ -73,6 +73,7 @@ public class Dodge : NetworkBehaviour
     {
         // beginning section - stop inputs and play animation
         _networkPlayer.DisableInputsTemporarily(0.7f);
+        _animator.SetBool("isDodging", true);
         yield return new WaitForSeconds(0.1f);  // time till next section
 
         // middle section - disable hitbox (invincible), show dodge color effect, and play sound
@@ -83,9 +84,10 @@ public class Dodge : NetworkBehaviour
         yield return new WaitForSeconds(0.5f);  // time till next section
 
 
-        // ending section - reenable hitbox (not invincible)
+        // ending section - reenable hitbox (not invincible) and stop animation
         Debug.Log("hitbox back");
         _playerHitbox.enabled = true;
+        _animator.SetBool("isDodging", false);
 
     }
 

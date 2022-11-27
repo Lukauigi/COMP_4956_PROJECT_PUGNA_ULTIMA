@@ -109,50 +109,45 @@ public class Attack : NetworkBehaviour
             List<Collider2D> overlappingColliders = _attackArea.overlappingColliders;
             foreach (Collider2D collider in overlappingColliders)
             {
-                if (collider.GetComponent<Health>() != null && isAttacking == true)
-                {
-                    print("Attack hit!");
-                    Health health = collider.GetComponent<Health>();
-                    health.Damage(damage);
-                    _damageDone += damage;
+                Health health = collider.GetComponent<Health>();
+                if (health == null)
+                    continue;
 
-                    // calculate knockback health based on damaged health value
-                    Vector2 knockbackStrength;
-                    if (health.CurrentHealth <= 150) { knockbackStrength = lowKnockback;
-                    } else if (health.CurrentHealth <= 300) { knockbackStrength = medKnockback;
-                    } else { knockbackStrength = highKnockback; }
-
-                    if (collider.transform.position.x > transform.position.x)
-                    {
-                        if (collider.transform.position.y <= transform.position.y)
-                        {
-                            //health.knockBack(new Vector2(3, 1));
-                            health.knockBack(knockbackStrength);
-                        }
-                        else
-                        {
-                            //health.knockBack(new Vector2(3, -1));
-                            health.knockBack(knockbackStrength);
-                        }
-                    }
-                    if (collider.transform.position.x < transform.position.x)
-                    {
-                        knockbackStrength.x *= -1;
-                        if (collider.transform.position.y <= transform.position.y)
-                        {
-                            //health.knockBack(new Vector2(-3, 1));
-                            health.knockBack(knockbackStrength);
-                        }
-                        else
-                        {
-                            //health.knockBack(new Vector2(-3, -1));
-                            health.knockBack(knockbackStrength);
-                        }
-                    }
-                    
-                }
+                print("Attack hit!");
+                health.knockBack(CalculateKnockback(collider, health));
+                health.Damage(damage);
+                _damageDone += damage;
             }
-
         }
     }
+
+    // calculate knockback direction and value based on relative position of hit collider and its health
+    private Vector2 CalculateKnockback(Collider2D collider, Health health)
+    {
+        Vector2 knockbackStrength;
+
+        if (health.CurrentHealth <= 150)
+            knockbackStrength = lowKnockback;
+
+        else if (health.CurrentHealth <= 300)
+            knockbackStrength = medKnockback;
+
+        else 
+            knockbackStrength = highKnockback;
+
+        // compare relative position of colliders
+        // default knockback values are to the right and upwards
+
+        // check if knockback should be to the left
+        if (collider.transform.position.x < transform.position.x)
+            knockbackStrength.x *= -1;
+
+        // check if knockback should be downwards
+        if (collider.transform.position.y > transform.position.y)
+            knockbackStrength.y *= -1;
+
+        return knockbackStrength;
+    }
+
+
 }

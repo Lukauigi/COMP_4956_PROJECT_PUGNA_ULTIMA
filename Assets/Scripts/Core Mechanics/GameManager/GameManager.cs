@@ -162,7 +162,7 @@ public class GameManager : NetworkBehaviour
         CountdownController.Instance.RPC_StartStartingCountdown();
 
         // disable inputs of the two players for the starting countdown duration
-        float countdownDuration = CountdownController.Instance.StartingCountdown;
+        float countdownDuration = CountdownController.Instance.StartingCountdown + CountdownController.Instance.StartingDelay;
         _playerOneNetworkPlayer.DisableInputsTemporarily(countdownDuration);
         _playerTwoNetworkPlayer.DisableInputsTemporarily(countdownDuration);
     }
