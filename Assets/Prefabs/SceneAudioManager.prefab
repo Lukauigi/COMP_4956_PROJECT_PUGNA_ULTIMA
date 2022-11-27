@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1518892933813082743}
   - component: {fileID: 1518892933813082737}
   - component: {fileID: 1518892933813082736}
+  - component: {fileID: 1660552191}
   m_Layer: 0
   m_Name: SceneAudioManager
   m_TagString: Untagged
@@ -298,10 +299,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3f44c26b302c3ea418edfa1575dc8e97, type: 3}
   - {fileID: 8300000, guid: feb3db9bf88feb346b3136b379f60d80, type: 3}
   _receiveDamageSoundPool:
+  - {fileID: 8300000, guid: 2086c68732378054583f3bb01a3499e1, type: 3}
   - {fileID: 8300000, guid: fe409508e7e2e5a4392887456cd25514, type: 3}
   - {fileID: 8300000, guid: a92c80edba2869f429511079b55d6524, type: 3}
-  - {fileID: 8300000, guid: 2086c68732378054583f3bb01a3499e1, type: 3}
-  _moveSoundPool: []
+  _moveSoundPool:
+  - {fileID: 8300000, guid: 77c6527989b4ab94aaec4bbe8fb4cb6b, type: 3}
   _deathSound: {fileID: 8300000, guid: fd31d2ed6f7cf064f8ba19aaea4b1a6a, type: 3}
   _jumpSound: {fileID: 8300000, guid: 1c078771b0773064f85b9ad4ff0a0c79, type: 3}
   _jumpLandSound: {fileID: 8300000, guid: 9d1b5f278b2d81141ad6b984aef1596f, type: 3}
@@ -311,8 +313,9 @@ MonoBehaviour:
   _revertSound: {fileID: 8300000, guid: 33544fb2ec93fdd429e2a8a0d7a8a543, type: 3}
   _errorSound: {fileID: 8300000, guid: f26fb5b66d898254996008830ec660a5, type: 3}
   _sfxAudioSource: {fileID: 1518892933813082730}
-  _musicAudioSource: {fileID: 1518892933813082730}
-  _moveLoopAudioSource: {fileID: 1518892933813082730}
+  _musicAudioSource: {fileID: 1518892933813082731}
+  _player1MoveLoopAudioSource: {fileID: 1518892933813082736}
+  _player2MoveLoopAudioSource: {fileID: 1660552191}
 --- !u!82 &1518892933813082736
 AudioSource:
   m_ObjectHideFlags: 0
@@ -323,6 +326,102 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4244201873213492090, guid: 82485837c19e99d468ff3b5b686a7489, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &1660552191
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518892933813082728}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
