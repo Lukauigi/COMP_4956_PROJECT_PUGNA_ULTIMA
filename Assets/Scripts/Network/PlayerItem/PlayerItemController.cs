@@ -86,6 +86,9 @@ public class PlayerItemController : NetworkBehaviour
     /// </summary>
     public override void Spawned()
     {
+        //Make chat visable for the client that spawned.
+        Chat.Instance.ChatVisible(true);
+
         if (Object.HasStateAuthority) isLocal = false;
         if (!Object.HasInputAuthority)
         {
