@@ -15,6 +15,8 @@ using static UserData;
 /// It makes sure only one instance of the class is created.
 /// 
 /// Change History:
+/// 2022-11-25 - Xiang Zhu
+/// - Change the navigation screen to the most updated one
 /// 2022-11-26 - Lukasz Bednarek
 /// - Add audio manager method calls.
 /// </summary>
@@ -51,6 +53,9 @@ public class AccountManager : MonoBehaviour
     {
         AudioEffectsManager.Instance2.PlayLoopingSoundClip(MenuActions.Waiting);
         var IsRegistered = false;
+        print("username: " + Username);
+        print("email: " + Email);
+        print("password: " + Password);
         PlayFabClientAPI.RegisterPlayFabUser(
             new RegisterPlayFabUserRequest()
             {
