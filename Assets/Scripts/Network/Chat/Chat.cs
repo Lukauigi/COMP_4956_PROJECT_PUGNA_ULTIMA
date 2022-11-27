@@ -14,6 +14,7 @@ using UnityEngine;
 /// </summary>
 public class Chat : NetworkBehaviour
 {
+    public static Chat Instance = null;
 
     [SerializeField] 
     private GameObject _chatUI;
@@ -23,7 +24,20 @@ public class Chat : NetworkBehaviour
     private TMP_InputField _chatInputField;
     [SerializeField] 
     private GameObject _sendBtn;
-    
+
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-11-26
+    /// 
+    /// On awake life cycle instantiate chat singleton.
+    ///
+    /// </summary>
+    private void Awake()
+    {
+        if(!Instance) Instance = this;
+        this.ChatVisible(false);
+    }
+
     /// <summary>
     /// Author: Roswell Doria
     /// Date: 2022-11-24
@@ -68,5 +82,18 @@ public class Chat : NetworkBehaviour
     {
         Debug.Log("Clicked send client");
         _chatText.text += "[" + sender + "] : " + message + "\n";
+    }
+
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-11-26
+    /// 
+    /// Enable visability of chat component to client.
+    ///
+    /// </summary>
+    /// <param name="enable">bool</param>
+    public void ChatVisible(bool enable)
+    {
+        _chatUI.SetActive(enable);
     }
 }
