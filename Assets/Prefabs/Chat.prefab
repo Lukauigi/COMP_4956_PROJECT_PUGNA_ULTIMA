@@ -833,7 +833,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1144093118548076347}
         m_TargetAssemblyTypeName: Chat, Assembly-CSharp
-        m_MethodName: clickSendBtn
+        m_MethodName: ClickSendButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

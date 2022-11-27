@@ -51,7 +51,7 @@ public class Chat : NetworkBehaviour
     /// OnClick method for send msg button.
     ///
     /// </summary>
-    public void clickSendBtn()
+    public void ClickSendButton()
     {
         if(Object.HasStateAuthority) RPC_SendChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
         else RPC_SendClientChat(_chatInputField.text, PlayerPrefs.GetString("PlayerName"));
