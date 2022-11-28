@@ -141,16 +141,12 @@ public class PlayerItemController : NetworkBehaviour
     /// </summary>
     public override void FixedUpdateNetwork()
     {
+        // update to the selected avatar sprite
         Avatar.sprite = Avatars[selected];
-        //Remove these when andrew finishes avatars
-        if (selected == 0) Avatar.color = Color.red;
-        if (selected == 1) Avatar.color = Color.cyan;
-        //if (selected == 2) Avatar.color = Color.white;
 
         //Display This player's username
         if(Object.HasInputAuthority)
         {
-            
             RPC_SetPlayerName(PlayerPrefs.GetString("PlayerName"));
             RPC_SetPlayerId(PlayerPrefs.GetString("PlayfabId"));
         }

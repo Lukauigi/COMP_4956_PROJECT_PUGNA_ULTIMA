@@ -1309,12 +1309,11 @@ MonoBehaviour:
   selectBtn: {fileID: 7547389548694991596}
   dialogueText: {fileID: 327376220926647827}
   Avatars:
-  - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
-  - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
+  - {fileID: -39889027, guid: 575a0710e191aed448f4caf805097ddd, type: 3}
+  - {fileID: -1571997297, guid: 911dcb8055c8e584ab51016330928197, type: 3}
   CharacterPrefabs:
-  - {fileID: 6050059081701548800, guid: cfdd924956e35ec4eba4ea358425457f, type: 3}
-  - {fileID: 7408881512176793842, guid: 33975cc2d6e5cfd4cb09708d6ae740be, type: 3}
-  - {fileID: 7408881512176793842, guid: 0df462f0b37545d4eb5d0304e2d85138, type: 3}
+  - {fileID: 1924839081219202440, guid: 9dcc0a5251fed6b4b91ff09abd33d5cf, type: 3}
+  - {fileID: 1924839081219202440, guid: da9042cc4b124e540bbe66fa3d4e408b, type: 3}
   selected: 0
   _username: {fileID: 6004188729032777143}
   isLocal: 0

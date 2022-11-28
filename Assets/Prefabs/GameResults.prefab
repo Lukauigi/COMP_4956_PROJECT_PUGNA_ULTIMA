@@ -2410,8 +2410,8 @@ MonoBehaviour:
   _playerOneKills: {fileID: 7731745295979733733}
   _playerOneDamageDone: {fileID: 8245954474388471853}
   _avatars:
-  - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
-  - {fileID: -880380478, guid: 16ba2e74a65d60b4a811ea484b6433cc, type: 3}
+  - {fileID: -39889027, guid: 575a0710e191aed448f4caf805097ddd, type: 3}
+  - {fileID: -1571997297, guid: 911dcb8055c8e584ab51016330928197, type: 3}
 --- !u!1 &7733368742275616460
 GameObject:
   m_ObjectHideFlags: 0
