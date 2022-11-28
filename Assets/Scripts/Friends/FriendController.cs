@@ -11,6 +11,8 @@ using TMPro;
 /// 
 /// This script is responbile for controlling the FriendList prefab.
 ///
+/// Change History: 2022-11-28 - Lukasz Bednarek
+/// - Add calls to play menu audio SFX.
 /// </summary>
 public class FriendController : MonoBehaviour
 {
@@ -101,7 +103,8 @@ public class FriendController : MonoBehaviour
     /// </summary>
     /// <param name="error"></param>
     void DisplayPlayFabError(PlayFabError error)
-    { 
+    {
+        AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Error);
         Debug.Log(error.GenerateErrorReport());
     }
 
@@ -170,6 +173,7 @@ public class FriendController : MonoBehaviour
 
         PlayFabClientAPI.AddFriend(request, result =>
         {
+            AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Confirm);
             Debug.Log("Friend added succesfully!");
         }, DisplayPlayFabError);
     }
