@@ -22,6 +22,7 @@ public abstract class InputController : ScriptableObject
 {
 
     public abstract float RetrieveHorizontalInput();
+
     public abstract float RetrieveVerticalInput();
 
     public abstract bool RetrieveJumpInput();

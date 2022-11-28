@@ -27,18 +27,20 @@ public class CountdownController : NetworkBehaviour
 
     // seconds to countdown before starting the game
     [SerializeField] private int _startingCountdown = 3;
+    public int StartingCountdown => _startingCountdown; // getter
 
     // seconds to countdown before ending the game
     [SerializeField] private int _endingCountdown = 5;
+    public int EndingCountdown => _endingCountdown; // getter
 
-    // getters
-    public int StartingCountdown => _startingCountdown;
-    public int EndingCountdown => _endingCountdown;
+    // short starting delay before the countdown itself starts
+    private readonly float _startingDelay = 0.3f;
+    public float StartingDelay => _startingDelay;
 
-    private float startingDelay = 0.3f;
-    public float StartingDelay => startingDelay;
 
-    // Awake is called when the script instance is being loaded
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     void Awake()
     {
         Instance = this;
@@ -71,7 +73,7 @@ public class CountdownController : NetworkBehaviour
     /// <returns></returns>
     IEnumerator UpdateStartingCountdown()
     {
-        yield return new WaitForSeconds(startingDelay);
+        yield return new WaitForSeconds(_startingDelay);
 
         int counter = _startingCountdown;
 
@@ -129,6 +131,9 @@ public class CountdownController : NetworkBehaviour
         StopCoroutine(UpdateEndingCountdown());
     }
 
+    /// <summary>
+    /// Change the Countdown Text to display the ending text.
+    /// </summary>
     public void DisplayEndText()
     {
         _countdownText.text = "TIME!";

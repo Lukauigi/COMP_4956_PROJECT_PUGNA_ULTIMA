@@ -24,15 +24,20 @@ public class GameStageController : NetworkBehaviour
     private List<GameObject> _stages = new List<GameObject>();
 
     // random int value to choose a stage
-    private int randomIndex;
+    private int _randomIndex;
 
-    // Awake is called when the script instance is being loaded
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     private void Awake()
     {
         Instance = this;
     }
 
-    // Rpc method to initialize stage values and spawn it
+
+    /// <summary>
+    /// RPC method to initialize stage values and spawn it.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_SelectRandomStage()
     {
@@ -42,20 +47,23 @@ public class GameStageController : NetworkBehaviour
         _stages.Add(_stageThree);
 
         // cache random number 0, 1, 2
-        randomIndex = Random.Range(0, 3);
-        Debug.Log("random int selected: " + randomIndex);
+        _randomIndex = Random.Range(0, 3);
+        Debug.Log("random int selected: " + _randomIndex);
 
-        RPC_CacheStage(randomIndex);
+        RPC_CacheStage(_randomIndex);
     }
 
-    // Rpc Helper method to spawn the selected stage
+    /// <summary>
+    /// RPC Helper method to spawn the selected stage.
+    /// </summary>
+    /// <param name="stageNumber"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     private void RPC_CacheStage(int stageNumber)
     {
         int index = 0;
 
         if (stageNumber >= _stages.Count || stageNumber < 0)
-            stageNumber = randomIndex;
+            stageNumber = _randomIndex;
 
         foreach (GameObject stage in _stages)
         {

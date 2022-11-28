@@ -16,47 +16,62 @@ using UnityEngine;
 /// </summary>
 public class Move : NetworkBehaviour
 {
-    // fighter prefab components
-    protected Rigidbody2D _body; //detect x velocity (horizontal movement)
-    protected Ground _ground; //detect ground
-    protected Animator _animator; //player's animator controller
+    // Fighter prefab components
+    // Detect x velocity for horizontal movement
+    protected Rigidbody2D _body;
+    // Detect ground object
+    protected Ground _ground;
+    protected Animator _animator;
 
-    [SerializeField, Range(0f, 100f)] private float maxSpeed = 4f;
-    [SerializeField, Range(0f, 100f)] private float maxAcceleration = 35f;
-    [SerializeField, Range(0f, 100f)] private float maxAirAcceleration = 20f;
-    private GameObject _audioManager;
-    private bool _isMovingAudioPlaying = false;
+    // Other scene objects to reference
+    private GameplayAudioManager _audioManager;
 
-    private Vector2 direction;
-    private Vector2 desiredVelocity;
-    private Vector2 velocity;
+    // Player properties for Movement speed
+    [SerializeField, Range(0f, 100f)] private float _maxSpeed = 4f;
+    [SerializeField, Range(0f, 100f)] private float _maxAcceleration = 35f;
+    [SerializeField, Range(0f, 100f)] private float _maxAirAcceleration = 20f;
 
+    // Character direction, velocity, and acceleration
+    private Vector2 _direction;
+    private Vector2 _desiredVelocity;
+    private Vector2 _velocity;
+    private float _maxSpeedChange;
+    private float _acceleration;
 
-    private float maxSpeedChange;
-    private float acceleration;
+    // If the player is on ground; touching a platform
     private bool onGround;
     
+    // If the player direction is facing right
     private bool isFacingRight;
 
-    // reference the animator controller for player
-    //public Animator animator;
+    // If the movement audio is playing
+    private bool _isMovingAudioPlaying = false;
 
 
-    // Awake is called when the script instance is being loaded
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     void Awake()
     {
         CacheComponents();
-        // TODO: might have to change, right now its under the assumption
-        //  that both players are facing right.
+
+        // assumes both players are facing right
         isFacingRight = true;
     }
 
+    /// <summary>
+    /// Start is called after Awake, and before Update.
+    /// Generally used to reference other scene objects, after they have all been initialized.
+    /// </summary>
     private void Start()
     {
-        this._audioManager = GameObject.Find("SceneAudioManager");
+        // cache other scene objects
+        if (!_audioManager) _audioManager = GameObject.Find("SceneAudioManager").GetComponent<GameplayAudioManager>();
     }
 
-    // Helper method to initialize fighter prefab components
+    /// <summary>
+    /// Helper method to initialize components attached to self, from its own script or prefab.
+    /// </summary>
     private void CacheComponents()
     {
         if (!_body) _body = GetComponent<Rigidbody2D>();
@@ -64,53 +79,53 @@ public class Move : NetworkBehaviour
         if (!_animator) _animator = GetComponent<Animator>();
     }
 
-    // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
+    /// <summary>
+    /// FixedUpdateNetwork is called once per frame. This is Fusion's Update() method.
+    /// </summary>
     public override void FixedUpdateNetwork()
     {
         // checking for input presses
         if (GetInput(out NetworkInputData data))
         {
-            direction.x = data.horizontalMovement;
+            _direction.x = data.horizontalMovement;
         }
-        desiredVelocity = new Vector2(direction.x, 0f) * Mathf.Max(maxSpeed - _ground.GetFriction(), 0f);
 
-        ////Update animator variable to tell when to play movement animation
-        //_animator.SetFloat("Speed", Mathf.Abs(direction.x));
-
+        // get current status for on ground and velocity
         onGround = _ground.GetOnGround();
-        velocity = _body.velocity;
+        _velocity = _body.velocity;
 
-        // flipping the entire body
-        if ((direction.x > 0 && !isFacingRight) ||
-            (direction.x < 0 && isFacingRight))
+        // flipping the entire body if player switched directions
+        if ((_direction.x > 0 && !isFacingRight) ||
+            (_direction.x < 0 && isFacingRight))
         {
             transform.RotateAround(transform.position, transform.up, 180f);
             isFacingRight = !isFacingRight;
         }
 
-        acceleration = onGround ? maxAcceleration : maxAirAcceleration;
-        maxSpeedChange = acceleration * Runner.DeltaTime;
-        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+        // determine resulting velocity
+        _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - _ground.GetFriction(), 0f);
+        _acceleration = onGround ? _maxAcceleration : _maxAirAcceleration;
+        _maxSpeedChange = _acceleration * Runner.DeltaTime;
+        _velocity.x = Mathf.MoveTowards(_velocity.x, _desiredVelocity.x, _maxSpeedChange);
 
-        // Try this: Update animator variable to tell when to play movement animation
-        _animator.SetFloat("Speed", Mathf.Abs(velocity.x));
+        // Update animator variable to tell when to play movement animation
+        _animator.SetFloat("Speed", Mathf.Abs(_velocity.x));
 
-        _body.velocity = velocity;
-
-        //print("moving: " + _isMovingAudioPlaying + ".. onGround: " + onGround + ".. velocity.x: " + velocity.x + ".. velocity.y: " + velocity.y + ".. direction.x: " + direction.x);
+        // set the resulting velocity
+        _body.velocity = _velocity;
 
         // Plays move audio clip
-        if (!_isMovingAudioPlaying && onGround && velocity.x != 0 && velocity.y == 0 && direction.x != 0)
+        if (!_isMovingAudioPlaying && onGround && _velocity.x != 0 && _velocity.y == 0 && _direction.x != 0)
         {
             _isMovingAudioPlaying = true;
-            _audioManager.GetComponent<GameplayAudioManager>().RPC_PlayMoveAudio(PlayerActions.Move.ToString(), Object.Id);
+            _audioManager.RPC_PlayMoveAudio(PlayerActions.Move.ToString(), Object.Id);
         }
 
         // Stops move audio clip
-        if (_isMovingAudioPlaying && (velocity.x == 0 || !onGround) && direction.x == 0)
+        if (_isMovingAudioPlaying && (_velocity.x == 0 || !onGround) && _direction.x == 0)
         {
             _isMovingAudioPlaying = false;
-            _audioManager.GetComponent<GameplayAudioManager>().RPC_StopMoveAudio(Object.Id);
+            _audioManager.RPC_StopMoveAudio(Object.Id);
         }
 
     }

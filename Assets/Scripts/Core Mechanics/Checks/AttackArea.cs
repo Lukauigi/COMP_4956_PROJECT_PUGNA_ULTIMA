@@ -13,43 +13,53 @@ using System.Diagnostics;
 /// </summary>
 public class AttackArea : NetworkBehaviour
 {
-    public List<Collider2D> overlappingColliders = new List<Collider2D>();
-
-    // Adds to collision list
+    // list of other colliders in the AttackArea collider
+    private List<Collider2D> _overlappingColliders = new List<Collider2D>();
+    public List<Collider2D> OverlappingColliders => _overlappingColliders; // getter
+    
+    
+    /// <summary>
+    /// Triggers when another collider makes contact with the AttackArea collider
+    /// <param name="collider"></param>
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        // Check specifically one type of collider instead of adding all
         if (collider.GetType() != typeof(BoxCollider2D))
             return;
 
-        // Check specifically one type of collider instead of adding all
-        //if (!overlappingColliders.Contains(collider) && (collider.GetType() == typeof(BoxCollider2D)))
-        if (!overlappingColliders.Contains(collider))
+        if (!_overlappingColliders.Contains(collider))
         {
-           overlappingColliders.Add(collider);
+            _overlappingColliders.Add(collider);
         }
     }
 
-    // Removes from collision list
+    /// <summary>
+    /// Triggers when the collider leaves the AttackArea collider
+    /// </summary>
+    /// <param name="collider"></param>
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.GetType() != typeof(BoxCollider2D))
             return;
 
-        if (overlappingColliders.Contains(collider))
+        if (_overlappingColliders.Contains(collider))
         {
-            overlappingColliders.Remove(collider);
+            _overlappingColliders.Remove(collider);
         }
     }
 
-    // Keeps checking every frame
+    /// <summary>
+    /// Triggers when another collider stays inside the AttackArea collider
+    /// </summary>
+    /// <param name="collider"></param>
     private void OnTriggerStay2D(Collider2D collider)
     {
         if (collider.GetType() != typeof(BoxCollider2D))
             return;
 
-        if (!overlappingColliders.Contains(collider))
+        if (!_overlappingColliders.Contains(collider))
         {
-            overlappingColliders.Add(collider);
+            _overlappingColliders.Add(collider);
         }
     }
 }

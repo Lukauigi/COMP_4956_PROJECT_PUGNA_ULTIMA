@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 7739673853743360534}
   - component: {fileID: 995587658763326512}
   - component: {fileID: 2736844490793416708}
+  - component: {fileID: 604696845480792982}
   - component: {fileID: 9118863558597344364}
   - component: {fileID: 6492338790765148509}
   - component: {fileID: 1076577044579495469}
@@ -612,6 +613,7 @@ MonoBehaviour:
   - {fileID: 7739673853743360534}
   - {fileID: 995587658763326512}
   - {fileID: 2736844490793416708}
+  - {fileID: 604696845480792982}
   - {fileID: 1076577044579495469}
   - {fileID: 3300202328800128204}
   SimulationBehaviours: []
@@ -642,7 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  damage: 50
+  _damage: 50
 --- !u!114 &1090350054710066291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,10 +684,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  jumpHeight: 2.5
-  maxAirJumps: 2
-  downwardMovementMultiplier: 3
-  upwardMovementMultiplier: 1.7
+  _jumpHeight: 2.5
+  _maxJumps: 2
+  _downwardMovementMultiplier: 3
+  _upwardMovementMultiplier: 1.7
 --- !u!114 &7739673853743360534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,9 +701,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  maxSpeed: 4
-  maxAcceleration: 35
-  maxAirAcceleration: 20
+  _maxSpeed: 4
+  _maxAcceleration: 35
+  _maxAirAcceleration: 20
 --- !u!114 &995587658763326512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,7 +717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  stocks: 4
+  _stocks: 3
 --- !u!114 &2736844490793416708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,6 +728,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 264a4a855e2263e45ab26a81c9565def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+--- !u!114 &604696845480792982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590790387576107922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57e56cac50ddcc4ba227581b5d08d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0

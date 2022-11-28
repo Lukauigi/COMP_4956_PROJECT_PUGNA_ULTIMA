@@ -26,24 +26,25 @@ public class Stock : NetworkBehaviour
 
     // other scene objects to reference
     protected NetworkFighterObserver _networkFighterObserver;
+    protected GameplayAudioManager _audioManager;
 
     // how many lives the fighter has
-    [SerializeField] private int stocks = 3;
+    [SerializeField] private int _stocks = 3;
 
-    private GameObject audioManager;
 
     // networked property of the fighter's Stocks; listens for OnChanged and notifies others
-    private int _stocks;
+    private int _currentStocks;
+
     [Networked(OnChanged = nameof(OnStocksChanged)), UnityNonSerialized]
-    public int Stocks
+    public int CurrentStocks
     {
         get
         {
-            return _stocks;
+            return _currentStocks;
         }
         set
         {
-            _stocks = value;
+            _currentStocks = value;
             // client update changes to host
             if (Object.HasInputAuthority)
             {
@@ -52,7 +53,7 @@ public class Stock : NetworkBehaviour
         }
     }
 
-    // for database - deaths becomes the amount of kills gotten by the other player
+    // The amount of Deaths this player has - For Database, other player uses this number for Kills
     private int _deaths = 0;
     public int Deaths => _deaths; // getter
 
@@ -66,48 +67,57 @@ public class Stock : NetworkBehaviour
     private readonly int stageBoundaryRight = 15;
 
 
-    // Awake is called when the script instance is being loaded
-    private void Awake()
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
     {
         CacheComponents();
     }
 
-    private void Start()
-    {
-        this.audioManager = GameObject.Find("SceneAudioManager");
-    }
-
-    // Helper method to initialize fighter prefab components
+    /// <summary>
+    /// Helper method to initialize components attached to self, from its own script or prefab.
+    /// </summary>
     private void CacheComponents()
     {
         if (!_health) _health = GetComponent<Health>();
         if (!_body) _body = GetComponent<Rigidbody2D>();
     }
 
-    
-    // Post Spawn callback
-    public override void Spawned()
+    /// <summary>
+    /// Start is called after Awake, and before Update.
+    /// Generally used to reference other scene objects, after they have all been initialized.
+    /// </summary>
+    private void Start()
     {
-        // Networked property can only be accessed after object has Spawned
-        Stocks = stocks;
+        // cache other scene objects
+        if (!_audioManager) _audioManager = GameObject.Find("SceneAudioManager").GetComponent<GameplayAudioManager>();
     }
 
 
-    // FixedUpdateNetwork is called once per frame; this is Fusion's Update() method
+    /// <summary>
+    /// Post Spawn callback.
+    /// Generally used because Network Properties can only be accessed after the object has Spawned.
+    /// </summary>
+    public override void Spawned()
+    {
+        // Networked property can only be accessed after object has Spawned
+        CurrentStocks = _stocks;
+    }
+
+    /// <summary>
+    /// FixedUpdateNetwork is called once per frame. This is Fusion's Update() method.
+    /// </summary>
     public override void FixedUpdateNetwork()
     {
-        //if (GameManager.instance.GameState != GameStates.running)
-        //    return;
-
-        // check if player has lost a life (out of stage or lost all their health)
-        //if ((IsOutOfHealth() || IsOutOfStage()) && !isRespawning)
+        // check if player has lost a life (out of stage)
         if (IsOutOfStage() && !isRespawning)
         {
             // pause update
             isRespawning = true;
 
             // local assignment of stocks is faster than always using the networked property
-            int newStocks = Stocks;
+            int newStocks = CurrentStocks;
 
             newStocks--;
             _deaths++;
@@ -121,7 +131,7 @@ public class Stock : NetworkBehaviour
                 TriggerLoss();
             }
 
-            Stocks = newStocks;
+            CurrentStocks = newStocks;
 
             // end of code-block; can resume checks
             isRespawning = false;
@@ -129,8 +139,11 @@ public class Stock : NetworkBehaviour
 
     }
 
-    // check if player is out of the stage bounds
-    private bool IsOutOfStage()
+    /// <summary>
+    /// Check if the player is out of the stage bounds.
+    /// </summary>
+    /// <returns></returns>
+    protected bool IsOutOfStage()
     {
         return (_body.position.y < stageBoundaryBottom) ||
             (_body.position.y > stageBoundaryTop) ||
@@ -138,47 +151,62 @@ public class Stock : NetworkBehaviour
             (_body.position.x < stageBoundaryLeft);
     }
 
-    // check if player has lost all their health
-    private bool IsOutOfHealth()
-    {
-        return _health.CurrentHealth <= 0;
-    }
 
-    // Helper method to reset player position & health
-    private void Respawn()
+    /// <summary>
+    /// Respawn player by resetting their position & health.
+    /// </summary>
+    protected void Respawn()
     {
         //RPC_PlayHitDeathzoneAudio();
-        audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.Death.ToString());
+        _audioManager.RPC_PlayUniversalCharacterSFXAudio(PlayerActions.Death.ToString());
+
+        // reset position and falling velocity
         _body.position = new Vector2(0, 3);
-        //_velocity.y = 0;
-        //_body.gravityScale = downwardMovementMultiplier;
+
+        Vector2 zeroVelocity = new Vector2(0, 0);
+        _body.velocity = zeroVelocity;
+
+        // reset health
         _health.ResetHealth();
     }
 
-    private void TriggerLoss()
+    /// <summary>
+    /// Tell the GameManager to End the game.
+    /// Method should only be called by itself, when all stocks are gone.
+    /// </summary>
+    protected void TriggerLoss()
     {
         Debug.Log("Player is dead!!! Ending game...");
         gameObject.SetActive(false);
         GameManager.Manager.RPC_SetGameStateGameOver();
     }
 
-    // Networked OnChanged method for the Network Property Stocks
+
+    /// <summary>
+    /// Networked OnChanged method for the Network Property Health
+    /// </summary>
+    /// <param name="changed"></param>
     static void OnStocksChanged(Changed<Stock> changed)
     {
         changed.Behaviour.OnStocksChanged();
     }
 
-    // OnChanged method to update the network fighter status ui
+    /// <summary>
+    /// OnChanged method to update the network fighter status ui
+    /// </summary>
     private void OnStocksChanged()
     {
         NetworkFighterObserver.Observer.UpdateFighterStatus();
     }
 
-    // RPC method for client to notify host its changes for Stocks
+    /// <summary>
+    /// RPC method for client to notify host its changes for Stocks
+    /// </summary>
+    /// <param name="stocks"></param>
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetStocks(int stocks)
     {
-        this.Stocks = stocks;
+        this.CurrentStocks = stocks;
     }
 }
 

@@ -154,7 +154,7 @@ public class GameplayAudioManager : NetworkBehaviour
     /// </summary>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_PlayUniversalCharatcerSFXAudio(string playerAction)
+    public void RPC_PlayUniversalCharacterSFXAudio(string playerAction)
     {
         print("Audio Call " + playerAction);
         _sfxAudioSource.PlayOneShot(_universalPlayerAudio[playerAction]);

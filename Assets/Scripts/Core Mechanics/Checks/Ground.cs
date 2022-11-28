@@ -14,25 +14,43 @@ using Fusion;
 /// </summary>
 public class Ground : NetworkBehaviour
 {
-    private GameObject audioManager;
+    // Other scene objects to reference
+    private GameplayAudioManager _audioManager;
+
+    // If the player is on ground; touching a platform collider
     private bool onGround;
+
+    // platform property
     private float friction;
 
-    // reference the animator controller for player
-    //public Animator animator;
 
+    /// <summary>
+    /// Start is called after Awake, and before Update.
+    /// Generally used to reference other scene objects, after they have all been initialized.
+    /// </summary>
     private void Start()
     {
-        this.audioManager = GameObject.Find("SceneAudioManager");
+        // cache other scene objects
+        if (!_audioManager) _audioManager = GameObject.Find("SceneAudioManager").GetComponent<GameplayAudioManager>();
     }
 
+    /// <summary>
+    /// Triggers when player makes contact with the ground collider
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EvaluateCollision(collision);
         RetrieveFriction(collision);
-        if (Object.HasInputAuthority && onGround) audioManager.GetComponent<GameplayAudioManager>().RPC_PlayUniversalCharatcerSFXAudio(PlayerActions.JumpLand.ToString());
+        
+        // play landing sound
+        if (Object.HasInputAuthority && onGround) _audioManager.RPC_PlayUniversalCharacterSFXAudio(PlayerActions.JumpLand.ToString());
     }
 
+    /// <summary>
+    /// Triggers when player stays on the ground collider
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionStay2D(Collision2D collision)
     {
         EvaluateCollision(collision);
@@ -40,6 +58,10 @@ public class Ground : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Triggers when player leaves the ground collider
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionExit2D(Collision2D collision)
     {
         onGround = false;
@@ -60,7 +82,10 @@ public class Ground : NetworkBehaviour
         
     }
 
-
+    /// <summary>
+    /// Determines the ground collider's friction value.
+    /// </summary>
+    /// <param name="collision"></param>
     private void RetrieveFriction(Collision2D collision)
     {
         PhysicsMaterial2D material = collision.rigidbody.sharedMaterial;
@@ -73,11 +98,19 @@ public class Ground : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns a bool for checking if the player is on the ground.
+    /// </summary>
+    /// <returns></returns>
     public bool GetOnGround()
     {
         return onGround;
     }
 
+    /// <summary>
+    /// Returns the friction value from the ground collider.
+    /// </summary>
+    /// <returns></returns>
     public float GetFriction()
     {
         return friction;
