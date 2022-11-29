@@ -17,6 +17,8 @@ using static UserData;
 /// Change History:
 /// 2022-11-25 - Xiang Zhu
 /// - Change the navigation screen to the most updated one
+/// 2022-11-26 - Lukasz Bednarek
+/// - Add audio manager method calls.
 /// </summary>
 public class AccountManager : MonoBehaviour
 {
@@ -49,7 +51,11 @@ public class AccountManager : MonoBehaviour
     /// <param name="Password">a string </param>
     public Boolean CreateAccount(string Username, string Email, string Password)
     {
+        AudioEffectsManager.Instance2.PlayLoopingSoundClip(MenuActions.Waiting);
         var IsRegistered = false;
+        print("username: " + Username);
+        print("email: " + Email);
+        print("password: " + Password);
         PlayFabClientAPI.RegisterPlayFabUser(
             new RegisterPlayFabUserRequest()
             {
@@ -67,12 +73,16 @@ public class AccountManager : MonoBehaviour
                 SetUserDataOnRegister();
                 
                 IsRegistered = true;
+                AudioEffectsManager.Instance2.StopLoopingSoundClip();
+                AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Confirm);
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Login Page");
             },
             error =>
             {
                 Debug.Log($"User registration unsuccessful | Error: {error.Error}"); 
                 IsRegistered = false;
+                AudioEffectsManager.Instance2.StopLoopingSoundClip();
+                AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Error);
             }
         );
         return IsRegistered;
@@ -87,6 +97,7 @@ public class AccountManager : MonoBehaviour
     /// <param name="Password"> a string </param>
     public Boolean SignIn(string Username, string Password)
     {
+        AudioEffectsManager.Instance2.PlayLoopingSoundClip(MenuActions.Waiting);
         var IsSignedIn = false;
         // Login with PlayFab
         PlayFabClientAPI.LoginWithPlayFab(
@@ -111,11 +122,15 @@ public class AccountManager : MonoBehaviour
                 //SetUserData("Wins", "13");
                 //SendLeaderboard("MostWins", 10);
 
+                AudioEffectsManager.Instance2.StopLoopingSoundClip();
+                AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Login);
                 SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Main Menu");
             },
             error =>
             {
                 // On failed login, log the error
+                AudioEffectsManager.Instance2.StopLoopingSoundClip();
+                AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Error);
                 Debug.Log($"User login unsuccessful | Error: {error.Error}"); 
                 IsSignedIn = false;
             }

@@ -130,6 +130,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8625881624835025995, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
+      propertyPath: _errorSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f26fb5b66d898254996008830ec660a5, type: 3}
+    - target: {fileID: 8625881624835025995, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
+      propertyPath: _revertSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 33544fb2ec93fdd429e2a8a0d7a8a543, type: 3}
+    - target: {fileID: 8625881624835025995, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
+      propertyPath: _successSound
+      value: 
+      objectReference: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
+    - target: {fileID: 8625881624835025995, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
+      propertyPath: _waitingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 801e07321a847bf45a626d8bac0297b9, type: 3}
+    - target: {fileID: 8625881624835025995, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
+      propertyPath: _navigateSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a7c4c2cee866b2c48ba9abed976ee075, type: 3}
+    - target: {fileID: 8625881624835025995, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
+      propertyPath: _successSignInSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 4098d285f20d4f842a0abb014aac0942, type: 3}
     - target: {fileID: 8625881624835025998, guid: 41d70b7a2505494488096ab1dbddcc1b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1020,7 +1044,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 561940594}
         m_TargetAssemblyTypeName: AudioEffectsManager, Assembly-CSharp
-        m_MethodName: PlayLoopingSoundClip
+        m_MethodName: PlaySoundClipOnce
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: d4fef8fbdb970884185e2c376f5f1bd3, type: 3}
