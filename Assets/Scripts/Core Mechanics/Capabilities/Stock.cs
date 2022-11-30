@@ -14,7 +14,8 @@ using Fusion;
 /// Remarks: 
 /// - Stock is affected by listening to player health.
 /// - stock is a networked property so the NetworkFighterObserver will know of its changes.
-/// Change History: Nov 22 2022 - Lukasz Bednarek
+/// Change History: Nov 22 2022 - Jason Cheung, Matthew Kan
+/// - Moved CheckOutOfStage behaviour out of FixedUpdateNetwork method and into its own coroutine
 /// - Modified stock to be a networked property, will call the NetworkFighterObserver to update its UI.
 /// - Add logic for RPC call for sound effect method.
 /// </summary>
@@ -119,37 +120,51 @@ public class Stock : NetworkBehaviour
     {
         // Networked property can only be accessed after object has Spawned
         CurrentStocks = _stocks;
+
+        // periodically check if player is out of stage
+        StartCoroutine(CheckPlayerIsOutOfStage());
     }
 
     /// <summary>
-    /// FixedUpdateNetwork is called once per frame. This is Fusion's Update() method.
+    /// Coroutine to periodically check if player is out of stage.
+    /// If so, update stocks and check if they should be respawned, or lose the game.
     /// </summary>
-    public override void FixedUpdateNetwork()
+    /// <returns></returns>
+    protected IEnumerator CheckPlayerIsOutOfStage()
     {
-        // check if player has lost a life (out of stage)
-        if (IsOutOfStage() && !isRespawning)
+        while (true)
         {
-            // pause update
-            isRespawning = true;
-
-            // update values for stocks and deaths
-            CurrentStocks--;
-            Deaths++;
-
-            if (CurrentStocks > 0)
+            // check if player has lost a life (out of stage)
+            if (IsOutOfStage() && CurrentStocks > 0)
             {
-                // respawn player if they still have any stocks left
-                Respawn();
-            }
-            else
-            {
-                TriggerLoss();
+                // update values for stocks and deaths
+                CurrentStocks--;
+                Deaths++;
+
+                //RPC_PlayHitDeathzoneAudio();
+                _audioManager.RPC_PlayUniversalCharacterSFXAudio(PlayerActions.Death.ToString());
+
+                // wait short-time before respawning / losing
+                yield return new WaitForSeconds(0.33f);
+
+                if (CurrentStocks > 0) // respawn player
+                {
+                    Respawn();
+                }
+                else // player loses
+                {
+                    TriggerLoss();
+                    break;
+                }
+
             }
 
-            // end of code-block; can resume checks
-            isRespawning = false;
+            // wait short-time before running this coroutine again
+            yield return new WaitForSeconds(0.33f);
         }
 
+        StopCoroutine(CheckPlayerIsOutOfStage());
+        
     }
 
     /// <summary>
@@ -170,14 +185,9 @@ public class Stock : NetworkBehaviour
     /// </summary>
     protected void Respawn()
     {
-        //RPC_PlayHitDeathzoneAudio();
-        _audioManager.RPC_PlayUniversalCharacterSFXAudio(PlayerActions.Death.ToString());
-
         // reset position and falling velocity
         _body.position = new Vector2(0, 3);
-
-        Vector2 zeroVelocity = new Vector2(0, 0);
-        _body.velocity = zeroVelocity;
+        _body.velocity = new Vector2(0, 0);
 
         // reset health
         _health.ResetHealth();
