@@ -1,7 +1,6 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 /// <summary>
@@ -44,10 +43,25 @@ public class Attack : NetworkBehaviour
     private Vector2 _medKnockback = new Vector2(6, 3);
     private Vector2 _highKnockback = new Vector2(10, 5);
 
-
-    // The total amount of damage done by the player - For Database
+    // networked property of the figher's deaths
+    // listens for OnChanged and notifies other instances
     private int _damageDone = 0;
-    public int DamageDone => _damageDone; // getter
+    [Networked(OnChanged = nameof(OnDamageDoneChanged)), UnityNonSerialized]
+    public int DamageDone
+    {
+        get
+        {
+            return _damageDone;
+        }
+        set
+        {
+            _damageDone = value;
+            if (Object.HasInputAuthority)
+            {
+                RPC_SetDamageDone(value);
+            }
+        }
+    }
 
 
     /// <summary>
@@ -147,7 +161,7 @@ public class Attack : NetworkBehaviour
                 print("Attack hit!");
                 health.Knockback(CalculateKnockback(collider, health));
                 health.Damage(_damage);
-                RPC_AddDamageDone(_damage);
+                DamageDone += _damage;
             }
         }
     }
@@ -184,11 +198,28 @@ public class Attack : NetworkBehaviour
     }
 
 
-    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-    protected void RPC_AddDamageDone(int damage)
+    /// <summary>
+    /// Networked OnChanged method for the Network Property DamageDone
+    /// </summary>
+    /// <param name="changed"></param>
+    static void OnDamageDoneChanged(Changed<Attack> changed)
     {
-        _damageDone += damage;
-        print("Updated damage done: " + _damageDone + " ; Object reference:" + Object.InputAuthority);
+        changed.LoadNew();
+        var newVal = changed.Behaviour.DamageDone;
+        changed.LoadOld();
+        var oldVal = changed.Behaviour.DamageDone;
+        Debug.Log($"Player damage done changed from {oldVal} to {newVal}");
     }
+
+    /// <summary>
+    /// RPC method for client to notify host its changes for Damage Done
+    /// </summary>
+    /// <param name="damageDone"></param>
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetDamageDone(int damageDone)
+    {
+        this.DamageDone = damageDone;
+    }
+
 
 }

@@ -182,7 +182,7 @@ public class GameResultsController : NetworkBehaviour
         _playerOneImage.sprite = _avatars[_playerOneSelectedIndex];
         _playerTwoImage.sprite = _avatars[_playerTwoSelectedIndex];
 
-        // TODO ? set winner's mask color -> _winnerBGMaskImageColor
+        // possible TODO? set winner's mask color -> _winnerBGMaskImageColor
 
         // set winner & players' names
         _winnerName.text = _winner.gameObject.GetComponent<NetworkPlayer>().NickName.ToString();
@@ -274,10 +274,6 @@ public class GameResultsController : NetworkBehaviour
             UserData.SendLeaderboard(_DatabasePlayerTwoName, DatabasePlayerTwoWins);
         }
 
-        // TODO save results to database
-        // Add leaderboard calls here
-        // use _winner and _loser to find user data by playfabid
-        // do something to update user data 
     }
 
 
