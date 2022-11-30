@@ -32,7 +32,7 @@ public class Stock : NetworkBehaviour
     [SerializeField] private int _stocks = 3;
 
 
-    // networked property of the fighter's Stocks; listens for OnChanged and notifies others
+    // networked property of the fighter's Stocks; listens for OnChanged and notifies others instances
     private int _currentStocks;
 
     [Networked(OnChanged = nameof(OnStocksChanged)), UnityNonSerialized]
@@ -53,16 +53,32 @@ public class Stock : NetworkBehaviour
         }
     }
 
-    // The amount of Deaths this player has - For Database, other player uses this number for Kills
+    // networked property of the figher's deaths; listens for OnChanged and notifies other instances
+    // For Database, the other player uses this number for Kills
     private int _deaths = 0;
-    public int Deaths => _deaths; // getter
+    [Networked(OnChanged = nameof(OnDeathsChanged)), UnityNonSerialized]
+    public int Deaths
+    {
+        get
+        {
+            return _deaths;
+        }
+        set
+        {
+            _deaths = value;
+            if (Object.HasInputAuthority)
+            {
+                RPC_SetDeaths(value);
+            }
+        }
+    }
 
     // helper bool to pause respawn checks in update method WHILE respawning
     private bool isRespawning = false;
 
     // the out-of-map stage boundary
     private readonly int stageBoundaryTop = 15;
-    private readonly int stageBoundaryBottom = -5;
+    private readonly int stageBoundaryBottom = -10;
     private readonly int stageBoundaryLeft = -15;
     private readonly int stageBoundaryRight = 15;
 
@@ -116,22 +132,19 @@ public class Stock : NetworkBehaviour
             // pause update
             isRespawning = true;
 
-            // local assignment of stocks is faster than always using the networked property
-            int newStocks = CurrentStocks;
+            // update values for stocks and deaths
+            CurrentStocks--;
+            Deaths++;
 
-            newStocks--;
-            _deaths++;
-
-            if (newStocks != 0)
+            if (CurrentStocks > 0)
             {
                 // respawn player if they still have any stocks left
                 Respawn();
-            } else
+            }
+            else
             {
                 TriggerLoss();
             }
-
-            CurrentStocks = newStocks;
 
             // end of code-block; can resume checks
             isRespawning = false;
@@ -183,7 +196,7 @@ public class Stock : NetworkBehaviour
 
 
     /// <summary>
-    /// Networked OnChanged method for the Network Property Health
+    /// Networked OnChanged method for the Network Property Stocks
     /// </summary>
     /// <param name="changed"></param>
     static void OnStocksChanged(Changed<Stock> changed)
@@ -207,6 +220,29 @@ public class Stock : NetworkBehaviour
     public void RPC_SetStocks(int stocks)
     {
         this.CurrentStocks = stocks;
+    }
+
+    /// <summary>
+    /// Networked OnChanged method for the Network Property Deaths
+    /// </summary>
+    /// <param name="changed"></param>
+    static void OnDeathsChanged(Changed<Stock> changed)
+    {
+        changed.LoadNew();
+        var newVal = changed.Behaviour.Deaths;
+        changed.LoadOld();
+        var oldVal = changed.Behaviour.Deaths;
+        Debug.Log($"Player deaths changed from {oldVal} to {newVal}");
+    }
+
+    /// <summary>
+    /// RPC method for client to notify host its changes for Deaths
+    /// </summary>
+    /// <param name="deaths"></param>
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetDeaths(int deaths)
+    {
+        this.Deaths = deaths;
     }
 }
 

@@ -109,7 +109,7 @@ public class Health : NetworkBehaviour
         CurrentHealth += amount;
 
         _networkPlayer.DisableInputsTemporarily(0.5f);
-        _networkPlayer.ColorSpriteTemporarily(0.5f, Color.red);
+        _networkPlayer.RPC_ColorSpriteTemporarily(0.5f, Color.red);
     }
 
 
