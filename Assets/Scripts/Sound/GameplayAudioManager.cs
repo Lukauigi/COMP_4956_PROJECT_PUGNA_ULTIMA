@@ -45,43 +45,47 @@ public enum MenuActions
 /// Author(s): Lukasz Bednarek
 /// Date: November 23, 2022
 /// Remarks: Functionality relating to move is present but not functioning properly.
-/// Change History: November 22, 2022 = Lukasz Bednarek
+/// Change History: November 25, 2022 - Lukasz Bednarek
 /// - Add class
 /// - Add documentation
 /// - Add random usage of sound effects in sound pool.
 /// - Edit method headers and add method documentation.
+/// - Edit Move audio logic.
 /// </summary>
 public class GameplayAudioManager : NetworkBehaviour
 {
     public static GameplayAudioManager Instance = null;
 
     // sound pools for actions with multiple audio clips
-    [SerializeField] private AudioClip[] attackSoundPool;
-    [SerializeField] private AudioClip[] receiveDamageSoundPool;
-    [SerializeField] private AudioClip[] moveSoundPool;
+    [SerializeField] private AudioClip[] _attackSoundPool;
+    [SerializeField] private AudioClip[] _receiveDamageSoundPool;
+    [SerializeField] private AudioClip[] _moveSoundPool;
 
     // universally-shared character audio clips
-    [SerializeField] private AudioClip deathSound;
-    [SerializeField] private AudioClip jumpSound;
-    [SerializeField] private AudioClip jumpLandSound;
-    [SerializeField] private AudioClip dodgeSound;
+    [SerializeField] private AudioClip _deathSound;
+    [SerializeField] private AudioClip _jumpSound;
+    [SerializeField] private AudioClip _jumpLandSound;
+    [SerializeField] private AudioClip _dodgeSound;
 
     // menu interaction audio clips
-    [SerializeField] private AudioClip navigateSound;
-    [SerializeField] private AudioClip confirmSound;
-    [SerializeField] private AudioClip revertSound;
-    [SerializeField] private AudioClip errorSound;
+    [SerializeField] private AudioClip _navigateSound;
+    [SerializeField] private AudioClip _confirmSound;
+    [SerializeField] private AudioClip _revertSound;
+    [SerializeField] private AudioClip _errorSound;
 
     // categorical data structures for certain audio effects
-    private Dictionary<string, AudioClip[]> hostPlayerAudio;
-    private Dictionary<string, AudioClip[]> clientPlayerAudio;
-    private Dictionary<string, AudioClip> universalPlayerAudio;
-    private Dictionary<string, AudioClip> menuAudioPlayer;
+    private Dictionary<string, AudioClip[]> _hostPlayerAudio;
+    private Dictionary<string, AudioClip[]> _clientPlayerAudio;
+    private Dictionary<string, AudioClip> _universalPlayerAudio;
+    private Dictionary<string, AudioClip> _menuAudioPlayer;
 
     // audio sources, can be thought of as audio channels
-    [SerializeField] public AudioSource sfxAudioSource;
-    [SerializeField] public AudioSource musicAudioSource;
-    [SerializeField] public AudioSource moveLoopAudioSource;
+    [SerializeField] private AudioSource _sfxAudioSource;
+    [SerializeField] private AudioSource _musicAudioSource;
+    [SerializeField] private AudioSource _player1MoveLoopAudioSource;
+    [SerializeField] private AudioSource _player2MoveLoopAudioSource;
+
+    private NetworkId[] _playerIds = new NetworkId[2];
 
     /// <summary>
     /// Initializes a game object's components. Ideal section to initialize instance data of game object.
@@ -90,33 +94,42 @@ public class GameplayAudioManager : NetworkBehaviour
     {
         Instance = this;
 
-        hostPlayerAudio = new Dictionary<string, AudioClip[]> {
-            { PlayerActions.Attack.ToString(), attackSoundPool },
-            { PlayerActions.ReceiveDamage.ToString(), receiveDamageSoundPool },
-            { PlayerActions.Move.ToString(), moveSoundPool }
+        _hostPlayerAudio = new Dictionary<string, AudioClip[]> {
+            { PlayerActions.Attack.ToString(), _attackSoundPool },
+            { PlayerActions.ReceiveDamage.ToString(), _receiveDamageSoundPool },
+            { PlayerActions.Move.ToString(), _moveSoundPool }
         };
 
-        clientPlayerAudio = new Dictionary<string, AudioClip[]> {
-            { PlayerActions.Attack.ToString(), attackSoundPool },
-            { PlayerActions.ReceiveDamage.ToString(), receiveDamageSoundPool },
-            { PlayerActions.Move.ToString(), moveSoundPool }
+        _clientPlayerAudio = new Dictionary<string, AudioClip[]> {
+            { PlayerActions.Attack.ToString(), _attackSoundPool },
+            { PlayerActions.ReceiveDamage.ToString(), _receiveDamageSoundPool },
+            { PlayerActions.Move.ToString(), _moveSoundPool }
         };
 
-        universalPlayerAudio = new Dictionary<string, AudioClip>
+        _universalPlayerAudio = new Dictionary<string, AudioClip>
         {
-            { PlayerActions.Death.ToString(), deathSound },
-            { PlayerActions.Dodge.ToString(), dodgeSound },
-            { PlayerActions.Jump.ToString(), jumpSound },
-            { PlayerActions.JumpLand.ToString(), jumpLandSound }
+            { PlayerActions.Death.ToString(), _deathSound },
+            { PlayerActions.Dodge.ToString(), _dodgeSound },
+            { PlayerActions.Jump.ToString(), _jumpSound },
+            { PlayerActions.JumpLand.ToString(), _jumpLandSound }
         };
 
-        menuAudioPlayer = new Dictionary<string, AudioClip>
+        _menuAudioPlayer = new Dictionary<string, AudioClip>
         {
-            { MenuActions.Navigate.ToString(), navigateSound },
-            { MenuActions.Confirm.ToString(), confirmSound },
-            { MenuActions.Revert.ToString(), revertSound },
-            { MenuActions.Error.ToString(), errorSound }
+            { MenuActions.Navigate.ToString(), _navigateSound },
+            { MenuActions.Confirm.ToString(), _confirmSound },
+            { MenuActions.Revert.ToString(), _revertSound },
+            { MenuActions.Error.ToString(), _errorSound }
         };
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_SetPlayerIds(NetworkId playerOne, NetworkId playerTwo)
+    {
+        print("player ids: " + playerOne + ", " + playerTwo);
+        _playerIds[0] = playerOne;
+        _playerIds[1] = playerTwo;
+        
     }
 
     /// <summary>
@@ -124,29 +137,27 @@ public class GameplayAudioManager : NetworkBehaviour
     /// </summary>
     /// <param name="playerRefId">Reference ID of a player</param>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
-    /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_PlaySpecificCharatcerSFXAudio(int playerRefId, string playerAction)
     {
         print("Audio Call " + playerAction);
 
         // Get random audio clip from sound pool
-        int soundPoolLength = hostPlayerAudio[playerAction].Length;
+        int soundPoolLength = _hostPlayerAudio[playerAction].Length;
         int clipIndex = Random.Range(0, soundPoolLength);
 
-        sfxAudioSource.PlayOneShot(hostPlayerAudio[playerAction][clipIndex]);
+        _sfxAudioSource.PlayOneShot(_hostPlayerAudio[playerAction][clipIndex]);
     }
 
     /// <summary>
     /// Plays a universal character sound effect.
     /// </summary>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
-    /// <param name="isLoopingAudio"></param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_PlayUniversalCharatcerSFXAudio(string playerAction)
+    public void RPC_PlayUniversalCharacterSFXAudio(string playerAction)
     {
         print("Audio Call " + playerAction);
-        sfxAudioSource.PlayOneShot(universalPlayerAudio[playerAction]);
+        _sfxAudioSource.PlayOneShot(_universalPlayerAudio[playerAction]);
     }
 
     /// <summary>
@@ -155,22 +166,41 @@ public class GameplayAudioManager : NetworkBehaviour
     /// This audio will loop until RPC_StopMoveAudio is called.
     /// </summary>
     /// <param name="playerAction">The Player Action string of the enumeration</param>
+    /// <param name="playerId">A player's unique identifier on the network</param>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_PlayMoveAudio(string playerAction)
+    public void RPC_PlayMoveAudio(string playerAction, NetworkId playerId)
     {
-        print("Audio Call " + playerAction);
-        moveLoopAudioSource.clip = hostPlayerAudio[playerAction][0];
-        moveLoopAudioSource.Play(); 
+        print("Audio Call " + playerAction + " id: " + playerId);
+        if (playerId == _playerIds[0])
+        {
+            _player1MoveLoopAudioSource.clip = _hostPlayerAudio[playerAction][0];
+            _player1MoveLoopAudioSource.Play();
+        }
+        else if (playerId == _playerIds[1])
+        {
+            _player2MoveLoopAudioSource.clip = _hostPlayerAudio[playerAction][0];
+            _player2MoveLoopAudioSource.Play();
+        }
     }
 
     /// <summary>
     /// Stops character ground movement audio.
+    /// <param name="playerId">A player's unique identifier on the network</param>
     /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_StopMoveAudio()
+    public void RPC_StopMoveAudio(NetworkId playerId)
     {
-        print("Stop Move Audio Call");
-        moveLoopAudioSource.Stop();
+        print("Stop Move Audio Call, id: " + playerId);
+        if (playerId == _playerIds[0])
+        {
+            _player1MoveLoopAudioSource.Stop();
+            _player1MoveLoopAudioSource.clip = null;
+        }
+        else if (playerId == _playerIds[1])
+        {
+            _player2MoveLoopAudioSource.Stop();
+            _player2MoveLoopAudioSource.clip = null;
+        }
     }
 
     /// <summary>
@@ -179,7 +209,7 @@ public class GameplayAudioManager : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_StopSFXAudio()
     {
-        moveLoopAudioSource.Stop();
+        _player1MoveLoopAudioSource.Stop();
     }
 
     /// <summary>
@@ -189,6 +219,6 @@ public class GameplayAudioManager : NetworkBehaviour
     public void PlayMenuSFXAudio(string menuAction)
     {
         print("Audio Call " + menuAction);
-        sfxAudioSource.PlayOneShot(menuAudioPlayer[menuAction]);
+        _sfxAudioSource.PlayOneShot(_menuAudioPlayer[menuAction]);
     }
 }

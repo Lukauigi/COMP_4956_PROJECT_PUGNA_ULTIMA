@@ -16,35 +16,49 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="FighterInputController", menuName ="InputController/FighterInputController")] // makes sure we can make an instance of it in the menu
 public class FighterInputController : InputController
 {
-    // returns the raw axis for horizontal movements
-    // checks if left or right is pressed
+
+    /// <summary>
+    /// Checks if left or right is pressed.
+    /// Returns a raw float value of the horizontal input.
+    /// </summary>
+    /// <returns></returns>
     public override float RetrieveHorizontalInput()
     {
         return Input.GetAxisRaw("Horizontal");
     }
-    // returns the raw axis for vertical movements
-    // checks if up or down is pressed
+
+    /// <summary>
+    /// Checks if up or down is pressed.
+    /// Returns a raw float value of the vertical input.
+    /// </summary>
+    /// <returns></returns>
     public override float RetrieveVerticalInput()
     {
-
         return Input.GetAxisRaw("Vertical");
     }
 
-    // checks if jump (space) is pressed
+    /// <summary>
+    /// Checks if Jump (space) is pressed.
+    /// </summary>
+    /// <returns></returns>
     public override bool RetrieveJumpInput()
     {
         return Input.GetButtonDown("Jump");
     }
 
-
-    // checks if attack (g) is pressed
+    /// <summary>
+    /// Checks if Attack (g / left mouse button) is pressed
+    /// </summary>
+    /// <returns></returns>
     public override bool RetrieveAttackInput()
     {
         return Input.GetButtonDown("Attack");
-        //return Input.GetKeyDown(KeyCode.G);
     }
 
-    // checks if dodge (h) is pressed
+    /// <summary>
+    /// Returns if Dodge (h / right mouse button) is pressed.
+    /// </summary>
+    /// <returns></returns>
     public override bool RetrieveDodgeInput()
     {
         return Input.GetButtonDown("Dodge");

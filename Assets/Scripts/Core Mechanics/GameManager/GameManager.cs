@@ -34,35 +34,36 @@ public class GameManager : NetworkBehaviour
     // the fighter they are controlling
     private NetworkObject _playerOne;
     private NetworkObject _playerTwo;
-
-    // player references - fusion gives them a player id
-    private int _playerOneRef = 0;
-    private int _playerTwoRef = 0;
-
-    // the winner and loser when the game ends
-    private NetworkObject _winner;
-    private NetworkObject _loser;
-
-    private string _playerOneId;
-    private string _playerTwoId;
+    // the NetworkPlayer components that belong to each player
+    private NetworkPlayer _playerOneNetworkPlayer;
+    private NetworkPlayer _playerTwoNetworkPlayer;
 
     // Current Game State
     public GameStates GameState { get; private set; } = GameStates.Waiting;
 
-    // Awake is called when the script instance is being loaded
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     private void Awake()
     {
         Manager = this;
         Debug.Log("GameManager instance awake: " + Manager);
     }
 
-    // Start is called after Awake, and before Update
+    /// <summary>
+    /// Start is called after Awake, and before Update.
+    /// Generally used to reference other scene objects, after they have all been initialized.
+    /// </summary>
     public void Start()
     {
         CacheOtherObjects();
     }
 
-    // Helper method to initialize OTHER game objects and their components
+
+    /// <summary>
+    /// Helper method to initialize OTHER game objects and their components
+    /// </summary>
     private void CacheOtherObjects()
     {
         if (!_gameTimerController) _gameTimerController = GameTimerController.Instance;
@@ -72,8 +73,8 @@ public class GameManager : NetworkBehaviour
         if (!_gameplayAudioManager) _gameplayAudioManager = GameplayAudioManager.Instance;
     }
 
-    // Method to cache the selected and spawned fighters
     /// <summary>
+    /// Method to cache the selected and spawned fighters.
     /// 
     /// Change history:
     /// 2022-11-21 Roswell Doria
@@ -95,18 +96,28 @@ public class GameManager : NetworkBehaviour
         int playerOneSelectedIndex, int playerTwoSelectedIndex,
         string playerOneId, string playerTwoId)
     {
+        // cache the two players
         if (!_playerOne) _playerOne = playerOne;
         if (!_playerTwo) _playerTwo = playerTwo;
 
-        // cache players and its user properties for the other scene objects that need it
+        // cache the network player instance that belongs to the network object
+        _playerOneNetworkPlayer = _playerOne.gameObject.GetComponent<NetworkPlayer>();
+        _playerTwoNetworkPlayer = _playerTwo.gameObject.GetComponent<NetworkPlayer>();
+
+        // cache for the other scene objects that also need the player references
         _networkFighterObserver.RPC_CachePlayers(playerOne, playerTwo, 
             playerOneUsername, playerTwoUsername,
             playerOneSelectedIndex, playerTwoSelectedIndex);
         _gameResultsController.RPC_CachePlayers(playerOne, playerTwo,
-            playerOneSelectedIndex, playerTwoSelectedIndex, playerOneId, playerTwoId);
+            playerOneSelectedIndex, playerTwoSelectedIndex,
+            playerOneId, playerTwoId);
+        _gameplayAudioManager.RPC_SetPlayerIds(playerOne.Id, playerTwo.Id);
     }
 
-    // Set Game State to waiting
+
+    /// <summary>
+    /// Set Game State to 'Waiting'.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_SetGameStateWaiting()
     {
@@ -117,7 +128,10 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    // Set Game State to countdown
+
+    /// <summary>
+    /// Set Game State to 'Starting'.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_SetGameStateStarting()
     {
@@ -127,11 +141,13 @@ public class GameManager : NetworkBehaviour
             Debug.Log("GameManager state is: " + GameState.ToString());
 
             RPC_OnGameStateStarting();
-            // TODO: (not in this method) disable player input until this countdown is finished
         }
     }
 
-    // Set Game State to running
+
+    /// <summary>
+    /// Set Game State to 'Running'.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_SetGameStateRunning()
     {
@@ -144,7 +160,10 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    // Set Game State to gameOver
+
+    /// <summary>
+    /// Set Game State to 'GameOver'.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_SetGameStateGameOver()
     {
@@ -160,38 +179,34 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Method that runs when after GameState is switched to Starting.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     protected void RPC_OnGameStateStarting()
     {
         // start the starting countdown
         CountdownController.Instance.RPC_StartStartingCountdown();
+
+        // disable inputs of the two players for the starting countdown duration
+        float countdownDuration = CountdownController.Instance.StartingCountdown + CountdownController.Instance.StartingDelay;
+        _playerOneNetworkPlayer.DisableInputsTemporarily(countdownDuration);
+        _playerTwoNetworkPlayer.DisableInputsTemporarily(countdownDuration);
     }
 
+    /// <summary>
+    /// Method that runs when after GameState is switched to Running.
+    /// </summary>
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     protected void RPC_OnGameStateRunning()
     {
         // start the game timer
         GameTimerController.Instance.RPC_StartTimer();
-
-        StartCoroutine(GameRunningCheck());
     }
 
-    IEnumerator GameRunningCheck()
-    {
-        while (GameState == GameStates.Running)
-        {
-            // TODO:
-            // check if a player has left
-            // if so, forcibly end the game
-
-            // perform this co-routine check every second
-            yield return new WaitForSeconds(1f);
-        }
-
-        // stop this check since gamestate has changed
-        StopCoroutine(GameRunningCheck());
-    }
-
+    /// <summary>
+    /// Method that runs when after GameState is switched to GameOver.
+    /// </summary>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     protected void RPC_OnGameStateGameOver()
     {
@@ -199,28 +214,20 @@ public class GameManager : NetworkBehaviour
         _countdownController.DisplayEndText();
         _gameTimerController.gameObject.SetActive(false);
 
-        _gameResultsController.RPC_CacheGameResults();
+        // stop the player inputs
+        _playerOneNetworkPlayer.DisableInputsAndSlowPlayer();
+        _playerTwoNetworkPlayer.DisableInputsAndSlowPlayer();
 
-        // TODO:
-        // - disable player input once game is over (not in this method?)
+        // get end game results
+        _gameResultsController.RPC_CacheGameResults();
 
         StartCoroutine(GameOverCheck());
     }
 
-
-    // Helper method to hide the game scene like players, stage, game ui
-    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    protected void RPC_HideGameScene()
-    {
-        // hide players, stage, game ui
-        _playerOne.gameObject.SetActive(false);
-        _playerTwo.gameObject.SetActive(false);
-        //transform.parent.Find("GameStage").gameObject.SetActive(false);
-        _countdownController.gameObject.SetActive(false);
-        _networkFighterObserver.gameObject.SetActive(false);
-    }
-
-
+    /// <summary>
+    /// Co-Routine to control the game ending behaviour.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator GameOverCheck()
     {
         bool cachedGameResults = false;
@@ -252,6 +259,22 @@ public class GameManager : NetworkBehaviour
 
         // stop this check since gamestate has changed
         StopCoroutine(GameOverCheck());
+    }
+
+
+    /// <summary>
+    /// Helper method to hide the gameplay scene objects.
+    /// Hides objects like Players, Stage, and Game UI.
+    /// </summary>
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    protected void RPC_HideGameScene()
+    {
+        // hide players, stage, game ui
+        _playerOne.gameObject.SetActive(false);
+        _playerTwo.gameObject.SetActive(false);
+        //transform.parent.Find("GameStage").gameObject.SetActive(false);
+        _countdownController.gameObject.SetActive(false);
+        _networkFighterObserver.gameObject.SetActive(false);
     }
 
 }

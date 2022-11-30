@@ -11,18 +11,22 @@ using UnityEngine;
 /// </summary>
 public class FighterControlHandler : MonoBehaviour
 {
-
+    // The Input Controller attached to this fighter
     [SerializeField] private InputController input = null;
 
+    // Data values for input direction and actions
     private Vector2 direction;
     private bool jump;
     private bool attack;
     private bool dodge;
 
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
+    private void Update()
     {
+        // Get all the local input data
         direction.x = input.RetrieveHorizontalInput();
         direction.y = input.RetrieveVerticalInput();
 
@@ -36,6 +40,10 @@ public class FighterControlHandler : MonoBehaviour
             dodge = true;
     }
 
+    /// <summary>
+    /// Takes the local input data and reutns it as NetworkInputData.
+    /// </summary>
+    /// <returns></returns>
     public NetworkInputData GetNetworkInput()
     {
         NetworkInputData networkInputData = new NetworkInputData();

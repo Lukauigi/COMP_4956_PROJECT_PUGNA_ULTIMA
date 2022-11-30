@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 261806375952415378}
   - component: {fileID: 6654690710935817995}
   - component: {fileID: 261806375952415379}
+  - component: {fileID: -4378654921909643606}
   - component: {fileID: 7201283148702718108}
   - component: {fileID: 8494122299661959990}
   - component: {fileID: 4477711004666605217}
@@ -336,6 +337,7 @@ MonoBehaviour:
   - {fileID: 261806375952415378}
   - {fileID: 6654690710935817995}
   - {fileID: 261806375952415379}
+  - {fileID: -4378654921909643606}
   - {fileID: 4477711004666605217}
   - {fileID: 5423015663125788574}
   SimulationBehaviours: []
@@ -366,8 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  damage: 50
-  attackAudio: {fileID: 0}
+  _damage: 50
 --- !u!114 &-8388165017813984341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,7 +395,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  maxHealth: 400
 --- !u!114 &261806375952415372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,11 +408,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  jumpHeight: 3
-  maxAirJumps: 2
-  downwardMovementMultiplier: 3
-  upwardMovementMultiplier: 1.7
-  jumpAudio: {fileID: 0}
+  _jumpHeight: 2.5
+  _maxJumps: 2
+  _downwardMovementMultiplier: 3
+  _upwardMovementMultiplier: 1.7
 --- !u!114 &261806375952415378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,9 +425,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  maxSpeed: 4
-  maxAcceleration: 35
-  maxAirAcceleration: 20
+  _maxSpeed: 4
+  _maxAcceleration: 35
+  _maxAirAcceleration: 20
 --- !u!114 &6654690710935817995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  stocks: 3
+  _stocks: 3
 --- !u!114 &261806375952415379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +455,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  landAudioClip: {fileID: 0}
+--- !u!114 &-4378654921909643606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502517741467019153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57e56cac50ddcc4ba227581b5d08d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!114 &7201283148702718108
 MonoBehaviour:
   m_ObjectHideFlags: 0

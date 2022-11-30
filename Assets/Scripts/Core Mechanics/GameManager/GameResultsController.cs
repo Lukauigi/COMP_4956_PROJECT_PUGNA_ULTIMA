@@ -49,9 +49,9 @@ public class GameResultsController : NetworkBehaviour
     [SerializeField] private Sprite[] _avatars;
 
     // their selected index from the list of avatars
-    private int playerOneSelectedIndex;
-    private int playerTwoSelectedIndex;
-    private int winnerSelectedIndex;
+    private int _playerOneSelectedIndex;
+    private int _playerTwoSelectedIndex;
+    private int _winnerSelectedIndex;
 
     // stored values for results screen and/or database
     private int playerOneKills;
@@ -67,7 +67,9 @@ public class GameResultsController : NetworkBehaviour
     private string _DatabasePlayerOneName;
     private string _DatabasePlayerTwoName;
 
-    // Awake is called when the script instance is being loaded
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     private void Awake()
     {
         Instance = this;
@@ -77,7 +79,15 @@ public class GameResultsController : NetworkBehaviour
     }
 
 
-    // Method to cache the selected and spawned fighters
+    /// <summary>
+    /// Method to Cache the selected and spawned fighters.
+    /// </summary>
+    /// <param name="playerOne"></param>
+    /// <param name="playerTwo"></param>
+    /// <param name="playerOneSelectedIndex"></param>
+    /// <param name="playerTwoSelectedIndex"></param>
+    /// <param name="playerOneId"></param>
+    /// <param name="playerTwoId"></param>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_CachePlayers(NetworkObject playerOne, NetworkObject playerTwo,
         int playerOneSelectedIndex, int playerTwoSelectedIndex, string playerOneId, string playerTwoId)
@@ -91,22 +101,26 @@ public class GameResultsController : NetworkBehaviour
         MatchData.GetGameProfileData(_playerOneId, 1);
         MatchData.GetGameProfileData(_playerTwoId, 2);
         
-        this.playerOneSelectedIndex = playerOneSelectedIndex;
-        this.playerTwoSelectedIndex = playerTwoSelectedIndex;
+        this._playerOneSelectedIndex = playerOneSelectedIndex;
+        this._playerTwoSelectedIndex = playerTwoSelectedIndex;
     }
 
 
-    // Method to reference the players and find the winner/loser
+    /// <summary>
+    /// Method to run the behaviour to gather end game results.
+    /// </summary>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_CacheGameResults()
     {
         GetStats();
         GetWinnerLoser();
         SetResultsScreen();
-        SaveToDatabase();   // TODO
+        SaveToDatabase();
     }
 
-    // Helper method to determine the winner/loser
+    /// <summary>
+    /// Helper method to determine the winner/loser.
+    /// </summary>
     private void GetWinnerLoser()
     {
         // check who has more kills
@@ -114,36 +128,38 @@ public class GameResultsController : NetworkBehaviour
         {
             _winner = _playerOne;
             _loser = _playerTwo;
-            winnerSelectedIndex = playerOneSelectedIndex;   // cache selected image index
+            _winnerSelectedIndex = _playerOneSelectedIndex;   // cache selected image index
         }
         else if (playerOneKills < playerTwoKills)
         {
             _winner = _playerTwo;
             _loser = _playerOne;
-            winnerSelectedIndex = playerTwoSelectedIndex;
+            _winnerSelectedIndex = _playerTwoSelectedIndex;
         } else  // same amount of kills/deaths
         {
-            // check their final health
+            // check their final health; whoever has less health wins
             int playerOneCurrentHealth = _playerOne.gameObject.GetComponent<Health>().CurrentHealth;
             int playerTwoCurrentHealth = _playerTwo.gameObject.GetComponent<Health>().CurrentHealth;
 
-            if (playerOneCurrentHealth >= playerTwoCurrentHealth) // TODO: reverse this condition if knockback & damage done% is implemented
+            if (playerOneCurrentHealth <= playerTwoCurrentHealth)
             {
                 _winner = _playerOne;
                 _loser = _playerTwo;
-                winnerSelectedIndex = playerOneSelectedIndex;
+                _winnerSelectedIndex = _playerOneSelectedIndex;
             }
             else
             {
                 _winner = _playerTwo;
                 _loser = _playerOne;
-                winnerSelectedIndex = playerTwoSelectedIndex;
+                _winnerSelectedIndex = _playerTwoSelectedIndex;
             }
         }
 
     }
 
-    // Helper method to get player stats from this game
+    /// <summary>
+    /// Helper method to get player stats from the game.
+    /// </summary>
     private void GetStats()
     {
         // get damage done
@@ -156,13 +172,15 @@ public class GameResultsController : NetworkBehaviour
 
     }
 
-    // Helper method to set the text values of the game results screen
+    /// <summary>
+    /// Helper method to set the text values of the game results screen.
+    /// </summary>
     private void SetResultsScreen()
     {
         // set winner & players' image
-        _winnerImage.sprite = _avatars[winnerSelectedIndex];
-        _playerOneImage.sprite = _avatars[playerOneSelectedIndex];
-        _playerTwoImage.sprite = _avatars[playerTwoSelectedIndex];
+        _winnerImage.sprite = _avatars[_winnerSelectedIndex];
+        _playerOneImage.sprite = _avatars[_playerOneSelectedIndex];
+        _playerTwoImage.sprite = _avatars[_playerTwoSelectedIndex];
 
         // TODO ? set winner's mask color -> _winnerBGMaskImageColor
 
@@ -182,11 +200,11 @@ public class GameResultsController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Author: Justin Payne
-    /// Date: Nov 23 2022
-    /// 
     /// Function called at end of game to handle sending post game data to database.
     /// Also handles updating leaderboard results
+    /// 
+    /// Author: Justin Payne
+    /// Date: Nov 23 2022
     /// </summary>
     private void SaveToDatabase()
     {
@@ -262,7 +280,10 @@ public class GameResultsController : NetworkBehaviour
         // do something to update user data 
     }
 
-    // Method to unhide/show the game results scene object
+
+    /// <summary>
+    /// Method to unhide/show the game results scene object.
+    /// </summary>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_ShowGameResults()
     {
@@ -270,12 +291,16 @@ public class GameResultsController : NetworkBehaviour
         gameObject.SetActive(true);
     }
 
-    // OnClick event method for the 'Main Menu' button
+
+    /// <summary>
+    /// OnClick event method for the 'Main Menu' button.
+    /// This also shuts down the Fusion Runner for the local instance.
+    /// </summary>
     public void OnMainMenuBtnClick()
     {
         // load next scene: return to main menu
         Debug.Log("returning to Main Menu...");
         Runner.Shutdown();
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Scenes/Game Design/Screen Navigation/jr/Main Menu");
     }
 }

@@ -141,16 +141,12 @@ public class PlayerItemController : NetworkBehaviour
     /// </summary>
     public override void FixedUpdateNetwork()
     {
+        // update to the selected avatar sprite
         Avatar.sprite = Avatars[selected];
-        //Remove these when andrew finishes avatars
-        if (selected == 0) Avatar.color = Color.white;
-        if (selected == 1) Avatar.color = Color.red;
-        if (selected == 2) Avatar.color = Color.cyan;
 
         //Display This player's username
         if(Object.HasInputAuthority)
         {
-            
             RPC_SetPlayerName(PlayerPrefs.GetString("PlayerName"));
             RPC_SetPlayerId(PlayerPrefs.GetString("PlayfabId"));
         }
@@ -239,7 +235,7 @@ public class PlayerItemController : NetworkBehaviour
     public void RPC_OnNextBtnClick()
     {
         selected = (selected + 1) % Avatars.Length;
-        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
+        InitiateAudio(false); //plays audio only for client responsible for RPC.
     }
 
     /// <summary>
@@ -254,7 +250,7 @@ public class PlayerItemController : NetworkBehaviour
     {
         selected--;
         if (selected < 0) selected = Avatars.Length - 1;
-        if (Object.HasInputAuthority) InitiateAudio(false); //plays audio only for client responsible for RPC.
+        InitiateAudio(false); //plays audio only for client responsible for RPC.
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]

@@ -36,7 +36,9 @@ public class GameTimerController : NetworkBehaviour
 
     private bool _isTimerRunning = false;
 
-    // Awake is called when the script instance is being loaded, even if the script is disabled
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     private void Awake()
     {
         Instance = this;
@@ -71,6 +73,9 @@ public class GameTimerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Update is called every frame.
+    /// </summary>
     private void Update()
     {
         if (!_isTimerRunning)
