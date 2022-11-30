@@ -12,13 +12,14 @@ using UnityEngine;
 /// </summary>
 public class MouseCursor : MonoBehaviour
 {
-
+    [SerializeField] Texture2D cursor;
     private TrailRenderer trail;
     public float timeBetweenSpawn = 0.1f;
 
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.SetCursor(cursor, Vector3.zero, CursorMode.ForceSoftware);
         Cursor.visible = true;
         trail = GetComponent<TrailRenderer>();
     }
