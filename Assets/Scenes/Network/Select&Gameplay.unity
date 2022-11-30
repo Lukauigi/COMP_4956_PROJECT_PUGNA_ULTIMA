@@ -788,6 +788,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneAudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1518892933813082737, guid: ab22a900816908d408d60ec2005713d7, type: 3}
+      propertyPath: _moveSoundPool.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 30b1170eebb8f7d4f8cf135e3f8fe45a, type: 3}
     - target: {fileID: 1518892933813082740, guid: ab22a900816908d408d60ec2005713d7, type: 3}
       propertyPath: m_RootOrder
       value: 8
