@@ -1070,7 +1070,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  overlappingColliders: []
 --- !u!1 &8467199700369849443
 GameObject:
   m_ObjectHideFlags: 0

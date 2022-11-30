@@ -99,7 +99,7 @@ public class Dodge : NetworkBehaviour
         // middle section - disable hitbox (invincible), show dodge color effect, and play sound
         Debug.Log("hitbox down");
         _playerHitbox.enabled = false;
-        _networkPlayer.ColorSpriteTemporarily(0.5f, Color.gray);
+        _networkPlayer.RPC_ColorSpriteTemporarily(0.5f, Color.gray);
         if (Object.HasStateAuthority) _audioManager.RPC_PlayUniversalCharacterSFXAudio(PlayerActions.Dodge.ToString());
         yield return new WaitForSeconds(0.5f);  // time till next section
 

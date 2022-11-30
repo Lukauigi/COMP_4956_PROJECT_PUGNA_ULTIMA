@@ -231,7 +231,8 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     /// </summary>
     /// <param name="seconds"></param>
     /// <param name="color"></param>
-    public void ColorSpriteTemporarily(float seconds, Color color)
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void RPC_ColorSpriteTemporarily(float seconds, Color color)
     {
         StartCoroutine(OnColorSpriteTemporarily(seconds, color));
     }
