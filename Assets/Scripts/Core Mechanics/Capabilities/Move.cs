@@ -13,6 +13,8 @@ using UnityEngine;
 /// - integrated Jaspers' animations using Animator controller and set triggers
 /// - Add logic for RPC call for sound effect method. Does not work properly; therefore, it is commencted out.
 /// - Fixed logic movement audio calls.
+/// Nov 29, 2022 - Lukasz Bednarek
+/// - Exlcude part of guard statement to stop move audio causing bugs.
 /// </summary>
 public class Move : NetworkBehaviour
 {
@@ -122,7 +124,7 @@ public class Move : NetworkBehaviour
         }
 
         // Stops move audio clip
-        if (_isMovingAudioPlaying && (_velocity.x == 0 || !onGround) && _direction.x == 0)
+        if (_isMovingAudioPlaying && (_velocity.x == 0 || !onGround))
         {
             _isMovingAudioPlaying = false;
             _audioManager.RPC_StopMoveAudio(Object.Id);

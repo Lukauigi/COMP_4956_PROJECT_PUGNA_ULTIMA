@@ -18,6 +18,8 @@ public enum GameStates { Waiting, Starting, Running, GameOver };
 /// - caches player username and avatar image
 /// Nov 20 2022 - Jason Cheung
 /// - cache spawned players and sends their data to Game UI and Game Results objects
+/// Nov 29 - Lukasz Bednarek
+/// - Call gameplayAudioManager method to stop looping audio on end of battle time.
 /// </summary>
 public class GameManager : NetworkBehaviour
 {
@@ -217,6 +219,9 @@ public class GameManager : NetworkBehaviour
         // stop the player inputs
         _playerOneNetworkPlayer.DisableInputsAndSlowPlayer();
         _playerTwoNetworkPlayer.DisableInputsAndSlowPlayer();
+
+        // stop looping audio sources
+        _gameplayAudioManager.RPC_StopSFXAudio();
 
         // get end game results
         _gameResultsController.RPC_CacheGameResults();
