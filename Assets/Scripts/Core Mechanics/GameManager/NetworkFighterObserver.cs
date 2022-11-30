@@ -183,12 +183,14 @@ public class NetworkFighterObserver : NetworkBehaviour
         if (_prevPlayerOneCurrentHealth != playerOneCurrentHealth)
         {
             UpdateFighterStatusUI(_playerOneCurrentHealth, playerOneCurrentHealth);
+            UpdateHealthUIColor(_playerOneCurrentHealth, playerOneCurrentHealth);
             _prevPlayerOneCurrentHealth = playerOneCurrentHealth;
         }
         // check player 1 stocks
         if (_prevPlayerOneStocks != playerOneStocks)
         {
             UpdateFighterStatusUI(_playerOneStocks, playerOneStocks);
+            UpdateStocksUIColor(_playerOneStocks, playerOneStocks);
             _prevPlayerOneStocks = playerOneStocks;
         }
 
@@ -196,12 +198,14 @@ public class NetworkFighterObserver : NetworkBehaviour
         if (_prevPlayerTwoCurrentHealth != playerTwoCurrentHealth)
         {
             UpdateFighterStatusUI(_playerTwoCurrentHealth, playerTwoCurrentHealth);
+            UpdateHealthUIColor(_playerTwoCurrentHealth, playerTwoCurrentHealth);
             _prevPlayerTwoCurrentHealth = playerTwoCurrentHealth;
         }
         // check player 2 stocks
         if (_prevPlayerTwoStocks != playerTwoStocks)
         {
             UpdateFighterStatusUI(_playerTwoStocks, playerTwoStocks);
+            UpdateStocksUIColor(_playerTwoStocks, playerTwoStocks);
             _prevPlayerTwoStocks = playerTwoStocks;
         }
 
@@ -223,6 +227,34 @@ public class NetworkFighterObserver : NetworkBehaviour
     private void UpdateFighterStatusUI(TextMeshProUGUI textObj, int newValue)
     {
         textObj.text = newValue.ToString();
+    }
+
+    /// <summary>
+    /// Helper method to update the Health UI element to the correct color
+    /// </summary>
+    /// <param name="textObj"></param>
+    /// <param name="newValue"></param>
+    private void UpdateHealthUIColor(TextMeshProUGUI textObj, int health)
+    {
+        Color color;
+
+        // set colors based on current health
+        if (health <= 150) color = Color.white;
+        else if (health <= 300) color = Color.yellow;
+        else color = Color.red;
+
+        textObj.color = color;
+    }
+
+    private void UpdateStocksUIColor(TextMeshProUGUI textObj, int stocks)
+    {
+        Color color;
+
+        // set to red if on last stock
+        if (stocks == 1) color = Color.red;
+        else color = Color.white;
+
+        textObj.color = color;
     }
 
 
