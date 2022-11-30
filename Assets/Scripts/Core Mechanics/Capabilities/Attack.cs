@@ -147,7 +147,7 @@ public class Attack : NetworkBehaviour
                 print("Attack hit!");
                 health.Knockback(CalculateKnockback(collider, health));
                 health.Damage(_damage);
-                _damageDone += _damage;
+                RPC_AddDamageDone(_damage);
             }
         }
     }
@@ -183,5 +183,12 @@ public class Attack : NetworkBehaviour
         return knockbackStrength;
     }
 
+
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
+    protected void RPC_AddDamageDone(int damage)
+    {
+        _damageDone += damage;
+        print("Updated damage done: " + _damageDone + " ; Object reference:" + Object.InputAuthority);
+    }
 
 }

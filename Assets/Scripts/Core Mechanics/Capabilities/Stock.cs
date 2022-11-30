@@ -62,7 +62,7 @@ public class Stock : NetworkBehaviour
 
     // the out-of-map stage boundary
     private readonly int stageBoundaryTop = 15;
-    private readonly int stageBoundaryBottom = -5;
+    private readonly int stageBoundaryBottom = -10;
     private readonly int stageBoundaryLeft = -15;
     private readonly int stageBoundaryRight = 15;
 
