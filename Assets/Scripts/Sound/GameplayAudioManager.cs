@@ -11,6 +11,7 @@ using Fusion;
 /// Change History: November 23, 2022 - Lukasz Bednarek
 /// - Add enumeration
 /// - Add documentation
+/// - Edit Stop method to stop move audio & add forgotten method header.
 /// </summary>
 public enum PlayerActions
 {
@@ -49,6 +50,7 @@ public enum MenuActions
 /// - Add class
 /// - Add documentation
 /// - Add random usage of sound effects in sound pool.
+/// November 29, 2022 - Lukasz Bednarek
 /// - Edit method headers and add method documentation.
 /// - Edit Move audio logic.
 /// </summary>
@@ -123,6 +125,11 @@ public class GameplayAudioManager : NetworkBehaviour
         };
     }
 
+    /// <summary>
+    /// Sets the player IDs of the players within the battle.
+    /// </summary>
+    /// <param name="playerOne">Network ID of first player.</param>
+    /// <param name="playerTwo">Network ID of second player.</param>
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_SetPlayerIds(NetworkId playerOne, NetworkId playerTwo)
     {
@@ -210,6 +217,7 @@ public class GameplayAudioManager : NetworkBehaviour
     public void RPC_StopSFXAudio()
     {
         _player1MoveLoopAudioSource.Stop();
+        _player2MoveLoopAudioSource.Stop();
     }
 
     /// <summary>
