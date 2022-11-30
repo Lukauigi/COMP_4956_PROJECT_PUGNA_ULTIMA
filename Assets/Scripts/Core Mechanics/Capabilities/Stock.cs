@@ -122,6 +122,8 @@ public class Stock : NetworkBehaviour
             newStocks--;
             _deaths++;
 
+            CurrentStocks = newStocks;
+
             if (newStocks != 0)
             {
                 // respawn player if they still have any stocks left
@@ -130,8 +132,6 @@ public class Stock : NetworkBehaviour
             {
                 TriggerLoss();
             }
-
-            CurrentStocks = newStocks;
 
             // end of code-block; can resume checks
             isRespawning = false;
