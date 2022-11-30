@@ -153,4 +153,12 @@ public class AudioEffectsManager : MonoBehaviour
         _loopAudioSource.Stop();
         _loopAudioSource.clip = null;
     }
+
+    /// <summary>
+    /// Stops the current sound effects of menu SFX audio clips.
+    /// </summary>
+    public void StopSFXSounds()
+    {
+        _oneShotAudioSource.Stop();
+    }
 }

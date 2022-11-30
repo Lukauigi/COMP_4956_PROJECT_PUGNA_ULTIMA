@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using PlayFab.ClientModels;
 using PlayFab;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Author: Roswell Doria
@@ -11,8 +12,11 @@ using PlayFab;
 /// 
 /// This script is responsible controlling the behavior for friendItem Prefabs that are dynamically created inside the friendsList prefab.
 ///
+/// Change History: 2022-11-28 - Lukasz Bednarek
+/// - Add method calls to audio effects manager static member.
+/// - Implement interface IPointerEventHandler to utilize audio cue on OnPointerEnter event
 /// </summary>
-public class FriendItem : MonoBehaviour
+public class FriendItem : MonoBehaviour, IPointerEnterHandler
 {
     [SerializeField]
     public TMP_Text username;
@@ -43,6 +47,7 @@ public class FriendItem : MonoBehaviour
                     {
                         friendCache.Remove(friend);
                         Destroy(this.gameObject);
+                        AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Confirm);
                     }, DisplayPlayFabError);
                 }
             });
@@ -60,5 +65,11 @@ public class FriendItem : MonoBehaviour
     void DisplayPlayFabError(PlayFabError error)
     {
         Debug.Log(error.GenerateErrorReport());
+    }
+
+    /// <inheritdoc/>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        AudioEffectsManager.Instance2.PlaySoundClipOnce(MenuActions.Navigate);
     }
 }
