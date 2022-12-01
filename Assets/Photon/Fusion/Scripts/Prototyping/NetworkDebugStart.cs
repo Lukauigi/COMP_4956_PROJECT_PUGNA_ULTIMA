@@ -576,7 +576,8 @@ public class NetworkDebugStart : Fusion.Behaviour {
       Scene = scene,
       SessionName = DefaultRoomName,
       Initialized = initialized,
-      SceneManager = sceneManager
+      SceneManager = sceneManager,
+      PlayerCount = 2
     });
   }
 
