@@ -8,6 +8,9 @@ using PlayFab;
 using PlayFab.ClientModels;
 
 
+/// <summary>
+/// This class is responsible for showing Username on the Main Menu Screen .
+/// </summary>
 public class LoggedInHomeUI : MonoBehaviour
 {
     [SerializeField] 

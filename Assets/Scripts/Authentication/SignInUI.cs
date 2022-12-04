@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This class is responsible for the Sign In UI and button behaviours of the Sign In Screen.
+/// </summary>
 public class SignInUI : MonoBehaviour
 {
     [SerializeField] 
