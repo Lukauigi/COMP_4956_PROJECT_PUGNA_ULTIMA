@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This class is responsible for the Sign In UI and button behaviours of the Sign In Screen.
+/// Author: Jashanpreet Singh
+/// Date: 2022-10-15
 /// </summary>
 public class SignInUI : MonoBehaviour
 {

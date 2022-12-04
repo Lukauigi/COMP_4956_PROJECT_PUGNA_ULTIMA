@@ -10,6 +10,8 @@ using PlayFab.ClientModels;
 
 /// <summary>
 /// This class is responsible for showing Username on the Main Menu Screen .
+/// Author: Jashanpreet Singh
+/// Date: 2022-11-24
 /// </summary>
 public class LoggedInHomeUI : MonoBehaviour
 {
