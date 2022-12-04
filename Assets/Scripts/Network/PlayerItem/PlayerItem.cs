@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-12-03
+/// 
+/// DEPRICATTED: use PlayerController Instead
+/// This script was responsible for the behavior of PlayerItem Prefab.
+/// </summary>
 public class PlayerItem : NetworkBehaviour
 {
 

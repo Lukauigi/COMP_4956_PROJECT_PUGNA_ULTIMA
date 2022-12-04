@@ -7,6 +7,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-12-03
+/// 
+/// DEPRICATED: originnaly was going to be used to test spawning of character select objects.
+/// Use PlayerItemController instead.
+/// 
+/// </summary>
 public class CharacterSelectSpawnerTest : NetworkBehaviour
 {
     public NetworkRunner runner;

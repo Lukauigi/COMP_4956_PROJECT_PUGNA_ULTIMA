@@ -3,6 +3,10 @@ using Fusion;
 using UnityEngine;
 
 /// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-12-03
+/// 
+/// DEPRICATTED:
 /// Prototyping component for spawning Player avatars.
 /// </summary>
 [SimulationBehaviour(Stages = SimulationStages.Forward, Modes = SimulationModes.Server | SimulationModes.Host)]

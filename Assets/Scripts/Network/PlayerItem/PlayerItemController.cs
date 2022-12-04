@@ -29,26 +29,43 @@ public class PlayerItemController : NetworkBehaviour
     //protected NetworkBehaviour _networkRunnerCallbacks;
     protected GameObject _audioManager;
 
-    [SerializeField] private Image Avatar;
-    [SerializeField] private GameObject nextBtn;
-    [SerializeField] private GameObject prevBtn;
-    [SerializeField] private GameObject selectBtn;
-    [SerializeField] private GameObject dialogueText;
-    [SerializeField] private Sprite[] Avatars;
-    [SerializeField] private NetworkObject[] CharacterPrefabs;
-    [SerializeField] private int selected;
-    [SerializeField] private TMP_Text _username;
+    [SerializeField]
+    private Image Avatar;
 
-    public bool isLocal = true;
-    public bool clientJoined { get; set;}
+    [SerializeField]
+    private GameObject nextBtn;
+
+    [SerializeField]
+    private GameObject prevBtn;
+
+    [SerializeField]
+    private GameObject selectBtn;
+
+    [SerializeField]
+    private GameObject dialogueText;
+
+    [SerializeField]
+    private Sprite[] Avatars;
+
+    [SerializeField]
+    private NetworkObject[] CharacterPrefabs;
+
+    [SerializeField]
+    private int selected;
+
+    [SerializeField]
+    private TMP_Text _username;
+
+    public bool IsLocal = true;
+    public bool ClientJoined { get; set;}
 
 
-    private bool isHostReady = false;
-    private bool isClientReady = false;
+    private bool IsHostReady = false;
+    private bool IsClientReady = false;
 
-    private bool isPlayersReady = false;
+    private bool IsPlayersReady = false;
 
-    private string remoteUsername;
+    private string RemoteUsername;
 
     // Database id's needed for mutliplayer
     private string _remoteId;
@@ -67,6 +84,13 @@ public class PlayerItemController : NetworkBehaviour
         CacheComponents();
     }
 
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-12-03
+    /// 
+    /// This Start fuction is called on GameObject creation and is
+    /// called after the Awake functiion.
+    /// </summary>
     public void Start()
     {
         CacheOtherObjects();
@@ -89,7 +113,7 @@ public class PlayerItemController : NetworkBehaviour
         //Make chat visable for the client that spawned.
         Chat.Instance.ChatVisible(true);
 
-        if (Object.HasStateAuthority) isLocal = false;
+        if (Object.HasStateAuthority) IsLocal = false;
         if (!Object.HasInputAuthority)
         {
             nextBtn.SetActive(false);
@@ -97,8 +121,8 @@ public class PlayerItemController : NetworkBehaviour
             selectBtn.SetActive(false);
         }
 
-        if (!Object.HasStateAuthority) clientJoined = true;
-        if (Object.HasStateAuthority) clientJoined = false;
+        if (!Object.HasStateAuthority) ClientJoined = true;
+        if (Object.HasStateAuthority) ClientJoined = false;
 
         if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteUsername(PlayerPrefs.GetString("PlayerName"));
         if (!Object.HasStateAuthority && Object.HasInputAuthority) RPC_SetRemoteId(PlayerPrefs.GetString("PlayfabId"));
@@ -152,22 +176,22 @@ public class PlayerItemController : NetworkBehaviour
         }
 
         // only the Host has state authority; this removes the 'Local simulation is not allowed' errors on Client
-        if (Object.HasStateAuthority && !isPlayersReady)
+        if (Object.HasStateAuthority && !IsPlayersReady)
         {
-            if (isClientReady)
+            if (IsClientReady)
             {
                 //Debug.Log("Client is Local------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, isLocal, remoteUsername, _remoteId);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("ClientID"), selected, IsLocal, RemoteUsername, _remoteId);
             }
-            if (isHostReady)
+            if (IsHostReady)
             {
                 //Debug.Log("Host is Local -------------------------------------------------------------------------");
-                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !isLocal, _username.text, _playerId);
+                _playerObserver.RPC_SetPlayerReady(PlayerPrefs.GetInt("HostID"), selected, !IsLocal, _username.text, _playerId);
             }
 
-            if (isClientReady && isHostReady)
+            if (IsClientReady && IsHostReady)
             {
-                isPlayersReady = true;
+                IsPlayersReady = true;
             }
         }
         
@@ -214,12 +238,12 @@ public class PlayerItemController : NetworkBehaviour
         if (!Object.HasInputAuthority)
         {
             Debug.Log("Clicked Select from Client");
-            isClientReady = true;
+            IsClientReady = true;
         }
         else if (Object.HasInputAuthority)
         {
             Debug.Log("Clicked Select from Server");
-            isHostReady = true;
+            IsHostReady = true;
         }
 
     }
@@ -270,7 +294,7 @@ public class PlayerItemController : NetworkBehaviour
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetRemoteUsername(string username)
     {
-        remoteUsername = username;
+        RemoteUsername = username;
     }
     
     /// <summary>
@@ -300,7 +324,10 @@ public class PlayerItemController : NetworkBehaviour
     }
     
     /// <summary>
+    /// Author: Lukas B
+    /// Date: 2022-12-03
     /// 
+    /// This function sets the inital audio sounds for GameObject.
     /// </summary>
     /// <param name="isCharacterSelection">If button press is selection button press.</param>
     private void InitiateAudio(bool isCharacterSelection)

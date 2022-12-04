@@ -19,8 +19,11 @@ public class PlayerItemObserver : NetworkBehaviour
     // other scene objects to reference
     protected GameManager _gameManager;
 
-    [SerializeField] private NetworkObject[] CharacterPrefabs;
-    [SerializeField] private Sprite[] Avatars;
+    [SerializeField]
+    private NetworkObject[] CharacterPrefabs;
+
+    [SerializeField]
+    private Sprite[] Avatars;
 
     private bool isPlayerOneReady = false;
     private bool isPlayerTwoReady = false;
