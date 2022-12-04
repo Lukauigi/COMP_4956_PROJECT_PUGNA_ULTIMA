@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// This is the welcome message in profile page.
+/// Authors: Xiang Zhu
+/// Date: Nov  15 2022
+/// </summary>
 public class ProfilePage : MonoBehaviour
 {
     [SerializeField]
