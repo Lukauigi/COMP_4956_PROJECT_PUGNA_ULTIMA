@@ -10,8 +10,15 @@ using PlayFab.ClientModels;
 
 public class LoggedInHomeUI : MonoBehaviour
 {
-    [SerializeField] public TMP_Text WelcomeUserLabel;
+    [SerializeField] 
+    public TMP_Text WelcomeUserLabel;
 
+    /// <summary>
+    /// Author: Jashanpreet Singh
+    /// Date: 2022-11-24
+    /// Start is called before the first frame update. This method is used to get the user's
+    /// display name and display it on the home screen
+    /// </summary>
     private void Start()
     {
         var PlayfabId = PlayerPrefsManager.GetPlayfabId();
