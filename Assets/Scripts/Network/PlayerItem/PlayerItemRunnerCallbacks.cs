@@ -5,6 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-12-03
+/// 
+/// This file is responsible for callback functions to the network runner
+/// when attached to a PlayerItem Prefab
+/// </summary>
 public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbacks
 {
     private bool _player1Joined = false;
@@ -12,6 +19,14 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
 
     //private FighterControlHandler localCharacterControlHandler;
 
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-03-12
+    /// 
+    /// This function adds all callbacks of this object to the network runner
+    /// on enabled.
+    ///
+    /// </summary>
     public void OnEnable()
     {
         Debug.Log("Entered Enabled!");
@@ -22,6 +37,14 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
         }
     }
 
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-12-03
+    /// 
+    /// This function removes all callbacks of this object to the network runner
+    /// on disable.
+    ///
+    /// </summary>
     public void OnDisable()
     {
         if( Runner != null )
@@ -30,11 +53,21 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
         }
     }
 
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-12-03
+    /// 
+    /// This function is called whenever this object connects to the network runner.
+    ///
+    /// </summary>
+    /// <param name="runner"></param>
     public void OnConnectedToServer(NetworkRunner runner)
     {
         Debug.Log("Player item connected to server!");
     }
 
+    //Bellow are required interface methods that currently do not do anything.
+    //They can be implemented later on in the future for more functionality.
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason){ }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token){ }
@@ -49,6 +82,17 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input){ }
 
+    /// <summary>
+    /// Author: Roswell Doria
+    /// Date: 2022-12-03
+    /// 
+    /// This function is responsible for callbacks when the onject/player joines
+    /// the network. This fucntion will set the PlayerPrefs of the ID of the player that joins
+    /// for access to Database functions.
+    ///
+    /// </summary>
+    /// <param name="runner"></param>
+    /// <param name="player"></param>
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         // Debug.Log("PlayerID Joined:" + player.PlayerId);
@@ -68,7 +112,9 @@ public class PlayerItemRunnerCallbacks : NetworkBehaviour, INetworkRunnerCallbac
         }
 
     }
-
+    
+    //Below are required interface functions that currently dont do anything.
+    //Future implementations can be made to increase functionality.
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player){ }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data){ }

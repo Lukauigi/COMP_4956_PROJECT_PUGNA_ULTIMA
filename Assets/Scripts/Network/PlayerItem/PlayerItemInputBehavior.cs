@@ -4,6 +4,14 @@ using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
 
+/// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-12-02
+/// 
+/// DEPRICATED: This file can be deleted
+/// Originally this file was going to be input controls for the
+/// Character select object when connected to the Network Runner.
+/// </summary>
 public class PlayerItemInputBehavior : Fusion.Behaviour, INetworkRunnerCallbacks
 {
     public void OnConnectedToServer(NetworkRunner runner)

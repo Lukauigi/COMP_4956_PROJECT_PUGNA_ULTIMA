@@ -2,6 +2,11 @@
 using Fusion;
 
 /// <summary>
+/// Author: Roswell Doria
+/// Date: 2022-12-03
+/// 
+/// DEPRICATED: Currently not being used and is safe to remove from the project.
+/// 
 /// Prototyping component for spawning Player avatars.
 /// </summary>
 [SimulationBehaviour(Stages = SimulationStages.Forward, Modes =  SimulationModes.Server | SimulationModes.Host)]
